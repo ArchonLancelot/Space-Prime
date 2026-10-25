@@ -54,6 +54,11 @@
   .card .tag { color: #ffd36b; font-size: 13px; margin-bottom: 6px; }
   .card .desc { font-size: 13px; color: #c3cff0; flex: 1; }
   .card .stats { font-size: 12px; color: #9fb4e8; margin-top: 10px; line-height: 1.6; }
+  #ovSelect .cards { grid-template-columns: minmax(250px, 340px) 1fr; }
+  .card .go { margin-top: 12px; text-align: center; padding: 9px; border-radius: 8px; background: #1f4fa8; border: 1px solid #4f86ef; font-weight: 700; }
+  .card:hover .go { background: #2a63cf; }
+  .selInfo { font-size: 13px; color: #c3cff0; line-height: 1.55; padding: 4px 4px 0; }
+  .selInfo b { color: #e8eefc; } .selInfo ol { margin: 4px 0 10px; padding-left: 20px; } .selInfo li { margin-bottom: 3px; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   td, th { text-align: left; padding: 7px 6px; border-bottom: 1px solid rgba(255,255,255,0.08); }
   th { color: #9fb4e8; font-weight: 600; font-size: 12px; }
@@ -114,6 +119,8 @@
   body.mobile .card .tag { font-size: 12px; margin-bottom: 3px; }
   body.mobile .card .desc { font-size: 12px; }
   body.mobile .card .stats { font-size: 11px; margin-top: 6px; line-height: 1.45; }
+  body.mobile #ovSelect .cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  body.mobile .selInfo { font-size: 12px; } body.mobile .card .go { display: none; }
   body.mobile table { font-size: 13px; }
   body.mobile td, body.mobile th { padding: 5px 4px; }
   body.mobile .help { font-size: 13px; line-height: 1.55; }
@@ -154,11 +161,37 @@
   #tLeft { left: calc(8px + var(--sl)); }
   #tRight { left: calc(94px + var(--sl)); }
   @media (orientation: portrait) {
-    body.mobile #clock { left: calc(8px + var(--sl)); transform: none; top: calc(206px + var(--st)); }
-    body.mobile #toasts { top: calc(240px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
+    body.mobile #clock { left: calc(8px + var(--sl)); transform: none; top: calc(216px + var(--st)); }
+    body.mobile #toasts { top: calc(252px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
     body.mobile #encounter { left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); bottom: calc(262px + var(--sb)); }
     body.mobile #tLeft, body.mobile #tRight { width: 66px; }
     body.mobile #tRight { left: calc(80px + var(--sl)); }
+  }
+  /* ---------- v0.3.0: countdown, warnings, context button ---------- */
+  .mrow { display: none !important; }
+  body.mobile #hudL .row.mrow { display: flex !important; }
+  #hudL .row b.ok { color: #9ff0b4; } #hudL .row b.hot { color: #ffb36b; } #hudL .row b.bad { color: #ff7a7a; }
+  #countdown { position: fixed; top: 31%; left: 50%; transform: translateX(-50%); font-size: 64px; font-weight: 800; letter-spacing: 3px; color: #ffe27a;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.75); pointer-events: none; text-align: center; white-space: nowrap; }
+  #countdown small { display: block; font-size: 14px; font-weight: 600; letter-spacing: 0; color: #e8eefc; }
+  #warn { position: fixed; bottom: 176px; left: 50%; transform: translateX(-50%); padding: 8px 16px; font-size: 16px; font-weight: 800; border-radius: 8px; pointer-events: none; text-align: center; color: #fff; }
+  #warn.q { background: rgba(160, 30, 30, 0.88); border: 1px solid #ff7a7a; }
+  #warn.heat { background: rgba(170, 80, 10, 0.9); border: 1px solid #ffb36b; }
+  #warn.blink { animation: blink 0.7s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0.55; } }
+  #tCtx { left: calc(180px + var(--sl)); bottom: calc(8px + var(--sb)); width: 62px; height: 62px; background: rgba(30, 90, 60, 0.85); border-color: #5ef08a; }
+  #tCtx b { font-size: 12px; }
+  #tCtx.warnc { background: rgba(120, 70, 20, 0.88); border-color: #ffb36b; }
+  #tCtx.on { background: rgba(40, 140, 90, 0.85); }
+  #tCtx.off { visibility: hidden; pointer-events: none !important; }
+  body.mobile #countdown { top: calc(44px + var(--st)); left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; font-size: 38px; letter-spacing: 1px; white-space: normal; }
+  body.mobile #countdown small { font-size: 11px; }
+  body.mobile #warn { top: auto; bottom: calc(136px + var(--sb)); left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; font-size: 12px; padding: 5px 8px; }
+  @media (orientation: portrait) {
+    body.mobile #tCtx { left: calc(8px + var(--sl)); bottom: calc(92px + var(--sb)); width: 138px; height: 52px; }
+    body.mobile #countdown { top: calc(300px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
+    body.mobile #warn { top: calc(380px + var(--st)); bottom: auto; left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
+    body.mobile #encounter { bottom: calc(330px + var(--sb)); }
   }
   #rotHint { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; background: rgba(2,3,10,0.92); text-align: center; padding: 24px; }
   #rotHint .box { max-width: 340px; padding: 22px; }
@@ -183,6 +216,10 @@
     <div class="lbl"><span id="hFuelL">Fuel</span><span id="hFuelT">-</span></div>
     <div class="bar fuel"><div id="hFuel"></div></div>
     <div class="row"><span>&Delta;v left</span><b id="hDv">-</b></div>
+    <div class="row pcrow"><span>Air push (max-Q)</span><b id="hQ">-</b></div>
+    <div class="row pcrow"><span>Heat</span><b id="hHeat">-</b></div>
+    <div class="row mrow"><span>Air · Heat</span><b id="hQH">-</b></div>
+    <div class="row pcrow"><span>Fairing · Chute</span><b id="hKit">-</b></div>
     <div class="row pcrow"><span>Thrust / weight</span><b id="hTwr">-</b></div>
     <div class="row pcrow"><span>Time warp</span><b id="hWarp">1x</b></div>
     <div class="row pcrow"><span>SAS (hold steady)</span><b id="hSas">ON</b></div>
@@ -190,13 +227,16 @@
   <div id="hudR" class="panel">
     <kbd>W</kbd>/<kbd>S</kbd> throttle &nbsp;<kbd>Z</kbd> full <kbd>X</kbd> cut<br>
     <kbd>A</kbd>/<kbd>D</kbd> turn &nbsp;<kbd>T</kbd> SAS<br>
-    <kbd>Space</kbd> drop stage<br>
+    <kbd>Space</kbd> drop stage &nbsp;<kbd>Enter</kbd> skip countdown<br>
+    <kbd>F</kbd> drop fairing &nbsp;<kbd>P</kbd> parachute<br>
     <kbd>M</kbd> map &nbsp;<kbd>,</kbd>/<kbd>.</kbd> time warp<br>
     Mouse wheel: zoom<br>
     <kbd>H</kbd> help &nbsp;<kbd>Esc</kbd> menu
   </div>
   <div id="clock" class="panel">-</div>
   <div id="encounter" class="panel hidden"></div>
+  <div id="countdown" class="hidden"></div>
+  <div id="warn" class="hidden"></div>
   <div id="toasts"></div>
   <div id="touch" class="hidden">
     <div class="tcol" id="tColA">
@@ -219,6 +259,7 @@
     </div>
     <button class="tb" id="tLeft" data-t="left" data-hold="1" aria-label="Turn left">&#10226;</button>
     <button class="tb" id="tRight" data-t="right" data-hold="1" aria-label="Turn right">&#10227;</button>
+    <button class="tb off" id="tCtx" data-t="ctx"><b id="tCtxB">SKIP</b><small id="tCtxS">countdown</small></button>
   </div>
 </div>
 
@@ -260,7 +301,7 @@
   <div class="box panel">
     <h2>Choose your rocket</h2>
     <div class="cards" id="rocketCards"></div>
-    <div style="margin-top:16px"><button class="ghost" data-act="back">Back</button></div>
+    <div style="margin-top:16px"><button class="ghost" data-act="back">Back</button><button class="mobile-only" data-act="pick:kestrel" id="selLaunch">Launch Kestrel &#9654;</button></div>
   </div>
 </div>
 
@@ -306,8 +347,9 @@
     <table class="mobile-only">
       <tr><td><b>Throttle slider</b> (right)</td><td>Drag up for more power, down for less. <b>FULL</b> / <b>CUT</b> jump to 100% / 0%.</td></tr>
       <tr><td><b>&#10226; / &#10227;</b> (bottom left)</td><td>Hold to turn left / right. You can hold one while dragging the throttle.</td></tr>
+      <tr><td><b>Green action button</b> (next to the turn buttons)</td><td>Changes with the moment: <b>SKIP</b> the countdown on the pad, drop the <b>FAIRING</b> once you're out of the thick air, then open the <b>CHUTE</b> (parachute) when you're coming home slowly. Orange = not safe right now.</td></tr>
       <tr><td><b>SAS</b></td><td>On/off. When on, the rocket stops spinning by itself.</td></tr>
-      <tr><td><b>STAGE</b></td><td>Drop the bottom stage (Heron's booster)</td></tr>
+      <tr><td><b>STAGE</b></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule).</td></tr>
       <tr><td><b>Map</b></td><td>Map view. Drag with one finger to move around, <b>Centre</b> to recentre.</td></tr>
       <tr><td><b>Warp + / &minus;</b></td><td>Speed up / slow down time (limited when low or burning)</td></tr>
       <tr><td><b>Pinch</b> or <b>+ / &minus;</b></td><td>Zoom</td></tr>
@@ -317,25 +359,40 @@
       <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Throttle up / down (hold)</td></tr>
       <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Full throttle / cut engine</td></tr>
       <tr><td><kbd>A</kbd> / <kbd>D</kbd> (or arrows)</td><td>Turn left / right</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>Skip the countdown and launch now</td></tr>
+      <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule)</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Drop the fairing (the nose cover over the capsule)</td></tr>
+      <tr><td><kbd>P</kbd></td><td>Open the parachute (only below 250 m/s, or it tears)</td></tr>
       <tr><td><kbd>T</kbd></td><td>SAS on/off. When on, the rocket stops spinning by itself.</td></tr>
-      <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage (Heron's booster)</td></tr>
       <tr><td><kbd>M</kbd></td><td>Map view. Drag to move around, <kbd>C</kbd> to recentre.</td></tr>
       <tr><td><kbd>,</kbd> / <kbd>.</kbd></td><td>Slow down / speed up time (limited when low or burning)</td></tr>
       <tr><td>Mouse wheel</td><td>Zoom</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>Menu: tracking station, new rocket, restart, backups</td></tr>
     </table>
+    <h3>Launching</h3>
+    Your Kestrel waits on the pad while a 10-second countdown runs. The engines light at T-3 and the clamps let go at zero.
+    In a hurry? <span class="pc-only">Press <kbd>Enter</kbd></span><span class="mobile-only">Tap <b>SKIP</b></span> to launch straight away.
+    The sky turns from blue to black as you climb, and the engine flame spreads out wide once there's no air around it.
+    Engines are a bit weaker down in the thick air and get stronger as the air thins.
     <h3>Getting to orbit</h3>
-    Full throttle straight up. At about 10 km, start leaning right (east). By 40 km you should be pointing almost sideways.
-    Keep burning sideways until your <b>Apoapsis</b> is above 80 km, then cut the engine. Warp to the apoapsis
-    and burn sideways again until your <b>Periapsis</b> is above 70 km too. You're in orbit!
+    Full throttle straight up. At about 2 km, start leaning left, gently: a full, heavy rocket turns slowly. Left is the way Luna travels round Terra, which makes the trip to Luna cheaper later (leaning right still gets you to orbit).
+    By 10 km you should be about 40&deg; over, by 30 km about 70&deg;.
+    Watch <b>Air push (max-Q)</b>: if the red <b>MAX-Q</b> warning flashes, throttle down a little or the rocket breaks apart.
+    When the booster runs dry, <span class="pc-only">press <kbd>Space</kbd></span><span class="mobile-only">tap <b>STAGE</b></span> (you'll see a puff of smoke as it falls away).
+    Above about 45 km, drop the fairing (<span class="pc-only"><kbd>F</kbd></span><span class="mobile-only"><b>FAIRING</b></span>): it's dead weight up there. Dropping it in thick air can hit the rocket.
+    Keep burning until <b>Apoapsis</b> (shown live, also above the dial) is above 80 km, cut the engine, warp to the apoapsis
+    and burn sideways (green prograde marker) until your <b>Periapsis</b> is above 70 km too. You're in orbit!
     <h3>Getting to Luna</h3>
     From orbit, open the map (<span class="pc-only"><kbd>M</kbd></span><span class="mobile-only">Map button</span>). Wait until Luna is a bit more than a quarter turn ahead of you, then burn
-    along your direction of travel (the green marker on the dial) until your orbit stretches out to Luna. A purple
-    "Luna encounter" box appears when you'll arrive. Near Luna, burn backwards (red marker) to slow down, then land gently:
-    under the rocket's safe speed, standing upright.
-    <h3>Landing</h3>
-    Point straight up (away from the ground), and use short burns to keep your speed low. Every rocket has a safe touchdown
-    speed: Sparrow 6 m/s, Heron 8 m/s, Mule 12 m/s. Faster or tilted over = crash.
+    along your direction of travel (the green marker) until your orbit stretches out to Luna. A purple
+    "Luna encounter" box appears when you'll arrive. Near Luna, burn backwards (red marker) to slow down, then land on the upper stage's legs:
+    under 8 m/s, standing upright. There's no air on Luna, so no parachute there.
+    <h3>Coming home to Terra</h3>
+    From orbit, point backwards (red marker) and burn until your <b>Periapsis</b> is about 25&ndash;35 km. Then drop the upper stage so only the capsule is left.
+    Keep the capsule's dark heat shield (its bottom) facing the way you're moving; the capsule tends to swing that way by itself in the air.
+    It glows as it hits the air. Come in too steep or too fast and the <b>Heat</b> reading climbs past 100% and the capsule burns up.
+    Once you've slowed below 250 m/s, open the parachute (<span class="pc-only"><kbd>P</kbd></span><span class="mobile-only"><b>CHUTE</b></span>); faster than that and it tears.
+    Touch down under 9 m/s on land or 14 m/s in the ocean. Launch, orbit and come home safely to earn <b>Round Trip</b>.
     <div style="margin-top:16px"><button data-act="back">Got it</button></div>
   </div>
 </div>
@@ -356,7 +413,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.2.0';
+const VERSION = '0.3.0';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -379,26 +436,48 @@ function lunaState(t) {
 function bodyState(id, t) { return id === 'luna' ? lunaState(t) : { x: 0, y: 0, vx: 0, vy: 0 }; }
 
 // ---------- Rockets ----------
+// Kestrel is the only rocket you can launch since v0.3.0. Sparrow, Heron and Mule are "retired": they stay here so ships
+// from older saves still load, show up, and fly, but they are not offered on the launch screen any more.
+// Stage "thrust" and "isp" are vacuum values; "ispSL" is the sea-level Isp (thrust drops with it in thick air).
 const ROCKETS = {
-  sparrow: { id: 'sparrow', name: 'Sparrow', tag: 'Nimble trainer',
+  kestrel: { id: 'kestrel', name: 'Kestrel', tag: 'Crewed two-stage rocket',
+    desc: 'A booster lifts you out of the thick air. A light upper stage with landing legs takes you to orbit and on to a Luna landing. A crew capsule with a heat shield and parachutes brings you home to Terra. A nose fairing protects the capsule on the way up.',
+    color: '#f2f4f8', accent: '#e2672b', cd: 0.5, crash: 8, gimbal: 4 * Math.PI / 180, rw: 6000, qLimit: 40000,
+    fairing: { mass: 300, len: 3.4, w: 2.8 },
+    stages: [{ name: 'Booster', dry: 2600, fuel: 17000, thrust: 420000, isp: 295, ispSL: 265, len: 14, w: 2.6, crash: 5 },
+             { name: 'Upper stage', dry: 900, fuel: 5000, thrust: 50000, isp: 345, ispSL: 250, len: 6, w: 2.4, legs: true, crash: 8 },
+             { name: 'Capsule', dry: 1300, fuel: 0, thrust: 0, isp: 1, len: 3, w: 2.4, capsule: true, crash: 9, crashWater: 14, cd: 1.2 }] },
+  sparrow: { id: 'sparrow', name: 'Sparrow', tag: 'Nimble trainer', retired: true,
     desc: 'Light single-stage rocket. Turns fast and climbs hard, but fuel is tight. Great for learning; a careful pilot can just reach orbit.',
     color: '#f1f3f7', accent: '#e0483e', turn: 1.4, crash: 6, cd: 0.5,
     stages: [{ dry: 1500, fuel: 5000, thrust: 120000, isp: 300, len: 10, w: 1.8, legs: true }] },
-  heron: { id: 'heron', name: 'Heron', tag: 'Moon lander',
+  heron: { id: 'heron', name: 'Heron', tag: 'Moon lander', retired: true,
     desc: 'Two stages. A big booster lifts you out of the air, then a light, efficient lander carries you to Luna and back. Press Space to drop the booster.',
     color: '#e9edf5', accent: '#2f7de1', turn: 1.0, crash: 8, cd: 0.6,
     stages: [{ dry: 3000, fuel: 18000, thrust: 520000, isp: 290, len: 15, w: 3.0 },
              { dry: 1500, fuel: 5000, thrust: 60000, isp: 340, len: 6, w: 2.4, legs: true }] },
-  mule: { id: 'mule', name: 'Mule', tag: 'Heavy hauler',
+  mule: { id: 'mule', name: 'Mule', tag: 'Heavy hauler', retired: true,
     desc: 'One huge, tough stage with a deep tank. Slow to turn, but its strong legs survive rough landings, and it can reach Luna in one piece.',
     color: '#d9c9a3', accent: '#c7781c', turn: 0.45, crash: 12, cd: 0.8,
     stages: [{ dry: 6000, fuel: 34000, thrust: 700000, isp: 310, len: 22, w: 4.2, legs: true }] }
 };
+const LAUNCH_ROCKET = 'kestrel';
+const COUNTDOWN = 10;            // seconds on the pad before the clamps let go
+const CHUTE_CDA = 500;           // parachute drag area (m^2, already times its drag coefficient)
+const CHUTE_MAX = 250;           // fastest safe speed to open the parachute (m/s)
+const CHUTE_MIN_RHO = 2e-4;      // the parachute needs at least this much air (about 50 km up on Terra)
+const HEAT_TAU = 2.5;            // how fast the skin heats up / cools down (s)
+const HEAT_BODY = 4.0e7;         // heat a rocket body survives (heat index = air density * speed^3, smoothed over HEAT_TAU)
+const HEAT_SHIELD = 8.0e7;       // heat the capsule survives with its shield facing the airflow
+const HEAT_CAPSULE_BARE = 1.2e7; // ... and with its thin top/sides facing the airflow instead
+const FAIRING_WARN_Q = 5000;     // dropping the fairing above this air push asks first
+const FAIRING_HIT_Q = 15000;     // ... and above this the halves strike the rocket
 
 const MILESTONES = [
   ['launch', 'First Launch', 'Leave the launch pad.'],
   ['space', 'Reach Space', 'Climb above 70 km on Terra.'],
   ['orbit', 'Orbit Terra', 'Get your periapsis above 70 km.'],
+  ['roundTrip', 'Round Trip', 'Launch, reach orbit, and land safely back on Terra.'],
   ['lunaSoi', 'Reach Luna', "Enter Luna's sphere of influence."],
   ['lunaOrbit', 'Orbit Luna', 'Settle into an orbit around Luna.'],
   ['lunaLand', 'Land on Luna', 'Touch down gently on Luna.'],
@@ -409,7 +488,7 @@ const WARPS = [1, 2, 4, 10, 50, 100, 1000, 10000, 100000];
 // ---------- State (this whole object is the save) ----------
 function freshState() {
   return { v: 1, t: 0, activeId: null, nextId: 1, vessels: [], milestones: {},
-    stats: { flights: 0, count: {}, maxAlt: 0, maxSpeed: 0, crashes: 0, landings: 0 },
+    stats: { flights: 0, count: {}, maxAlt: 0, maxSpeed: 0, crashes: 0, landings: 0, splashdowns: 0, softest: 0 },
     view: { zoom: 4, mapZoom: 2.5e-5, map: false, panX: 0, panY: 0 }, sound: true, savedAt: 0 };
 }
 let S = freshState();
@@ -418,16 +497,38 @@ let paused = true;
 
 // ---------- Vessel helpers ----------
 const rk = v => ROCKETS[v.rocket];
-function massOf(v) { let m = 0; for (const i of v.parts) m += rk(v).stages[i].dry + v.fuel[i]; return m; }
-function hasNose(v) { return v.parts.includes(rk(v).stages.length - 1); }
-function lengthOf(v) { let L = 0; for (const i of v.parts) L += rk(v).stages[i].len; if (hasNose(v)) L += noseLen(v); return L; }
+function massOf(v) { let m = 0; for (const i of v.parts) m += rk(v).stages[i].dry + v.fuel[i]; if (v.fairing && rk(v).fairing) m += rk(v).fairing.mass; return m; }
+function hasNose(v) { return !rk(v).fairing && !rk(v).stages[rk(v).stages.length - 1].capsule && v.parts.includes(rk(v).stages.length - 1); }
+function lengthOf(v) { let L = 0; for (const i of v.parts) L += rk(v).stages[i].len; if (hasNose(v)) L += noseLen(v); if (v.fairing && rk(v).fairing) L += rk(v).fairing.len; return L; }
 function noseLen(v) { const st = rk(v).stages; return st[st.length - 1].w * 1.1; }
-function widthOf(v) { let w = 0; for (const i of v.parts) w = Math.max(w, rk(v).stages[i].w); return w; }
+function widthOf(v) { let w = 0; for (const i of v.parts) w = Math.max(w, rk(v).stages[i].w); if (v.fairing && rk(v).fairing) w = Math.max(w, rk(v).fairing.w); return w; }
+function hasCapsule(v) { return v.parts.some(i => rk(v).stages[i].capsule); }
+function isCapsuleOnly(v) { return v.parts.length === 1 && !!rk(v).stages[v.parts[0]].capsule; }
 function engine(v) { return rk(v).stages[v.parts[0]]; }
 function byId(id) { return S.vessels.find(v => v.id === id) || null; }
 function active() { return byId(S.activeId); }
 function worldPos(v, t = S.t) { const b = bodyState(v.parent, t); return { x: b.x + v.x, y: b.y + v.y }; }
 function angDiff(a, b) { let d = a - b; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; }
+
+// air: density, and pressure as a fraction of sea level (0 in vacuum, 1 on the ground)
+function rhoAt(b, h) { return (b.atmo && h < b.atmo) ? b.rho0 * Math.exp(-Math.max(0, h) / b.H) : 0; }
+function ispNow(st, pf) { const sl = st.ispSL || st.isp; return st.isp + (sl - st.isp) * pf; }
+function thrustNow(st, pf, thr) { return thr * st.thrust * ispNow(st, pf) / st.isp; }
+function airOf(v) { const b = BODIES[v.parent], h = Math.hypot(v.x, v.y) - b.R, rho = rhoAt(b, h), sp = Math.hypot(v.vx, v.vy); return { b, h, rho, pf: b.rho0 ? rho / b.rho0 : 0, sp, q: 0.5 * rho * sp * sp }; }
+function qLimitOf(v) { const r = rk(v); if (!r.qLimit) return Infinity; return isCapsuleOnly(v) ? r.qLimit * 4 : r.qLimit; }
+function shieldForward(v) { if (!isCapsuleOnly(v)) return false; const sp = Math.hypot(v.vx, v.vy); return sp < 1 || Math.abs(angDiff(v.ang, Math.atan2(-v.vy, -v.vx))) < 1.0; }
+function heatLimitOf(v) { return isCapsuleOnly(v) ? (shieldForward(v) ? HEAT_SHIELD : HEAT_CAPSULE_BARE) : HEAT_BODY; }
+// Terra's continents: angles (degrees) that are land; everything else is ocean. The launch pad (90 deg) is on land.
+const LAND = [[62, 128], [160, 215], [292, 338], [8, 17]].map(([a, b]) => [a * Math.PI / 180, b * Math.PI / 180]);
+function isOcean(bodyId, theta) {
+  if (bodyId !== 'terra') return false;
+  let t = theta % (2 * Math.PI); if (t < 0) t += 2 * Math.PI;
+  return !LAND.some(([a, b]) => t >= a && t <= b);
+}
+function crashLimitOf(v, water) {
+  const st = rk(v).stages[v.parts[0]], base = st.crash || rk(v).crash;
+  return water ? (st.crashWater || base * 1.5) : base;
+}
 
 function deltaV(v) {
   let m0 = massOf(v), dv = 0;
@@ -453,6 +554,10 @@ function newVessel(rid) {
     parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel),
     parent: 'terra', x: 0, y: 0, vx: 0, vy: 0, ang: PAD_THETA, angVel: 0, throttle: 0, sas: true,
     landed: true, theta: PAD_THETA, debris: false, visitedLuna: false, launched: false, maxAlt: 0, born: S.t };
+  // v0.3.0 fields (older saves simply don't have them, which means "not fitted")
+  if (r.fairing) v.fairing = true;
+  if (r.stages.some(s => s.capsule)) v.chute = 'packed';
+  v.heat = 0; v.hints = {};
   placeLanded(v);
   S.vessels.push(v);
   return v;
@@ -474,7 +579,11 @@ function vesselOrbit(v) { return orbitOf(v.x, v.y, v.vx, v.vy, BODIES[v.parent].
 
 function statusOf(v) {
   const b = BODIES[v.parent];
-  if (v.landed) return (v.parent === 'terra' && Math.abs(angDiff(v.theta, PAD_THETA)) < 60 / b.R) ? 'On the launch pad' : 'Landed on ' + b.name;
+  if (v.landed) {
+    if (v.countdown > 0) return 'Countdown T-' + Math.ceil(v.countdown);
+    if (v.parent === 'terra' && Math.abs(angDiff(v.theta, PAD_THETA)) < 60 / b.R) return 'On the launch pad';
+    return v.splashed ? "Splashed down in Terra's ocean" : 'Landed on ' + b.name;
+  }
   const o = vesselOrbit(v), h = Math.hypot(v.x, v.y) - b.R;
   if (o.rp < b.R) return 'Suborbital flight, ' + b.name;
   if (b.atmo && h < b.atmo) return 'Flying in ' + b.name + "'s air";
@@ -508,7 +617,9 @@ function clock(t) {
 // ---------- Save / load ----------
 // Everything about storing the world lives in this section, so a cloud sync can be added later
 // by hooking into saveGame() / loadGame() / serializeSave() / applySave().
-// The save format is unchanged since v0.1.0 (v: 1). The PC/Mobile choice is deliberately NOT saved.
+// The save format is still v: 1. v0.3.0 only ADDS optional fields (vessel: fairing, chute, chuteOpen, heat, countdown,
+// clamped, splashed, reachedOrbit, roundTrip, hints; stats: splashdowns, softest), so v0.1.0 / v0.2.0 saves load as they are.
+// The PC/Mobile choice is deliberately NOT saved.
 function serializeSave() { S.savedAt = Date.now(); return JSON.stringify(S); }
 function validSave(o) { return !!(o && o.v === 1 && Array.isArray(o.vessels) && typeof o.t === 'number'); }
 // Turn a parsed save object into the live world, filling in any fields an older save lacks.
@@ -519,6 +630,9 @@ function applySave(o) {
   S.stats = Object.assign(freshState().stats, o.stats || {});
   S.stats.count = S.stats.count || {};
   S.milestones = S.milestones || {};
+  // ships whose rocket type is unknown to this version can't be drawn or flown: drop them instead of crashing
+  S.vessels = (S.vessels || []).filter(v => v && ROCKETS[v.rocket] && Array.isArray(v.parts) && v.parts.length);
+  if (S.activeId !== null && !S.vessels.some(v => v.id === S.activeId)) S.activeId = null;
 }
 function saveGame() {
   try { localStorage.setItem(SAVE_KEY, serializeSave()); return true; } catch (e) { console.warn('save failed', e); return false; }
@@ -617,40 +731,67 @@ function maxDt(v, t = S.t) {
 const input = { turn: 0 };
 const touchHold = { left: false, right: false, zoomIn: false, zoomOut: false };
 
-// returns null | 'crash' | 'land'
+// how fast the rocket can swing round (rad/s^2): engine gimbal (needs thrust) plus a small reaction wheel.
+// A heavy, long rocket has a big moment of inertia, so it turns slowly. Returns null for the retired v0.1 rockets.
+function turnAuthority(v, thrust, m) {
+  const r = rk(v); if (!r.gimbal) return null;
+  const L = Math.max(2, lengthOf(v)), I = m * L * L / 12;
+  return Math.min(1.5, (thrust * (L / 2) * Math.sin(r.gimbal) + r.rw) / I);
+}
+const MAX_TURN_RATE = 0.5;
+
+// returns null | 'crash' | 'land' | 'breakup' | 'burn'
 function stepVessel(v, dt, isActive) {
   const b = BODIES[v.parent], r0 = rk(v);
   const m = massOf(v), st = engine(v), ei = v.parts[0];
+  let r = Math.hypot(v.x, v.y);
+  const hAlt = r - b.R, rho = rhoAt(b, hAlt), pf = b.rho0 ? rho / b.rho0 : 0;
   let thrust = 0;
-  if (v.throttle > 0 && v.fuel[ei] > 0) {
-    thrust = v.throttle * st.thrust;
-    const burn = thrust / (st.isp * G0) * dt;
+  if (v.throttle > 0 && v.fuel[ei] > 0 && st.thrust > 0) {
+    thrust = thrustNow(st, pf, v.throttle);                 // weaker in thick air, full strength in vacuum
+    const burn = v.throttle * st.thrust / (st.isp * G0) * dt; // the engine always gulps the same fuel per second
     if (burn >= v.fuel[ei]) { thrust *= v.fuel[ei] / burn; v.fuel[ei] = 0; if (isActive) { toast('Out of fuel' + (v.parts.length > 1 ? (MODE === 'mobile' ? ' - tap STAGE to drop this stage' : ' - press Space to drop this stage') : '')); } }
     else v.fuel[ei] -= burn;
   }
   const hx = Math.cos(v.ang), hy = Math.sin(v.ang);
-  let r = Math.hypot(v.x, v.y);
   const ux = v.x / r, uy = v.y / r;
   const g = b.mu / (r * r);
 
   if (v.landed) {
+    if (v.clamped) { v.ang = v.theta; v.angVel = 0; return null; }   // launch clamps hold it down
     const aUp = thrust / m * (hx * ux + hy * uy);
-    if (aUp > g) { v.landed = false; if (!v.launched) { v.launched = true; S.stats.flights++; if (isActive) milestone('launch'); } }
+    if (aUp > g) { v.landed = false; v.splashed = false; if (!v.launched) { v.launched = true; S.stats.flights++; if (isActive) milestone('launch'); } }
     else { v.ang = v.theta; return null; }
   }
 
   // rotation
-  const turn = r0.turn;
-  if (isActive && input.turn !== 0) {
-    v.angVel += input.turn * turn * 1.2 * dt;
-    v.angVel = Math.max(-turn * 0.7, Math.min(turn * 0.7, v.angVel));
-  } else if (v.sas) {
-    v.angVel *= Math.exp(-5 * dt);
-    if (Math.abs(v.angVel) < 1e-4) v.angVel = 0;
+  const sp0 = Math.hypot(v.vx, v.vy), q0 = 0.5 * rho * sp0 * sp0;
+  const auth = turnAuthority(v, thrust, m);
+  if (auth === null) {
+    const turn = r0.turn;
+    if (isActive && input.turn !== 0) {
+      v.angVel += input.turn * turn * 1.2 * dt;
+      v.angVel = Math.max(-turn * 0.7, Math.min(turn * 0.7, v.angVel));
+    } else if (v.sas) {
+      v.angVel *= Math.exp(-5 * dt);
+      if (Math.abs(v.angVel) < 1e-4) v.angVel = 0;
+    }
+  } else {
+    if (isActive && input.turn !== 0) {
+      v.angVel += input.turn * auth * dt;
+      v.angVel = Math.max(-MAX_TURN_RATE, Math.min(MAX_TURN_RATE, v.angVel));
+    } else if (v.sas) {
+      const d = auth * dt; v.angVel = Math.abs(v.angVel) <= d ? 0 : v.angVel - Math.sign(v.angVel) * d;
+    }
+    // a capsule on its own is shaped to swing its heat shield (and later its parachute) into the airflow
+    if (isCapsuleOnly(v) && rho > 0 && sp0 > 3) {
+      const k = Math.min(4, q0 / 400 * (1 + (v.chute === 'open' ? 6 * (v.chuteOpen || 0) : 0)));
+      v.angVel += -k * Math.sin(angDiff(v.ang, Math.atan2(-v.vy, -v.vx))) * dt;
+      v.angVel *= Math.exp(-Math.min(4, 0.6 * k + 0.2) * dt);
+    }
   }
   v.ang += v.angVel * dt;
 
-  const hAlt = r - b.R;
   let railed = false;
   if (thrust === 0 && !(b.atmo && hAlt < b.atmo)) {
     const o = orbitOf(v.x, v.y, v.vx, v.vy, b.mu);
@@ -661,16 +802,29 @@ function stepVessel(v, dt, isActive) {
   }
   let ax = -g * ux, ay = -g * uy;
   ax += thrust / m * hx; ay += thrust / m * hy;
-  if (b.atmo && hAlt < b.atmo) {
-    const sp = Math.hypot(v.vx, v.vy);
+  if (rho > 0) {
+    const sp = sp0;
+    // parachute: opens over ~2.5 s, tears if you're going too fast
+    if (v.chute === 'open') {
+      if (sp > CHUTE_MAX) { v.chute = 'ripped'; v.chuteOpen = 0; if (isActive) { toast('Parachute torn off! It was opened at ' + sp.toFixed(0) + ' m/s (safe: under ' + CHUTE_MAX + ' m/s)', true); sfx('rip'); } }
+      else v.chuteOpen = Math.min(1, (v.chuteOpen || 0) + dt / 2.5);
+    }
     if (sp > 0) {
-      const rho = b.rho0 * Math.exp(-hAlt / b.H);
-      const area = Math.PI * (widthOf(v) / 2) ** 2;
-      let ad = 0.5 * rho * sp * sp * r0.cd * area / m;
+      const bst = r0.stages[ei];
+      const cd = (bst.capsule && v.parts.length === 1) ? bst.cd : r0.cd;
+      let cdA = cd * Math.PI * (widthOf(v) / 2) ** 2;
+      if (v.chute === 'open') cdA += CHUTE_CDA * (v.chuteOpen || 0) ** 2;
+      let ad = 0.5 * rho * sp * sp * cdA / m;
       ad = Math.min(ad, sp / dt * 0.9);
       ax -= ad * v.vx / sp; ay -= ad * v.vy / sp;
     }
-  }
+    // structure: too much air push breaks the rocket apart (max-Q)
+    if (q0 > qLimitOf(v)) { v.breakQ = q0; return 'breakup'; }
+    // heating: rises with air density and (a lot) with speed; the skin takes a couple of seconds to heat up
+    const F = rho * sp * sp * sp;
+    v.heat = (v.heat || 0) + (F - (v.heat || 0)) * (1 - Math.exp(-dt / HEAT_TAU));
+    if (v.heat > heatLimitOf(v)) { v.burnHeat = v.heat / heatLimitOf(v); return 'burn'; }
+  } else if (v.heat) { v.heat *= Math.exp(-dt / HEAT_TAU); if (v.heat < 1e5) v.heat = 0; }
   if (!railed) {
     v.vx += ax * dt; v.vy += ay * dt;
     v.x += v.vx * dt; v.y += v.vy * dt;
@@ -685,10 +839,11 @@ function stepVessel(v, dt, isActive) {
   const h = r - b.R - bottom;
   const vr = v.vx * nx + v.vy * ny;
   if (h <= 0 && vr <= 0) {
-    const sp = Math.hypot(v.vx, v.vy);
-    v.impact = sp; v.impactTilt = Math.abs(tilt);
-    if (sp <= r0.crash && Math.abs(tilt) < 0.35) {
-      v.landed = true; v.theta = Math.atan2(ny, nx); v.throttle = 0; placeLanded(v);
+    const sp = Math.hypot(v.vx, v.vy), th = Math.atan2(ny, nx), water = isOcean(v.parent, th);
+    const lim = crashLimitOf(v, water), tiltLim = r0.stages[ei].capsule ? 0.6 : 0.35;
+    v.impact = sp; v.impactTilt = Math.abs(tilt); v.impactWater = water;
+    if (sp <= lim && Math.abs(tilt) < tiltLim) {
+      v.landed = true; v.splashed = water; v.theta = th; v.throttle = 0; placeLanded(v);
       return 'land';
     }
     return 'crash';
@@ -713,6 +868,7 @@ function soiCheck(v, t) {
 
 function maxWarpFor(v) {
   if (!v) return 100000;
+  if (v.countdown > 0) return 4;
   if (v.landed) return hasThrust(v) ? 4 : 100000;
   if (hasThrust(v)) return 4;
   const b = BODIES[v.parent], h = Math.hypot(v.x, v.y) - b.R;
@@ -724,13 +880,21 @@ function maxWarpFor(v) {
   return 100000;
 }
 
+// particles live in their body's frame: kind 'fire' (explosions), 'smoke' (staging puffs, exhaust), 'shell' (fairing halves)
 const particles = [];
 function explode(v) {
   const p = worldPos(v);
   for (let i = 0; i < 70; i++) {
     const a = Math.random() * Math.PI * 2, s = 5 + Math.random() * 45;
-    particles.push({ x: p.x, y: p.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1 + Math.random() * 1.5, max: 2.5,
+    particles.push({ kind: 'fire', x: p.x, y: p.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1 + Math.random() * 1.5, max: 2.5,
       size: 1 + Math.random() * 3, parent: v.parent, rel: { x: v.x, y: v.y } });
+  }
+}
+function smokePuff(v, x, y, n, spread, size, grow = 1) {
+  for (let i = 0; i < n && particles.length < 600; i++) {
+    const a = Math.random() * Math.PI * 2, s = spread * (0.3 + Math.random() * 0.7);
+    particles.push({ kind: 'smoke', vx: v.vx + Math.cos(a) * s, vy: v.vy + Math.sin(a) * s, life: 1.6 + Math.random() * 1.6, max: 3.2,
+      size: size * (0.6 + Math.random() * 0.8), grow: grow * (0.6 + Math.random() * 0.6), parent: v.parent, rel: { x, y } });
   }
 }
 
@@ -739,6 +903,8 @@ function removeVessel(v) { S.vessels = S.vessels.filter(o => o !== v); }
 function onLand(v, isActive) {
   const b = BODIES[v.parent];
   S.stats.landings++;
+  if (v.splashed) S.stats.splashdowns = (S.stats.splashdowns || 0) + 1;
+  if (v.launched && v.impact > 0.05 && (!S.stats.softest || v.impact < S.stats.softest)) S.stats.softest = v.impact;
   if (v.parent === 'luna') {
     const first = !v.visitedLuna; v.visitedLuna = true;
     if (isActive) {
@@ -746,24 +912,48 @@ function onLand(v, isActive) {
       if (first) outcome('Touchdown on Luna!', v.name + ' landed at ' + v.impact.toFixed(1) + ' m/s.' + (wasNew ? ' The first ever landing on Luna.' : '') + ' It will stay right here until you fly it again.', [['Keep flying', 'resume'], ['Tracking Station', 'station']]);
     }
   } else if (isActive) {
+    const how = (v.splashed ? 'splashed down in the ocean' : 'touched down on land') + ' at ' + v.impact.toFixed(1) + ' m/s';
     if (v.visitedLuna && !v.returnedHome) {
       v.returnedHome = true; milestone('home');
-      outcome('Welcome home!', v.name + ' went to Luna and made it back to Terra in one piece.', [['Keep flying', 'resume'], ['Launch a new rocket', 'launch'], ['Tracking Station', 'station']]);
-    } else if (v.launched) toast('Landed on ' + b.name + ' at ' + v.impact.toFixed(1) + ' m/s');
+      if (v.reachedOrbit && !v.roundTrip) { v.roundTrip = true; milestone('roundTrip'); }
+      outcome('Welcome home!', v.name + ' went to Luna and made it back to Terra in one piece: it ' + how + '.', [['Keep flying', 'resume'], ['Launch a new rocket', 'launch'], ['Tracking Station', 'station']]);
+    } else if (v.reachedOrbit && !v.roundTrip) {
+      v.roundTrip = true; const wasNew = !S.milestones.roundTrip; milestone('roundTrip');
+      outcome(v.splashed ? 'Splashdown!' : 'Touchdown!', v.name + ' went to orbit and came home: it ' + how + '.' + (wasNew ? ' Round Trip milestone unlocked!' : ''), [['Launch a new rocket', 'launch'], ['Tracking Station', 'station'], ['Keep looking', 'resume']]);
+    } else if (v.launched) toast((v.splashed ? 'Splashed down at ' : 'Landed on ' + b.name + ' at ') + v.impact.toFixed(1) + ' m/s');
   }
-  if (isActive) sfx('thud');
+  if (isActive) sfx(v.splashed ? 'splash' : 'thud');
 }
 
-function onCrash(v, isActive) {
+// kind: 'crash' (hit the ground), 'breakup' (max-Q), 'burn' (reentry heat)
+function onCrash(v, isActive, kind) {
   const b = BODIES[v.parent];
   explode(v); removeVessel(v);
   if (isActive) {
     S.stats.crashes++; sfx('boom');
-    const why = v.impactTilt >= 0.35 && v.impact <= rk(v).crash ? 'It touched down tilted over.' : 'It hit ' + b.name + ' at ' + v.impact.toFixed(1) + ' m/s (safe is ' + rk(v).crash + ' m/s or less).';
+    let title = v.name + ' crashed', why;
+    if (kind === 'breakup') {
+      title = v.name + ' broke apart';
+      why = 'The air pushed harder than its structure can take (more than ' + (qLimitOf(v) / 1000).toFixed(0) + ' kPa). That happens when you go too fast too low. When the red MAX-Q warning flashes, throttle down a little, or turn over more gently, until you are higher up.';
+    } else if (kind === 'burn') {
+      title = v.name + ' burned up';
+      why = 'It came into the air too steep or too fast and overheated.' + (hasCapsule(v) && !isCapsuleOnly(v) ? ' Drop the upper stage first: only the capsule has a heat shield.' : isCapsuleOnly(v) && !shieldForward(v) ? ' The heat shield (the capsule\'s bottom) was not facing the way it was moving.' : '') + ' Aim your periapsis at about 25-35 km for a gentler way down.';
+    } else {
+      const lim = crashLimitOf(v, v.impactWater), tiltLim = rk(v).stages[v.parts[0]].capsule ? 0.6 : 0.35;
+      why = v.impactTilt >= tiltLim && v.impact <= lim ? 'It touched down tilted over.' : 'It hit ' + (v.impactWater ? "Terra's ocean" : b.name) + ' at ' + v.impact.toFixed(1) + ' m/s (safe is ' + lim + ' m/s or less).';
+      if (hasCapsule(v) && v.parent === 'terra' && v.chute !== 'open') why += v.chute === 'ripped' ? ' The parachute had torn: open it below ' + CHUTE_MAX + ' m/s.' : ' Open the parachute below ' + CHUTE_MAX + ' m/s to land softly.';
+    }
     S.activeId = null;
-    outcome(v.name + ' crashed', why, [['Launch another ' + rk(v).name, 'relaunch:' + v.rocket], ['Pick a rocket', 'launch'], ['Tracking Station', 'station']]);
-  } else if (!v.debris) toast(v.name + ' crashed on ' + b.name);
+    outcome(title, why, [['Launch a new ' + ROCKETS[LAUNCH_ROCKET].name, 'relaunch:' + LAUNCH_ROCKET], ['Tracking Station', 'station'], ['Title screen', 'title']]);
+  } else if (!v.debris) toast(v.name + (kind === 'burn' ? ' burned up' : kind === 'breakup' ? ' broke apart' : ' crashed on ' + b.name));
   save();
+}
+
+// one-time tips for the flying ship (remembered per ship)
+function hint(v, key, pc, mob) {
+  v.hints = v.hints || {};
+  if (v.hints[key]) return;
+  v.hints[key] = 1; toast(MODE === 'mobile' ? mob : pc);
 }
 
 let lastWarpWarn = 0;
@@ -782,6 +972,14 @@ function update(realDt) {
 
   const fdt = Math.min(realDt, 0.05) * WARPS[warpIdx];
   if (fdt <= 0) return;
+  // countdown on the pad: beeps, engines light at T-3, clamps let go at zero
+  if (av && av.countdown > 0 && !paused) {
+    const before = av.countdown; av.countdown = Math.max(0, av.countdown - fdt);
+    if (Math.ceil(av.countdown) < Math.ceil(before) && av.countdown > 0) sfx('beep');
+    if (av.countdown <= 3 && !av.ignited) { av.ignited = true; if (av.throttle === 0) av.throttle = 1; toast('Ignition!'); }
+    if (av.countdown <= 0) releaseClamps(av);
+  }
+  if (liftoffShow > 0) liftoffShow -= Math.min(realDt, 0.05);
   const t0 = S.t;
   for (const v of S.vessels.slice()) {
     const isAct = v.id === S.activeId;
@@ -797,7 +995,7 @@ function update(realDt) {
       const dt = Math.min(fdt - done, Math.max(minDt, maxDt(v, t0 + done)));
       const res = stepVessel(v, dt, isAct);
       done += dt; count++;
-      if (res === 'crash') { onCrash(v, isAct); break; }
+      if (res === 'crash' || res === 'breakup' || res === 'burn') { onCrash(v, isAct, res); break; }
       if (res === 'land') { onLand(v, isAct); break; }
       const sc = soiCheck(v, t0 + done);
       if (sc && isAct) {
@@ -809,8 +1007,16 @@ function update(realDt) {
   }
   S.t = t0 + fdt;
 
-  // particles
-  for (const p of particles) { p.rel.x += p.vx * Math.min(realDt, 0.05); p.rel.y += p.vy * Math.min(realDt, 0.05); p.life -= Math.min(realDt, 0.05); }
+  // particles (smoke slows to the air's speed; fairing halves tumble away)
+  const pdt = Math.min(fdt, 0.2);
+  for (const p of particles) {
+    p.rel.x += p.vx * pdt; p.rel.y += p.vy * pdt; p.life -= Math.min(realDt, 0.05);
+    if (p.kind === 'smoke' || p.kind === 'shell') {
+      const b = BODIES[p.parent], h = Math.hypot(p.rel.x, p.rel.y) - b.R, rho = rhoAt(b, h);
+      const k = Math.exp(-Math.min(5, rho * (p.kind === 'smoke' ? 6 : 0.6)) * pdt); p.vx *= k; p.vy *= k;
+      if (p.kind === 'shell') p.ang += p.angVel * pdt;
+    }
+  }
   for (let i = particles.length - 1; i >= 0; i--) if (particles[i].life <= 0) particles.splice(i, 1);
 
   // records + milestones for active vessel
@@ -819,12 +1025,78 @@ function update(realDt) {
     const b = BODIES[a.parent], r = Math.hypot(a.x, a.y), h = r - b.R, sp = Math.hypot(a.vx, a.vy);
     if (a.parent === 'terra') { if (h > S.stats.maxAlt) S.stats.maxAlt = h; if (h > 70000) milestone('space'); }
     if (sp > S.stats.maxSpeed) S.stats.maxSpeed = sp;
+    const o = vesselOrbit(a);
+    if (a.parent === 'terra' && o.e < 1 && o.rp > b.R + 70000) a.reachedOrbit = true;
     if (!hasThrust(a)) {
-      const o = vesselOrbit(a);
       if (a.parent === 'terra' && o.e < 1 && o.rp > b.R + 70000) milestone('orbit');
       if (a.parent === 'luna' && o.e < 1 && o.rp > b.R + 3000 && o.ra < b.soi) milestone('lunaOrbit');
     }
+    // tips for the Kestrel's new systems
+    if (a.parent === 'terra') {
+      const vr = (a.x * a.vx + a.y * a.vy) / r;
+      if (a.fairing && h > 45000) hint(a, 'fairing', 'Out of the thick air: press F to drop the fairing (it is dead weight now)', 'Out of the thick air: tap FAIRING to drop it (it is dead weight now)');
+      if (a.reachedOrbit && h < 75000 && vr < -20 && hasCapsule(a) && !isCapsuleOnly(a)) hint(a, 'reentry', 'Coming home? Press Space to drop the upper stage: only the capsule has a heat shield', 'Coming home? Tap STAGE to drop the upper stage: only the capsule has a heat shield');
+      if (a.chute === 'packed' && !a.fairing && a.launched && vr < 0 && sp < CHUTE_MAX && rhoAt(b, h) > CHUTE_MIN_RHO) hint(a, 'chute', 'Slow enough: press P to open the parachute', 'Slow enough: tap CHUTE to open the parachute');
+    }
+    // exhaust smoke low in the air
+    if (hasThrust(a) && a.parent === 'terra' && h < 20000 && WARPS[warpIdx] <= 4 && Math.random() < 0.6) {
+      const L0 = lengthOf(a), hx = Math.cos(a.ang), hy = Math.sin(a.ang);
+      smokePuff({ vx: a.vx * 0.3 - hx * 30, vy: a.vy * 0.3 - hy * 30, parent: a.parent }, a.x - hx * (L0 / 2 + 6), a.y - hy * (L0 / 2 + 6), 1, 4, 1.5 + L0 * 0.04, 0.5);
+    }
   }
+}
+
+function releaseClamps(v) {
+  v.countdown = 0; v.clamped = false; v.ignited = true;
+  clampAnim = { id: v.id, t0: performance.now() };
+  sfx('clunk'); toast('Liftoff! Clamps released', true);
+  liftoffShow = 2.5;
+}
+let clampAnim = null, liftoffShow = 0, fairArm = null;
+function skipCountdown() {
+  const v = active(); if (!v || !(v.countdown > 0)) return false;
+  if (v.throttle === 0) v.throttle = 1;
+  releaseClamps(v); return true;
+}
+function qOf(v) { return v && !v.landed ? airOf(v).q : 0; }
+
+function dropFairing() {
+  const v = active(); if (!v) return;
+  if (!v.fairing) { toast(rk(v).fairing ? 'The fairing is already gone' : 'This ship has no fairing'); return; }
+  if (v.landed) { toast("Can't drop the fairing while standing on the ground"); return; }
+  const q = qOf(v);
+  if (q > FAIRING_WARN_Q && !(fairArm && fairArm.id === v.id && performance.now() - fairArm.t < 4000)) {
+    fairArm = { id: v.id, t: performance.now() };
+    toast('Air is still thick (' + (q / 1000).toFixed(1) + ' kPa): the halves could hit the rocket. ' + (MODE === 'mobile' ? 'Tap FAIRING again' : 'Press F again') + ' to drop it anyway', true);
+    return 'warned';
+  }
+  fairArm = null;
+  const f = rk(v).fairing, L0 = lengthOf(v), hx = Math.cos(v.ang), hy = Math.sin(v.ang);
+  const topx = v.x + hx * L0 / 2, topy = v.y + hy * L0 / 2, ex = -hy, ey = hx;
+  for (const side of [-1, 1]) {
+    particles.push({ kind: 'shell', side, rel: { x: topx - hx * f.len * 0.9 + ex * side * 0.8, y: topy - hy * f.len * 0.9 + ey * side * 0.8 },
+      vx: v.vx + ex * side * 4 + hx * 1, vy: v.vy + ey * side * 4 + hy * 1, ang: v.ang, angVel: side * -0.9, life: 7, max: 7, parent: v.parent, len: f.len + rk(v).stages[rk(v).stages.length - 1].len, w: f.w });
+  }
+  v.fairing = false;
+  // keep the bottom of the rocket where it was
+  const L1 = lengthOf(v); v.x -= hx * (L0 - L1) / 2; v.y -= hy * (L0 - L1) / 2;
+  sfx('clunk');
+  if (q > FAIRING_HIT_Q) { v.angVel += (Math.random() < 0.5 ? -1 : 1) * 0.45; toast('The fairing halves struck the rocket! Steady it', true); return 'hit'; }
+  toast('Fairing dropped'); save(); return 'ok';
+}
+
+function deployChute() {
+  const v = active(); if (!v) return;
+  if (!hasCapsule(v) || !v.chute) { toast('This ship has no parachute'); return; }
+  if (v.chute === 'open') { toast('The parachute is already open'); return; }
+  if (v.chute === 'ripped') { toast('The parachute is torn: it can\'t be used again'); return; }
+  if (v.fairing) { toast('The parachute is packed under the fairing: drop the fairing first (' + (MODE === 'mobile' ? 'FAIRING' : 'F') + ')'); return; }
+  if (v.landed) { toast('Already on the ground'); return; }
+  const air = airOf(v);
+  if (air.rho < CHUTE_MIN_RHO) { toast('Too high: there is no air here for the parachute. Open it low down, below ' + CHUTE_MAX + ' m/s'); return 'noair'; }
+  v.chute = 'open'; v.chuteOpen = 0; sfx('pop');
+  if (air.sp > CHUTE_MAX) { v.chute = 'ripped'; toast('Parachute torn off! You were going ' + air.sp.toFixed(0) + ' m/s (safe: under ' + CHUTE_MAX + ' m/s)', true); sfx('rip'); return 'ripped'; }
+  toast('Parachute open'); save(); return 'open';
 }
 
 // ---------- Actions ----------
@@ -836,16 +1108,26 @@ function doStage() {
   const hx = Math.cos(v.ang), hy = Math.sin(v.ang);
   const bx = v.x - hx * L0 / 2, by = v.y - hy * L0 / 2;
   const deb = JSON.parse(JSON.stringify(v));
-  deb.id = S.nextId++; deb.name = v.name + ' booster'; deb.parts = [k]; deb.debris = true; deb.throttle = 0; deb.sas = false;
-  deb.x = bx + hx * st.len / 2; deb.y = by + hy * st.len / 2; deb.vx = v.vx - hx * 2; deb.vy = v.vy - hy * 2; deb.angVel = (Math.random() - 0.5) * 0.4;
+  deb.id = S.nextId++; deb.name = v.name + ' ' + (st.name || 'booster').toLowerCase(); deb.parts = [k]; deb.debris = true; deb.throttle = 0; deb.sas = false;
+  deb.fairing = false; delete deb.chute; deb.hints = {}; deb.clamped = false; deb.countdown = 0;
+  deb.x = bx + hx * st.len / 2; deb.y = by + hy * st.len / 2; deb.vx = v.vx - hx * 2.5; deb.vy = v.vy - hy * 2.5; deb.angVel = (Math.random() - 0.5) * 0.4;
   v.parts.shift();
   const L1 = lengthOf(v);
-  v.x = bx + hx * (st.len + L1 / 2); v.y = by + hy * (st.len + L1 / 2); v.vx += hx * 1; v.vy += hy * 1;
+  v.x = bx + hx * (st.len + L1 / 2); v.y = by + hy * (st.len + L1 / 2); v.vx += hx * 1.5; v.vy += hy * 1.5;
   S.vessels.push(deb);
-  sfx('clunk'); toast('Stage dropped');
+  // separation: springs push the two apart, with a puff of smoke at the joint
+  smokePuff(v, bx + hx * st.len, by + hy * st.len, 40, 6, 0.6 + st.w * 0.2, 0.8);
+  sfx('clunk'); toast(isCapsuleOnly(v) ? 'Upper stage dropped: capsule on its own' : 'Stage dropped');
   save();
 }
 
+// highest point of the current path; "Escaping" only when the ship really has escape speed
+function apText(v, o) {
+  const b = BODIES[v.parent], r = Math.hypot(v.x, v.y), v2 = v.vx * v.vx + v.vy * v.vy;
+  if (v2 >= 2 * b.mu / r || o.ra > b.soi) return 'Escaping';
+  if (o.e >= 1 || !isFinite(o.ra)) { const a = 1 / (2 / r - v2 / b.mu); return fmtDist(Math.max(r, 2 * a - o.rp) - b.R); }
+  return fmtDist(o.ra - b.R);
+}
 function fitMap() {
   const v = active(); if (!v) return;
   const b = BODIES[v.parent];
@@ -868,11 +1150,13 @@ function warnWarp(v) {
 }
 
 function launch(rid) {
+  if (!ROCKETS[rid] || ROCKETS[rid].retired) rid = LAUNCH_ROCKET; // retired rockets can't be launched any more
   const old = active(); if (old) old.throttle = 0;
   const v = newVessel(rid);
+  v.countdown = COUNTDOWN; v.clamped = true; v.ignited = false; liftoffShow = 0; clampAnim = null;
   S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
   camRot = PAD_THETA - Math.PI / 2;
-  save(); closeAll(); toast(v.name + ' is on the pad. ' + (MODE === 'mobile' ? 'Push the throttle up (or tap FULL) to launch!' : 'Hold W (or press Z) to launch!'));
+  save(); closeAll(); toast(v.name + ' is on the pad. Countdown started. ' + (MODE === 'mobile' ? 'Tap SKIP to launch now.' : 'Press Enter to launch now.'));
 }
 
 function flyVessel(id) {
@@ -946,19 +1230,31 @@ function openTitle() {
 function openSelect() {
   const box = document.getElementById('rocketCards'); box.innerHTML = '';
   for (const r of Object.values(ROCKETS)) {
-    const fake = { rocket: r.id, parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel) };
-    const m = massOf(fake), twr = r.stages[0].thrust / (m * G0);
+    if (r.retired) continue;
+    const fake = { rocket: r.id, parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel), fairing: !!r.fairing, chute: 'packed' };
+    const m = massOf(fake), s0 = r.stages[0], twr = thrustNow(s0, 1, 1) / (m * G0);
     const c = document.createElement('div'); c.className = 'card'; c.dataset.act = 'pick:' + r.id;
     const cv = document.createElement('canvas'); cv.width = 120; cv.height = 140; cv.dataset.act = 'pick:' + r.id;
     drawRocketPreview(cv, fake);
     c.appendChild(cv);
-    c.insertAdjacentHTML('beforeend', `<div class="name">${r.name}</div><div class="tag">${r.tag}</div><div class="desc">${MODE === 'mobile' ? r.desc.replace('Press Space', 'Tap STAGE') : r.desc}</div>
-      <div class="stats">Stages: ${r.stages.length} · Mass: ${(m / 1000).toFixed(1)} t<br>
+    const eng = r.stages.filter(s => s.thrust > 0).map(s => `${s.name}: ${Math.round(thrustNow(s, 1, 1) / 1000)}&rarr;${Math.round(s.thrust / 1000)} kN, Isp ${s.ispSL}&rarr;${s.isp} s`).join('<br>');
+    c.insertAdjacentHTML('beforeend', `<div class="name">${r.name}</div><div class="tag">${r.tag}</div><div class="desc">${r.desc}</div>
+      <div class="stats">Booster + upper stage + capsule · Mass: ${(m / 1000).toFixed(1)} t<br>
       Launch thrust/weight: ${twr.toFixed(2)} · &Delta;v: ${Math.round(deltaV(fake)).toLocaleString()} m/s<br>
-      Turning: ${r.turn >= 1.2 ? 'fast' : r.turn >= 0.8 ? 'medium' : 'slow'} · Safe landing: ${r.crash} m/s</div>`);
+      ${eng} <small>(sea level&rarr;vacuum)</small><br>
+      Max air push: ${r.qLimit / 1000} kPa · Heat shield &amp; parachute (open under ${CHUTE_MAX} m/s)<br>
+      Safe landing: legs ${r.stages[1].crash} m/s · capsule ${r.stages[2].crash} m/s on land, ${r.stages[2].crashWater} m/s in water</div>
+      <div class="go">Launch ${r.name} &#9654;</div>`);
     for (const el of c.querySelectorAll('*')) el.dataset.act = 'pick:' + r.id;
     box.appendChild(c);
   }
+  const old = S.vessels.filter(v => rk(v).retired && !v.debris).length, mob = MODE === 'mobile';
+  box.insertAdjacentHTML('beforeend', `<div class="selInfo"><b>What the Kestrel can do</b><ol>
+      <li>Reach orbit around Terra.</li><li>Fly on to Luna and land on the upper stage's legs.</li><li>Or come home from orbit: heat shield, then parachute, for the <b>Round Trip</b> milestone.</li></ol>
+      <b>How a flight goes</b><ol><li>10-second countdown (${mob ? 'tap SKIP' : 'Enter'} to go now). The clamps let go at zero.</li>
+      <li>Booster empty: ${mob ? 'tap STAGE' : 'press Space'} to drop it.</li><li>Above ~45 km: drop the fairing (${mob ? 'FAIRING' : 'F'}).</li>
+      <li>Upper stage to orbit, to Luna, or back down. Coming home: drop the upper stage, then open the parachute (${mob ? 'CHUTE' : 'P'}) below 250 m/s.</li></ol>
+      <div class="note" style="margin-top:4px">Sparrow, Heron and Mule are retired.${old ? ' Your ' + old + ' older ship' + (old > 1 ? 's are' : ' is') + ' still out there: fly ' + (old > 1 ? 'them' : 'it') + ' from the Tracking Station.' : ''}</div></div>`);
   showOverlay('ovSelect');
 }
 function openStation() {
@@ -969,15 +1265,16 @@ function openStation() {
     html = '<table><tr><th>Ship</th><th>Where</th><th>Fuel</th><th></th></tr>';
     for (const v of ships) {
       const tot = v.parts.reduce((s, i) => s + rk(v).stages[i].fuel, 0), cur = v.parts.reduce((s, i) => s + v.fuel[i], 0);
+      const fuelTxt = tot ? Math.round(cur / tot * 100) + '%' : '-';
       const recover = v.landed && v.parent === 'terra';
-      html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}</td><td>${statusOf(v)}</td><td>${tot ? Math.round(cur / tot * 100) : 0}%</td>
+      html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}</td><td>${statusOf(v)}${rk(v).retired ? ' <small style="color:#8796bf">(retired type)</small>' : ''}</td><td>${fuelTxt}</td>
         <td style="white-space:nowrap"><button class="small" data-act="fly:${v.id}">Fly</button><button class="small ghost" data-act="del:${v.id}">${recover ? 'Recover' : 'Delete'}</button></td></tr>`;
     }
     html += '</table>';
   }
   document.getElementById('stationTable').innerHTML = html;
   document.getElementById('msList').innerHTML = MILESTONES.map(m => `<div class="${S.milestones[m[0]] !== undefined ? 'done' : ''}">${S.milestones[m[0]] !== undefined ? '★' : '☆'} ${m[1]}<small>${m[2]}</small></div>`).join('');
-  document.getElementById('records').innerHTML = `Flights: ${S.stats.flights} · Landings: ${S.stats.landings} · Crashes: ${S.stats.crashes}<br>
+  document.getElementById('records').innerHTML = `Flights: ${S.stats.flights} · Landings: ${S.stats.landings} (splashdowns: ${S.stats.splashdowns || 0}) · Crashes: ${S.stats.crashes}${S.stats.softest ? ' · Softest touchdown: ' + S.stats.softest.toFixed(1) + ' m/s' : ''}<br>
     Highest above Terra: ${fmtDist(S.stats.maxAlt)} · Fastest: ${fmtSpd(S.stats.maxSpeed)} · World time: ${clock(S.t)}`;
   showOverlay('ovStation');
 }
@@ -999,6 +1296,7 @@ document.addEventListener('click', e => {
   else if (act === 'modeSwitch') openModeChoice(paused && overlayStack[overlayStack.length - 1] === 'ovPause' ? 'pause' : 'title');
   else if (act === 'resume') { if (active()) closeAll(); else openSelect(); }
   else if (act === 'launch') openSelect();
+  else if (act === 'title') openTitle();
   else if (act === 'station') openStation();
   else if (act === 'help') showOverlay('ovHelp');
   else if (act === 'back') back();
@@ -1012,7 +1310,8 @@ document.addEventListener('click', e => {
   }
   else if (act === 'revert') {
     const v = active(); if (!v) return;
-    if (!confirm('Delete ' + v.name + ' and start a fresh ' + rk(v).name + ' on the pad?')) return;
+    const nr = rk(v).retired ? ROCKETS[LAUNCH_ROCKET].name : rk(v).name;
+    if (!confirm('Delete ' + v.name + ' and start a fresh ' + nr + ' on the pad?')) return;
     removeVessel(v); S.activeId = null; launch(v.rocket);
   }
   else if (act.startsWith('pick:')) launch(act.slice(5));
@@ -1030,7 +1329,7 @@ document.addEventListener('click', e => {
 const keys = {};
 function keysClear() { for (const k in keys) keys[k] = false; for (const k in touchHold) touchHold[k] = false; document.querySelectorAll('.tb.held').forEach(b => b.classList.remove('held')); }
 window.addEventListener('keydown', e => {
-  if (e.code === 'Space' || e.code.startsWith('Arrow')) e.preventDefault();
+  if (e.code === 'Space' || e.code.startsWith('Arrow') || ((e.code === 'Enter' || e.code === 'NumpadEnter') && !paused)) e.preventDefault();
   if (e.code === 'Escape') {
     const top = overlayStack[overlayStack.length - 1];
     if (top === 'ovMode') { if (MODE && modeReturn === 'pause' && active()) openPause(); else if (MODE) openTitle(); return; }
@@ -1047,6 +1346,9 @@ window.addEventListener('keydown', e => {
     case 'KeyX': if (v) v.throttle = 0; break;
     case 'KeyT': if (v) { v.sas = !v.sas; toast('SAS ' + (v.sas ? 'on' : 'off')); } break;
     case 'Space': doStage(); break;
+    case 'Enter': case 'NumpadEnter': if (!skipCountdown()) toast('Nothing to skip: the countdown only runs on the pad'); break;
+    case 'KeyF': dropFairing(); break;
+    case 'KeyP': deployChute(); break;
     case 'KeyM': toggleMap(); break;
     case 'KeyC': S.view.panX = 0; S.view.panY = 0; break;
     case 'Comma': cycleWarp(-1); break;
@@ -1133,7 +1435,28 @@ function touchAction(name) {
     case 'full': if (v) v.throttle = 1; break;
     case 'cut': if (v) v.throttle = 0; break;
     case 'stage': doStage(); break;
+    case 'ctx': { const c = ctxState(v); if (c.act === 'skip') skipCountdown(); else if (c.act === 'fairing') dropFairing(); else if (c.act === 'chute') deployChute(); else if (c.act === 'chuteOpen') toast('The parachute is open'); syncCtx(); break; }
   }
+}
+// the one context button on Mobile: SKIP (countdown) -> FAIRING (in flight) -> CHUTE (capsule coming home)
+function ctxState(v) {
+  if (!v) return { act: null };
+  if (v.countdown > 0) return { act: 'skip', b: 'SKIP', s: 'countdown', cls: '' };
+  if (v.landed) return { act: null };
+  if (v.fairing) { const q = qOf(v); return { act: 'fairing', b: 'FAIRING', s: q > FAIRING_WARN_Q ? 'air thick' : 'drop', cls: q > FAIRING_WARN_Q ? 'warnc' : '' }; }
+  if (v.chute === 'packed' && hasCapsule(v)) { const a = airOf(v), ok = a.rho >= CHUTE_MIN_RHO && a.sp <= CHUTE_MAX; return { act: 'chute', b: 'CHUTE', s: ok ? 'open' : (a.rho < CHUTE_MIN_RHO ? 'no air' : 'too fast'), cls: ok ? '' : 'warnc' }; }
+  if (v.chute === 'open') return { act: 'chuteOpen', b: 'CHUTE', s: 'open ✓', cls: 'on' };
+  return { act: null };
+}
+let ctxKey = '';
+function syncCtx() {
+  if (MODE !== 'mobile') return;
+  const c = ctxState(active()), el = document.getElementById('tCtx');
+  const key = c.act ? c.act + c.b + c.s + c.cls : '';
+  if (key === ctxKey) return; ctxKey = key;
+  el.classList.toggle('off', !c.act);
+  el.classList.remove('warnc', 'on'); if (c.cls) el.classList.add(c.cls);
+  if (c.act) { document.getElementById('tCtxB').textContent = c.b; document.getElementById('tCtxS').textContent = c.s; }
 }
 document.querySelectorAll('#touch .tb').forEach(btn => {
   const name = btn.dataset.t, hold = !!btn.dataset.hold, ids = new Set();
@@ -1171,7 +1494,7 @@ function syncTouchUi() {
   document.getElementById('tMap').classList.toggle('on', !!S.view.map);
   document.getElementById('tCentre').classList.toggle('hidden', !S.view.map);
   document.getElementById('tStage').classList.toggle('dim', !(v && v.parts.length > 1));
-  lastThrShown = -1;
+  lastThrShown = -1; ctxKey = ''; syncCtx();
 }
 function updateTouchFrame(realDt) {
   if (MODE !== 'mobile' || paused) return;
@@ -1191,14 +1514,17 @@ function layoutTouch() {
   layoutDirty = false; dialPos = null;
   if (MODE !== 'mobile') return;
   const ll = document.getElementById('tLeft').getBoundingClientRect(), rr = document.getElementById('tRight').getBoundingClientRect(), cc = document.getElementById('tColC').getBoundingClientRect();
+  const xb = document.getElementById('tCtx').getBoundingClientRect(); // reserved even while hidden (visibility only)
   if (!rr.width || !cc.width) { layoutDirty = true; return; }
-  const R = 46, x0 = rr.right + 10, x1 = cc.left - 10;
-  if (x1 - x0 >= 2 * R + 4) dialPos = { x: (x0 + x1) / 2, y: H - 8 - R - 4, R };
-  else dialPos = { x: (ll.left + rr.right) / 2, y: rr.top - R - 12, R }; // narrow portrait: sit above the turn buttons
+  const sideBy = xb.width && xb.left >= rr.right - 1;
+  const x0 = (sideBy ? xb.right : rr.right) + 8, x1 = cc.left - 8;
+  const R = Math.min(46, Math.floor((x1 - x0 - 4) / 2));
+  if (R >= 34) dialPos = { x: (x0 + x1) / 2, y: H - 8 - R - 4, R };
+  else { const top = Math.min(rr.top, xb.width && !sideBy ? xb.top : rr.top); dialPos = { x: (ll.left + rr.right) / 2, y: top - 46 - 30, R: 46 }; } // narrow portrait: sit above the buttons
 }
 
 // ---------- Audio ----------
-let AC = null, engineGain = null;
+let AC = null, engineGain = null, engineLp = null, rumbleGain = null, spool = 0;
 function ensureAudio() {
   if (AC) { if (AC.state === 'suspended') AC.resume(); return; }
   try {
@@ -1206,9 +1532,14 @@ function ensureAudio() {
     const len = AC.sampleRate * 2, buf = AC.createBuffer(1, len, AC.sampleRate), d = buf.getChannelData(0);
     let last = 0; for (let i = 0; i < len; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
     const src = AC.createBufferSource(); src.buffer = buf; src.loop = true;
-    const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700;
+    engineLp = AC.createBiquadFilter(); engineLp.type = 'lowpass'; engineLp.frequency.value = 300;
     engineGain = AC.createGain(); engineGain.gain.value = 0;
-    src.connect(lp); lp.connect(engineGain); engineGain.connect(AC.destination); src.start();
+    src.connect(engineLp); engineLp.connect(engineGain); engineGain.connect(AC.destination); src.start();
+    // deep rumble that builds up as the engine spools up
+    const osc = AC.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 38;
+    const lp2 = AC.createBiquadFilter(); lp2.type = 'lowpass'; lp2.frequency.value = 120;
+    rumbleGain = AC.createGain(); rumbleGain.gain.value = 0;
+    osc.connect(lp2); lp2.connect(rumbleGain); rumbleGain.connect(AC.destination); osc.start();
   } catch (e) { AC = null; }
 }
 function sfx(kind) {
@@ -1219,6 +1550,10 @@ function sfx(kind) {
   else if (kind === 'clunk') { o.type = 'square'; o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(50, t + 0.15); g.gain.setValueAtTime(0.15, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.2); o.start(t); o.stop(t + 0.2); }
   else if (kind === 'thud') { o.type = 'sine'; o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.25); g.gain.setValueAtTime(0.25, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.3); o.start(t); o.stop(t + 0.3); }
   else if (kind === 'boom') { o.type = 'sawtooth'; o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(20, t + 1.2); g.gain.setValueAtTime(0.35, t); g.gain.exponentialRampToValueAtTime(0.001, t + 1.3); o.start(t); o.stop(t + 1.3); }
+  else if (kind === 'beep') { o.type = 'sine'; o.frequency.setValueAtTime(880, t); g.gain.setValueAtTime(0.08, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.15); o.start(t); o.stop(t + 0.16); }
+  else if (kind === 'pop') { o.type = 'triangle'; o.frequency.setValueAtTime(300, t); o.frequency.exponentialRampToValueAtTime(90, t + 0.25); g.gain.setValueAtTime(0.2, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.3); o.start(t); o.stop(t + 0.3); }
+  else if (kind === 'rip') { o.type = 'sawtooth'; o.frequency.setValueAtTime(600, t); o.frequency.exponentialRampToValueAtTime(150, t + 0.4); g.gain.setValueAtTime(0.15, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.45); o.start(t); o.stop(t + 0.45); }
+  else if (kind === 'splash') { o.type = 'sine'; o.frequency.setValueAtTime(220, t); o.frequency.exponentialRampToValueAtTime(60, t + 0.5); g.gain.setValueAtTime(0.22, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.6); o.start(t); o.stop(t + 0.6); }
 }
 
 // ---------- Rendering ----------
@@ -1227,6 +1562,12 @@ const cam = { x: 0, y: 0, z: 1, c: 1, s: 0 };
 function w2s(x, y) { const dx = x - cam.x, dy = y - cam.y; const rx = dx * cam.c + dy * cam.s, ry = -dx * cam.s + dy * cam.c; return [W / 2 + rx * cam.z, H / 2 - ry * cam.z]; }
 const STARS = Array.from({ length: 260 }, (_, i) => { const s = Math.sin(i * 12.9898) * 43758.5453; const s2 = Math.sin(i * 78.233) * 12345.678; return { x: s - Math.floor(s), y: s2 - Math.floor(s2), b: 0.3 + ((i * 37) % 70) / 100, r: (i % 9 === 0) ? 1.6 : 1 }; });
 
+const SKY = [[0, '#3f86de', '#bfe1ff'], [10000, '#2463bd', '#86bbf2'], [22000, '#0f3279', '#4578c6'], [35000, '#06133a', '#1b3d7c'], [48000, '#02040f', '#0a1838'], [62000, '#02030a', '#03060f']];
+function skyColors(h) {
+  if (h <= 0) return [SKY[0][1], SKY[0][2]];
+  for (let i = 1; i < SKY.length; i++) if (h < SKY[i][0]) { const t = (h - SKY[i - 1][0]) / (SKY[i][0] - SKY[i - 1][0]); return [lerpColor(SKY[i - 1][1], SKY[i][1], t), lerpColor(SKY[i - 1][2], SKY[i][2], t)]; }
+  return ['#02030a', '#02030a'];
+}
 function lerpColor(a, b, t) {
   const pa = [1, 3, 5].map(i => parseInt(a.substr(i, 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.substr(i, 2), 16));
   return 'rgb(' + pa.map((v, i) => Math.round(v + (pb[i] - v) * t)).join(',') + ')';
@@ -1245,42 +1586,64 @@ function drawBody(b, bx, by) {
     // continents / craters, drawn in world space so they stay put
     if (rp > 6) {
       ctx.save(); ctx.beginPath(); ctx.arc(sx, sy, rp, 0, Math.PI * 2); ctx.clip();
-      const spots = b.id === 'terra' ? TERRA_SPOTS : LUNA_SPOTS;
-      for (const s of spots) {
-        const [px, py] = w2s(bx + Math.cos(s.a) * b.R * s.d, by + Math.sin(s.a) * b.R * s.d);
-        ctx.beginPath(); ctx.arc(px, py, s.r * rp, 0, Math.PI * 2); ctx.fillStyle = s.c; ctx.fill();
+      if (b.id === 'terra') {
+        // the same continents you land on up close
+        for (const [la, lb] of LAND) {
+          ctx.beginPath(); const N = 24;
+          for (let i = 0; i <= N; i++) { const a = la + (lb - la) * i / N; const [px, py] = w2s(bx + Math.cos(a) * b.R * 1.01, by + Math.sin(a) * b.R * 1.01); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+          for (let i = N; i >= 0; i--) { const a = la + (lb - la) * i / N, rr = 0.5 + 0.12 * Math.sin(i * 1.7 + la * 5); const [px, py] = w2s(bx + Math.cos(a) * b.R * rr, by + Math.sin(a) * b.R * rr); ctx.lineTo(px, py); }
+          ctx.closePath(); ctx.fillStyle = '#3e8e4e'; ctx.fill();
+        }
+        const [ix, iy] = w2s(bx + Math.cos(5.3) * b.R * 0.85, by + Math.sin(5.3) * b.R * 0.85);
+        ctx.beginPath(); ctx.arc(ix, iy, 0.12 * rp, 0, Math.PI * 2); ctx.fillStyle = '#e8eef8'; ctx.fill();
+      } else {
+        for (const s of LUNA_SPOTS) {
+          const [px, py] = w2s(bx + Math.cos(s.a) * b.R * s.d, by + Math.sin(s.a) * b.R * s.d);
+          ctx.beginPath(); ctx.arc(px, py, s.r * rp, 0, Math.PI * 2); ctx.fillStyle = s.c; ctx.fill();
+        }
       }
       ctx.restore();
     }
   } else {
-    // huge on screen: draw the nearby surface as a polygon
+    // huge on screen: draw the nearby surface as a polygon (Terra: ocean, with the land on top)
     const pc = Math.atan2(cam.y - by, cam.x - bx);
     const span = Math.min(Math.PI, 1.6 * diag / b.R + 0.002);
     const depth = Math.min(b.R * 0.9, diag * 3);
-    ctx.beginPath();
-    const N = 140;
-    for (let i = 0; i <= N; i++) { const a = pc - span + 2 * span * i / N; const [px, py] = w2s(bx + Math.cos(a) * b.R, by + Math.sin(a) * b.R); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
-    for (let i = N; i >= 0; i--) { const a = pc - span + 2 * span * i / N; const [px, py] = w2s(bx + Math.cos(a) * (b.R - depth), by + Math.sin(a) * (b.R - depth)); ctx.lineTo(px, py); }
-    ctx.closePath(); ctx.fillStyle = b.land; ctx.fill();
+    const surf = (a0, a1, N) => {
+      ctx.beginPath();
+      for (let i = 0; i <= N; i++) { const a = a0 + (a1 - a0) * i / N; const [px, py] = w2s(bx + Math.cos(a) * b.R, by + Math.sin(a) * b.R); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+      for (let i = N; i >= 0; i--) { const a = a0 + (a1 - a0) * i / N; const [px, py] = w2s(bx + Math.cos(a) * (b.R - depth), by + Math.sin(a) * (b.R - depth)); ctx.lineTo(px, py); }
+      ctx.closePath();
+    };
+    if (b.id === 'terra') {
+      surf(pc - span, pc + span, 140); ctx.fillStyle = '#2b62b5'; ctx.fill();
+      for (const [la, lb] of LAND) for (const k of [-1, 0, 1]) {
+        const a0 = Math.max(la + k * 2 * Math.PI, pc - span), a1 = Math.min(lb + k * 2 * Math.PI, pc + span);
+        if (a1 > a0) { surf(a0, a1, Math.max(6, Math.round(140 * (a1 - a0) / (2 * span)))); ctx.fillStyle = b.land; ctx.fill(); }
+      }
+    } else { surf(pc - span, pc + span, 140); ctx.fillStyle = b.land; ctx.fill(); }
+    surf(pc - span, pc + span, 140);
     ctx.save(); ctx.clip();
-    // ground texture marks so speed near the ground is visible
+    // ground texture marks (and waves at sea) so speed near the surface is visible
     const spacing = Math.pow(10, Math.ceil(Math.log10(Math.max(5, diag / 12))));
     const dth = spacing / b.R;
     const k0 = Math.floor((pc - span) / dth), k1 = Math.ceil((pc + span) / dth);
     if (k1 - k0 < 600) {
-      ctx.fillStyle = b.deep;
       for (let k = k0; k <= k1; k++) {
         const hsh = Math.sin(k * 91.17) * 1000; const fr = hsh - Math.floor(hsh);
         const a = k * dth + fr * dth * 0.5, sz = spacing * (0.04 + fr * 0.08);
-        const [px, py] = w2s(bx + Math.cos(a) * (b.R + sz * 0.15), by + Math.sin(a) * (b.R + sz * 0.15));
-        ctx.beginPath(); ctx.arc(px, py, sz * cam.z, 0, Math.PI * 2); ctx.fill();
+        const sea = isOcean(b.id, a);
+        const [px, py] = w2s(bx + Math.cos(a) * (b.R + (sea ? -sz * 0.3 : sz * 0.15)), by + Math.sin(a) * (b.R + (sea ? -sz * 0.3 : sz * 0.15)));
+        ctx.beginPath();
+        if (sea) { ctx.ellipse(px, py, sz * cam.z * 1.4, Math.max(0.6, sz * cam.z * 0.18), -(a - camRot - Math.PI / 2), 0, Math.PI * 2); ctx.fillStyle = '#4f86d6'; }
+        else { ctx.arc(px, py, sz * cam.z, 0, Math.PI * 2); ctx.fillStyle = b.deep; }
+        ctx.fill();
       }
     }
     ctx.restore();
     if (b.id === 'terra') drawPad(bx, by);
   }
 }
-const TERRA_SPOTS = [{ a: 0.4, d: 0.5, r: 0.35, c: '#3e8e4e' }, { a: 2.4, d: 0.6, r: 0.3, c: '#3e8e4e' }, { a: 4.1, d: 0.4, r: 0.4, c: '#47995a' }, { a: 1.57, d: 0.95, r: 0.12, c: '#3e8e4e' }, { a: 5.3, d: 0.85, r: 0.2, c: '#e8eef8' }];
 const LUNA_SPOTS = [{ a: 0.7, d: 0.4, r: 0.18, c: '#8e8e8e' }, { a: 2.2, d: 0.6, r: 0.12, c: '#8a8a8a' }, { a: 3.7, d: 0.3, r: 0.22, c: '#949494' }, { a: 5.0, d: 0.7, r: 0.1, c: '#858585' }, { a: 4.3, d: 0.75, r: 0.08, c: '#7d7d7d' }];
 
 function worldPoly(pts, fill) {
@@ -1295,11 +1658,49 @@ function drawPad(bx, by) {
   worldPoly([P(-14, -2), P(14, -2), P(14, -1.4), P(-14, -1.4)], '#4b5563');
   worldPoly([P(10, 0), P(12, 0), P(12, 34), P(10, 34)], '#9aa3ad');
   for (let h = 4; h < 34; h += 6) worldPoly([P(8, h), P(10, h), P(10, h + 0.6), P(8, h + 0.6)], '#c04040');
+  // launch clamps: arms from the tower hold the rocket until T-0, then swing back
+  const held = S.vessels.find(v => v.clamped && v.landed && v.parent === 'terra');
+  let reach = 0, half = 1.4;
+  if (held) { reach = 1; half = widthOf(held) / 2; }
+  else if (clampAnim) { const k = (performance.now() - clampAnim.t0) / 1200; if (k < 1) { reach = 1 - k; const cv = byId(clampAnim.id); if (cv) half = widthOf(cv) / 2; } else clampAnim = null; }
+  for (const hh of [5, 13, 21]) {
+    const x0 = 10, x1 = x0 - (x0 - half - 0.05) * reach;
+    if (x0 - x1 > 0.2) { worldPoly([P(x1, hh), P(x0, hh), P(x0, hh + 0.7), P(x1, hh + 0.7)], '#c9ced6'); worldPoly([P(x1, hh - 0.3), P(x1 + 0.4, hh - 0.3), P(x1 + 0.4, hh + 1), P(x1, hh + 1)], '#e2672b'); }
+    else worldPoly([P(10, hh), P(10.6, hh), P(10.6, hh + 0.7), P(10, hh + 0.7)], '#c9ced6');
+  }
+  if (held) for (const sd of [-1, 1]) worldPoly([P(sd * (half + 0.9), 0), P(sd * (half - 0.1), 0), P(sd * (half - 0.1), 1.3), P(sd * (half + 0.9), 1.3)], '#e2672b'); // hold-down clamps at the base
   worldPoly([P(-30, 0), P(-22, 0), P(-22, 6), P(-30, 6)], '#c9ced6');
   worldPoly([P(-29, 3), P(-23, 3), P(-23, 4.5), P(-29, 4.5)], '#2f7de1');
 }
 
-function drawRocketShape(c, v, flame) {
+// pf = outside air pressure as a fraction of sea level: the flame is tight and long in thick air, wide and soft in vacuum
+function drawFlame(c, st, w, y, flame, pf) {
+  const nw = w * 0.3, ex = y - w * 0.25;
+  const vac = 1 - pf;
+  const len = (st.thrust / 120000) ** 0.4 * 9 * flame * (0.88 + Math.random() * 0.24) * (0.8 + 0.35 * pf + 0.9 * vac * vac);
+  const wm = nw * (0.85 + 4.2 * vac), wt = nw * (0.05 + 3.2 * vac);
+  const grd = c.createLinearGradient(0, ex, 0, ex - len);
+  grd.addColorStop(0, 'rgba(255,250,220,0.97)');
+  grd.addColorStop(0.3, 'rgba(255,' + Math.round(175 + 50 * vac) + ',' + Math.round(70 + 120 * vac) + ',' + (0.85 - 0.3 * vac) + ')');
+  grd.addColorStop(1, vac > 0.9 ? 'rgba(200,170,255,0)' : 'rgba(255,80,20,0)');
+  c.beginPath(); c.moveTo(-nw, ex);
+  c.quadraticCurveTo(-wm * 1.05, ex - len * 0.18, -wm, ex - len * 0.45);
+  c.quadraticCurveTo(-wm * 0.95, ex - len * 0.8, -wt, ex - len);
+  c.lineTo(wt, ex - len);
+  c.quadraticCurveTo(wm * 0.95, ex - len * 0.8, wm, ex - len * 0.45);
+  c.quadraticCurveTo(wm * 1.05, ex - len * 0.18, nw, ex);
+  c.closePath(); c.fillStyle = grd; c.fill();
+  if (vac > 0.3) { // bright core inside the wide vacuum plume
+    const cl = len * 0.55, g3 = c.createLinearGradient(0, ex, 0, ex - cl);
+    g3.addColorStop(0, 'rgba(255,255,245,1)'); g3.addColorStop(0.5, 'rgba(255,200,120,0.75)'); g3.addColorStop(1, 'rgba(255,140,60,0)');
+    c.beginPath(); c.moveTo(-nw * 0.9, ex); c.quadraticCurveTo(-nw * 1.3, ex - cl * 0.5, 0, ex - cl); c.quadraticCurveTo(nw * 1.3, ex - cl * 0.5, nw * 0.9, ex); c.closePath(); c.fillStyle = g3; c.fill();
+  }
+  if (pf > 0.35) { // shock diamonds in thick air
+    c.fillStyle = 'rgba(255,255,240,' + (0.5 * pf) + ')';
+    for (let k = 1; k <= 3; k++) { c.beginPath(); c.ellipse(0, ex - len * 0.16 * k, nw * 0.5, nw * 0.35, 0, 0, Math.PI * 2); c.fill(); }
+  }
+}
+function drawRocketShape(c, v, flame, pf = 1) {
   // local coordinates in metres, +y = nose direction, origin at centre
   const r = rk(v), L = lengthOf(v);
   let y = -L / 2;
@@ -1307,49 +1708,128 @@ function drawRocketShape(c, v, flame) {
   for (let idx = 0; idx < v.parts.length; idx++) {
     const st = r.stages[v.parts[idx]];
     const w = st.w;
-    if (idx === 0) {
+    if (st.capsule) {
+      if (v.fairing && r.fairing) { y += 0; break; } // hidden inside the fairing (drawn below)
+      // crew capsule: blunt cone, dark heat shield underneath, a window
+      c.beginPath(); c.moveTo(-w / 2, y + 0.3); c.lineTo(w / 2, y + 0.3); c.lineTo(w * 0.2, y + st.len); c.lineTo(-w * 0.2, y + st.len); c.closePath(); c.fillStyle = '#d9dde4'; c.fill();
+      c.fillStyle = 'rgba(0,0,0,0.12)'; c.beginPath(); c.moveTo(w * 0.12, y + 0.3); c.lineTo(w / 2, y + 0.3); c.lineTo(w * 0.2, y + st.len); c.lineTo(w * 0.05, y + st.len); c.closePath(); c.fill();
+      c.beginPath(); c.moveTo(-w / 2 - 0.05, y + 0.32); c.quadraticCurveTo(0, y - 0.35, w / 2 + 0.05, y + 0.32); c.closePath(); c.fillStyle = '#5b3b24'; c.fill();
+      c.fillStyle = '#5b3b24'; c.fillRect(-w / 2 - 0.05, y, w + 0.1, 0.32);
+      c.beginPath(); c.arc(-w * 0.08, y + st.len * 0.55, w * 0.1, 0, Math.PI * 2); c.fillStyle = '#9fd6ff'; c.fill();
+      c.fillStyle = r.accent; c.fillRect(-w * 0.2, y + st.len - 0.25, w * 0.4, 0.25);
+      y += st.len;
+      continue;
+    }
+    if (idx === 0 && st.thrust > 0) {
       // engine bell + flame
-      if (flame > 0) {
-        const fl = (st.thrust / 120000) ** 0.4 * 9 * flame * (0.85 + Math.random() * 0.3);
-        const grd = c.createLinearGradient(0, y, 0, y - fl);
-        grd.addColorStop(0, 'rgba(255,250,210,0.95)'); grd.addColorStop(0.4, 'rgba(255,170,60,0.85)'); grd.addColorStop(1, 'rgba(255,80,20,0)');
-        c.beginPath(); c.moveTo(-w * 0.35, y - w * 0.15); c.lineTo(w * 0.35, y - w * 0.15); c.lineTo(0, y - fl); c.closePath(); c.fillStyle = grd; c.fill();
-      }
+      if (flame > 0) drawFlame(c, st, w, y, flame, pf);
       c.beginPath(); c.moveTo(-w * 0.22, y); c.lineTo(w * 0.22, y); c.lineTo(w * 0.34, y - w * 0.25); c.lineTo(-w * 0.34, y - w * 0.25); c.closePath(); c.fillStyle = '#4b5563'; c.fill();
       if (st.legs) { c.strokeStyle = '#9ca3af'; c.lineWidth = Math.max(0.15, w * 0.08); c.beginPath(); c.moveTo(-w / 2, y + st.len * 0.3); c.lineTo(-w * 0.95, y - w * 0.25); c.moveTo(w / 2, y + st.len * 0.3); c.lineTo(w * 0.95, y - w * 0.25); c.stroke(); }
+    } else if (st.thrust > 0 && r.gimbal) {
+      // upper-stage engine tucked inside the interstage: show the nozzle edge
+      c.fillStyle = '#4b5563'; c.fillRect(-w * 0.25, y - 0.01, w * 0.5, 0.3);
     }
     c.fillStyle = r.color; c.fillRect(-w / 2, y, w, st.len);
     c.fillStyle = r.accent; c.fillRect(-w / 2, y + st.len * 0.12, w, Math.min(1.2, st.len * 0.08));
     c.fillStyle = 'rgba(0,0,0,0.12)'; c.fillRect(w * 0.15, y, w * 0.35, st.len);
     if (idx > 0) { c.fillStyle = '#374151'; c.fillRect(-w / 2, y, w, 0.25); }
+    if (r.gimbal && v.parts[idx] === 0) { c.fillStyle = '#1f2937'; c.fillRect(-w / 2, y + st.len - 1.1, w, 1.1); } // interstage band
     y += st.len;
+  }
+  if (v.fairing && r.fairing) {
+    // nose fairing: covers the capsule, pointed on top
+    const f = r.fairing, cap = r.stages[r.stages.length - 1], w = f.w, base = y, top = base + cap.len;
+    c.beginPath(); c.moveTo(-cap.w / 2, base); c.lineTo(cap.w / 2, base); c.lineTo(w / 2, base + 0.6); c.lineTo(w / 2, top); c.quadraticCurveTo(w / 2, top + f.len * 0.75, 0, top + f.len);
+    c.quadraticCurveTo(-w / 2, top + f.len * 0.75, -w / 2, top); c.lineTo(-w / 2, base + 0.6); c.closePath(); c.fillStyle = '#eef1f6'; c.fill();
+    c.fillStyle = 'rgba(0,0,0,0.13)'; c.fillRect(w * 0.12, base + 0.6, w * 0.38, cap.len - 0.6);
+    c.strokeStyle = 'rgba(55,65,81,0.6)'; c.lineWidth = 0.06; c.beginPath(); c.moveTo(0, base + 0.6); c.lineTo(0, top + f.len * 0.97); c.stroke();
+    c.fillStyle = r.accent; c.fillRect(-w / 2, top - 0.9, w, 0.45);
+    y = top + f.len;
   }
   if (hasNose(v)) {
     const w = r.stages[r.stages.length - 1].w, nl = noseLen(v);
     c.beginPath(); c.moveTo(-w / 2, y); c.lineTo(w / 2, y); c.quadraticCurveTo(w / 2, y + nl * 0.7, 0, y + nl); c.quadraticCurveTo(-w / 2, y + nl * 0.7, -w / 2, y); c.fillStyle = r.accent; c.fill();
     c.beginPath(); c.arc(0, y + nl * 0.3, w * 0.13, 0, Math.PI * 2); c.fillStyle = '#9fd6ff'; c.fill();
   }
+  // parachute above the capsule
+  if (v.chute === 'open' && hasCapsule(v) && !v.landed) {
+    const f = Math.max(0.05, v.chuteOpen || 0), D = 6 + 9 * f, Rc = 1 + 7.5 * f, yt = L / 2;
+    c.strokeStyle = 'rgba(230,230,230,0.85)'; c.lineWidth = 0.07;
+    c.beginPath(); for (const k of [-1, -0.4, 0.4, 1]) { c.moveTo(k * 0.35, yt); c.lineTo(k * Rc, yt + D); } c.stroke();
+    c.beginPath(); c.ellipse(0, yt + D, Rc, Rc * 0.6, 0, 0, Math.PI); c.closePath(); c.fillStyle = '#ff8a3d'; c.fill();
+    c.beginPath(); c.moveTo(-Rc * 0.33, yt + D); c.lineTo(Rc * 0.33, yt + D); c.lineTo(Rc * 0.2, yt + D + Rc * 0.57); c.lineTo(-Rc * 0.2, yt + D + Rc * 0.57); c.closePath(); c.fillStyle = '#f5f5f5'; c.fill();
+  }
 }
 function drawRocketPreview(canvas, v) {
-  const c = canvas.getContext('2d'); const L = lengthOf(v) + 4, sc = Math.min(120 / L, 16);
+  const c = canvas.getContext('2d'); const L = lengthOf(v) + 4, sc = Math.min(130 / L, 16);
   c.save(); c.translate(60, 70); c.scale(sc, -sc); drawRocketShape(c, v, 0); c.restore();
 }
 
+function velScreen(v) { // unit direction of v's motion on screen
+  const c = Math.cos(camRot), sn = Math.sin(camRot), rx = v.vx * c + v.vy * sn, ry = -v.vx * sn + v.vy * c, l = Math.hypot(rx, ry) || 1;
+  return [rx / l, -ry / l];
+}
+// how brightly the air around the ship glows: needs real speed (shock heating) and enough heat build-up
+function glowOf(v) {
+  const sp = Math.hypot(v.vx, v.vy), down = (v.x * v.vx + v.y * v.vy) < 0;
+  const g = Math.max(0, Math.min(1, (sp - 1200) / 600)) * Math.max(0, Math.min(1, ((v.heat || 0) - 3e6) / 7e6));
+  return down ? g : g * 0.3; // climbing out, the air is too thin by the time you're fast: only a faint glow
+}
 function drawVessel(v, isAct) {
   const p = worldPos(v); const [sx, sy] = w2s(p.x, p.y);
-  if (sx < -200 || sy < -200 || sx > W + 200 || sy > H + 200) return;
+  if (sx < -300 || sy < -300 || sx > W + 300 || sy > H + 300) return;
   const L = lengthOf(v);
   const scrAng = v.ang - camRot - Math.PI / 2;
+  const gl = !v.landed ? glowOf(v) : 0;
   if (L * cam.z < 8) {
     // icon
     ctx.save(); ctx.translate(sx, sy); ctx.rotate(-scrAng);
     ctx.beginPath(); ctx.moveTo(0, -7); ctx.lineTo(5, 6); ctx.lineTo(0, 3); ctx.lineTo(-5, 6); ctx.closePath();
-    ctx.fillStyle = isAct ? '#7fd0ff' : (v.debris ? '#6b7280' : '#e5e7eb'); ctx.fill(); ctx.restore();
+    ctx.fillStyle = gl > 0.05 ? '#ffb36b' : isAct ? '#7fd0ff' : (v.debris ? '#6b7280' : '#e5e7eb'); ctx.fill(); ctx.restore();
     if (S.view.map && !v.debris) { ctx.fillStyle = isAct ? '#7fd0ff' : '#cbd5e1'; ctx.font = '11px sans-serif'; ctx.fillText(v.name, sx + 9, sy + 4); }
     return;
   }
+  const pf = v.parent === 'terra' ? airOf(v).pf : 0;
+  let dir = null;
+  if (gl > 0) {
+    // reentry plasma: a soft, tapering trail streaming behind
+    dir = velScreen(v);
+    const len = (L * cam.z + 40) * (0.6 + 2.2 * gl), wd = widthOf(v) * cam.z * 0.75 + 4;
+    const lx = sx + dir[0] * L * cam.z * 0.4, ly = sy + dir[1] * L * cam.z * 0.4, nx = -dir[1], ny = dir[0];
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    for (const [k, al] of [[2.2, 0.22], [1.2, 0.4], [0.55, 0.7]]) {
+      const w0 = wd * k, ln = len * (0.55 + 0.45 * k / 2.2), tx = lx - dir[0] * ln, ty = ly - dir[1] * ln;
+      const g2 = ctx.createLinearGradient(lx, ly, tx, ty);
+      g2.addColorStop(0, 'rgba(255,200,110,' + (al * gl) + ')'); g2.addColorStop(0.5, 'rgba(255,120,50,' + (al * 0.5 * gl) + ')'); g2.addColorStop(1, 'rgba(255,70,20,0)');
+      ctx.beginPath(); ctx.moveTo(lx + nx * w0, ly + ny * w0);
+      ctx.quadraticCurveTo(lx + nx * w0 - dir[0] * ln * 0.45, ly + ny * w0 - dir[1] * ln * 0.45, tx, ty);
+      ctx.quadraticCurveTo(lx - nx * w0 - dir[0] * ln * 0.45, ly - ny * w0 - dir[1] * ln * 0.45, lx - nx * w0, ly - ny * w0);
+      ctx.closePath(); ctx.fillStyle = g2; ctx.fill();
+    }
+    ctx.restore();
+  }
   ctx.save(); ctx.translate(sx, sy); ctx.rotate(-scrAng); ctx.scale(cam.z, -cam.z);
-  drawRocketShape(ctx, v, hasThrust(v) && !paused ? v.throttle : (hasThrust(v) ? v.throttle : 0));
+  drawRocketShape(ctx, v, hasThrust(v) ? v.throttle : 0, pf);
+  ctx.restore();
+  if (gl > 0) {
+    // glowing bow shock on the side facing the airflow
+    const R0 = (widthOf(v) * cam.z * 1.3 + 10) * (0.7 + 0.8 * gl);
+    const lx = sx + dir[0] * (L * cam.z * 0.5 + 2), ly = sy + dir[1] * (L * cam.z * 0.5 + 2);
+    const g = ctx.createRadialGradient(lx, ly, 0, lx, ly, R0);
+    g.addColorStop(0, 'rgba(255,255,235,' + (0.95 * gl) + ')'); g.addColorStop(0.4, 'rgba(255,160,60,' + (0.7 * gl) + ')'); g.addColorStop(1, 'rgba(255,80,20,0)');
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.beginPath(); ctx.arc(lx, ly, R0, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill(); ctx.restore();
+  }
+}
+// green prograde marker floating next to the active ship (the direction it is moving)
+function drawProgradeNear(v) {
+  if (v.landed || Math.hypot(v.vx, v.vy) < 1) return;
+  const p = worldPos(v), [sx, sy] = w2s(p.x, p.y), d = velScreen(v);
+  const dist = Math.min(Math.max(58, lengthOf(v) * cam.z / 2 + 34), 220);
+  const px = sx + d[0] * dist, py = sy + d[1] * dist;
+  ctx.save(); ctx.strokeStyle = '#5ef08a'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(px, py, 7, 0, Math.PI * 2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(px - 7, py); ctx.lineTo(px - 12, py); ctx.moveTo(px + 7, py); ctx.lineTo(px + 12, py); ctx.moveTo(px, py - 7); ctx.lineTo(px, py - 12); ctx.stroke();
+  ctx.beginPath(); ctx.arc(px, py, 1.6, 0, Math.PI * 2); ctx.fillStyle = '#5ef08a'; ctx.fill();
   ctx.restore();
 }
 
@@ -1426,6 +1906,15 @@ function drawDial(v) {
   ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(hd) * (R - 4), cy + Math.sin(hd) * (R - 4)); ctx.strokeStyle = '#ffd36b'; ctx.lineWidth = 3; ctx.stroke();
   ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fillStyle = '#ffd36b'; ctx.fill();
   ctx.font = '10px sans-serif'; ctx.fillStyle = '#9fb4e8'; ctx.textAlign = 'center'; ctx.fillText('UP', cx, cy - R + 13);
+  // live apoapsis / periapsis, right above the dial
+  if (!v.landed) {
+    const o = vesselOrbit(v);
+    const ap = apText(v, o).toLowerCase(), pe = o.rp < b.R ? 'below ground' : fmtDist(o.rp - b.R);
+    const txt = 'Ap ' + ap + '  ·  Pe ' + pe;
+    ctx.font = 'bold ' + (MODE === 'mobile' ? 10 : 12) + 'px sans-serif'; const tw = ctx.measureText(txt).width + 12;
+    ctx.fillStyle = 'rgba(10,16,34,0.8)'; ctx.fillRect(cx - tw / 2, cy - R - 20, tw, 16);
+    ctx.fillStyle = '#e8eefc'; ctx.fillText(txt, cx, cy - R - 8);
+  }
   ctx.restore();
 }
 
@@ -1445,12 +1934,15 @@ function render() {
   }
   cam.c = Math.cos(camRot); cam.s = Math.sin(camRot);
 
-  // sky
-  let skyT = 1;
-  if (v && !map && v.parent === 'terra') { const h = Math.hypot(v.x, v.y) - BODIES.terra.R; skyT = Math.min(1, Math.max(0, h / 60000)) ** 0.55; }
+  // sky: blue near the ground, fading to black as the air thins (lighter towards the horizon)
+  let starA = 1;
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  ctx.fillStyle = skyT >= 1 ? '#02030a' : lerpColor('#78b8f5', '#02030a', skyT); ctx.fillRect(0, 0, W, H);
-  const starA = Math.max(0, (skyT - 0.35) / 0.65);
+  if (v && !map && v.parent === 'terra') {
+    const h = Math.hypot(v.x, v.y) - BODIES.terra.R, [top, bot] = skyColors(h);
+    const gr = ctx.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, top); gr.addColorStop(1, bot);
+    ctx.fillStyle = gr; starA = Math.max(0, Math.min(1, (h - 28000) / 30000));
+  } else ctx.fillStyle = '#02030a';
+  ctx.fillRect(0, 0, W, H);
   if (starA > 0) { for (const s of STARS) { ctx.globalAlpha = s.b * starA; ctx.fillStyle = '#fff'; ctx.fillRect(s.x * W, s.y * H, s.r, s.r); } ctx.globalAlpha = 1; }
 
   const L = lunaState(S.t);
@@ -1489,10 +1981,23 @@ function render() {
   // particles
   for (const p of particles) {
     const bs = bodyState(p.parent, S.t); const [px, py] = w2s(bs.x + p.rel.x, bs.y + p.rel.y);
-    ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.life > 1.4 ? '#ffd36b' : '#ff7a3c';
-    ctx.beginPath(); ctx.arc(px, py, Math.max(1.5, p.size * cam.z), 0, Math.PI * 2); ctx.fill();
+    if (px < -200 || py < -200 || px > W + 200 || py > H + 200) continue;
+    const fa = Math.max(0, p.life / p.max);
+    if (p.kind === 'smoke') {
+      ctx.globalAlpha = fa * 0.4; ctx.fillStyle = '#d5d8de';
+      ctx.beginPath(); ctx.arc(px, py, Math.max(1.5, p.size * (1 + (p.max - p.life) * p.grow) * cam.z), 0, Math.PI * 2); ctx.fill();
+    } else if (p.kind === 'shell') {
+      ctx.globalAlpha = Math.min(1, fa * 2); ctx.save(); ctx.translate(px, py); ctx.rotate(-(p.ang - camRot - Math.PI / 2)); ctx.scale(cam.z, -cam.z);
+      const hl = p.len / 2, w = p.w / 2 * p.side;
+      ctx.beginPath(); ctx.moveTo(0, -hl); ctx.lineTo(w, -hl); ctx.lineTo(w, hl * 0.3); ctx.quadraticCurveTo(w, hl * 0.85, 0, hl); ctx.closePath(); ctx.fillStyle = '#eef1f6'; ctx.fill();
+      ctx.restore();
+    } else {
+      ctx.globalAlpha = fa; ctx.fillStyle = p.life > 1.4 ? '#ffd36b' : '#ff7a3c';
+      ctx.beginPath(); ctx.arc(px, py, Math.max(1.5, p.size * cam.z), 0, Math.PI * 2); ctx.fill();
+    }
   }
   ctx.globalAlpha = 1;
+  if (v && !map && !paused) drawProgradeNear(v);
   if (v && !paused) drawDial(v);
 }
 
@@ -1503,7 +2008,7 @@ function updateHud() {
   const v = active();
   $('clock').textContent = clock(S.t) + (WARPS[warpIdx] > 1 ? '   ▶▶ ' + WARPS[warpIdx] + 'x' : '');
   $('hudL').classList.toggle('hidden', !v);
-  if (!v) { $('encounter').classList.add('hidden'); return; }
+  if (!v) { $('encounter').classList.add('hidden'); $('warn').className = 'hidden'; $('countdown').classList.add('hidden'); syncCtx(); return; }
   const b = BODIES[v.parent], r = Math.hypot(v.x, v.y);
   const h = r - b.R - (v.landed ? lengthOf(v) / 2 : lengthOf(v) / 2);
   const sp = Math.hypot(v.vx, v.vy), vs = (v.x * v.vx + v.y * v.vy) / r;
@@ -1515,17 +2020,34 @@ function updateHud() {
   if (v.landed) { $('hAp').textContent = '-'; $('hPe').textContent = '-'; }
   else {
     const o = vesselOrbit(v);
-    $('hAp').textContent = o.e >= 1 || o.ra > b.soi ? 'Escaping' : fmtDist(o.ra - b.R);
+    $('hAp').textContent = apText(v, o);
     $('hPe').textContent = o.rp < b.R ? 'Below surface' : fmtDist(o.rp - b.R);
   }
   $('hThr').style.width = (v.throttle * 100) + '%'; $('hThrT').textContent = Math.round(v.throttle * 100) + '%';
-  const ei = v.parts[0], st = engine(v);
-  $('hFuel').style.width = (v.fuel[ei] / st.fuel * 100) + '%';
-  $('hFuelL').textContent = 'Fuel' + (rk(v).stages.length > 1 ? ' (stage ' + (rk(v).stages.length - v.parts.length + 1) + ' of ' + rk(v).stages.length + ')' : '');
-  $('hFuelT').textContent = Math.round(v.fuel[ei] / st.fuel * 100) + '%';
+  const ei = v.parts[0], st = engine(v), fr = st.fuel ? v.fuel[ei] / st.fuel : 0;
+  $('hFuel').style.width = (fr * 100) + '%';
+  $('hFuelL').textContent = st.name ? (st.fuel ? 'Fuel (' + st.name.toLowerCase() + ')' : 'Capsule: no engine') : 'Fuel' + (rk(v).stages.length > 1 ? ' (stage ' + (rk(v).stages.length - v.parts.length + 1) + ' of ' + rk(v).stages.length + ')' : '');
+  $('hFuelT').textContent = st.fuel ? Math.round(fr * 100) + '%' : '-';
+  // air push (dynamic pressure) and heat, coloured by how close they are to the limit
+  const air = airOf(v), q = v.landed ? 0 : air.q, ql = qLimitOf(v), qf = isFinite(ql) ? q / ql : 0;
+  const hf = (v.heat || 0) / heatLimitOf(v), cls = f => f > 0.85 ? 'bad' : f > 0.6 ? 'hot' : 'ok';
+  $('hQ').textContent = (q / 1000).toFixed(1) + ' kPa' + (isFinite(ql) ? ' / ' + (ql / 1000).toFixed(0) : ''); $('hQ').className = cls(qf);
+  $('hHeat').textContent = Math.round(hf * 100) + '%' + (isCapsuleOnly(v) ? (shieldForward(v) ? ' (shield on)' : ' (shield off!)') : ''); $('hHeat').className = cls(hf);
+  $('hQH').textContent = (q < 9500 ? (q / 1000).toFixed(1) : Math.round(q / 1000)) + ' kPa · ' + Math.round(hf * 100) + '%'; $('hQH').className = cls(Math.max(qf, hf));
+  $('hKit').textContent = (rk(v).fairing ? (v.fairing ? 'on' : 'gone') : '-') + ' · ' + (v.chute ? { packed: 'packed', open: 'open', ripped: 'torn' }[v.chute] : '-');
+  const wn = $('warn');
+  const mob = MODE === 'mobile';
+  if (!v.landed && qf > 0.7) { wn.className = 'blink q'; wn.textContent = mob ? 'MAX-Q! Throttle down' : 'MAX-Q! Throttle down (' + (q / 1000).toFixed(1) + ' of ' + (ql / 1000).toFixed(0) + ' kPa)'; }
+  else if (!v.landed && hf > 0.7) { wn.className = 'blink heat'; wn.textContent = 'HEAT ' + Math.round(hf * 100) + '%! ' + (mob ? '' : (hasCapsule(v) && !isCapsuleOnly(v) ? 'Drop the upper stage' : isCapsuleOnly(v) && !shieldForward(v) ? 'Turn the shield forward' : 'Too steep / too fast')); }
+  else wn.className = 'hidden';
+  const cd = $('countdown');
+  if (v.countdown > 0) { cd.classList.remove('hidden'); cd.innerHTML = 'T-' + Math.ceil(v.countdown) + '<small>' + (v.countdown <= 3 ? 'Ignition! ' : '') + (MODE === 'mobile' ? 'Tap SKIP to launch now' : 'Press Enter to launch now') + '</small>'; }
+  else if (liftoffShow > 0) { cd.classList.remove('hidden'); cd.innerHTML = 'LIFTOFF!'; }
+  else cd.classList.add('hidden');
+  syncCtx();
   $('hDv').textContent = Math.round(deltaV(v)).toLocaleString() + ' m/s';
   const g = b.mu / (r * r);
-  $('hTwr').textContent = (st.thrust / (massOf(v) * g)).toFixed(2);
+  $('hTwr').textContent = (thrustNow(st, air.pf, 1) / (massOf(v) * g)).toFixed(2);
   $('hWarp').textContent = WARPS[warpIdx] + 'x';
   $('hSas').textContent = v.sas ? 'ON' : 'OFF';
   if (MODE === 'mobile') { $('tSas').classList.toggle('on', v.sas); $('tSasL').textContent = v.sas ? 'on' : 'off'; $('tStage').classList.toggle('dim', v.parts.length < 2); }
@@ -1539,30 +2061,38 @@ function updateHud() {
 // ---------- Loop ----------
 let last = performance.now(), saveTimer = 0;
 let portraitOk = false, rotShown = false;
+let testFreeze = false; // automated tests only: stop the clock while they step the game themselves
 document.getElementById('rotAnyway').addEventListener('click', () => { portraitOk = true; layoutDirty = true; });
 function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now;
   const portraitBlock = MODE === 'mobile' && !paused && H > W && !portraitOk;
   if (portraitBlock !== rotShown) { rotShown = portraitBlock; document.getElementById('rotHint').classList.toggle('hidden', !portraitBlock); if (portraitBlock) keysClear(); }
-  if (!paused && !portraitBlock) {
+  if (!paused && !portraitBlock && !testFreeze) {
     update(dt); updateTouchFrame(dt);
     saveTimer += dt; if (saveTimer > 1) { saveTimer = 0; save(); }
     encTimer -= dt; if (encTimer <= 0) { encTimer = 0.25; encounter = predictEncounter(active()); }
   }
   render();
+  if (testFreeze) updateTouchFrame(0);
   hudTimer -= dt; if (hudTimer <= 0) { hudTimer = 0.1; updateHud(); }
   if (engineGain) {
     const v = active();
     const on = v && !paused && S.sound && hasThrust(v) && WARPS[warpIdx] <= 4;
-    let vol = on ? 0.05 + 0.25 * v.throttle * Math.min(1, engine(v).thrust / 300000 + 0.4) : 0;
+    // the engine "spools up": sound builds over a couple of seconds after ignition
+    spool = on ? Math.min(1, spool + dt * 0.45) : Math.max(0, spool - dt * 1.5);
+    let vol = on ? (0.05 + 0.25 * v.throttle * Math.min(1, engine(v).thrust / 300000 + 0.4)) * spool : 0;
     if (on && v.parent === 'terra') { const hh = Math.hypot(v.x, v.y) - BODIES.terra.R; vol *= Math.max(0.15, 1 - hh / 70000); } else if (on) vol *= 0.15;
     engineGain.gain.setTargetAtTime(vol, AC.currentTime, 0.05);
+    engineLp.frequency.setTargetAtTime(250 + 900 * spool, AC.currentTime, 0.1);
+    rumbleGain.gain.setTargetAtTime(vol * 0.5 * spool, AC.currentTime, 0.1);
   }
   requestAnimationFrame(frame);
 }
 
 // expose for testing
-window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold };
+window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, skipCountdown, dropFairing, deployChute, isOcean, airOf, qOf, qLimitOf, heatLimitOf, shieldForward, isCapsuleOnly, hasCapsule, massOf, lengthOf, widthOf, thrustNow, crashLimitOf, particles, openSelect, openStation, ctxState,
+  updateHud, get dialPos() { if (layoutDirty) layoutTouch(); return dialPos; }, get liftoffShow() { return liftoffShow; }, WARPS, get testFreeze() { return testFreeze; }, set testFreeze(x) { testFreeze = !!x; },
+  K: { CHUTE_MAX, CHUTE_MIN_RHO, HEAT_BODY, HEAT_SHIELD, HEAT_CAPSULE_BARE, FAIRING_WARN_Q, FAIRING_HIT_Q, COUNTDOWN, LAND }, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold };
 
 load();
 openModeChoice('title'); // ask PC or Mobile every time the game opens

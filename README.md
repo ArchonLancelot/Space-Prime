@@ -8,7 +8,7 @@ Click the link above and play in a browser on your PC or your phone. No download
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.2.0 (phone support)
+## Current version: v0.3.0 (the Kestrel: real launches and coming home)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -16,30 +16,44 @@ Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` fi
 
 Every time you open the game it asks **PC** or **Mobile** first. It asks every time on purpose (it doesn't remember), so the same link works on both.
 
-- **PC**: keyboard and mouse, exactly like before.
+- **PC**: keyboard and mouse.
 - **Mobile**: big touch buttons on the screen, sized for thumbs.
 - Picked the wrong one? Change it any time from the menu (**Controls: ...**) or the title screen. Your flight is not affected.
 
-### Your world is always saved
+### Your rocket: the Kestrel
 
-- Everything saves by itself every second, and when you close the tab: every ship, where it is, how fast it's going, its fuel, dropped boosters, landers left on Luna, milestones, records, the world clock, and your zoom/map view.
-- A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
-- The world clock only moves while you play, so nothing happens to your ships while the game is closed.
-- The save lives in the browser on the device you play on. Your phone and your PC each have their own world for now (sharing one world between them is planned). To keep it extra safe, or to move it to another device, open the menu (`Esc` on PC, **☰ Menu** on a phone) and use **Download a backup of my save**, and **Load a backup file** to bring it back.
-- Saves from v0.1.0 still load in v0.2.0; nothing about the save changed.
-- Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
+There is now one rocket, and it can do everything:
+
+| Part | What it does |
+|---|---|
+| **Booster** (bottom) | The big, heavy first stage. Lifts you out of the thick air. 377 kN of push on the ground, 420 kN once the air is thin. |
+| **Upper stage** (middle) | Light and efficient (50 kN in space). Has landing legs. Finishes getting you to orbit, flies you to Luna and lands there, or slows you down to come home. |
+| **Crew capsule** (top) | No engine. Has a **heat shield** on its bottom and a **parachute** on top. This is what comes home to Terra. |
+| **Fairing** (nose cone) | A pointed cover over the capsule for the climb through the air. 300 kg of extra weight once you're up high, so drop it. |
+
+Numbers: 27.1 t on the pad, thrust/weight 1.42 at launch, about 6,575 m/s of Δv in total. Air push limit (max-Q) 40 kPa. Safe touchdown: 8 m/s on the legs, 9 m/s for the capsule on land, 14 m/s in the ocean. Parachute: open below 250 m/s.
+
+What a good pilot can do with it:
+1. **Reach orbit** around Terra with about 3,000 m/s of Δv to spare.
+2. **Fly to Luna and land** on the upper stage's legs (with the capsule on top). Coming back from Luna's surface is not possible with this rocket.
+3. **Come home from orbit**: drop back into the air, survive the heat, open the parachute and land (or splash down). That earns **Round Trip**.
+
+Sparrow, Heron and Mule are **retired**: you can't launch them any more. Any that were already flying in your saved world are still there: they show up in the Tracking Station and you can still fly them.
 
 ### PC controls
 
 | Key | What it does |
 |---|---|
+| `Enter` | **New:** skip the countdown and launch now |
 | `W` / `S` (hold) | Throttle up / down (`Shift` also throttles up) |
 | `Z` / `X` | Full throttle / cut engine |
 | `A` / `D` or arrow keys | Turn left / right |
+| `Space` | Drop the bottom stage (first the booster, later the upper stage) |
+| `F` | **New:** drop the fairing |
+| `P` | **New:** open the parachute |
 | `T` | SAS on/off (when on, the rocket stops spinning by itself) |
-| `Space` | Drop the bottom stage |
 | `M` | Map view (drag to move, `C` to recentre) |
-| `,` / `.` | Slow down / speed up time (limited when low, in the air, or burning) |
+| `,` / `.` | Slow down / speed up time (limited when low, in the air, burning, or counting down) |
 | Mouse wheel | Zoom |
 | `H` | Help |
 | `Esc` | Menu: Tracking Station, new rocket, restart flight, sound, backups |
@@ -50,52 +64,67 @@ Hold your phone sideways (landscape). If you hold it upright, the game pauses an
 
 | Button | Where | What it does |
 |---|---|---|
+| **Action button** (green) | bottom left, next to the turn buttons (above them in portrait) | **New.** Changes with the moment: **SKIP** on the pad (launch now), then **FAIRING** in flight (drop the nose cover), then **CHUTE** when the capsule is coming home (open the parachute). It turns **orange** when it isn't safe yet ("air thick", "too fast", "no air"). |
 | **Throttle slider** | right side | Drag up for more power, down for less |
 | **FULL** / **CUT** | above / below the slider | Full power / engine off |
 | **⟲** / **⟳** (hold) | bottom left | Turn left / right. You can hold one with your left thumb while dragging the throttle with your right |
-| **STAGE** | bottom, next to the slider | Drop the bottom stage (Heron's booster) |
-| **SAS** | right edge | On/off (green = on: the rocket stops spinning by itself) |
+| **STAGE** | bottom, next to the slider | Drop the bottom stage (booster first, then the upper stage) |
+| **SAS** | right edge | On/off (green = on) |
 | **Map** | right edge | Map view. Drag with one finger to move around, **Centre** to snap back |
-| **Warp +** / **Warp −** | right edge | Speed up / slow down time (same limits as on PC) |
+| **Warp +** / **Warp −** | right edge | Speed up / slow down time |
 | **Pinch**, or **+** / **−** (hold) | anywhere / next to STAGE | Zoom in / out |
 | **☰ Menu** | top right | Pause: Tracking Station, new rocket, restart, sound, backups, switch to PC controls |
 
-Everything else (picking a rocket, Tracking Station, backups, help) is plain tapping, no keyboard needed. The page won't scroll, zoom or pop up menus while you fly, and the buttons stay clear of the notch.
+All buttons are at least 48 px and don't overlap (checked on iPhone 13, iPhone SE, Pixel 7, landscape and portrait).
 
-### Rockets
+### What's new in the flying (in plain words)
 
-| Rocket | Feel | Stages | Δv | Safe landing |
-|---|---|---|---|---|
-| **Sparrow** | Nimble trainer. Turns fast, fuel is tight; a careful pilot just reaches orbit. | 1 | 4,315 m/s | 6 m/s |
-| **Heron** | Moon lander. Booster gets you out of the air, the light upper stage goes to Luna and back. | 2 | 7,915 m/s | 8 m/s |
-| **Mule** | Heavy hauler. Slow to turn, big tank, tough legs; can reach Luna one-way. | 1 | 5,769 m/s | 12 m/s |
-
-### The worlds
-
-- **Terra**, home planet: 600 km radius, air up to 70 km (air slows you down). Launch pad on top.
-- **Luna**, the moon: 200 km radius, no air, orbits Terra at 12,000 km once every ~38.6 hours.
-
-### What you see while flying
-
-- Left panel: altitude, vertical speed, speed, apoapsis/periapsis (highest/lowest points of your orbit), throttle, fuel for the current stage, Δv left, thrust-to-weight, time warp, SAS.
-- Bottom dial: yellow line = where the rocket points, green circle = direction you're moving (prograde), red X = backwards (retrograde), top = straight up.
-- Map: your orbit in blue with Ap/Pe markers, Luna's path and sphere of influence, other ships, and a purple **Luna encounter** marker plus a box telling you when you'll arrive and how close you'll pass.
-- Crash or land: crashes explode and offer a quick relaunch; landing on Luna (or making it home from Luna) gets a celebration screen.
-
-### Milestones
-
-First Launch · Reach Space · Orbit Terra · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records, and every ship in the **Tracking Station** (`Esc` menu), where you can switch to any ship, or recover/delete it.
+- **Countdown.** A new rocket waits on the pad for 10 seconds with beeps. At T-3 the engines light (the sound builds up) while clamps on the tower hold the rocket down. At zero the clamps swing away and you lift off. `Enter` / **SKIP** launches straight away.
+- **The sky changes.** Blue near the ground, darker as you climb, black with stars in space.
+- **The flame changes.** Down low it's a tight, bright flame (thick air squeezes it). Up high it spreads out wide and soft.
+- **Engines get stronger as you climb.** Thick air pushes back on the engine's exhaust, so engines are a bit weaker on the ground and at full strength in space.
+- **Max-Q (air push).** Going fast in thick air pushes hard on the rocket. The left panel shows it as **Air push** in kPa. Above 70% of the limit a red **MAX-Q** warning flashes: throttle down a little or turn over more gently. Above 40 kPa the rocket breaks apart. A normal climb stays around 18 kPa.
+- **Heavy rockets turn slowly.** The engines swivel a little to steer, so a full, heavy rocket turns slowly and a light upper stage turns faster. With the engines off only a small spinning wheel inside can turn you, which is very slow on a big rocket.
+- **Live Ap / Pe.** Your apoapsis (highest point) and periapsis (lowest point) are shown all the time, also right above the dial. A green **prograde** marker floats next to your rocket, showing which way you're actually moving.
+- **Staging.** Dropping a stage gives a small push that sends the two parts apart, with a puff of smoke.
+- **Fairing.** Keeping it on means extra weight and a wider nose (more drag). Drop it once you're above about 45 km. Try it in thick air and the game warns you first; do it anyway in really thick air and the halves knock the rocket into a spin.
+- **Coming home.** Hitting the air at orbital speed heats the ship and it glows. The **Heat** reading shows how close you are to the limit. Only the capsule has a heat shield, so drop the upper stage first, and keep the shield (the capsule's bottom) facing the way you're moving. The capsule tends to swing that way by itself in the air. Come in too steep or too fast and it burns up. A periapsis of about 25–35 km is a gentle way down.
+- **Parachute.** Only works in the air and below 250 m/s. Open it faster than that and it tears off (one chute, no spare). Under the parachute the capsule comes down at about 6.5 m/s.
+- **Land or ocean.** Terra now has continents and oceans. Landing on land and splashing down in the ocean both count.
 
 ### How to reach orbit
 
-Full throttle straight up. Around 10 km start leaning toward the side; by about 40 km point almost sideways. Burn until Apoapsis is above 80 km, cut the engine, warp to the apoapsis, then burn sideways again until Periapsis is above 70 km.
+Full throttle straight up (skip the countdown or wait for it). Around 2 km start leaning **left**, gently: a full rocket turns slowly. Left is the way Luna goes round Terra, which makes a Luna trip cheaper later. Aim for about 40° over at 10 km and 70° at 30 km. Keep an eye on the **Air push** reading. When the booster runs dry, drop it. Above about 45 km drop the fairing. Keep burning, nearly sideways, until **Periapsis** is above 70 km (cut the engine for a while if Apoapsis climbs well past 80 km while you're still low).
 
 ### How to reach Luna
 
-From orbit, open the map. When Luna is a bit more than a quarter turn ahead of you, burn prograde (green marker) until the purple Luna encounter box shows up. Near Luna, burn retrograde (red X) to slow down, then land upright and slowly.
+From orbit, open the map. When Luna is a bit more than a quarter turn ahead of you, burn prograde (green marker) until the purple Luna encounter box shows up. Near Luna, burn retrograde (red X) to slow down, then land upright on the legs, slower than 8 m/s. No air there, so no parachute.
+
+### How to come home (Round Trip)
+
+From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 km. Drop the upper stage. Keep the heat shield forward while the capsule glows. When you're below 250 m/s, open the parachute. Touch down, or splash down, and you've earned **Round Trip**.
+
+### Your world is always saved
+
+- Everything saves by itself every second, and when you close the tab: every ship, where it is, how fast it's going, its fuel, dropped boosters, landers left on Luna, milestones, records, the world clock, and your zoom/map view.
+- A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
+- The world clock only moves while you play.
+- The save lives in the browser on the device you play on. To keep it extra safe, or to move it to another device, use **Download a backup of my save** in the menu, and **Load a backup file** to bring it back.
+- Saves from v0.1.0 and v0.2.0 still load in v0.3.0: the old Sparrows, Herons and Mules keep flying; milestones and records stay. v0.3.0 only adds new information to the save, it doesn't change the old parts.
+- Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
+
+### The worlds
+
+- **Terra**, home planet: 600 km radius, air up to 70 km, continents and oceans. Launch pad on top.
+- **Luna**, the moon: 200 km radius, no air, orbits Terra at 12,000 km once every ~38.6 hours.
+
+### Milestones
+
+First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
 
+- **v0.3.0**: One rocket, the **Kestrel**: booster, upper stage with legs, crew capsule with heat shield and parachute, and a nose fairing. Sparrow/Heron/Mule retired (old ones still load and fly). Launch countdown with clamps and engine sound that builds up (skippable). Sky fades from blue to black; the flame is tight low down and wide in space. Engines are weaker in thick air. Max-Q readout, warning and breakup. Heavy rockets turn slowly (engine steering plus a small reaction wheel). Live Ap/Pe above the dial and a prograde marker next to the rocket. Stages push apart with a smoke puff. Fairing drop (warned in thick air). Reentry heating and glow, burn-up if too steep, heat shield. Parachute (tears if opened too fast). Land or splash down on Terra's new continents and oceans. New milestone **Round Trip**. New keys `Enter`, `F`, `P`; new Mobile action button (SKIP / FAIRING / CHUTE). Help screens updated for both. Saves from v0.1.0 and v0.2.0 still load.
 - **v0.2.0**: Plays on phones. A PC or Mobile choice every time the game opens (also switchable from the menu). Mobile mode has on-screen buttons: throttle slider with FULL/CUT, hold-to-turn buttons, STAGE, SAS, Map, time warp, zoom (pinch or buttons) and Menu, and several fingers work at once. Bigger, tidier menus on small screens, a "turn your phone sideways" hint, notch-safe layout, and a lighter graphics setting on phones for smooth play. PC mode plays exactly as before, and v0.1.0 saves still load.
 - **v0.1.0**: First playable. Three rockets, Terra and Luna, real orbits (patched conics, exact on-rails orbits during time warp), air drag, staging, landing/crash rules, map with orbit and encounter prediction, time warp, Tracking Station, milestones, records, sound, and a fully persistent auto-saved world with backup download/upload.
 
