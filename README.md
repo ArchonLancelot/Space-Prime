@@ -8,7 +8,7 @@ Click the link above and play in a browser on your PC or your phone. No download
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.3.0 (the Kestrel: real launches and coming home)
+## Current version: v0.3.1 (bug fixes: the edge of Terra's pull, and a countdown you start yourself)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -44,7 +44,7 @@ Sparrow, Heron and Mule are **retired**: you can't launch them any more. Any tha
 
 | Key | What it does |
 |---|---|
-| `Enter` | **New:** skip the countdown and launch now |
+| `Enter` | On the pad: **start the countdown**. Press it again during the countdown to launch straight away |
 | `W` / `S` (hold) | Throttle up / down (`Shift` also throttles up) |
 | `Z` / `X` | Full throttle / cut engine |
 | `A` / `D` or arrow keys | Turn left / right |
@@ -52,8 +52,8 @@ Sparrow, Heron and Mule are **retired**: you can't launch them any more. Any tha
 | `F` | **New:** drop the fairing |
 | `P` | **New:** open the parachute |
 | `T` | SAS on/off (when on, the rocket stops spinning by itself) |
-| `M` | Map view (drag to move, `C` to recentre) |
-| `,` / `.` | Slow down / speed up time (limited when low, in the air, burning, or counting down) |
+| `M` | Map view (drag to move, `C` to recentre; if your ship is far away, `C` also zooms out to show it) |
+| `,` / `.` | Slow down / speed up time (limited when low, in the air, burning, or counting down; you can warp while the rocket waits on the pad) |
 | Mouse wheel | Zoom |
 | `H` | Help |
 | `Esc` | Menu: Tracking Station, new rocket, restart flight, sound, backups |
@@ -64,13 +64,13 @@ Hold your phone sideways (landscape). If you hold it upright, the game pauses an
 
 | Button | Where | What it does |
 |---|---|---|
-| **Action button** (green) | bottom left, next to the turn buttons (above them in portrait) | **New.** Changes with the moment: **SKIP** on the pad (launch now), then **FAIRING** in flight (drop the nose cover), then **CHUTE** when the capsule is coming home (open the parachute). It turns **orange** when it isn't safe yet ("air thick", "too fast", "no air"). |
+| **Action button** (green) | bottom left, next to the turn buttons (above them in portrait) | **New.** Changes with the moment: **START** on the pad (starts the countdown), then **SKIP** during the countdown (launch now), then **FAIRING** in flight (drop the nose cover), then **CHUTE** when the capsule is coming home (open the parachute). It turns **orange** when it isn't safe yet ("air thick", "too fast", "no air"). |
 | **Throttle slider** | right side | Drag up for more power, down for less |
 | **FULL** / **CUT** | above / below the slider | Full power / engine off |
 | **⟲** / **⟳** (hold) | bottom left | Turn left / right. You can hold one with your left thumb while dragging the throttle with your right |
 | **STAGE** | bottom, next to the slider | Drop the bottom stage (booster first, then the upper stage) |
 | **SAS** | right edge | On/off (green = on) |
-| **Map** | right edge | Map view. Drag with one finger to move around, **Centre** to snap back |
+| **Map** | right edge | Map view. Drag with one finger to move around, **Centre** to snap back (and zoom out to a far-away ship) |
 | **Warp +** / **Warp −** | right edge | Speed up / slow down time |
 | **Pinch**, or **+** / **−** (hold) | anywhere / next to STAGE | Zoom in / out |
 | **☰ Menu** | top right | Pause: Tracking Station, new rocket, restart, sound, backups, switch to PC controls |
@@ -79,7 +79,7 @@ All buttons are at least 48 px and don't overlap (checked on iPhone 13, iPhone S
 
 ### What's new in the flying (in plain words)
 
-- **Countdown.** A new rocket waits on the pad for 10 seconds with beeps. At T-3 the engines light (the sound builds up) while clamps on the tower hold the rocket down. At zero the clamps swing away and you lift off. `Enter` / **SKIP** launches straight away.
+- **Countdown.** A new rocket waits on the pad with the clock holding at **T-10 HOLD**. Nothing happens until you press `Enter` (PC) or tap **START** (Mobile). Then the 10-second countdown runs with beeps. At T-3 the engines light (the sound builds up) while clamps on the tower hold the rocket down. At zero the clamps swing away and you lift off. During the countdown, `Enter` again / **SKIP** launches straight away.
 - **The sky changes.** Blue near the ground, darker as you climb, black with stars in space.
 - **The flame changes.** Down low it's a tight, bright flame (thick air squeezes it). Up high it spreads out wide and soft.
 - **Engines get stronger as you climb.** Thick air pushes back on the engine's exhaust, so engines are a bit weaker on the ground and at full strength in space.
@@ -94,7 +94,7 @@ All buttons are at least 48 px and don't overlap (checked on iPhone 13, iPhone S
 
 ### How to reach orbit
 
-Full throttle straight up (skip the countdown or wait for it). Around 2 km start leaning **left**, gently: a full rocket turns slowly. Left is the way Luna goes round Terra, which makes a Luna trip cheaper later. Aim for about 40° over at 10 km and 70° at 30 km. Keep an eye on the **Air push** reading. When the booster runs dry, drop it. Above about 45 km drop the fairing. Keep burning, nearly sideways, until **Periapsis** is above 70 km (cut the engine for a while if Apoapsis climbs well past 80 km while you're still low).
+Press `Enter` / tap **START** to start the countdown (press `Enter` again / tap **SKIP** to go straight away). Full throttle straight up. Around 2 km start leaning **left**, gently: a full rocket turns slowly. Left is the way Luna goes round Terra, which makes a Luna trip cheaper later. Aim for about 40° over at 10 km and 70° at 30 km. Keep an eye on the **Air push** reading. When the booster runs dry, drop it. Above about 45 km drop the fairing. Keep burning, nearly sideways, until **Periapsis** is above 70 km (cut the engine for a while if Apoapsis climbs well past 80 km while you're still low).
 
 ### How to reach Luna
 
@@ -104,18 +104,27 @@ From orbit, open the map. When Luna is a bit more than a quarter turn ahead of y
 
 From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 km. Drop the upper stage. Keep the heat shield forward while the capsule glows. When you're below 250 m/s, open the parachute. Touch down, or splash down, and you've earned **Round Trip**.
 
+### The edge of Terra's pull (deep space)
+
+- Terra's pull reaches **84,000 km** out. On the map this is the dashed yellow circle, labelled **Edge of Terra's pull**.
+- If you go faster than escape speed, **Apoapsis** says **Escaping** and the map marks the spot where you'll leave ("Leaves Terra's pull").
+- Past the edge you're in **deep space**: nothing pulls on you, so the ship coasts in a straight line. Altitude keeps counting up in km, then in million km. Apoapsis and Periapsis both say **Escaping** while you drift away.
+- You can still fly: turn round and burn towards Terra. The status changes to "Deep space, coming back", and once you're back inside the circle Terra's pull takes over again.
+- In the map, if your ship is off the screen, an arrow at the edge points to it with its distance. `C` / **Centre** zooms out to show it.
+- Time warp works normally out there, and saving/reloading keeps the ship exactly where it was.
+
 ### Your world is always saved
 
 - Everything saves by itself every second, and when you close the tab: every ship, where it is, how fast it's going, its fuel, dropped boosters, landers left on Luna, milestones, records, the world clock, and your zoom/map view.
 - A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
 - The world clock only moves while you play.
 - The save lives in the browser on the device you play on. To keep it extra safe, or to move it to another device, use **Download a backup of my save** in the menu, and **Load a backup file** to bring it back.
-- Saves from v0.1.0 and v0.2.0 still load in v0.3.0: the old Sparrows, Herons and Mules keep flying; milestones and records stay. v0.3.0 only adds new information to the save, it doesn't change the old parts.
+- Saves from v0.1.0, v0.2.0 and v0.3.0 still load in v0.3.1: the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
 - Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
 
 ### The worlds
 
-- **Terra**, home planet: 600 km radius, air up to 70 km, continents and oceans. Launch pad on top.
+- **Terra**, home planet: 600 km radius, air up to 70 km, continents and oceans. Launch pad on top. Its pull reaches 84,000 km out; past that is deep space.
 - **Luna**, the moon: 200 km radius, no air, orbits Terra at 12,000 km once every ~38.6 hours.
 
 ### Milestones
@@ -124,6 +133,11 @@ First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna
 
 ### Changelog
 
+- **v0.3.1** (bug fixes):
+  - **Flying far away no longer breaks the game.** Before, if you flew fast enough to escape Terra, the ship could suddenly jump off the map and Altitude / Periapsis showed a giant frozen number (like 22,152,993,979,...). The cause: the maths that moves ships along their path during time warp made a bad first guess on escape paths and never checked its answer, so it could throw the ship to an impossible distance. Now every answer is checked and redone in smaller steps if it's wrong, so the numbers are always real and keep updating.
+  - **Terra's pull now has an edge** at 84,000 km, drawn on the map. Past it is **deep space**, where the ship coasts in a straight line and can burn back home (see "The edge of Terra's pull" above). Apoapsis/Periapsis show **Escaping**, distances show in km and million km, and the map can zoom out far enough to follow you, with an arrow pointing to your ship when it's off screen.
+  - A ship that an older version had already thrown impossibly far is put back at the edge of Terra's pull when your save loads (you'll see a message). The "highest above Terra" record is fixed too.
+  - **The countdown no longer starts by itself.** After picking the Kestrel, the clock holds at **T-10 HOLD**. Press `Enter` (PC) or tap **START** (Mobile) to start it. During the countdown, `Enter` / **SKIP** still launches straight away. You can time-warp while waiting on the pad (handy for waiting for Luna). Help screens, hints and this README now all say the same thing.
 - **v0.3.0**: One rocket, the **Kestrel**: booster, upper stage with legs, crew capsule with heat shield and parachute, and a nose fairing. Sparrow/Heron/Mule retired (old ones still load and fly). Launch countdown with clamps and engine sound that builds up (skippable). Sky fades from blue to black; the flame is tight low down and wide in space. Engines are weaker in thick air. Max-Q readout, warning and breakup. Heavy rockets turn slowly (engine steering plus a small reaction wheel). Live Ap/Pe above the dial and a prograde marker next to the rocket. Stages push apart with a smoke puff. Fairing drop (warned in thick air). Reentry heating and glow, burn-up if too steep, heat shield. Parachute (tears if opened too fast). Land or splash down on Terra's new continents and oceans. New milestone **Round Trip**. New keys `Enter`, `F`, `P`; new Mobile action button (SKIP / FAIRING / CHUTE). Help screens updated for both. Saves from v0.1.0 and v0.2.0 still load.
 - **v0.2.0**: Plays on phones. A PC or Mobile choice every time the game opens (also switchable from the menu). Mobile mode has on-screen buttons: throttle slider with FULL/CUT, hold-to-turn buttons, STAGE, SAS, Map, time warp, zoom (pinch or buttons) and Menu, and several fingers work at once. Bigger, tidier menus on small screens, a "turn your phone sideways" hint, notch-safe layout, and a lighter graphics setting on phones for smooth play. PC mode plays exactly as before, and v0.1.0 saves still load.
 - **v0.1.0**: First playable. Three rockets, Terra and Luna, real orbits (patched conics, exact on-rails orbits during time warp), air drag, staging, landing/crash rules, map with orbit and encounter prediction, time warp, Tracking Station, milestones, records, sound, and a fully persistent auto-saved world with backup download/upload.

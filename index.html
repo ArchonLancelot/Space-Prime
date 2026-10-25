@@ -173,6 +173,7 @@
   #hudL .row b.ok { color: #9ff0b4; } #hudL .row b.hot { color: #ffb36b; } #hudL .row b.bad { color: #ff7a7a; }
   #countdown { position: fixed; top: 31%; left: 50%; transform: translateX(-50%); font-size: 64px; font-weight: 800; letter-spacing: 3px; color: #ffe27a;
     text-shadow: 0 2px 14px rgba(0,0,0,0.75); pointer-events: none; text-align: center; white-space: nowrap; }
+  #countdown .holdTag { font-size: 0.42em; letter-spacing: 2px; vertical-align: middle; color: #9fb4e8; }
   #countdown small { display: block; font-size: 14px; font-weight: 600; letter-spacing: 0; color: #e8eefc; }
   #warn { position: fixed; bottom: 176px; left: 50%; transform: translateX(-50%); padding: 8px 16px; font-size: 16px; font-weight: 800; border-radius: 8px; pointer-events: none; text-align: center; color: #fff; }
   #warn.q { background: rgba(160, 30, 30, 0.88); border: 1px solid #ff7a7a; }
@@ -227,7 +228,7 @@
   <div id="hudR" class="panel">
     <kbd>W</kbd>/<kbd>S</kbd> throttle &nbsp;<kbd>Z</kbd> full <kbd>X</kbd> cut<br>
     <kbd>A</kbd>/<kbd>D</kbd> turn &nbsp;<kbd>T</kbd> SAS<br>
-    <kbd>Space</kbd> drop stage &nbsp;<kbd>Enter</kbd> skip countdown<br>
+    <kbd>Space</kbd> drop stage &nbsp;<kbd>Enter</kbd> start countdown / go now<br>
     <kbd>F</kbd> drop fairing &nbsp;<kbd>P</kbd> parachute<br>
     <kbd>M</kbd> map &nbsp;<kbd>,</kbd>/<kbd>.</kbd> time warp<br>
     Mouse wheel: zoom<br>
@@ -259,7 +260,7 @@
     </div>
     <button class="tb" id="tLeft" data-t="left" data-hold="1" aria-label="Turn left">&#10226;</button>
     <button class="tb" id="tRight" data-t="right" data-hold="1" aria-label="Turn right">&#10227;</button>
-    <button class="tb off" id="tCtx" data-t="ctx"><b id="tCtxB">SKIP</b><small id="tCtxS">countdown</small></button>
+    <button class="tb off" id="tCtx" data-t="ctx"><b id="tCtxB">START</b><small id="tCtxS">countdown</small></button>
   </div>
 </div>
 
@@ -347,7 +348,7 @@
     <table class="mobile-only">
       <tr><td><b>Throttle slider</b> (right)</td><td>Drag up for more power, down for less. <b>FULL</b> / <b>CUT</b> jump to 100% / 0%.</td></tr>
       <tr><td><b>&#10226; / &#10227;</b> (bottom left)</td><td>Hold to turn left / right. You can hold one while dragging the throttle.</td></tr>
-      <tr><td><b>Green action button</b> (next to the turn buttons)</td><td>Changes with the moment: <b>SKIP</b> the countdown on the pad, drop the <b>FAIRING</b> once you're out of the thick air, then open the <b>CHUTE</b> (parachute) when you're coming home slowly. Orange = not safe right now.</td></tr>
+      <tr><td><b>Green action button</b> (next to the turn buttons)</td><td>Changes with the moment: <b>START</b> the countdown on the pad (then <b>SKIP</b> to launch straight away), drop the <b>FAIRING</b> once you're out of the thick air, then open the <b>CHUTE</b> (parachute) when you're coming home slowly. Orange = not safe right now.</td></tr>
       <tr><td><b>SAS</b></td><td>On/off. When on, the rocket stops spinning by itself.</td></tr>
       <tr><td><b>STAGE</b></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule).</td></tr>
       <tr><td><b>Map</b></td><td>Map view. Drag with one finger to move around, <b>Centre</b> to recentre.</td></tr>
@@ -359,7 +360,7 @@
       <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Throttle up / down (hold)</td></tr>
       <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Full throttle / cut engine</td></tr>
       <tr><td><kbd>A</kbd> / <kbd>D</kbd> (or arrows)</td><td>Turn left / right</td></tr>
-      <tr><td><kbd>Enter</kbd></td><td>Skip the countdown and launch now</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>On the pad: start the countdown. Press it again during the countdown to launch now</td></tr>
       <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule)</td></tr>
       <tr><td><kbd>F</kbd></td><td>Drop the fairing (the nose cover over the capsule)</td></tr>
       <tr><td><kbd>P</kbd></td><td>Open the parachute (only below 250 m/s, or it tears)</td></tr>
@@ -370,8 +371,8 @@
       <tr><td><kbd>Esc</kbd></td><td>Menu: tracking station, new rocket, restart, backups</td></tr>
     </table>
     <h3>Launching</h3>
-    Your Kestrel waits on the pad while a 10-second countdown runs. The engines light at T-3 and the clamps let go at zero.
-    In a hurry? <span class="pc-only">Press <kbd>Enter</kbd></span><span class="mobile-only">Tap <b>SKIP</b></span> to launch straight away.
+    Your Kestrel waits on the pad with the clock holding at T-10. Nothing happens until you <span class="pc-only">press <kbd>Enter</kbd></span><span class="mobile-only">tap <b>START</b></span>: that starts the 10-second countdown. The engines light at T-3 and the clamps let go at zero.
+    In a hurry? During the countdown <span class="pc-only">press <kbd>Enter</kbd> again</span><span class="mobile-only">tap <b>SKIP</b></span> to launch straight away.
     The sky turns from blue to black as you climb, and the engine flame spreads out wide once there's no air around it.
     Engines are a bit weaker down in the thick air and get stronger as the air thins.
     <h3>Getting to orbit</h3>
@@ -393,6 +394,10 @@
     It glows as it hits the air. Come in too steep or too fast and the <b>Heat</b> reading climbs past 100% and the capsule burns up.
     Once you've slowed below 250 m/s, open the parachute (<span class="pc-only"><kbd>P</kbd></span><span class="mobile-only"><b>CHUTE</b></span>); faster than that and it tears.
     Touch down under 9 m/s on land or 14 m/s in the ocean. Launch, orbit and come home safely to earn <b>Round Trip</b>.
+    <h3>The edge of Terra's pull</h3>
+    Terra's pull reaches out 84,000 km (the dashed yellow circle on the map). Go faster than escape speed and your Apoapsis says <b>Escaping</b>; the map marks where you'll leave.
+    Past the edge you're in <b>deep space</b>: nothing pulls on you, so you coast in a straight line and the distance keeps counting up (in km, then million km).
+    To come back, turn round and burn towards Terra; once you're back inside the circle Terra's pull takes over again. In the map, an arrow at the screen edge points to a ship that's far away (<span class="pc-only"><kbd>C</kbd></span><span class="mobile-only"><b>Centre</b></span> zooms out to it).
     <div style="margin-top:16px"><button data-act="back">Got it</button></div>
   </div>
 </div>
@@ -413,13 +418,15 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.3.0';
+const VERSION = '0.3.1';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
 // ---------- World ----------
 const BODIES = {
-  terra: { id: 'terra', name: 'Terra', R: 600000, mu: 3.5316e12, atmo: 70000, rho0: 1.2, H: 5600, soi: Infinity,
+  // v0.3.1: Terra's pull now has an edge (its sphere of influence, 84,000 km out, drawn on the map). Past it a ship is in
+  // "deep space": Terra's pull is ignored there, so the ship coasts in a straight line until it burns back inside.
+  terra: { id: 'terra', name: 'Terra', R: 600000, mu: 3.5316e12, atmo: 70000, rho0: 1.2, H: 5600, soi: 84000000,
            land: '#3e8e4e', deep: '#24563a', sea: '#2f6fd0', parent: null },
   luna:  { id: 'luna', name: 'Luna', R: 200000, mu: 6.5138e10, atmo: 0, soi: 2429559, orbitR: 12000000,
            land: '#a9a9a9', deep: '#6f6f6f', parent: 'terra', phase0: 1.9 }
@@ -493,6 +500,7 @@ function freshState() {
 }
 let S = freshState();
 let warpIdx = 0;
+const MAP_ZMIN = 1e-10; // v0.3.1: the map can zoom out far enough to follow a ship billions of km away
 let paused = true;
 
 // ---------- Vessel helpers ----------
@@ -576,19 +584,23 @@ function orbitOf(x, y, vx, vy, mu) {
   return { e, a, p, w, rp, ra, h };
 }
 function vesselOrbit(v) { return orbitOf(v.x, v.y, v.vx, v.vy, BODIES[v.parent].mu); }
+// past the edge of Terra's sphere of influence: "deep space", where Terra's pull is ignored
+function isDeep(v, r = Math.hypot(v.x, v.y)) { return v.parent === 'terra' && !v.landed && r > BODIES.terra.soi; }
 
 function statusOf(v) {
   const b = BODIES[v.parent];
   if (v.landed) {
+    if (v.countdown > 0 && v.hold) return 'Holding at T-' + Math.ceil(v.countdown);
     if (v.countdown > 0) return 'Countdown T-' + Math.ceil(v.countdown);
     if (v.parent === 'terra' && Math.abs(angDiff(v.theta, PAD_THETA)) < 60 / b.R) return 'On the launch pad';
     return v.splashed ? "Splashed down in Terra's ocean" : 'Landed on ' + b.name;
   }
   const o = vesselOrbit(v), h = Math.hypot(v.x, v.y) - b.R;
+  if (isDeep(v)) return (v.x * v.vx + v.y * v.vy) > 0 ? 'Deep space, drifting away' : 'Deep space, coming back';
   if (o.rp < b.R) return 'Suborbital flight, ' + b.name;
   if (b.atmo && h < b.atmo) return 'Flying in ' + b.name + "'s air";
   if (o.e < 1 && o.ra < b.soi) return (b.atmo && o.rp < b.R + b.atmo) ? 'Orbit dips into the air' : 'Orbiting ' + b.name;
-  return v.parent === 'terra' ? 'Heading out from Terra' : 'Passing Luna';
+  return v.parent === 'terra' ? "Escaping Terra's pull" : 'Passing Luna';
 }
 
 // ---------- Formatting ----------
@@ -597,9 +609,12 @@ function fmtDist(m) {
   const s = m < 0 ? '-' : ''; m = Math.abs(m);
   if (m < 1000) return s + m.toFixed(0) + ' m';
   if (m < 100000) return s + (m / 1000).toFixed(2) + ' km';
-  return s + Math.round(m / 1000).toLocaleString() + ' km';
+  if (m < 1e9) return s + Math.round(m / 1000).toLocaleString() + ' km';          // up to 999,999 km
+  if (m < 1e12) return s + (m / 1e9).toFixed(2) + ' million km';
+  if (m < 1e15) return s + (m / 1e12).toFixed(2) + ' billion km';
+  return s + 'over 1,000 billion km';
 }
-function fmtSpd(v) { return (Math.abs(v) < 100 ? v.toFixed(1) : v.toFixed(0)) + ' m/s'; }
+function fmtSpd(v) { if (!isFinite(v)) return '-'; return (Math.abs(v) < 100 ? v.toFixed(1) : v.toFixed(0)) + ' m/s'; }
 function fmtTime(s) {
   s = Math.max(0, Math.floor(s));
   const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
@@ -619,6 +634,7 @@ function clock(t) {
 // by hooking into saveGame() / loadGame() / serializeSave() / applySave().
 // The save format is still v: 1. v0.3.0 only ADDS optional fields (vessel: fairing, chute, chuteOpen, heat, countdown,
 // clamped, splashed, reachedOrbit, roundTrip, hints; stats: splashdowns, softest), so v0.1.0 / v0.2.0 saves load as they are.
+// v0.3.1 adds two more optional vessel fields: hold (clock holding on the pad) and deep (past the edge of Terra's pull).
 // The PC/Mobile choice is deliberately NOT saved.
 function serializeSave() { S.savedAt = Date.now(); return JSON.stringify(S); }
 function validSave(o) { return !!(o && o.v === 1 && Array.isArray(o.vessels) && typeof o.t === 'number'); }
@@ -633,6 +649,28 @@ function applySave(o) {
   // ships whose rocket type is unknown to this version can't be drawn or flown: drop them instead of crashing
   S.vessels = (S.vessels || []).filter(v => v && ROCKETS[v.rocket] && Array.isArray(v.parts) && v.parts.length);
   if (S.activeId !== null && !S.vessels.some(v => v.id === S.activeId)) S.activeId = null;
+  // v0.3.1: older versions could throw a ship escaping Terra to an absurd distance (numbers like 10^40 m).
+  // Bring any such ship back to the edge of Terra's pull, still heading the same way, so it can be flown again.
+  rescuedShips = 0;
+  for (const v of S.vessels) if (rescueFar(v)) rescuedShips++;
+  if (!(S.stats.maxAlt < 1e15)) S.stats.maxAlt = BODIES.terra.soi - BODIES.terra.R;
+  if (!(S.stats.maxSpeed < 1e5)) S.stats.maxSpeed = 0;
+}
+let rescuedShips = 0;
+const FAR_LIMIT = 1e13; // 10 billion km: nothing in the game can honestly get further than this
+function rescueFar(v) {
+  if (v.landed) return false;
+  const fin = isFinite(v.x) && isFinite(v.y) && isFinite(v.vx) && isFinite(v.vy);
+  const r = fin ? Math.hypot(v.x, v.y) : Infinity, sp = fin ? Math.hypot(v.vx, v.vy) : Infinity;
+  if (fin && r < FAR_LIMIT && sp < 1e5 && BODIES[v.parent]) return false;
+  let dir = Math.atan2(v.y, v.x); if (!isFinite(dir)) dir = 0;
+  if (v.parent === 'luna' && fin) { const L = lunaState(S.t); dir = Math.atan2(v.y + L.y, v.x + L.x); }
+  const R = BODIES.terra.soi * 1.02;
+  let vx = v.vx, vy = v.vy;
+  if (!(isFinite(vx) && isFinite(vy) && Math.hypot(vx, vy) < 2e4)) { vx = Math.cos(dir) * 300; vy = Math.sin(dir) * 300; }
+  v.parent = 'terra'; v.x = Math.cos(dir) * R; v.y = Math.sin(dir) * R; v.vx = vx; v.vy = vy; v.deep = true;
+  v.angVel = 0; if (!isFinite(v.ang)) v.ang = dir;
+  return true;
 }
 function saveGame() {
   try { localStorage.setItem(SAVE_KEY, serializeSave()); return true; } catch (e) { console.warn('save failed', e); return false; }
@@ -684,41 +722,68 @@ function stumpff(psi) {
   if (psi < -1e-6) { const sp = Math.sqrt(-psi); return [(1 - Math.cosh(sp)) / psi, (Math.sinh(sp) - sp) / (sp * sp * sp)]; }
   return [0.5, 1 / 6];
 }
-function kepler(x, y, vx, vy, mu, dt) {
+// v0.3.1: the old version trusted its first guess and never checked the answer. Far from Terra on an escape path
+// that guess could be wildly off, the maths ran away and the ship was thrown to an absurd distance (10^40 m) where it
+// stayed "frozen". Now every answer is checked (it must keep the orbit's energy and spin); if it fails, the step is
+// split into smaller pieces, and if even that fails the caller takes ordinary small steps instead.
+function keplerTry(x, y, vx, vy, mu, dt) {
   const r0 = Math.hypot(x, y), v2 = vx * vx + vy * vy, sq = Math.sqrt(mu), rv = x * vx + y * vy;
   const alpha = 2 / r0 - v2 / mu;
   if (alpha > 1e-12) { const T = 2 * Math.PI / Math.sqrt(mu * alpha ** 3); if (Math.abs(dt) > T) dt = dt % T; }
-  let chi;
+  let chi = sq * dt / r0;                                  // good guess for short steps (and near-parabolic paths)
   if (alpha > 1e-9) chi = sq * dt * alpha;
-  else if (alpha < -1e-9) {
+  else if (alpha < -1e-9 && Math.abs(dt) * Math.sqrt(v2) > r0) {
+    // long step on an escape path: the textbook log guess (only used when the step is long compared with the distance)
     const a = 1 / alpha, sg = Math.sign(dt) || 1;
-    chi = sg * Math.sqrt(-a) * Math.log((-2 * mu * alpha * dt) / (rv + sg * Math.sqrt(-mu * a) * (1 - r0 * alpha)));
-    if (!isFinite(chi)) chi = sq * dt / r0;
-  } else chi = sq * dt / r0;
-  let r = r0, c2 = 0.5, c3 = 1 / 6, psi = 0;
-  for (let i = 0; i < 60; i++) {
-    psi = chi * chi * alpha; [c2, c3] = stumpff(psi);
-    r = chi * chi * c2 + rv / sq * chi * (1 - psi * c3) + r0 * (1 - psi * c2);
-    const nchi = chi + (sq * dt - chi ** 3 * c3 - rv / sq * chi * chi * c2 - r0 * chi * (1 - psi * c3)) / r;
-    if (Math.abs(nchi - chi) < 1e-8 * Math.max(1, Math.abs(chi))) { chi = nchi; break; }
-    chi = nchi;
+    const g = sg * Math.sqrt(-a) * Math.log((-2 * mu * alpha * dt) / (rv + sg * Math.sqrt(-mu * a) * (1 - r0 * alpha)));
+    if (isFinite(g)) chi = g;
   }
+  let r = r0, c2 = 0.5, c3 = 1 / 6, psi = 0, ok = false;
+  for (let i = 0; i < 80; i++) {
+    psi = chi * chi * alpha;
+    if (psi < -4e5) return null;                           // cosh would overflow: the guess ran away
+    [c2, c3] = stumpff(psi);
+    r = chi * chi * c2 + rv / sq * chi * (1 - psi * c3) + r0 * (1 - psi * c2);
+    if (!(r > 0) || !isFinite(r)) return null;
+    let nchi = chi + (sq * dt - chi ** 3 * c3 - rv / sq * chi * chi * c2 - r0 * chi * (1 - psi * c3)) / r;
+    if (!isFinite(nchi)) return null;
+    const d = Math.abs(nchi - chi) / Math.max(1, Math.abs(chi)); chi = nchi;
+    if (d < 1e-9) { ok = true; break; }
+    if (i === 79 && d < 1e-6) ok = true;                   // float noise near the answer: the check below decides
+  }
+  if (!ok) return null;
   psi = chi * chi * alpha; [c2, c3] = stumpff(psi);
   r = chi * chi * c2 + rv / sq * chi * (1 - psi * c3) + r0 * (1 - psi * c2);
   const f = 1 - chi * chi / r0 * c2, g = dt - chi ** 3 / sq * c3;
   const gd = 1 - chi * chi / r * c2, fd = sq / (r * r0) * chi * (psi * c3 - 1);
   const out = { x: f * x + g * vx, y: f * y + g * vy, vx: fd * x + gd * vx, vy: fd * y + gd * vy };
-  return (isFinite(out.x) && isFinite(out.vx)) ? out : null;
+  if (!(isFinite(out.x) && isFinite(out.y) && isFinite(out.vx) && isFinite(out.vy))) return null;
+  // check the answer: energy and angular momentum must be what they were
+  const r1 = Math.hypot(out.x, out.y), E0 = v2 / 2 - mu / r0, E1 = (out.vx * out.vx + out.vy * out.vy) / 2 - mu / r1;
+  const h0 = x * vy - y * vx, h1 = out.x * out.vy - out.y * out.vx;
+  if (Math.abs(E1 - E0) > 1e-6 * (Math.abs(E0) + mu / r0) || Math.abs(h1 - h0) > 1e-6 * (Math.abs(h0) + r0 * Math.sqrt(v2) + 1)) return null;
+  return out;
+}
+function kepler(x, y, vx, vy, mu, dt, depth = 0) {
+  const k = keplerTry(x, y, vx, vy, mu, dt);
+  if (k || depth >= 6) return k;
+  const h = kepler(x, y, vx, vy, mu, dt / 2, depth + 1);   // didn't check out: do it in two halves
+  return h ? kepler(h.x, h.y, h.vx, h.vy, mu, dt / 2, depth + 1) : null;
 }
 
 // ---------- Physics ----------
-function hasThrust(v) { return v.throttle > 0 && v.fuel[v.parts[0]] > 0; }
+// while the clock holds on the pad (v0.3.1) the engines stay unlit even if you set the throttle in advance
+function hasThrust(v) { return v.throttle > 0 && v.fuel[v.parts[0]] > 0 && !(v.hold && v.countdown > 0); }
 function maxDt(v, t = S.t) {
   const b = BODIES[v.parent];
   const r = Math.hypot(v.x, v.y), h = r - b.R;
   if (v.landed) return hasThrust(v) ? 0.02 : 1e9;
   if (hasThrust(v) || (b.atmo && h < b.atmo)) return 0.02;
   const sp = Math.hypot(v.vx, v.vy) || 1;
+  if (isDeep(v, r)) {  // straight-line coast: big steps are exact; just don't jump far past the edge on the way back in
+    const vr = (v.x * v.vx + v.y * v.vy) / r;
+    return vr >= 0 ? 1e7 : Math.max(1, 0.5 * (r - b.soi) / -vr);
+  }
   let cap = Math.min(0.01 * Math.sqrt(r * r * r / b.mu), 0.25 * h / sp);
   // take small steps near the edge of Luna's sphere of influence so arrivals are exact
   if (v.parent === 'terra') {
@@ -747,7 +812,7 @@ function stepVessel(v, dt, isActive) {
   let r = Math.hypot(v.x, v.y);
   const hAlt = r - b.R, rho = rhoAt(b, hAlt), pf = b.rho0 ? rho / b.rho0 : 0;
   let thrust = 0;
-  if (v.throttle > 0 && v.fuel[ei] > 0 && st.thrust > 0) {
+  if (v.throttle > 0 && v.fuel[ei] > 0 && st.thrust > 0 && !(v.hold && v.countdown > 0)) {
     thrust = thrustNow(st, pf, v.throttle);                 // weaker in thick air, full strength in vacuum
     const burn = v.throttle * st.thrust / (st.isp * G0) * dt; // the engine always gulps the same fuel per second
     if (burn >= v.fuel[ei]) { thrust *= v.fuel[ei] / burn; v.fuel[ei] = 0; if (isActive) { toast('Out of fuel' + (v.parts.length > 1 ? (MODE === 'mobile' ? ' - tap STAGE to drop this stage' : ' - press Space to drop this stage') : '')); } }
@@ -755,7 +820,8 @@ function stepVessel(v, dt, isActive) {
   }
   const hx = Math.cos(v.ang), hy = Math.sin(v.ang);
   const ux = v.x / r, uy = v.y / r;
-  const g = b.mu / (r * r);
+  const deep = isDeep(v, r);
+  const g = deep ? 0 : b.mu / (r * r);
 
   if (v.landed) {
     if (v.clamped) { v.ang = v.theta; v.angVel = 0; return null; }   // launch clamps hold it down
@@ -793,7 +859,7 @@ function stepVessel(v, dt, isActive) {
   v.ang += v.angVel * dt;
 
   let railed = false;
-  if (thrust === 0 && !(b.atmo && hAlt < b.atmo)) {
+  if (thrust === 0 && !deep && !(b.atmo && hAlt < b.atmo)) {
     const o = orbitOf(v.x, v.y, v.vx, v.vy, b.mu);
     if (o.p > 1e-6 * r) {
       const k = kepler(v.x, v.y, v.vx, v.vy, b.mu, dt);
@@ -856,8 +922,10 @@ function soiCheck(v, t) {
   if (v.parent === 'terra') {
     const L = lunaState(t), dx = v.x - L.x, dy = v.y - L.y;
     if (dx * dx + dy * dy < LUNA.soi * LUNA.soi) {
-      v.parent = 'luna'; v.x = dx; v.y = dy; v.vx -= L.vx; v.vy -= L.vy; return 'enter';
+      v.parent = 'luna'; v.x = dx; v.y = dy; v.vx -= L.vx; v.vy -= L.vy; v.deep = false; return 'enter';
     }
+    const far = v.x * v.x + v.y * v.y > BODIES.terra.soi * BODIES.terra.soi;
+    if (far !== !!v.deep) { v.deep = far; return far ? 'deepOut' : 'deepIn'; }
   } else if (v.parent === 'luna') {
     if (v.x * v.x + v.y * v.y > LUNA.soi * LUNA.soi) {
       const L = lunaState(t); v.parent = 'terra'; v.x += L.x; v.y += L.y; v.vx += L.vx; v.vy += L.vy; return 'leave';
@@ -868,7 +936,7 @@ function soiCheck(v, t) {
 
 function maxWarpFor(v) {
   if (!v) return 100000;
-  if (v.countdown > 0) return 4;
+  if (v.countdown > 0 && !v.hold) return 4;
   if (v.landed) return hasThrust(v) ? 4 : 100000;
   if (hasThrust(v)) return 4;
   const b = BODIES[v.parent], h = Math.hypot(v.x, v.y) - b.R;
@@ -973,7 +1041,7 @@ function update(realDt) {
   const fdt = Math.min(realDt, 0.05) * WARPS[warpIdx];
   if (fdt <= 0) return;
   // countdown on the pad: beeps, engines light at T-3, clamps let go at zero
-  if (av && av.countdown > 0 && !paused) {
+  if (av && av.countdown > 0 && !av.hold && !paused) {
     const before = av.countdown; av.countdown = Math.max(0, av.countdown - fdt);
     if (Math.ceil(av.countdown) < Math.ceil(before) && av.countdown > 0) sfx('beep');
     if (av.countdown <= 3 && !av.ignited) { av.ignited = true; if (av.throttle === 0) av.throttle = 1; toast('Ignition!'); }
@@ -993,15 +1061,21 @@ function update(realDt) {
     const cap = isAct ? 20000 : 3000, minDt = fdt / cap;
     while (done < fdt - 1e-9) {
       const dt = Math.min(fdt - done, Math.max(minDt, maxDt(v, t0 + done)));
+      const px = v.x, py = v.y, pvx = v.vx, pvy = v.vy;
       const res = stepVessel(v, dt, isAct);
+      if (!(isFinite(v.x) && isFinite(v.y) && isFinite(v.vx) && isFinite(v.vy))) { v.x = px + pvx * dt; v.y = py + pvy * dt; v.vx = pvx; v.vy = pvy; }
       done += dt; count++;
       if (res === 'crash' || res === 'breakup' || res === 'burn') { onCrash(v, isAct, res); break; }
       if (res === 'land') { onLand(v, isAct); break; }
       const sc = soiCheck(v, t0 + done);
       if (sc && isAct) {
-        if (sc === 'enter') { toast("Entered Luna's sphere of influence"); milestone('lunaSoi'); }
-        else toast("Left Luna's sphere of influence");
-        if (WARPS[warpIdx] > 100) warpIdx = WARPS.indexOf(100);
+        if (sc === 'deepOut') toast("Left Terra's sphere of influence: deep space. Terra's pull is gone, so you'll coast in a straight line. Turn round and burn to come back.", true);
+        else if (sc === 'deepIn') toast("Back inside Terra's sphere of influence");
+        else {
+          if (sc === 'enter') { toast("Entered Luna's sphere of influence"); milestone('lunaSoi'); }
+          else toast("Left Luna's sphere of influence");
+          if (WARPS[warpIdx] > 100) warpIdx = WARPS.indexOf(100);
+        }
       }
     }
   }
@@ -1047,12 +1121,18 @@ function update(realDt) {
 }
 
 function releaseClamps(v) {
-  v.countdown = 0; v.clamped = false; v.ignited = true;
+  v.countdown = 0; v.hold = false; v.clamped = false; v.ignited = true;
   clampAnim = { id: v.id, t0: performance.now() };
   sfx('clunk'); toast('Liftoff! Clamps released', true);
   liftoffShow = 2.5;
 }
 let clampAnim = null, liftoffShow = 0, fairArm = null;
+// v0.3.1: the countdown no longer starts by itself. A new rocket holds at T-10 (v.hold) until the player starts it.
+function startCountdown() {
+  const v = active(); if (!v || !(v.countdown > 0) || !v.hold) return false;
+  v.hold = false; sfx('beep'); toast('Countdown started. ' + (MODE === 'mobile' ? 'Tap SKIP to launch now.' : 'Press Enter again to launch now.'));
+  return true;
+}
 function skipCountdown() {
   const v = active(); if (!v || !(v.countdown > 0)) return false;
   if (v.throttle === 0) v.throttle = 1;
@@ -1124,16 +1204,29 @@ function doStage() {
 // highest point of the current path; "Escaping" only when the ship really has escape speed
 function apText(v, o) {
   const b = BODIES[v.parent], r = Math.hypot(v.x, v.y), v2 = v.vx * v.vx + v.vy * v.vy;
-  if (v2 >= 2 * b.mu / r || o.ra > b.soi) return 'Escaping';
+  if (isDeep(v, r)) return (v.x * v.vx + v.y * v.vy) > 0 ? 'Escaping' : 'Deep space';
+  if (v2 >= 2 * b.mu / r || (o.e < 1 && isFinite(o.ra) && o.ra > b.soi)) return 'Escaping';
   if (o.e >= 1 || !isFinite(o.ra)) { const a = 1 / (2 / r - v2 / b.mu); return fmtDist(Math.max(r, 2 * a - o.rp) - b.R); }
   return fmtDist(o.ra - b.R);
+}
+// lowest point of the current path. Out in deep space and drifting away there is no lowest point ahead: "Escaping"
+function peText(v, o, low) {
+  const b = BODIES[v.parent];
+  if (isDeep(v) && (v.x * v.vx + v.y * v.vy) > 0) return low ? 'escaping' : 'Escaping';
+  if (o.rp < b.R) return low ? 'below ground' : 'Below surface';
+  return fmtDist(o.rp - b.R);
 }
 function fitMap() {
   const v = active(); if (!v) return;
   const b = BODIES[v.parent];
   let ext = Math.max(b.R * 2.2, Math.hypot(v.x, v.y) * 1.3);
-  if (!v.landed) { const o = vesselOrbit(v); if (o.e < 1) ext = Math.max(ext, Math.min(o.ra, b.soi === Infinity ? 3e7 : b.soi) * 1.15); else ext = Math.max(ext, Math.min(b.soi, 2.6e7)); }
-  S.view.mapZoom = Math.min(W, H) * 0.45 / ext;
+  if (!v.landed) {
+    const o = vesselOrbit(v), esc = (v.vx * v.vx + v.vy * v.vy) >= 2 * b.mu / Math.hypot(v.x, v.y) || (o.e < 1 && o.ra > b.soi);
+    if (esc) ext = Math.max(ext, b.soi * 1.1);                 // escaping: show the whole edge of the sphere of influence
+    else if (o.e < 1) ext = Math.max(ext, o.ra * 1.15);
+    else ext = Math.max(ext, Math.min(b.soi, 2.6e7));
+  }
+  S.view.mapZoom = Math.min(0.05, Math.max(MAP_ZMIN, Math.min(W, H) * 0.45 / ext));
 }
 function cycleWarp(d) {
   const allowed = maxWarpFor(active());
@@ -1153,10 +1246,10 @@ function launch(rid) {
   if (!ROCKETS[rid] || ROCKETS[rid].retired) rid = LAUNCH_ROCKET; // retired rockets can't be launched any more
   const old = active(); if (old) old.throttle = 0;
   const v = newVessel(rid);
-  v.countdown = COUNTDOWN; v.clamped = true; v.ignited = false; liftoffShow = 0; clampAnim = null;
+  v.countdown = COUNTDOWN; v.hold = true; v.clamped = true; v.ignited = false; liftoffShow = 0; clampAnim = null;
   S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
   camRot = PAD_THETA - Math.PI / 2;
-  save(); closeAll(); toast(v.name + ' is on the pad. Countdown started. ' + (MODE === 'mobile' ? 'Tap SKIP to launch now.' : 'Press Enter to launch now.'));
+  save(); closeAll(); toast(v.name + ' is on the pad, clock holding at T-10. ' + (MODE === 'mobile' ? 'Tap START to begin the countdown.' : 'Press Enter to start the countdown.'));
 }
 
 function flyVessel(id) {
@@ -1251,7 +1344,7 @@ function openSelect() {
   const old = S.vessels.filter(v => rk(v).retired && !v.debris).length, mob = MODE === 'mobile';
   box.insertAdjacentHTML('beforeend', `<div class="selInfo"><b>What the Kestrel can do</b><ol>
       <li>Reach orbit around Terra.</li><li>Fly on to Luna and land on the upper stage's legs.</li><li>Or come home from orbit: heat shield, then parachute, for the <b>Round Trip</b> milestone.</li></ol>
-      <b>How a flight goes</b><ol><li>10-second countdown (${mob ? 'tap SKIP' : 'Enter'} to go now). The clamps let go at zero.</li>
+      <b>How a flight goes</b><ol><li>The rocket waits on the pad. ${mob ? 'Tap START' : 'Press Enter'} to start the 10-second countdown (${mob ? 'tap SKIP' : 'Enter again'} to go now). The clamps let go at zero.</li>
       <li>Booster empty: ${mob ? 'tap STAGE' : 'press Space'} to drop it.</li><li>Above ~45 km: drop the fairing (${mob ? 'FAIRING' : 'F'}).</li>
       <li>Upper stage to orbit, to Luna, or back down. Coming home: drop the upper stage, then open the parachute (${mob ? 'CHUTE' : 'P'}) below 250 m/s.</li></ol>
       <div class="note" style="margin-top:4px">Sparrow, Heron and Mule are retired.${old ? ' Your ' + old + ' older ship' + (old > 1 ? 's are' : ' is') + ' still out there: fly ' + (old > 1 ? 'them' : 'it') + ' from the Tracking Station.' : ''}</div></div>`);
@@ -1346,11 +1439,11 @@ window.addEventListener('keydown', e => {
     case 'KeyX': if (v) v.throttle = 0; break;
     case 'KeyT': if (v) { v.sas = !v.sas; toast('SAS ' + (v.sas ? 'on' : 'off')); } break;
     case 'Space': doStage(); break;
-    case 'Enter': case 'NumpadEnter': if (!skipCountdown()) toast('Nothing to skip: the countdown only runs on the pad'); break;
+    case 'Enter': case 'NumpadEnter': if (!startCountdown() && !skipCountdown()) toast('Nothing to start: the countdown only runs on the pad'); break;
     case 'KeyF': dropFairing(); break;
     case 'KeyP': deployChute(); break;
     case 'KeyM': toggleMap(); break;
-    case 'KeyC': S.view.panX = 0; S.view.panY = 0; break;
+    case 'KeyC': recentreMap(); break;
     case 'Comma': cycleWarp(-1); break;
     case 'Period': cycleWarp(1); break;
     case 'KeyH': overlayStack = []; showOverlay('ovHelp'); break;
@@ -1377,7 +1470,7 @@ resize();
 cv.addEventListener('wheel', e => {
   e.preventDefault();
   const f = Math.pow(1.0015, -e.deltaY);
-  if (S.view.map) S.view.mapZoom = Math.min(0.05, Math.max(5e-7, S.view.mapZoom * f));
+  if (S.view.map) S.view.mapZoom = Math.min(0.05, Math.max(MAP_ZMIN, S.view.mapZoom * f));
   else S.view.zoom = Math.min(40, Math.max(2e-6, S.view.zoom * f));
 }, { passive: false });
 let drag = null;
@@ -1391,7 +1484,7 @@ window.addEventListener('mousemove', e => {
 
 // ---------- Touch (Mobile mode) ----------
 function zoomBy(f) {
-  if (S.view.map) S.view.mapZoom = Math.min(0.05, Math.max(5e-7, S.view.mapZoom * f));
+  if (S.view.map) S.view.mapZoom = Math.min(0.05, Math.max(MAP_ZMIN, S.view.mapZoom * f));
   else S.view.zoom = Math.min(40, Math.max(2e-6, S.view.zoom * f));
 }
 // canvas: one finger drags the map, two fingers pinch-zoom (map and flight)
@@ -1428,19 +1521,20 @@ function touchAction(name) {
   switch (name) {
     case 'menu': openPause(); break;
     case 'map': toggleMap(); break;
-    case 'centre': S.view.panX = 0; S.view.panY = 0; break;
+    case 'centre': recentreMap(); break;
     case 'sas': if (v) { v.sas = !v.sas; toast('SAS ' + (v.sas ? 'on' : 'off')); syncTouchUi(); } break;
     case 'warpUp': cycleWarp(1); break;
     case 'warpDn': cycleWarp(-1); break;
     case 'full': if (v) v.throttle = 1; break;
     case 'cut': if (v) v.throttle = 0; break;
     case 'stage': doStage(); break;
-    case 'ctx': { const c = ctxState(v); if (c.act === 'skip') skipCountdown(); else if (c.act === 'fairing') dropFairing(); else if (c.act === 'chute') deployChute(); else if (c.act === 'chuteOpen') toast('The parachute is open'); syncCtx(); break; }
+    case 'ctx': { const c = ctxState(v); if (c.act === 'start') startCountdown(); else if (c.act === 'skip') skipCountdown(); else if (c.act === 'fairing') dropFairing(); else if (c.act === 'chute') deployChute(); else if (c.act === 'chuteOpen') toast('The parachute is open'); syncCtx(); break; }
   }
 }
-// the one context button on Mobile: SKIP (countdown) -> FAIRING (in flight) -> CHUTE (capsule coming home)
+// the one context button on Mobile: START / SKIP (countdown) -> FAIRING (in flight) -> CHUTE (capsule coming home)
 function ctxState(v) {
   if (!v) return { act: null };
+  if (v.countdown > 0 && v.hold) return { act: 'start', b: 'START', s: 'countdown', cls: '' };
   if (v.countdown > 0) return { act: 'skip', b: 'SKIP', s: 'countdown', cls: '' };
   if (v.landed) return { act: null };
   if (v.fairing) { const q = qOf(v); return { act: 'fairing', b: 'FAIRING', s: q > FAIRING_WARN_Q ? 'air thick' : 'drop', cls: q > FAIRING_WARN_Q ? 'warnc' : '' }; }
@@ -1775,6 +1869,26 @@ function glowOf(v) {
   const g = Math.max(0, Math.min(1, (sp - 1200) / 600)) * Math.max(0, Math.min(1, ((v.heat || 0) - 3e6) / 7e6));
   return down ? g : g * 0.3; // climbing out, the air is too thin by the time you're fast: only a faint glow
 }
+// recentre the map; if your ship would still be off the screen, zoom out to fit it in too
+function recentreMap() {
+  S.view.panX = 0; S.view.panY = 0;
+  const v = active(); if (!v || !S.view.map) return;
+  const bs = bodyState(v.parent, S.t), p = worldPos(v), d = Math.max(Math.abs(p.x - bs.x), Math.abs(p.y - bs.y));
+  if (d * S.view.mapZoom > Math.min(W, H) * 0.48) fitMap();
+}
+// map view: if your ship is off the screen (e.g. far out in deep space), an arrow at the edge points to it
+function offscreenArrow(v) {
+  const p = worldPos(v), [sx, sy] = w2s(p.x, p.y), m = 34;
+  if (sx >= 0 && sy >= 0 && sx <= W && sy <= H) return;
+  const cx = W / 2, cy = H / 2, dx = sx - cx, dy = sy - cy;
+  if (!isFinite(dx) || !isFinite(dy)) return;
+  const k = Math.min((W / 2 - m) / Math.abs(dx || 1e-9), (H / 2 - m) / Math.abs(dy || 1e-9)), ax = cx + dx * k, ay = cy + dy * k, an = Math.atan2(dy, dx);
+  ctx.save(); ctx.translate(ax, ay); ctx.rotate(an);
+  ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(-6, -8); ctx.lineTo(-2, 0); ctx.lineTo(-6, 8); ctx.closePath(); ctx.fillStyle = '#7fd0ff'; ctx.fill(); ctx.restore();
+  const b = BODIES[v.parent], txt = v.name + ' · ' + fmtDist(Math.hypot(v.x, v.y) - b.R) + ' out' + (MODE === 'mobile' ? ' (tap Centre)' : ' (press C)');
+  ctx.font = '12px sans-serif'; ctx.fillStyle = '#7fd0ff'; const tw = ctx.measureText(txt).width;
+  ctx.fillText(txt, Math.max(8, Math.min(W - tw - 8, ax - tw / 2)), ay + (ay > H / 2 ? -16 : 24));
+}
 function drawVessel(v, isAct) {
   const p = worldPos(v); const [sx, sy] = w2s(p.x, p.y);
   if (sx < -300 || sy < -300 || sx > W + 300 || sy > H + 300) return;
@@ -1836,7 +1950,12 @@ function drawProgradeNear(v) {
 function drawConic(v, color, width) {
   if (v.landed) return null;
   const b = BODIES[v.parent], bs = bodyState(v.parent, S.t), o = vesselOrbit(v);
-  const lim = v.parent === 'luna' ? b.soi : LUNA.orbitR * 2.2;
+  const lim = b.soi;
+  if (isDeep(v)) {   // deep space: a straight coast, shown as a dashed line ahead of the ship
+    const sp = Math.hypot(v.vx, v.vy) || 1, L0 = Math.max(Math.hypot(v.x, v.y) * 0.6, 3e6), [ax, ay] = w2s(v.x, v.y), [bx2, by2] = w2s(v.x + v.vx / sp * L0, v.y + v.vy / sp * L0);
+    ctx.setLineDash([6, 6]); ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx2, by2); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke(); ctx.setLineDash([]);
+    return { o, bs, b, deep: true };
+  }
   ctx.beginPath(); let started = false;
   const N = 360;
   let nuMax = Math.PI;
@@ -1850,7 +1969,14 @@ function drawConic(v, color, width) {
     if (!started) { ctx.moveTo(px, py); started = true; } else ctx.lineTo(px, py);
   }
   ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke();
-  return { o, bs, b };
+  // where the path crosses the edge of Terra's pull (only if it gets that far)
+  let exit = null;
+  const esc = (v.vx * v.vx + v.vy * v.vy) >= 2 * b.mu / Math.hypot(v.x, v.y) || (o.e < 1 && o.ra > lim);
+  if (v.parent === 'terra' && esc && o.rp < lim && o.e > 0) {
+    const c = (o.p / lim - 1) / o.e;
+    if (c >= -1 && c <= 1) { const a = o.w + Math.sign(o.h || 1) * Math.acos(c); exit = { x: bs.x + Math.cos(a) * lim, y: bs.y + Math.sin(a) * lim }; }
+  }
+  return { o, bs, b, exit };
 }
 function marker(x, y, label, color) {
   const [px, py] = w2s(x, y);
@@ -1860,7 +1986,7 @@ function marker(x, y, label, color) {
 
 let encounter = null, encTimer = 0;
 function predictEncounter(v) {
-  if (!v || v.landed || v.parent !== 'terra') return null;
+  if (!v || v.landed || v.parent !== 'terra' || isDeep(v)) return null;
   const mu = BODIES.terra.mu, o = vesselOrbit(v);
   if (o.e < 1 && o.ra < LUNA.orbitR - LUNA.soi * 1.05) return null;
   if (o.p < 0.02 * Math.hypot(v.x, v.y)) return null;
@@ -1909,7 +2035,7 @@ function drawDial(v) {
   // live apoapsis / periapsis, right above the dial
   if (!v.landed) {
     const o = vesselOrbit(v);
-    const ap = apText(v, o).toLowerCase(), pe = o.rp < b.R ? 'below ground' : fmtDist(o.rp - b.R);
+    const ap = apText(v, o).toLowerCase(), pe = peText(v, o, true);
     const txt = 'Ap ' + ap + '  ·  Pe ' + pe;
     ctx.font = 'bold ' + (MODE === 'mobile' ? 10 : 12) + 'px sans-serif'; const tw = ctx.measureText(txt).width + 12;
     ctx.fillStyle = 'rgba(10,16,34,0.8)'; ctx.fillRect(cx - tw / 2, cy - R - 20, tw, 16);
@@ -1950,6 +2076,9 @@ function render() {
     // Luna's path and sphere of influence
     const [tx, ty] = w2s(0, 0);
     ctx.beginPath(); ctx.arc(tx, ty, LUNA.orbitR * cam.z, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(200,200,200,0.18)'; ctx.lineWidth = 1; ctx.stroke();
+    // the edge of Terra's sphere of influence: past it is deep space
+    { const er = BODIES.terra.soi * cam.z; ctx.setLineDash([10, 8]); ctx.beginPath(); ctx.arc(tx, ty, er, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(255,211,107,0.45)'; ctx.lineWidth = 1.5; ctx.stroke(); ctx.setLineDash([]);
+      if (er > 40 && er < 20000 && ty - er > 14) { ctx.font = '12px sans-serif'; ctx.fillStyle = 'rgba(255,211,107,0.85)'; ctx.textAlign = 'center'; ctx.fillText("Edge of Terra's pull (" + fmtDist(BODIES.terra.soi) + ')', tx, Math.max(16, ty - er - 6)); ctx.textAlign = 'left'; } }
     const [lx, ly] = w2s(L.x, L.y);
     ctx.setLineDash([4, 6]); ctx.beginPath(); ctx.arc(lx, ly, LUNA.soi * cam.z, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(200,190,255,0.25)'; ctx.stroke(); ctx.setLineDash([]);
     // other ships' orbits
@@ -1958,8 +2087,9 @@ function render() {
       const res = drawConic(v, '#7fd0ff', 2);
       if (res) {
         const { o, bs, b } = res;
-        if (o.rp > 0) marker(bs.x + Math.cos(o.w) * o.rp, bs.y + Math.sin(o.w) * o.rp, 'Pe ' + fmtDist(o.rp - b.R), '#ffb36b');
-        if (o.e < 1 && o.ra < (v.parent === 'luna' ? b.soi : 3e7)) marker(bs.x + Math.cos(o.w + Math.PI) * o.ra, bs.y + Math.sin(o.w + Math.PI) * o.ra, 'Ap ' + fmtDist(o.ra - b.R), '#7fd0ff');
+        if (o.rp > 0 && !res.deep) marker(bs.x + Math.cos(o.w) * o.rp, bs.y + Math.sin(o.w) * o.rp, 'Pe ' + fmtDist(o.rp - b.R), '#ffb36b');
+        if (res.exit) marker(res.exit.x, res.exit.y, "Leaves Terra's pull", '#ffd36b');
+        if (!res.deep && o.e < 1 && o.ra < b.soi) marker(bs.x + Math.cos(o.w + Math.PI) * o.ra, bs.y + Math.sin(o.w + Math.PI) * o.ra, 'Ap ' + fmtDist(o.ra - b.R), '#7fd0ff');
       }
       if (encounter) {
         const [gx, gy] = w2s(encounter.lx, encounter.ly);
@@ -1973,11 +2103,12 @@ function render() {
   if (map) {
     ctx.font = '13px sans-serif'; ctx.fillStyle = '#cfe0ff'; ctx.textAlign = 'center';
     let [px, py] = w2s(0, 0); ctx.fillText('Terra', px, py + Math.max(BODIES.terra.R * cam.z, 4) + 16);
-    [px, py] = w2s(L.x, L.y); ctx.fillText('Luna', px, py + Math.max(LUNA.R * cam.z, 4) + 16); ctx.textAlign = 'left';
+    const [qx, qy] = w2s(L.x, L.y); if (Math.hypot(qx - px, qy - py) > 40) ctx.fillText('Luna', qx, qy + Math.max(LUNA.R * cam.z, 4) + 16); ctx.textAlign = 'left';
   }
   // ships
   for (const o of S.vessels) if (o !== v) drawVessel(o, false);
   if (v) drawVessel(v, true);
+  if (v && map) offscreenArrow(v);
   // particles
   for (const p of particles) {
     const bs = bodyState(p.parent, S.t); const [px, py] = w2s(bs.x + p.rel.x, bs.y + p.rel.y);
@@ -2021,7 +2152,7 @@ function updateHud() {
   else {
     const o = vesselOrbit(v);
     $('hAp').textContent = apText(v, o);
-    $('hPe').textContent = o.rp < b.R ? 'Below surface' : fmtDist(o.rp - b.R);
+    $('hPe').textContent = peText(v, o);
   }
   $('hThr').style.width = (v.throttle * 100) + '%'; $('hThrT').textContent = Math.round(v.throttle * 100) + '%';
   const ei = v.parts[0], st = engine(v), fr = st.fuel ? v.fuel[ei] / st.fuel : 0;
@@ -2041,13 +2172,15 @@ function updateHud() {
   else if (!v.landed && hf > 0.7) { wn.className = 'blink heat'; wn.textContent = 'HEAT ' + Math.round(hf * 100) + '%! ' + (mob ? '' : (hasCapsule(v) && !isCapsuleOnly(v) ? 'Drop the upper stage' : isCapsuleOnly(v) && !shieldForward(v) ? 'Turn the shield forward' : 'Too steep / too fast')); }
   else wn.className = 'hidden';
   const cd = $('countdown');
-  if (v.countdown > 0) { cd.classList.remove('hidden'); cd.innerHTML = 'T-' + Math.ceil(v.countdown) + '<small>' + (v.countdown <= 3 ? 'Ignition! ' : '') + (MODE === 'mobile' ? 'Tap SKIP to launch now' : 'Press Enter to launch now') + '</small>'; }
+  if (v.countdown > 0 && v.hold) { cd.classList.remove('hidden'); cd.innerHTML = 'T-' + Math.ceil(v.countdown) + ' <span class="holdTag">HOLD</span><small>' + (MODE === 'mobile' ? 'Tap START to begin the countdown' : 'Press Enter to start the countdown') + '</small>'; }
+  else if (v.countdown > 0) { cd.classList.remove('hidden'); cd.innerHTML = 'T-' + Math.ceil(v.countdown) + '<small>' + (v.countdown <= 3 ? 'Ignition! ' : '') + (MODE === 'mobile' ? 'Tap SKIP to launch now' : 'Press Enter to launch now') + '</small>'; }
   else if (liftoffShow > 0) { cd.classList.remove('hidden'); cd.innerHTML = 'LIFTOFF!'; }
   else cd.classList.add('hidden');
   syncCtx();
   $('hDv').textContent = Math.round(deltaV(v)).toLocaleString() + ' m/s';
   const g = b.mu / (r * r);
-  $('hTwr').textContent = (thrustNow(st, air.pf, 1) / (massOf(v) * g)).toFixed(2);
+  const twr = thrustNow(st, air.pf, 1) / (massOf(v) * g);
+  $('hTwr').textContent = isDeep(v) || !isFinite(twr) ? '-' : twr > 999 ? 'over 999' : twr.toFixed(2);   // far out there is (almost) no weight
   $('hWarp').textContent = WARPS[warpIdx] + 'x';
   $('hSas').textContent = v.sas ? 'ON' : 'OFF';
   if (MODE === 'mobile') { $('tSas').classList.toggle('on', v.sas); $('tSasL').textContent = v.sas ? 'on' : 'off'; $('tStage').classList.toggle('dim', v.parts.length < 2); }
@@ -2090,11 +2223,12 @@ function frame(now) {
 }
 
 // expose for testing
-window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, skipCountdown, dropFairing, deployChute, isOcean, airOf, qOf, qLimitOf, heatLimitOf, shieldForward, isCapsuleOnly, hasCapsule, massOf, lengthOf, widthOf, thrustNow, crashLimitOf, particles, openSelect, openStation, ctxState,
+window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, startCountdown, skipCountdown, fmtDist, fitMap, apText, peText, rescueFar, dropFairing, deployChute, isOcean, airOf, qOf, qLimitOf, heatLimitOf, shieldForward, isCapsuleOnly, hasCapsule, massOf, lengthOf, widthOf, thrustNow, crashLimitOf, particles, openSelect, openStation, ctxState,
   updateHud, get dialPos() { if (layoutDirty) layoutTouch(); return dialPos; }, get liftoffShow() { return liftoffShow; }, WARPS, get testFreeze() { return testFreeze; }, set testFreeze(x) { testFreeze = !!x; },
   K: { CHUTE_MAX, CHUTE_MIN_RHO, HEAT_BODY, HEAT_SHIELD, HEAT_CAPSULE_BARE, FAIRING_WARN_Q, FAIRING_HIT_Q, COUNTDOWN, LAND }, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold };
 
 load();
+if (rescuedShips) setTimeout(() => toast(rescuedShips + (rescuedShips > 1 ? ' ships that had' : ' ship that had') + " been thrown impossibly far by an old bug " + (rescuedShips > 1 ? 'were' : 'was') + " put back at the edge of Terra's pull", true), 600);
 openModeChoice('title'); // ask PC or Mobile every time the game opens
 requestAnimationFrame(frame);
 </script>
