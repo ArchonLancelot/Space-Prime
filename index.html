@@ -161,8 +161,8 @@
   #tLeft { left: calc(8px + var(--sl)); }
   #tRight { left: calc(94px + var(--sl)); }
   @media (orientation: portrait) {
-    body.mobile #clock { left: calc(8px + var(--sl)); transform: none; top: calc(216px + var(--st)); }
-    body.mobile #toasts { top: calc(252px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
+    body.mobile #clock { left: calc(8px + var(--sl)); transform: none; top: calc(232px + var(--st)); }
+    body.mobile #toasts { top: calc(266px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
     body.mobile #encounter { left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); bottom: calc(262px + var(--sb)); }
     body.mobile #tLeft, body.mobile #tRight { width: 66px; }
     body.mobile #tRight { left: calc(80px + var(--sl)); }
@@ -198,6 +198,74 @@
   #rotHint .box { max-width: 340px; padding: 22px; }
   #rotHint .phone { font-size: 54px; display: inline-block; animation: tip 2.4s ease-in-out infinite; }
   @keyframes tip { 0%, 30% { transform: rotate(0deg); } 60%, 100% { transform: rotate(-90deg); } }
+
+  /* ---------- v0.4.0: mission picker, guidance, Mission Complete ---------- */
+  #mpick { position: fixed; right: 14px; top: 184px; width: 318px; padding: 10px 12px; font-size: 13px; z-index: 3; background: rgba(10, 16, 34, 0.93); }
+  #mpick .mpHead { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  #mpick .mpHead b { font-size: 15px; } #mpick .mpHead .opt { color: #9fb4e8; font-size: 12px; font-weight: 400; }
+  #mpick .mpHead button { margin: 0; }
+  #mpick .mpClock { font-size: 12px; color: #ffe27a; margin: 2px 0 6px; font-weight: 700; }
+  #mpick .mpGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #mpick .mpGrid button { margin: 0; padding: 6px 8px; text-align: left; display: flex; flex-direction: column; justify-content: center; line-height: 1.2; position: relative; background: rgba(31, 79, 168, 0.5); }
+  #mpick .mpGrid button b { font-size: 13px; } #mpick .mpGrid button small { font-size: 11px; color: #b9c8ee; }
+  #mpick .mpGrid button.sel { background: #2a63cf; box-shadow: 0 0 0 2px #ffd36b inset; }
+  #mpick .mpGrid button.sel b::after { content: ' ✓'; color: #ffd36b; }
+  #mpick .mpGrid button .k { position: absolute; right: 6px; top: 4px; font-size: 10px; color: #9fb4e8; }
+  #mpick .mpCurL b { color: #ffd36b; }
+  #mpick .mpBlurb { font-size: 12px; color: #c3cff0; margin-top: 2px; line-height: 1.4; }
+  #mpick.collapsed .mpGrid, #mpick.collapsed .mpBlurb { display: none; }
+  #mpick .sh { display: none; }
+  #mpick .mpHead .cur { display: none; font-size: 13px; color: #9fb4e8; } #mpick .mpHead .cur b { color: #ffd36b; }
+  #mpick.collapsed .mpHead .ttl, #mpick.collapsed .mpClock { display: none; } #mpick.collapsed .mpHead .cur { display: block; }
+  body.mobile #mpick.collapsed { right: auto; width: 178px; }
+  body.mobile #mpick.collapsed .mpBlurb, body.mobile #mpick.collapsed .mpGrid { display: none; }
+  #mpick .mpCurL { font-size: inherit; color: #9fb4e8; } #mpick .mpBlurb { margin-top: 7px; }
+  #guide { position: fixed; right: 14px; top: 184px; width: 318px; padding: 9px 12px; border-color: rgba(255, 106, 213, 0.55); z-index: 3; }
+  #guide.done { border-color: rgba(255, 226, 122, 0.75); }
+  #guide .gm { font-size: 11px; color: #ff9be6; text-transform: uppercase; letter-spacing: 1px; }
+  #guide.done .gm { color: #ffe27a; }
+  #guide .gt { font-size: 17px; font-weight: 800; color: #fff; margin: 2px 0 3px; }
+  #guide .gd { font-size: 12.5px; color: #c3cff0; line-height: 1.4; }
+  #guide .gc { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 10px; border: 1px solid; white-space: nowrap; }
+  .chip.full { color: #ffd36b; border-color: #ffb36b; } .chip.cut { color: #ff9a9a; border-color: #d0485a; }
+  .chip.act { color: #9ff0b4; border-color: #5ef08a; } .chip.warp { color: #7fd0ff; border-color: #4f86ef; }
+  #mcBanner { position: fixed; top: 22%; left: 50%; transform: translateX(-50%); text-align: center; padding: 14px 28px; pointer-events: none; z-index: 4;
+    border-color: rgba(255, 226, 122, 0.75); box-shadow: 0 0 40px rgba(255, 226, 122, 0.25); animation: mcpop 0.5s ease-out; }
+  @keyframes mcpop { 0% { opacity: 0; transform: translateX(-50%) scale(0.8); } 100% { opacity: 1; transform: translateX(-50%) scale(1); } }
+  #mcBanner .mcT { font-size: 34px; font-weight: 900; letter-spacing: 4px; color: #ffe27a; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+  #mcBanner .mcN { font-size: 18px; font-weight: 700; } #mcBanner .mcS { font-size: 12.5px; color: #c3cff0; margin-top: 4px; line-height: 1.45; }
+  .ms div.mdone { color: #ffe27a; background: rgba(255, 106, 213, 0.08); }
+  body.mobile #mpick { left: calc(8px + var(--sl)); top: calc(8px + var(--st)); right: calc(178px + var(--bA) + var(--sr)); width: auto;
+    max-height: calc(100% - 116px - var(--st) - var(--sb)); overflow: auto; padding: 4px 8px 4px; touch-action: pan-y; }
+  body.mobile #mpick .mpHead b { font-size: 13px; } body.mobile #mpick .mpHead .opt { font-size: 11px; }
+  body.mobile #mpick .mpHead button { min-height: 40px; padding: 4px 12px; font-size: 13px; }
+  body.mobile #mpick .mpClock { font-size: 11px; margin: 0 0 3px; } body.mobile #mpick .mpHead .cur { font-size: 12px; }
+  body.mobile #mpick .mpGrid { grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  body.mobile #mpick .mpGrid button { min-height: 48px; padding: 3px 6px; min-width: 0; }
+  body.mobile #mpick .mpGrid button b { font-size: 12.5px; } body.mobile #mpick .mpGrid button small { font-size: 10px; }
+  body.mobile #mpick .mpGrid button .k { display: none; }
+  body.mobile #mpick .mpBlurb { font-size: 10.5px; line-height: 1.35; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  body.mobile #guide { left: calc(196px + var(--sl)); right: calc(90px + var(--bA) + var(--sr)); top: calc(34px + var(--st)); width: auto; padding: 3px 8px 4px; }
+  body.mobile #guide .gm { display: none; }
+  body.mobile #guide .gt { font-size: 12.5px; margin: 0 0 1px; line-height: 1.25; }
+  body.mobile #guide .gd { font-size: 10.5px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  body.mobile #guide .gc { margin-top: 2px; gap: 3px; } body.mobile .chip { font-size: 9.5px; padding: 0 5px; }
+  body.mobile.guiding #toasts { top: calc(98px + var(--st)); }
+  body.mobile #mcBanner { top: calc(34px + var(--st)); left: calc(196px + var(--sl)); right: calc(90px + var(--bA) + var(--sr)); transform: none; padding: 4px 8px; animation: none; }
+  body.mobile.mcshow #toasts { top: calc(124px + var(--st)); }
+  body.mobile #mcBanner .mcT { font-size: 19px; letter-spacing: 2px; } body.mobile #mcBanner .how { display: none; } body.mobile #mcBanner .mcN { font-size: 13px; } body.mobile #mcBanner .mcS { font-size: 10.5px; }
+  @media (orientation: portrait) {
+    body.mobile #mpick { right: calc(158px + var(--sr)); max-height: calc(100% - 250px - var(--st) - var(--sb)); }
+    body.mobile #mpick .mpGrid { grid-template-columns: 1fr 1fr; }
+    body.mobile #mpick .lg { display: none; } body.mobile #mpick .sh { display: inline; }
+    body.mobile #mpick .mpHead .opt { display: none; }
+    body.mobile #mpick #mpBlurb { display: none; }
+    body.mobile #guide { left: calc(8px + var(--sl)); right: calc(158px + var(--sr)); top: calc(260px + var(--st)); }
+    body.mobile.guiding #toasts { top: calc(334px + var(--st)); }
+    body.mobile #mcBanner { left: calc(8px + var(--sl)); right: calc(158px + var(--sr)); top: calc(260px + var(--st)); }
+    body.mobile.mcshow #toasts { top: calc(340px + var(--st)); }
+  }
 </style>
 </head>
 <body>
@@ -210,6 +278,7 @@
     <div class="row"><span>Altitude</span><b id="hAlt">-</b></div>
     <div class="row"><span>Vertical speed</span><b id="hVs">-</b></div>
     <div class="row"><span>Speed</span><b id="hSpd">-</b></div>
+    <div class="row"><span>Angle</span><b id="hAng">-</b></div>
     <div class="row"><span>Apoapsis</span><b id="hAp">-</b></div>
     <div class="row"><span>Periapsis</span><b id="hPe">-</b></div>
     <div class="lbl"><span>Throttle</span><span id="hThrT">0%</span></div>
@@ -239,6 +308,22 @@
   <div id="countdown" class="hidden"></div>
   <div id="warn" class="hidden"></div>
   <div id="toasts"></div>
+  <!-- v0.4.0: optional mission picker on the pad, guidance panel in flight, Mission Complete banner -->
+  <div id="mpick" class="panel hidden">
+    <div class="mpHead"><div class="ttl"><b>Pick a mission</b> <span class="opt">(optional)</span></div><div class="cur">Mission: <b id="mpShort">Free flight</b></div><button class="small ghost" data-act="mpToggle" id="mpToggle">Hide</button></div>
+    <div class="mpClock" id="mpClock">T-10 HOLD</div>
+    <div class="mpGrid">
+      <button data-act="mission:leo"><b><span class="lg">Low orbit</span><span class="sh">LEO</span></b><small>LEO · 100 km</small><span class="k">1</span></button>
+      <button data-act="mission:meo"><b><span class="lg">Medium orbit</span><span class="sh">MEO</span></b><small>MEO · 2,000 km</small><span class="k">2</span></button>
+      <button data-act="mission:geo"><b><span class="lg">High orbit</span><span class="sh">GEO</span></b><small id="mpGeoSub">GEO</small><span class="k">3</span></button>
+      <button data-act="mission:lunaOrbit"><b><span class="lg">Luna orbit</span><span class="sh">Luna orbit</span></b><small>get captured</small><span class="k">4</span></button>
+      <button data-act="mission:lunaLand"><b><span class="lg">Luna landing</span><span class="sh">Luna land</span></b><small>touch down</small><span class="k">5</span></button>
+      <button data-act="mission:none"><b><span class="lg">Free flight</span><span class="sh">Free</span></b><small>no mission</small><span class="k">0</span></button>
+    </div>
+    <div class="mpBlurb"><span class="mpCurL">Chosen: <b id="mpCur">Free flight</b>. </span><span id="mpBlurb"></span></div>
+  </div>
+  <div id="guide" class="panel hidden"></div>
+  <div id="mcBanner" class="panel hidden"></div>
   <div id="touch" class="hidden">
     <div class="tcol" id="tColA">
       <button class="tb" id="tMenu" data-t="menu"><b>&#9776;</b><small>Menu</small></button>
@@ -317,6 +402,8 @@
     </div>
     <h3>Milestones</h3>
     <div class="ms" id="msList"></div>
+    <h3>Missions</h3>
+    <div class="ms" id="missionList"></div>
     <h3>Records</h3>
     <div id="records" class="help"></div>
   </div>
@@ -394,6 +481,15 @@
     It glows as it hits the air. Come in too steep or too fast and the <b>Heat</b> reading climbs past 100% and the capsule burns up.
     Once you've slowed below 250 m/s, open the parachute (<span class="pc-only"><kbd>P</kbd></span><span class="mobile-only"><b>CHUTE</b></span>); faster than that and it tears.
     Touch down under 9 m/s on land or 14 m/s in the ocean. Launch, orbit and come home safely to earn <b>Round Trip</b>.
+    <h3>Missions and guidance (optional)</h3>
+    When your Kestrel is on the pad, a <b>Pick a mission</b> panel shows up. You can ignore it and just fly (<b>Free flight</b>), or pick one:
+    <b>Low orbit</b> (LEO, 100 km), <b>Medium orbit</b> (MEO, 2,000 km), <b>High orbit</b> (GEO, 8,140 km: one lap takes exactly one Terra day), <b>Luna orbit</b> or <b>Luna landing</b>.
+    <span class="pc-only">Click one, or press <kbd>1</kbd>&ndash;<kbd>5</kbd> (<kbd>0</kbd> = free flight).</span><span class="mobile-only">Tap one.</span>
+    You can change your mind, or go back to free flight, any time before liftoff.
+    In flight, a pink panel tells you the next step in a few words (&ldquo;Tilt left to 45&deg;&rdquo;, &ldquo;Cut engine now&rdquo;, &ldquo;Wait &mdash; warp to Ap&rdquo;, &ldquo;Burn prograde at Ap&rdquo;),
+    with a throttle cue (FULL / CUT / a %). A <b>pink arrow</b> next to the rocket and a pink marker on the dial show where to point, and a curved arrow shows which way to turn.
+    The <b>Angle</b> reading helps: 90&deg; is straight up, 0&deg; is flat along the horizon (near Luna it's Luna's horizon). When you're told to warp, time warp slows down by itself before the next burn.
+    Do what the panel says and you'll get there: reach the orbit (or land) and a <b>MISSION COMPLETE</b> banner appears. It's saved, and the Tracking Station shows your stars.
     <h3>The edge of Terra's pull</h3>
     Terra's pull reaches out 84,000 km (the dashed yellow circle on the map). Go faster than escape speed and your Apoapsis says <b>Escaping</b>; the map marks where you'll leave.
     Past the edge you're in <b>deep space</b>: nothing pulls on you, so you coast in a straight line and the distance keeps counting up (in km, then million km).
@@ -418,7 +514,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.3.1';
+const VERSION = '0.4.0';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -975,9 +1071,11 @@ function onLand(v, isActive) {
   if (v.launched && v.impact > 0.05 && (!S.stats.softest || v.impact < S.stats.softest)) S.stats.softest = v.impact;
   if (v.parent === 'luna') {
     const first = !v.visitedLuna; v.visitedLuna = true;
+    let mc = false;
+    if (isActive && v.mission === 'lunaLand' && !v.missionDone) { missionComplete(v, 'Touched down at ' + v.impact.toFixed(1) + ' m/s, upright'); mc = true; }
     if (isActive) {
       const wasNew = !S.milestones.lunaLand; milestone('lunaLand');
-      if (first) outcome('Touchdown on Luna!', v.name + ' landed at ' + v.impact.toFixed(1) + ' m/s.' + (wasNew ? ' The first ever landing on Luna.' : '') + ' It will stay right here until you fly it again.', [['Keep flying', 'resume'], ['Tracking Station', 'station']]);
+      if (first || mc) outcome(mc ? 'Mission Complete: Luna landing!' : 'Touchdown on Luna!', v.name + ' landed at ' + v.impact.toFixed(1) + ' m/s.' + (wasNew ? ' The first ever landing on Luna.' : '') + (mc ? ' Mission saved to your progress.' : '') + ' It will stay right here until you fly it again.', [['Keep flying', 'resume'], ['Tracking Station', 'station']]);
     }
   } else if (isActive) {
     const how = (v.splashed ? 'splashed down in the ocean' : 'touched down on land') + ' at ' + v.impact.toFixed(1) + ' m/s';
@@ -1024,7 +1122,7 @@ function hint(v, key, pc, mob) {
   v.hints[key] = 1; toast(MODE === 'mobile' ? mob : pc);
 }
 
-let lastWarpWarn = 0;
+let lastWarpWarn = 0, lastWarpSlow = 0;
 function update(realDt) {
   const av = active();
   // throttle keys (real time)
@@ -1037,6 +1135,15 @@ function update(realDt) {
 
   const allowed = maxWarpFor(av);
   while (warpIdx > 0 && WARPS[warpIdx] > allowed) { warpIdx--; if (performance.now() - lastWarpWarn > 3000) { lastWarpWarn = performance.now(); } }
+  // v0.4.0: with a mission, time warp slows down by itself before the next step (so you don't warp past a burn)
+  if (av && av.mission && !av.missionDone && !av.landed && !paused) {
+    const g = guideNow(av);
+    if (g && isFinite(g.evT)) {
+      let slowed = false; const cap = g.maxWarp || Math.max(4, g.evT * 6.6);
+      while (warpIdx > 0 && WARPS[warpIdx] > cap) { warpIdx--; slowed = true; }
+      if (slowed && WARPS[warpIdx] <= 4 && !g.maxWarp && performance.now() - lastWarpSlow > 4000) { lastWarpSlow = performance.now(); toast('Time warp slowed down: next step coming up'); }
+    }
+  }
 
   const fdt = Math.min(realDt, 0.05) * WARPS[warpIdx];
   if (fdt <= 0) return;
@@ -1112,6 +1219,7 @@ function update(realDt) {
       if (a.reachedOrbit && h < 75000 && vr < -20 && hasCapsule(a) && !isCapsuleOnly(a)) hint(a, 'reentry', 'Coming home? Press Space to drop the upper stage: only the capsule has a heat shield', 'Coming home? Tap STAGE to drop the upper stage: only the capsule has a heat shield');
       if (a.chute === 'packed' && !a.fairing && a.launched && vr < 0 && sp < CHUTE_MAX && rhoAt(b, h) > CHUTE_MIN_RHO) hint(a, 'chute', 'Slow enough: press P to open the parachute', 'Slow enough: tap CHUTE to open the parachute');
     }
+    checkMission(a);
     // exhaust smoke low in the air
     if (hasThrust(a) && a.parent === 'terra' && h < 20000 && WARPS[warpIdx] <= 4 && Math.random() < 0.6) {
       const L0 = lengthOf(a), hx = Math.cos(a.ang), hy = Math.sin(a.ang);
@@ -1189,7 +1297,7 @@ function doStage() {
   const bx = v.x - hx * L0 / 2, by = v.y - hy * L0 / 2;
   const deb = JSON.parse(JSON.stringify(v));
   deb.id = S.nextId++; deb.name = v.name + ' ' + (st.name || 'booster').toLowerCase(); deb.parts = [k]; deb.debris = true; deb.throttle = 0; deb.sas = false;
-  deb.fairing = false; delete deb.chute; deb.hints = {}; deb.clamped = false; deb.countdown = 0;
+  deb.fairing = false; delete deb.chute; deb.hints = {}; deb.clamped = false; deb.countdown = 0; delete deb.mission; delete deb.guide; delete deb.missionDone;
   deb.x = bx + hx * st.len / 2; deb.y = by + hy * st.len / 2; deb.vx = v.vx - hx * 2.5; deb.vy = v.vy - hy * 2.5; deb.angVel = (Math.random() - 0.5) * 0.4;
   v.parts.shift();
   const L1 = lengthOf(v);
@@ -1242,10 +1350,12 @@ function warnWarp(v) {
   return 'Too close to ' + b.name + ' to warp faster';
 }
 
-function launch(rid) {
+function launch(rid, mission) {
   if (!ROCKETS[rid] || ROCKETS[rid].retired) rid = LAUNCH_ROCKET; // retired rockets can't be launched any more
   const old = active(); if (old) old.throttle = 0;
   const v = newVessel(rid);
+  if (mission && MISSION[mission]) { v.mission = mission; v.guide = {}; }
+  pickHidden = false;
   v.countdown = COUNTDOWN; v.hold = true; v.clamped = true; v.ignited = false; liftoffShow = 0; clampAnim = null;
   S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
   camRot = PAD_THETA - Math.PI / 2;
@@ -1255,6 +1365,503 @@ function launch(rid) {
 function flyVessel(id) {
   const old = active(); if (old && old.id !== id) old.throttle = 0;
   S.activeId = id; warpIdx = 0; snapCam = true; save(); closeAll();
+}
+
+// ---------- v0.4.0: missions, flight guidance, Mission Complete ----------
+// A mission is picked (optionally) on the pad. While flying, missionGuide() works out the next step from the ship's
+// current path and shows it: an aim arrow (on the dial and next to the rocket), a short instruction, and a throttle cue.
+// Everything it needs to remember between steps lives in v.guide (saved with the ship), so a reload keeps the guidance.
+const DAY = 86400;                         // one Terra day on the clock (Day 1, Day 2, ...)
+const GEO_ALT = Math.round((Math.cbrt(BODIES.terra.mu * (DAY / (2 * Math.PI)) ** 2) - BODIES.terra.R) / 10000) * 10000; // one lap per day: 8,140 km
+const PARK_ALT = 100000;                   // every guided flight first climbs to an orbit about 100 km up
+const LUNA_PASS = [25000, 90000];          // aim the closest pass at Luna into this window (m above the surface)
+const MISSIONS = [
+  { id: 'leo', key: '1', name: 'Low orbit', tag: 'LEO', short: 'LEO', sub: '100 km', kind: 'orbit', alt: 100000, lo: 80000, hi: 120000,
+    blurb: 'Circle Terra about 100 km up (lowest and highest point both between 80 and 120 km).' },
+  { id: 'meo', key: '2', name: 'Medium orbit', tag: 'MEO', short: 'MEO', sub: '2,000 km', kind: 'orbit', alt: 2000000, lo: 1800000, hi: 2200000,
+    blurb: 'Circle Terra 2,000 km up (both points between 1,800 and 2,200 km).' },
+  { id: 'geo', key: '3', name: 'High orbit', tag: 'GEO', short: 'GEO', sub: fmtDistK(GEO_ALT), kind: 'orbit', alt: GEO_ALT, lo: Math.round(GEO_ALT * 0.95 / 1000) * 1000, hi: Math.round(GEO_ALT * 1.05 / 1000) * 1000,
+    blurb: 'Circle Terra ' + fmtDistK(GEO_ALT) + ' up: there one lap takes exactly one Terra day (24 h). Both points within 5%.' },
+  { id: 'lunaOrbit', key: '4', name: 'Luna orbit', tag: 'Luna', short: 'Luna orbit', sub: 'capture', kind: 'lunaOrbit', lo: 10000, hi: 500000,
+    blurb: 'Fly to Luna and get captured into an orbit around it (lowest point above 10 km, highest below 500 km).' },
+  { id: 'lunaLand', key: '5', name: 'Luna landing', tag: 'Land', short: 'Luna land', sub: 'touch down', kind: 'lunaLand',
+    blurb: 'Fly to Luna and land on the legs: upright, slower than 8 m/s.' }
+];
+const MISSION = Object.fromEntries(MISSIONS.map(m => [m.id, m]));
+function fmtDistK(m) { return Math.round(m / 1000).toLocaleString('en-US') + ' km'; }
+function missionLabel(id) { const m = MISSION[id]; return m ? m.name + (m.kind === 'orbit' ? ' (' + m.tag + ')' : '') : 'Free flight'; }
+
+// "Angle" readout: 90 = nose straight up, 0 = flat along the horizon, negative = nose below the horizon.
+// Measured against the horizon of the body the ship is flying around (Luna near Luna, Terra everywhere else).
+function angleOf(v) {
+  const up = Math.atan2(v.y, v.x), rel = angDiff(v.ang, up), deg = Math.abs(rel) * 180 / Math.PI;
+  return { el: 90 - deg, rel, side: deg < 0.5 ? 'up' : deg > 179.5 ? 'down' : rel > 0 ? 'left' : 'right' };
+}
+function angleText(v) {
+  const a = angleOf(v), n = Math.round(a.el);
+  if (a.side === 'up') return '90° up';
+  if (a.side === 'down') return '-90° down';
+  return n + '° ' + a.side;
+}
+
+// seconds until the highest / lowest point of the current path (Infinity if there is none ahead)
+function orbitTimes(v) {
+  const b = BODIES[v.parent], mu = b.mu, o = vesselOrbit(v);
+  const sg = o.h >= 0 ? 1 : -1, nu = sg * angDiff(Math.atan2(v.y, v.x), o.w);
+  if (o.e < 1) {
+    const n = Math.sqrt(mu / o.a ** 3), P = 2 * Math.PI / n;
+    const E = 2 * Math.atan(Math.sqrt((1 - o.e) / (1 + o.e)) * Math.tan(nu / 2));
+    let M = E - o.e * Math.sin(E); if (M < 0) M += 2 * Math.PI;
+    let tAp = (Math.PI - M) / n; if (tAp < 0) tAp += P;
+    return { tAp, tPe: (2 * Math.PI - M) / n, P, o };
+  }
+  const n = Math.sqrt(mu / (-o.a) ** 3), q = Math.max(-0.999999, Math.min(0.999999, Math.sqrt((o.e - 1) / (o.e + 1)) * Math.tan(nu / 2)));
+  const F = 2 * Math.atanh(q), M = o.e * Math.sinh(F) - F;
+  return { tAp: Infinity, tPe: M < 0 ? -M / n : Infinity, P: Infinity, o };
+}
+
+// closest pass at Luna for a path that starts at (x,y,vx,vy) around Terra at time t0.
+// m is a smooth "miss" number: the closest-pass height if the path enters Luna's sphere, else roughly how far it misses.
+function predictPass(x, y, vx, vy, t0) {
+  const mu = BODIES.terra.mu, o = orbitOf(x, y, vx, vy, mu);
+  if (o.p < 0.02 * Math.hypot(x, y)) return null;
+  let T = o.e < 1 ? 2 * Math.PI * Math.sqrt(o.a ** 3 / mu) : 8e5; T = Math.min(T, 3e6);
+  const N = 1200, dt = T / N; let dmin = Infinity, tmin = 0;
+  const at = tau => { const k = kepler(x, y, vx, vy, mu, tau); if (!k) return null; const L = lunaState(t0 + tau); return { k, L, d: Math.hypot(k.x - L.x, k.y - L.y) }; };
+  for (let i = 1; i <= N; i++) {
+    const s = at(i * dt); if (!s) break;
+    if (Math.hypot(s.k.x, s.k.y) < BODIES.terra.R) break;
+    if (s.d < dmin) { dmin = s.d; tmin = i * dt; }
+    if (s.d < LUNA.soi) {
+      let lo = (i - 1) * dt, hi = i * dt, best = s;
+      for (let j = 0; j < 40; j++) { const mid = (lo + hi) / 2, sm = at(mid); if (!sm) break; if (sm.d < LUNA.soi) { hi = mid; best = sm; } else lo = mid; }
+      const oL = orbitOf(best.k.x - best.L.x, best.k.y - best.L.y, best.k.vx - best.L.vx, best.k.vy - best.L.vy, LUNA.mu);
+      const pe = oL.rp - LUNA.R;
+      return { enc: true, pe, tau: hi, m: pe };
+    }
+  }
+  return { enc: false, dmin, tau: tmin, m: dmin - LUNA.R };
+}
+
+let G_cache = { key: '', g: null }, passCache = { t: -1, real: 0, id: -1, res: null };
+function passFor(v, fresh) {
+  const now = performance.now();
+  if (!fresh && passCache.id === v.id && (Math.abs(S.t - passCache.t) < 1e-9 || now - passCache.real < 250)) return passCache.res;
+  passCache = { t: S.t, real: now, id: v.id, res: predictPass(v.x, v.y, v.vx, v.vy, S.t) };
+  return passCache.res;
+}
+function guideNow(v) {
+  if (!v || !v.mission || !MISSION[v.mission]) return null;
+  const key = [v.id, S.t, v.mission, v.missionDone || 0, v.landed, v.countdown, v.hold, v.parts.length, v.fairing, v.parent, v.throttle > 0, v.fuel[v.parts[0]] > 0].join('|');
+  if (G_cache.key === key) return G_cache.g;
+  let g;
+  try { g = computeGuide(v); } catch (e) { console.warn('guide', e); g = { title: 'Guidance unavailable', detail: '', aim: null, thr: null }; }
+  G_cache = { key, g };
+  return g;
+}
+function keyHint(pc, mob) { return MODE === 'mobile' ? mob : pc; }
+
+function computeGuide(v) {
+  const M = MISSION[v.mission], gs = v.guide || (v.guide = {});
+  const b = BODIES[v.parent], r = Math.hypot(v.x, v.y), h = r - b.R, up = Math.atan2(v.y, v.x);
+  const sp = Math.hypot(v.vx, v.vy), vr = (v.x * v.vx + v.y * v.vy) / r, vh = (v.x * v.vy - v.y * v.vx) / r;
+  const pro = Math.atan2(v.vy, v.vx), retro = pro + Math.PI;
+  const out = (title, detail, aim, thr, extra) => Object.assign({ mission: M.id, title, detail, aim: aim === null || aim === undefined ? null : aim, thr: thr === undefined ? null : thr, act: null, warp: null, evT: Infinity }, extra || {});
+  const burning = hasThrust(v);
+  const cutFirst = (g) => { if (burning && g.thr === 0 && !g.done) { g.title = 'Cut engine now'; g.cut = true; } return g; };
+  if (v.missionDone) return out('Mission complete ✓', 'Saved to your progress. Fly on however you like.', null, null, { done: true });
+  // ---- on the pad / on the ground
+  if (v.landed) {
+    if (v.countdown > 0 && v.hold) return out('Start the countdown', keyHint('Press Enter', 'Tap START') + '. The engines go to full by themselves at liftoff.', up, null, { act: 'start', step: 'pad' });
+    if (v.countdown > 0) return out('Countdown', 'Liftoff at T-0. Then fly straight up.', up, null, { step: 'countdown' });
+    if (v.parent === 'terra' && !v.launched) return out('Full throttle to lift off', '', up, 1, { step: 'pad' });
+    if (v.parent === 'terra') return out('Back on Terra', 'This flight can\'t finish the mission any more. Launch a new rocket to try again.', null, null, { step: 'over' });
+    return out('Landed on Luna', 'This mission wanted an orbit around Luna. Launch a new rocket to try again.', null, null, { step: 'over' });
+  }
+  const st = engine(v), pf = v.parent === 'terra' ? airOf(v).pf : 0, m = massOf(v);
+  const acc = Math.max(0.05, thrustNow(st, pf, 1) / m);
+  const noFuel = v.fuel[v.parts[0]] <= 0;
+  const o = vesselOrbit(v), rpA = o.rp - b.R, raA = (o.e < 1 && o.ra < b.soi) ? o.ra - b.R : Infinity;
+  // staging / fairing cues (these ride along with the steering cue)
+  let act = null, actText = '';
+  if (v.parts.length === 3 && noFuel) { act = 'stage'; actText = keyHint('Press Space: drop the booster', 'Tap STAGE: drop the booster'); }
+  else if (v.fairing && v.parent === 'terra' && h > 45000) { act = 'fairing'; actText = keyHint('Press F: drop the fairing', 'Tap FAIRING: drop it'); }
+  const withAct = g => { if (act) { g.act = act; g.actText = actText; if (act === 'stage') { g.title = 'Drop the booster now'; g.detail = 'It is empty. ' + g.detail; } } return g; };
+  if (noFuel && v.parts.length < 3) return out('Out of fuel', 'The rocket has no fuel left for this mission. Launch a new one to try again.', null, null, { step: 'over' });
+  const tms = orbitTimes(v);
+
+  // generic burn helpers -----------------------------------------------------------
+  const sgn = vh >= 0 ? 1 : -1;
+  const horizon = el => up + sgn * (Math.PI / 2 - el);   // direction el radians above the horizon, along the way we're moving
+  const ang = () => angleText(v);
+  // wait for an apsis, then burn (pointing `aimF`) until `doneF` says stop
+  function apsisBurn(kind, at, dv, aimF, doneF, words) {
+    const B = gs.burn;
+    const Tb = Math.max(1, Math.abs(dv) / acc), tTo = at === 'ap' ? tms.tAp : tms.tPe;
+    if (B && B.k === kind) {
+      if (doneF()) { delete gs.burn; return null; }
+      if (S.t - B.t0 > 2 * B.tb + 120) { delete gs.burn; }   // the burn was missed: plan it again
+      else { const [thr, extra, near] = words.burnThr ? words.burnThr() : [1, '']; return out(words.burn, words.detail() + extra, aimF(), thr, { step: kind, warp: 'no', evT: 0, maxWarp: near ? 1 : undefined }); }
+    }
+    if (doneF()) return null;
+    const lead = Tb / 2;
+    if (tTo <= lead + 1 || words.now) { gs.burn = { k: kind, t0: S.t, tb: Tb }; const [thr] = words.burnThr ? words.burnThr() : [1]; return out(words.burn, words.detail(), aimF(), thr, { step: kind, warp: 'no', evT: 0 }); }
+    const apsis = at === 'ap' ? 'Ap' : 'Pe';
+    if (tTo <= lead + 45) return cutFirst(out('Point ' + words.pointWord + ': burn in ' + fmtTime(tTo - lead), words.why, aimF(), 0, { step: kind + 'Point', warp: 'no', evT: 0 }));
+    return cutFirst(out('Wait — warp to ' + apsis, apsis + ' in ' + fmtTime(tTo) + '. Then: ' + words.why, aimF(), 0, { step: kind + 'Wait', warp: burning ? 'no' : 'go', evT: tTo - lead - 45 }));
+  }
+
+  // ================= Terra =================
+  if (v.parent === 'terra') {
+    if (isDeep(v)) return out('Off course: come back', 'You are past the edge of Terra\'s pull. Point at Terra and burn to come back.', up + Math.PI, 1, { step: 'deep' });
+    const luna = M.kind !== 'orbit';
+    const inOrbit = o.e < 1 && rpA >= 70000 && !(gs.burn && gs.burn.k === 'circ');
+    // --- 1. climb and gravity turn, until the highest point reaches 100 km
+    if (!inOrbit && !gs.lu) {
+      if (!gs.asc && isFinite(raA) && raA >= PARK_ALT && h > 1000) gs.asc = 'coast';
+      if (!gs.asc) {
+        const pitch = Math.min(Math.PI / 2 * 0.96, Math.sqrt(Math.max(0, (h - 1500) / 45000)) * Math.PI / 2);
+        const want = Math.round(90 - pitch * 180 / Math.PI);
+        const air = airOf(v), q = air.q, ql = qLimitOf(v);
+        let thr = 1, title = h < 1500 ? 'Fly straight up' : 'Tilt left to ' + want + '°';
+        if (q > 0.62 * ql) { thr = 0.7; title = 'Throttle down a little (air push)'; }
+        const detail = (h < 1500 ? 'Full throttle. At 1.5 km start leaning left, gently.' : 'Angle now ' + ang() + '.') + ' Ap ' + (isFinite(raA) ? fmtDist(Math.max(0, raA)) : '-') + ' → 100 km, then cut.';
+        return withAct(out(title, detail, up + pitch, thr, { step: 'ascent', warp: 'no' }));
+      }
+      if (h < b.atmo) {
+        if (raA < PARK_ALT - 4000) return withAct(out('Burn a little more', 'The air is pulling your Ap down. Full throttle until Ap is back at 100 km.', pro, 1, { step: 'topup', warp: 'no' }));
+        return withAct(cutFirst(out('Coast up out of the air', 'Engine off. Ap ' + fmtDist(raA) + '. Time warp (up to 4x) is fine. Keep the nose on the green marker.', pro, 0, { step: 'coast', warp: 'go' })));
+      }
+      // --- 2. circularize at the highest point: hold height while speeding up sideways
+      const hT = gs.burn && gs.burn.k === 'circ' && gs.burn.hT ? gs.burn.hT : Math.max(80000, Math.min(140000, isFinite(raA) ? raA : h));
+      const gNet = b.mu / (r * r) - vh * vh / r;
+      const vrWant = Math.max(-25, Math.min(25, (hT - h) / 60));
+      const el = Math.asin(Math.max(-0.17, Math.min(0.7, (gNet + 0.08 * (vrWant - vr)) / acc)));
+      const vAp = isFinite(raA) ? Math.abs(o.h) / o.ra : sp, dv = Math.sqrt(b.mu / (b.R + hT)) - vAp;
+      const peGoal = 90000;
+      const g = apsisBurn('circ', 'ap', dv, () => horizon(el), () => rpA >= peGoal || (isFinite(raA) && rpA >= raA - 3000), {
+        burn: 'Burn prograde at Ap', pointWord: 'at the arrow', why: 'burn sideways at Ap to round off your orbit.', now: vr < -5,
+        detail: () => 'Full throttle until Pe reaches 90 km (now ' + peText(v, o, true) + '). Keep the nose on the arrow.' });
+      if (g) { if (gs.burn && gs.burn.k === 'circ' && !gs.burn.hT) gs.burn.hT = hT; return withAct(g); }
+      return withAct(cutFirst(out('Cut engine now', 'You are in orbit.', pro, 0, { step: 'orbitIn' })));
+    }
+    if (luna) return withAct(lunaTransfer());
+    return withAct(adjustOrbit(M.alt, M.lo, M.hi));
+  }
+
+  // ================= Luna =================
+  return lunaArrival();
+
+  // ---------------------------------------------------------------------------------
+  // Terra-orbit missions: change the orbit one burn at a time until both points are in the window
+  function adjustOrbit(T, lo, hi) {
+    const R = b.R, mu = b.mu;
+    const visviva = (rr, a) => Math.sqrt(mu * Math.max(0, 2 / rr - 1 / a));
+    // throttle down near the end of a burn (and keep time warp at 1x then) so you can stop on the number
+    const ease = (left, span) => left < 0.03 * span ? [0.1, ' Almost there: throttle right down.', true] : left < 0.12 * span ? [0.3, ' Almost there: throttle down.', true] : [1, '', false];
+    let going = gs.burn && gs.burn.k;
+    // a burn already under way: raise Ap (started right away from a round orbit)
+    if (going === 'raiseAp') {
+      if (raA >= T || S.t - gs.burn.t0 > 2 * gs.burn.tb + 120) { delete gs.burn; going = undefined; }
+      else { const [thr, extra, near] = ease(T - raA, T - rpA); return out('Burn prograde', 'Until Ap reaches ' + fmtDistK(T) + ' (now ' + apText(v, o).toLowerCase() + ').' + extra, pro, thr, { step: 'raiseAp', warp: 'no', evT: 0, maxWarp: near ? 1 : undefined }); }
+    }
+    if (raA === Infinity) return out('Burn retrograde now', 'You are escaping Terra. Point at the red X and burn until Ap comes back.', retro, 1, { step: 'escape', warp: 'no', evT: 0 });
+    // far point heading into Luna's pull: bring it down straight away
+    if (going === 'lunaSafe' || o.ra > LUNA.orbitR - LUNA.soi - 300000) {
+      if (o.ra < LUNA.orbitR - LUNA.soi - 900000) { delete gs.burn; going = undefined; }
+      else { gs.burn = { k: 'lunaSafe', t0: S.t, tb: 60 }; return out('Burn retrograde now', 'Your Ap is reaching Luna\'s pull. Point at the red X and burn until Ap is below ' + fmtDistK(LUNA.orbitR - LUNA.soi - 900000 - R) + '.', retro, 1, { step: 'lunaSafe', warp: 'no', evT: 0 }); }
+    }
+    if (going !== 'raisePe' && going !== 'lowerAp' && going !== 'lowerPe' && raA < lo) {
+      const nearCirc = raA - rpA < 0.05 * T + 20000;
+      const dv = visviva(o.rp, (o.rp + R + T) / 2) - visviva(o.rp, o.a);
+      if (nearCirc) {
+        gs.burn = { k: 'raiseAp', t0: S.t, tb: Math.max(1, dv / acc) };
+        return out('Burn prograde', 'Point at the green marker, full throttle until Ap reaches ' + fmtDistK(T) + ' (now ' + apText(v, o).toLowerCase() + ').', pro, 1, { step: 'raiseAp', warp: 'no', evT: 0 });
+      }
+      const g = apsisBurn('raiseAp', 'pe', dv, () => pro, () => raA >= T, { burn: 'Burn prograde at Pe', pointWord: 'prograde (green)', why: 'burn prograde at Pe to raise Ap to ' + fmtDistK(T) + '.',
+        burnThr: () => ease(T - raA, T - rpA), detail: () => 'Until Ap reaches ' + fmtDistK(T) + ' (now ' + apText(v, o).toLowerCase() + ').' });
+      if (g) return g;
+    }
+    if ((going === 'raisePe') || (!going && rpA < lo)) {
+      const top = Math.min(T, raA), goal = lo + 0.7 * (top - lo);
+      const dv = Math.sqrt(mu / o.ra) - visviva(o.ra, o.a);
+      const g = apsisBurn('raisePe', 'ap', dv, () => pro, () => rpA >= goal, {
+        burn: 'Burn prograde at Ap', pointWord: 'prograde (green)', why: 'burn prograde at Ap to round off the orbit at ' + fmtDistK(top) + '.',
+        burnThr: () => ease(goal - rpA, top - lo + 100000),
+        detail: () => 'Until Pe reaches ' + fmtDistK(goal) + ' (now ' + peText(v, o, true) + ').' });
+      if (g) return g;
+    }
+    if ((going === 'lowerPe') || (!going && rpA > hi)) {
+      // both points too high: first bring the near point down (burn at the far point)
+      const goal = T, dv = visviva(o.ra, o.a) - visviva(o.ra, (o.ra + R + goal) / 2);
+      const g = apsisBurn('lowerPe', 'ap', dv, () => retro, () => rpA <= goal, {
+        burn: 'Burn retrograde at Ap', pointWord: 'retrograde (red X)', why: 'burn retrograde at Ap to bring Pe down to ' + fmtDistK(goal) + '.',
+        burnThr: () => ease(rpA - goal, raA - goal + 100000), detail: () => 'Until Pe comes down to ' + fmtDistK(goal) + ' (now ' + peText(v, o, true) + ').' });
+      if (g) return g;
+    }
+    if ((going === 'lowerAp') || (!going && raA > hi)) {
+      const goal = Math.max(T + 0.3 * (hi - T), rpA + 0.01 * T), dv = visviva(o.rp, o.a) - visviva(o.rp, (o.rp + R + goal) / 2);
+      const g = apsisBurn('lowerAp', 'pe', dv, () => retro, () => raA <= goal || raA - rpA < 0.005 * T, {
+        burn: 'Burn retrograde at Pe', pointWord: 'retrograde (red X)', why: 'burn retrograde at Pe to bring Ap down to ' + fmtDistK(goal) + '.',
+        burnThr: () => ease(raA - goal, raA - rpA + 100000), detail: () => 'Until Ap comes down to ' + fmtDistK(goal) + ' (now ' + apText(v, o).toLowerCase() + ').' });
+      if (g) return g;
+    }
+    if (rpA >= lo && raA <= hi) return cutFirst(out(burning ? 'Cut engine now' : 'Orbit reached', 'Ap ' + fmtDist(raA) + ' · Pe ' + fmtDist(rpA) + '.', null, 0, { step: 'inWindow' }));
+    return cutFirst(out('Hold on', 'Working out the next burn...', pro, 0, { step: 'plan' }));
+  }
+
+  // Luna missions, still around Terra: wait for the right moment, burn, fine-tune, coast
+  function lunaTransfer() {
+    const mu = b.mu, LO = LUNA.orbitR;
+    if (!gs.lu) {
+      const Ls = lunaState(S.t), phase = angDiff(Math.atan2(Ls.y, Ls.x), up);       // how far Luna is ahead of you (radians)
+      const nS = Math.sqrt(mu / o.a ** 3) * (o.h >= 0 ? 1 : -1), rel = nS - LUNA.w;
+      const aT = (r + LO) / 2, tTr = Math.PI * Math.sqrt(aT ** 3 / mu);
+      const dv = Math.sqrt(mu * (2 / r - 1 / aT)) - sp, Tb = Math.max(1, dv / acc);
+      const want = Math.PI - LUNA.w * tTr + (Tb / 2) * rel;                          // Luna's lead when the burn starts
+      let d = phase - want; d = ((d % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+      if (rel <= 0) return cutFirst(out('Orbit the other way', 'This guide needs you going round Terra to the left (the way Luna goes).', null, 0, { step: 'wrongWay' }));
+      const wait = d / rel, lead = Math.round(want * 180 / Math.PI), now = Math.round(phase * 180 / Math.PI);
+      if (gs.tliT0 && S.t - gs.tliT0 < 20 && d > Math.PI) { gs.lu = 'tli'; }        // just past the moment: go now
+      else if (wait > 45) { delete gs.tliT0; return cutFirst(out('Wait — warp until Luna is ' + lead + '° ahead', 'Luna is ' + now + '° ahead of you now. Burn in ' + fmtTime(wait) + '. (Map: ' + keyHint('M', 'Map') + ')', pro, 0, { step: 'phaseWait', warp: 'go', evT: wait - 45 })); }
+      else if (wait > 1.5) { gs.tliT0 = S.t + wait; return cutFirst(out('Point prograde: Luna burn in ' + fmtTime(wait), 'Turn to the green marker and get ready for full throttle.', pro, 0, { step: 'tliPoint', warp: 'no', evT: 0 })); }
+      else { gs.lu = 'tli'; }
+      gs.luT0 = S.t; gs.luTb = Tb;
+    }
+    if (gs.lu === 'tli') {
+      let pass = null;
+      if (o.e >= 1 || o.ra > 9.0e6) { pass = passFor(v, true); if (pass && pass.enc) { gs.lu = 'corr'; gs.cd = 0; } }
+      if (o.e >= 1 || o.ra > 12.6e6) { gs.lu = 'corr'; gs.cd = 0; }
+      if (gs.lu === 'tli' && o.ra < 2e6 && S.t - (gs.luT0 || S.t) > 60 + 2 * (gs.luTb || 100)) { delete gs.lu; delete gs.tliT0; return out('Missed the moment', 'No problem: wait for the next one.', pro, 0, { step: 'tliMissed' }); }
+      if (gs.lu === 'tli') return out('Burn prograde to Luna', 'Full throttle until the Luna encounter shows up (Ap now ' + apText(v, o).toLowerCase() + ').', pro, 1, { step: 'tli', warp: 'no', evT: 0 });
+    }
+    if (gs.lu === 'corr') {
+      const pass = passFor(v, true);
+      if (!pass) return out('Hold on', '', pro, 0, { step: 'plan' });
+      const goal = (LUNA_PASS[0] + LUNA_PASS[1]) / 2, err = pass.m - goal;
+      if (pass.enc && pass.pe >= LUNA_PASS[0] && pass.pe <= LUNA_PASS[1]) { gs.lu = 'coast'; delete gs.cd; }
+      else {
+        // which way to push: try a small nudge outwards (away from Terra) and see if the miss gets better or worse
+        if (!gs.cd || (gs.lastErr !== undefined && burning && Math.abs(err) > Math.abs(gs.lastErr) + 2000 && (gs.flips || 0) < 8)) {
+          if (gs.cd) gs.flips = (gs.flips || 0) + 1;
+          const ux = v.x / r, uy = v.y / r, p2 = predictPass(v.x, v.y, v.vx + ux * 3, v.vy + uy * 3, S.t);
+          const dm = p2 ? p2.m - pass.m : 1;
+          gs.cd = (dm > 0) === (err < 0) ? 1 : -1;
+        }
+        gs.lastErr = err;
+        const aim = gs.cd > 0 ? up : up + Math.PI, aErr = Math.abs(angDiff(aim, v.ang));
+        const thr = aErr > 0.12 ? 0 : Math.abs(err) > 700000 ? 1 : Math.abs(err) > 200000 ? 0.3 : 0.1;
+        const where = pass.enc ? fmtDistK(pass.pe) + ' up' : 'misses by ' + fmtDistK(Math.max(0, pass.m));
+        return out(aErr > 0.12 ? 'Turn to the arrow (fine-tune)' : 'Fine-tune: burn at the arrow', 'Closest pass at Luna: ' + where + '. Aim for ' + fmtDistK(LUNA_PASS[0]) + '–' + fmtDistK(LUNA_PASS[1]) + '.' + (thr && thr < 1 ? ' Low throttle.' : ''), aim, thr, { step: 'corr', warp: 'no', evT: 0 });
+      }
+    }
+    // coasting to Luna
+    const pass = passFor(v, false);
+    if (pass && !pass.enc && gs.lu === 'coast' && burning === false && (gs.recheck = (gs.recheck || 0) + 1) > 3) { gs.lu = 'corr'; delete gs.recheck; }
+    if (pass && pass.enc) delete gs.recheck;
+    return cutFirst(out('Wait — warp to Luna', pass && pass.enc ? 'Luna in ' + fmtTime(pass.tau) + ', closest pass ' + fmtDistK(pass.pe) + ' up.' : 'On the way to Luna.', null, 0, { step: 'coastLuna', warp: 'go' }));
+  }
+
+  // near Luna: fine-tune the pass, brake into orbit, then (for the landing) brake again and land
+  function lunaArrival() {
+    const mu = b.mu, R = b.R;
+    if (M.kind === 'orbit') return out('Wrong place', 'This mission is an orbit around Terra. Head back home to try it.', null, 0, { step: 'wrong' });
+    // --- landing (after the capture)
+    if (gs.land === 'descend' || gs.land === 'brake') {
+      if (gs.land === 'brake') {
+        if (Math.abs(vh) < 15) gs.land = 'descend';
+        else return out('Burn retrograde: kill your sideways speed', 'Full throttle at the red X until sideways speed is almost 0 (now ' + Math.round(Math.abs(vh)) + ' m/s).', retro, 1, { step: 'brake', warp: 'no', evT: 0 });
+      }
+      const g = mu / (r * r), amax = Math.max(0.05, thrustNow(st, 0, 1) / m), hb = h - lengthOf(v) / 2;
+      const tilt = Math.max(hb < 60 ? -0.08 : -0.4, Math.min(hb < 60 ? 0.08 : 0.4, 0.03 * vh));
+      const aUp = amax * Math.cos(tilt) - g;
+      // target down-speed: brake at a steady, comfortable rate, gentler near the ground, about 2 m/s at touchdown
+      const aB = Math.max(0.1, aUp) * (0.1 + 0.35 * Math.min(1, hb / 600));
+      const vt = -Math.min(350, 1.5 + Math.sqrt(2 * aB * Math.max(0, hb - 2)));
+      const thr = Math.max(0, Math.min(1, (g + (hb < 60 ? 2.5 : 1.0) * (vt - vr)) / (amax * Math.cos(tilt))));
+      const thrR = thr > 0.97 ? 1 : thr < 0.03 ? 0 : Math.round(thr * 20) / 20;
+      if (thrR === 0 && hb > 2000 && vr > vt + 20) {
+        // still high and slow enough: fall with the engine off; work out when the landing burn will start
+        let hh = hb, vv = vr, t = 0;
+        while (t < 3000) {
+          vv -= mu / (R + hh) ** 2; hh += vv; t++;
+          const ab = Math.max(0.1, aUp) * (0.1 + 0.35 * Math.min(1, hh / 600)), env = -Math.min(350, 1.5 + Math.sqrt(2 * ab * Math.max(0, hh - 2)));
+          if (vv <= env + 5 || hh <= 0) break;
+        }
+        return out('Fall toward Luna: engine off', 'Keep the nose up (arrow). The landing burn starts in about ' + fmtTime(t) + ': warp is OK until then, it slows down by itself.', up - tilt, 0, { step: 'fall', warp: 'go', evT: t - 20 });
+      }
+      return out(hb > 300 ? 'Landing burn: nose up, follow the throttle' : 'Touch down gently: under 8 m/s', 'Down speed ' + Math.round(-vr) + ' m/s → keep it near ' + Math.round(-vt) + ' m/s. Height ' + fmtDist(Math.max(0, hb)) + '.', up - tilt, thrR, { step: 'descend', warp: 'no', evT: 0, maxWarp: 1 });
+    }
+    const closed = o.e < 1 && o.ra < LUNA.soi;
+    const goalRa = 150000;
+    const B = gs.burn;
+    if (B && B.k === 'capture') {
+      if (closed && raA <= goalRa) { delete gs.burn; }
+      else if (S.t - B.t0 > 2 * B.tb + 120) delete gs.burn;
+      else return out('Burn retrograde at Pe', 'Full throttle at the red X until Ap comes down below ' + fmtDistK(goalRa) + ' (now ' + apText(v, o).toLowerCase() + ').', retro, 1, { step: 'capture', warp: 'no', evT: 0 });
+    }
+    if (!closed) {
+      // fine-tune the closest pass while still far out
+      const goal = (LUNA_PASS[0] + LUNA_PASS[1]) / 2;
+      if ((rpA < 15000 || rpA > 150000) && h > 120000 && tms.tPe < Infinity && !(B && B.k === 'capture')) {
+        const n1 = [-v.vy / sp, v.vx / sp];
+        const o2 = orbitOf(v.x, v.y, v.vx + n1[0] * 2, v.vy + n1[1] * 2, mu);
+        const s = ((o2.rp - o.rp) > 0) === (rpA < goal) ? 1 : -1;
+        const aim = Math.atan2(n1[1] * s, n1[0] * s), aErr = Math.abs(angDiff(aim, v.ang));
+        const err = Math.abs(rpA - goal), thr = aErr > 0.12 ? 0 : err > 300000 ? 1 : err > 60000 ? 0.4 : 0.15;
+        return out(aErr > 0.12 ? 'Turn to the arrow (fine-tune)' : 'Fine-tune: burn at the arrow', 'Closest pass ' + fmtDistK(rpA) + ' up → aim for ' + fmtDistK(LUNA_PASS[0]) + '–' + fmtDistK(LUNA_PASS[1]) + '.', aim, thr, { step: 'lcorr', warp: 'no', evT: 0 });
+      }
+      if (tms.tPe === Infinity) {   // already past the closest point and leaving: brake now
+        gs.burn = { k: 'capture', t0: S.t, tb: 100 };
+        return out('Burn retrograde now', 'You passed Luna\'s closest point. Full throttle at the red X to stay.', retro, 1, { step: 'capture', warp: 'no', evT: 0 });
+      }
+      const vpe = Math.sqrt(Math.max(0, sp * sp + 2 * mu / o.rp - 2 * mu / r)), vEll = Math.sqrt(mu * (2 / o.rp - 2 / (o.rp + R + goalRa)));
+      const g = apsisBurn('capture', 'pe', vpe - vEll, () => retro, () => false, {
+        burn: 'Burn retrograde at Pe', pointWord: 'retrograde (red X)', why: 'burn retrograde at the closest point (' + fmtDistK(rpA) + ' up) to get captured by Luna.',
+        detail: () => 'Full throttle until Ap comes down below ' + fmtDistK(goalRa) + '.' });
+      return g;
+    }
+    // in orbit around Luna
+    if (M.kind === 'lunaOrbit') {
+      if (rpA >= M.lo && raA <= M.hi) return cutFirst(out(burning ? 'Cut engine now' : 'In orbit around Luna', 'Ap ' + fmtDist(raA) + ' · Pe ' + fmtDist(rpA) + '.', null, 0, { step: 'inWindow' }));
+      if (rpA < M.lo) {
+        const g = apsisBurn('lraisePe', 'ap', 50, () => pro, () => rpA >= 20000, { burn: 'Burn prograde at Ap', pointWord: 'prograde', why: 'raise your lowest point above 10 km.', detail: () => 'Until Pe is above 20 km (now ' + peText(v, o, true) + ').', burnThr: () => [0.3, ''] });
+        if (g) return g;
+      }
+      const g = apsisBurn('llowerAp', 'pe', 50, () => retro, () => raA <= 300000, { burn: 'Burn retrograde at Pe', pointWord: 'retrograde', why: 'bring your highest point below 500 km.', detail: () => 'Until Ap is below 300 km.' });
+      if (g) return g;
+      return cutFirst(out('Hold on', '', null, 0, {}));
+    }
+    // landing: go to the lowest point, then kill the sideways speed there
+    const g = apsisBurn('deorbit', 'pe', Math.abs(vh), () => retro, () => false, {
+      burn: 'Burn retrograde: kill your sideways speed', pointWord: 'retrograde (red X)', why: 'at the lowest point, burn retrograde to stop moving sideways, then land.',
+      detail: () => 'Full throttle until sideways speed is almost 0.' });
+    if (gs.burn && gs.burn.k === 'deorbit') { delete gs.burn; gs.land = 'brake'; }
+    return g;
+  }
+}
+
+// ---- did the active ship just finish its mission?
+function checkMission(v) {
+  if (!v || !v.mission || v.missionDone || v.landed || hasThrust(v)) return;
+  const M = MISSION[v.mission]; if (!M) return;
+  const b = BODIES[v.parent], o = vesselOrbit(v); if (!(o.e < 1)) return;
+  const rpA = o.rp - b.R, raA = o.ra - b.R;
+  if (M.kind === 'orbit' && v.parent === 'terra' && !isDeep(v) && rpA >= M.lo && raA <= M.hi) missionComplete(v, 'Ap ' + fmtDist(raA) + ' · Pe ' + fmtDist(rpA));
+  else if (M.kind === 'lunaOrbit' && v.parent === 'luna' && o.ra < b.soi && rpA >= M.lo && raA <= M.hi) missionComplete(v, 'Orbiting Luna: Ap ' + fmtDist(raA) + ' · Pe ' + fmtDist(rpA));
+}
+let mcShow = 0, mcText = null;
+function missionComplete(v, how) {
+  if (v.missionDone) return;
+  const M = MISSION[v.mission];
+  v.missionDone = S.t; delete v.guide;
+  const all = S.stats.missions || (S.stats.missions = {});
+  const rec = all[M.id] || (all[M.id] = { count: 0, first: S.t, ship: v.name });
+  rec.count++; rec.last = S.t;
+  mcText = { name: missionLabel(M.id), how, first: rec.count === 1 };
+  mcShow = 7; sfx('chime'); toast('Mission Complete: ' + missionLabel(M.id), true);
+  save();
+}
+// ---- the picker on the pad
+let pickHidden = false;
+function pickMission(id) {
+  const v = active(); if (!v || !v.landed || !(v.countdown > 0)) return false;
+  if (id === 'none' || !MISSION[id]) { delete v.mission; delete v.guide; toast('Free flight: no mission. Fly anywhere you like.'); }
+  else { v.mission = id; v.guide = {}; delete v.missionDone; toast('Mission: ' + missionLabel(id) + '. ' + (v.hold ? keyHint('Press Enter', 'Tap START') + ' when you are ready.' : '')); }
+  G_cache.key = ''; syncPicker(true); save(); return true;
+}
+let pickKey = '';
+function syncPicker(force) {
+  const v = active(), box = document.getElementById('mpick');
+  const show = !!(v && v.landed && v.countdown > 0 && !paused && ROCKETS[v.rocket] && !ROCKETS[v.rocket].retired);
+  const key = show ? [v.id, v.mission || 'none', pickHidden, v.hold, Math.ceil(v.countdown), MODE].join('|') : '';
+  if (key === pickKey && !force) return; pickKey = key;
+  box.classList.toggle('hidden', !show);
+  document.body.classList.toggle('picking', show && !pickHidden);
+  if (!show) return;
+  box.classList.toggle('collapsed', pickHidden);
+  const cur = v.mission && MISSION[v.mission] ? v.mission : 'none';
+  box.querySelectorAll('[data-act^="mission:"]').forEach(b => b.classList.toggle('sel', b.dataset.act === 'mission:' + cur));
+  const mob = MODE === 'mobile';
+  document.getElementById('mpClock').textContent = v.hold ? 'T-10 HOLD · ' + (mob ? 'tap START when ready' : 'press Enter when ready') : 'T-' + Math.ceil(v.countdown) + ' · ' + (mob ? 'SKIP launches now' : 'Enter launches now');
+  document.getElementById('mpCur').textContent = cur === 'none' ? 'Free flight' : missionLabel(cur);
+  document.getElementById('mpShort').textContent = cur === 'none' ? 'Free flight' : MISSION[cur].tag === 'Land' ? 'Luna landing' : MISSION[cur].tag === 'Luna' ? 'Luna orbit' : MISSION[cur].tag;
+  document.getElementById('mpBlurb').textContent = cur === 'none' ? 'No mission: fly anywhere you like. Pick one to get step-by-step help with arrows.' : MISSION[cur].blurb + ' Arrows and short steps will show you how.';
+  document.getElementById('mpToggle').textContent = pickHidden ? 'Show' : 'Hide';
+}
+// ---- the guidance panel
+let guideKey = '';
+function syncGuide() {
+  const v = active(), box = document.getElementById('guide');
+  const g = v && !v.landed || (v && v.missionDone) ? guideNow(v) : null;
+  const cdVisible = !document.getElementById('countdown').classList.contains('hidden');
+  const show = !!(g && !paused && !(MODE === 'mobile' && (cdVisible || mcShow > 0))) && !(v.landed && v.countdown > 0);
+  box.classList.toggle('hidden', !show);
+  document.body.classList.toggle('guiding', show);
+  if (!show) { guideKey = ''; return; }
+  const mob = MODE === 'mobile';
+  const thrTxt = g.thr === null ? '' : g.thr >= 1 ? 'FULL' : g.thr <= 0 ? 'CUT' : Math.round(g.thr * 100) + '%';
+  const chips = [];
+  if (thrTxt) chips.push('<span class="chip ' + (g.thr <= 0 ? 'cut' : 'full') + '">Throttle ' + thrTxt + '</span>');
+  if (g.act === 'stage' || g.act === 'fairing') chips.push('<span class="chip act">' + esc(g.actText) + '</span>');
+  if (g.warp === 'go') chips.push('<span class="chip warp">' + (mob ? 'Warp OK ▶▶' : 'Warp OK (.)') + '</span>');
+  const html = '<div class="gm">' + (g.done ? '★ ' : 'Mission: ') + esc(missionLabel(g.mission)) + '</div><div class="gt">' + esc(g.title) + '</div>' + (g.detail ? '<div class="gd">' + esc(g.detail) + '</div>' : '') + (chips.length ? '<div class="gc">' + chips.join('') + '</div>' : '');
+  if (html !== guideKey) { guideKey = html; box.innerHTML = html; box.classList.toggle('done', !!g.done); }
+}
+function syncBanner(realDt) {
+  const el = document.getElementById('mcBanner');
+  if (mcShow > 0 && !paused) mcShow -= realDt;
+  const show = mcShow > 0 && mcText && !paused;
+  el.classList.toggle('hidden', !show); document.body.classList.toggle('mcshow', !!show);
+  if (show && el.dataset.k !== mcText.name) {
+    el.dataset.k = mcText.name;
+    el.innerHTML = '<div class="mcT">MISSION COMPLETE</div><div class="mcN">' + esc(mcText.name) + '</div><div class="mcS"><span class="how">' + esc(mcText.how) + '<br></span>Saved to your progress' + (mcText.first ? ' (first time!)' : '') + '<span class="how"> · see the Tracking Station</span></div>';
+  }
+  if (!show) el.dataset.k = '';
+}
+// ---- aim arrow next to the rocket (flight view)
+function drawGuideNear(v, g) {
+  if (!g || g.aim === null || v.landed) return;
+  const p = worldPos(v), [sx, sy] = w2s(p.x, p.y);
+  const c = Math.cos(camRot), sn = Math.sin(camRot), ax = Math.cos(g.aim), ay = Math.sin(g.aim);
+  const dx = ax * c + ay * sn, dy = -(-ax * sn + ay * c);
+  const dist = Math.min(Math.max(70, lengthOf(v) * cam.z / 2 + 46), 230);
+  const px = sx + dx * dist, py = sy + dy * dist, a = Math.atan2(dy, dx);
+  ctx.save(); ctx.strokeStyle = '#ff6ad5'; ctx.fillStyle = '#ff6ad5'; ctx.lineWidth = 2.5;
+  // dashed line from the rocket and an arrow head: "point here"
+  ctx.setLineDash([5, 5]); ctx.beginPath(); ctx.moveTo(sx + dx * 26, sy + dy * 26); ctx.lineTo(px - dx * 12, py - dy * 12); ctx.stroke(); ctx.setLineDash([]);
+  ctx.translate(px, py); ctx.rotate(a);
+  ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(-8, -10); ctx.lineTo(-3, 0); ctx.lineTo(-8, 10); ctx.closePath(); ctx.fill();
+  ctx.restore();
+  // curved "turn this way" arrow round the rocket when the nose is off by more than a few degrees
+  const err = angDiff(g.aim, v.ang);
+  if (Math.abs(err) > 0.07) {
+    const nose = -(v.ang - camRot), R0 = Math.min(Math.max(44, lengthOf(v) * cam.z / 2 + 20), 160);
+    const a0 = nose, a1 = nose - Math.max(-1.2, Math.min(1.2, err));
+    ctx.save(); ctx.strokeStyle = 'rgba(255,106,213,0.9)'; ctx.fillStyle = 'rgba(255,106,213,0.9)'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(sx, sy, R0, a0, a1, a1 < a0); ctx.stroke();
+    const hx = sx + Math.cos(a1) * R0, hy = sy + Math.sin(a1) * R0, t = a1 + (a1 < a0 ? -Math.PI / 2 : Math.PI / 2);
+    ctx.translate(hx, hy); ctx.rotate(t); ctx.beginPath(); ctx.moveTo(9, 0); ctx.lineTo(-5, -7); ctx.lineTo(-5, 7); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.save(); ctx.font = 'bold 12px sans-serif'; ctx.fillStyle = '#ff6ad5'; ctx.textAlign = 'center';
+    ctx.fillText(err > 0 ? '⟲ turn left' : 'turn right ⟳', sx, sy + R0 + 18); ctx.restore();
+  }
+}
+function drawGuideDial(v, g, cx, cy, R, toScr) {
+  if (!g || g.aim === null || v.landed) return;
+  const t = toScr(g.aim), hd = toScr(v.ang);
+  const mx = cx + Math.cos(t) * (R - 2), my = cy + Math.sin(t) * (R - 2);
+  ctx.save(); ctx.fillStyle = '#ff6ad5'; ctx.strokeStyle = '#ff6ad5';
+  ctx.translate(mx, my); ctx.rotate(t + Math.PI); // triangle pointing inwards from the rim
+  ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-3, -7); ctx.lineTo(-3, 7); ctx.closePath(); ctx.fill(); ctx.restore();
+  const d = angDiff(t, hd);
+  if (Math.abs(d) > 0.07) {
+    ctx.save(); ctx.strokeStyle = 'rgba(255,106,213,0.85)'; ctx.fillStyle = 'rgba(255,106,213,0.85)'; ctx.lineWidth = 2.5;
+    const rr = R * 0.62; ctx.beginPath(); ctx.arc(cx, cy, rr, hd, hd + d, d < 0); ctx.stroke();
+    const e = hd + d, hx = cx + Math.cos(e) * rr, hy = cy + Math.sin(e) * rr;
+    ctx.translate(hx, hy); ctx.rotate(e + (d > 0 ? Math.PI / 2 : -Math.PI / 2)); ctx.beginPath(); ctx.moveTo(7, 0); ctx.lineTo(-4, -5); ctx.lineTo(-4, 5); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
 }
 
 // ---------- Overlays ----------
@@ -1274,6 +1881,12 @@ function closeAll() {
 }
 function openPause() {
   document.querySelector('[data-act=sound]').textContent = 'Sound: ' + (S.sound ? 'on' : 'off');
+  { // v0.4.0: "Stop the mission" only exists while a mission is being flown
+    const v = active(), old = document.getElementById('pauseEndMission'); if (old) old.remove();
+    if (v && v.mission && !v.missionDone && !v.landed) {
+      const b = document.createElement('button'); b.className = 'ghost'; b.dataset.act = 'endMission'; b.id = 'pauseEndMission'; b.textContent = 'Stop the mission (fly free)';
+      document.querySelector('#ovPause [data-act=revert]').after(b);
+    } }
   document.getElementById('pauseModeBtn').textContent = 'Controls: ' + (MODE === 'mobile' ? 'Mobile' : 'PC') + ' (' + (MODE === 'mobile' ? 'tap' : 'click') + ' to change)';
   overlayStack = []; showOverlay('ovPause');
 }
@@ -1344,6 +1957,7 @@ function openSelect() {
   const old = S.vessels.filter(v => rk(v).retired && !v.debris).length, mob = MODE === 'mobile';
   box.insertAdjacentHTML('beforeend', `<div class="selInfo"><b>What the Kestrel can do</b><ol>
       <li>Reach orbit around Terra.</li><li>Fly on to Luna and land on the upper stage's legs.</li><li>Or come home from orbit: heat shield, then parachute, for the <b>Round Trip</b> milestone.</li></ol>
+      <b>Missions (optional)</b><div style="margin:2px 0 8px">On the pad you can pick a mission (low, medium or high orbit, Luna orbit, Luna landing) and get step-by-step help with pink arrows. Or just fly free.</div>
       <b>How a flight goes</b><ol><li>The rocket waits on the pad. ${mob ? 'Tap START' : 'Press Enter'} to start the 10-second countdown (${mob ? 'tap SKIP' : 'Enter again'} to go now). The clamps let go at zero.</li>
       <li>Booster empty: ${mob ? 'tap STAGE' : 'press Space'} to drop it.</li><li>Above ~45 km: drop the fairing (${mob ? 'FAIRING' : 'F'}).</li>
       <li>Upper stage to orbit, to Luna, or back down. Coming home: drop the upper stage, then open the parachute (${mob ? 'CHUTE' : 'P'}) below 250 m/s.</li></ol>
@@ -1360,13 +1974,15 @@ function openStation() {
       const tot = v.parts.reduce((s, i) => s + rk(v).stages[i].fuel, 0), cur = v.parts.reduce((s, i) => s + v.fuel[i], 0);
       const fuelTxt = tot ? Math.round(cur / tot * 100) + '%' : '-';
       const recover = v.landed && v.parent === 'terra';
-      html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}</td><td>${statusOf(v)}${rk(v).retired ? ' <small style="color:#8796bf">(retired type)</small>' : ''}</td><td>${fuelTxt}</td>
+      html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}</td><td>${statusOf(v)}${v.mission && MISSION[v.mission] && !v.debris ? ' <small style="color:#ff9be6">· ' + (v.missionDone ? '★ ' : 'Mission: ') + MISSION[v.mission].name + '</small>' : ''}${rk(v).retired ? ' <small style="color:#8796bf">(retired type)</small>' : ''}</td><td>${fuelTxt}</td>
         <td style="white-space:nowrap"><button class="small" data-act="fly:${v.id}">Fly</button><button class="small ghost" data-act="del:${v.id}">${recover ? 'Recover' : 'Delete'}</button></td></tr>`;
     }
     html += '</table>';
   }
   document.getElementById('stationTable').innerHTML = html;
   document.getElementById('msList').innerHTML = MILESTONES.map(m => `<div class="${S.milestones[m[0]] !== undefined ? 'done' : ''}">${S.milestones[m[0]] !== undefined ? '★' : '☆'} ${m[1]}<small>${m[2]}</small></div>`).join('');
+  const ms = S.stats.missions || {};
+  document.getElementById('missionList').innerHTML = MISSIONS.map(m => { const r = ms[m.id]; return `<div class="${r ? 'done mdone' : ''}">${r ? '★' : '☆'} ${m.name}${m.kind === 'orbit' ? ' (' + m.tag + ')' : ''}${r && r.count > 1 ? ' ×' + r.count : ''}<small>${esc(m.blurb)}</small></div>`; }).join('');
   document.getElementById('records').innerHTML = `Flights: ${S.stats.flights} · Landings: ${S.stats.landings} (splashdowns: ${S.stats.splashdowns || 0}) · Crashes: ${S.stats.crashes}${S.stats.softest ? ' · Softest touchdown: ' + S.stats.softest.toFixed(1) + ' m/s' : ''}<br>
     Highest above Terra: ${fmtDist(S.stats.maxAlt)} · Fastest: ${fmtSpd(S.stats.maxSpeed)} · World time: ${clock(S.t)}`;
   showOverlay('ovStation');
@@ -1405,9 +2021,12 @@ document.addEventListener('click', e => {
     const v = active(); if (!v) return;
     const nr = rk(v).retired ? ROCKETS[LAUNCH_ROCKET].name : rk(v).name;
     if (!confirm('Delete ' + v.name + ' and start a fresh ' + nr + ' on the pad?')) return;
-    removeVessel(v); S.activeId = null; launch(v.rocket);
+    removeVessel(v); S.activeId = null; launch(v.rocket, v.mission);
   }
   else if (act.startsWith('pick:')) launch(act.slice(5));
+  else if (act.startsWith('mission:')) { pickMission(act.slice(8)); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
+  else if (act === 'mpToggle') { pickHidden = !pickHidden; syncPicker(true); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
+  else if (act === 'endMission') { const v = active(); if (v && v.mission) { delete v.mission; delete v.guide; G_cache.key = ''; toast('Mission stopped: free flight'); save(); } closeAll(); }
   else if (act.startsWith('relaunch:')) launch(act.slice(9));
   else if (act.startsWith('fly:')) flyVessel(+act.slice(4));
   else if (act.startsWith('del:')) {
@@ -1447,6 +2066,11 @@ window.addEventListener('keydown', e => {
     case 'Comma': cycleWarp(-1); break;
     case 'Period': cycleWarp(1); break;
     case 'KeyH': overlayStack = []; showOverlay('ovHelp'); break;
+    case 'Digit0': case 'Digit1': case 'Digit2': case 'Digit3': case 'Digit4': case 'Digit5':
+    case 'Numpad0': case 'Numpad1': case 'Numpad2': case 'Numpad3': case 'Numpad4': case 'Numpad5': {
+      const n = e.code.slice(-1), m = n === '0' ? 'none' : (MISSIONS.find(x => x.key === n) || {}).id;
+      if (v && v.landed && v.countdown > 0 && m) pickMission(m);
+      break; }
   }
 });
 window.addEventListener('keyup', e => { keys[e.code] = false; });
@@ -1513,7 +2137,7 @@ document.addEventListener('contextmenu', e => { if (MODE === 'mobile' && !e.targ
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => { if (MODE === 'mobile') e.preventDefault(); }, { passive: false }));
 document.addEventListener('touchmove', e => { if (MODE === 'mobile' && (e.touches.length > 1 || !e.target.closest('.box'))) e.preventDefault(); }, { passive: false });
 let lastTouchEnd = 0;
-document.addEventListener('touchend', e => { if (MODE !== 'mobile') return; const n = Date.now(); if (n - lastTouchEnd < 320 && !e.target.closest('.box')) e.preventDefault(); lastTouchEnd = n; }, { passive: false });
+document.addEventListener('touchend', e => { if (MODE !== 'mobile') return; const n = Date.now(); if (n - lastTouchEnd < 320 && !e.target.closest('.box, #mpick')) e.preventDefault(); lastTouchEnd = n; }, { passive: false });
 
 // on-screen buttons: every finger is tracked on its own, so you can hold turn while dragging the throttle
 function touchAction(name) {
@@ -2028,6 +2652,7 @@ function drawDial(v) {
     const rx = cx - Math.cos(pg) * (R - 12), ry = cy - Math.sin(pg) * (R - 12);
     ctx.beginPath(); ctx.moveTo(rx - 5, ry - 5); ctx.lineTo(rx + 5, ry + 5); ctx.moveTo(rx + 5, ry - 5); ctx.lineTo(rx - 5, ry + 5); ctx.strokeStyle = '#ff6b6b'; ctx.stroke();
   }
+  drawGuideDial(v, guideNow(v), cx, cy, R, toScr);
   const hd = toScr(v.ang);
   ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(hd) * (R - 4), cy + Math.sin(hd) * (R - 4)); ctx.strokeStyle = '#ffd36b'; ctx.lineWidth = 3; ctx.stroke();
   ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fillStyle = '#ffd36b'; ctx.fill();
@@ -2129,7 +2754,8 @@ function render() {
   }
   ctx.globalAlpha = 1;
   if (v && !map && !paused) drawProgradeNear(v);
-  if (v && !paused) drawDial(v);
+  if (v && !map && !paused) drawGuideNear(v, guideNow(v));
+  if (v && !paused && !(MODE === 'mobile' && document.body.classList.contains('picking'))) drawDial(v);
 }
 
 // ---------- HUD ----------
@@ -2139,7 +2765,7 @@ function updateHud() {
   const v = active();
   $('clock').textContent = clock(S.t) + (WARPS[warpIdx] > 1 ? '   ▶▶ ' + WARPS[warpIdx] + 'x' : '');
   $('hudL').classList.toggle('hidden', !v);
-  if (!v) { $('encounter').classList.add('hidden'); $('warn').className = 'hidden'; $('countdown').classList.add('hidden'); syncCtx(); return; }
+  if (!v) { $('encounter').classList.add('hidden'); $('warn').className = 'hidden'; $('countdown').classList.add('hidden'); syncCtx(); syncPicker(); syncGuide(); return; }
   const b = BODIES[v.parent], r = Math.hypot(v.x, v.y);
   const h = r - b.R - (v.landed ? lengthOf(v) / 2 : lengthOf(v) / 2);
   const sp = Math.hypot(v.vx, v.vy), vs = (v.x * v.vx + v.y * v.vy) / r;
@@ -2148,6 +2774,7 @@ function updateHud() {
   $('hAlt').textContent = fmtDist(Math.max(0, h));
   $('hVs').textContent = fmtSpd(vs);
   $('hSpd').textContent = fmtSpd(sp);
+  $('hAng').textContent = angleText(v);
   if (v.landed) { $('hAp').textContent = '-'; $('hPe').textContent = '-'; }
   else {
     const o = vesselOrbit(v);
@@ -2176,7 +2803,7 @@ function updateHud() {
   else if (v.countdown > 0) { cd.classList.remove('hidden'); cd.innerHTML = 'T-' + Math.ceil(v.countdown) + '<small>' + (v.countdown <= 3 ? 'Ignition! ' : '') + (MODE === 'mobile' ? 'Tap SKIP to launch now' : 'Press Enter to launch now') + '</small>'; }
   else if (liftoffShow > 0) { cd.classList.remove('hidden'); cd.innerHTML = 'LIFTOFF!'; }
   else cd.classList.add('hidden');
-  syncCtx();
+  syncCtx(); syncPicker(); syncGuide();
   $('hDv').textContent = Math.round(deltaV(v)).toLocaleString() + ' m/s';
   const g = b.mu / (r * r);
   const twr = thrustNow(st, air.pf, 1) / (massOf(v) * g);
@@ -2208,6 +2835,7 @@ function frame(now) {
   render();
   if (testFreeze) updateTouchFrame(0);
   hudTimer -= dt; if (hudTimer <= 0) { hudTimer = 0.1; updateHud(); }
+  syncBanner(dt);
   if (engineGain) {
     const v = active();
     const on = v && !paused && S.sound && hasThrust(v) && WARPS[warpIdx] <= 4;
@@ -2225,10 +2853,13 @@ function frame(now) {
 // expose for testing
 window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, startCountdown, skipCountdown, fmtDist, fitMap, apText, peText, rescueFar, dropFairing, deployChute, isOcean, airOf, qOf, qLimitOf, heatLimitOf, shieldForward, isCapsuleOnly, hasCapsule, massOf, lengthOf, widthOf, thrustNow, crashLimitOf, particles, openSelect, openStation, ctxState,
   updateHud, get dialPos() { if (layoutDirty) layoutTouch(); return dialPos; }, get liftoffShow() { return liftoffShow; }, WARPS, get testFreeze() { return testFreeze; }, set testFreeze(x) { testFreeze = !!x; },
-  K: { CHUTE_MAX, CHUTE_MIN_RHO, HEAT_BODY, HEAT_SHIELD, HEAT_CAPSULE_BARE, FAIRING_WARN_Q, FAIRING_HIT_Q, COUNTDOWN, LAND }, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold };
+  K: { CHUTE_MAX, CHUTE_MIN_RHO, HEAT_BODY, HEAT_SHIELD, HEAT_CAPSULE_BARE, FAIRING_WARN_Q, FAIRING_HIT_Q, COUNTDOWN, LAND }, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold,
+  MISSIONS, MISSION, GEO_ALT, PARK_ALT, LUNA_PASS, pickMission, guide: () => guideNow(active()), guideNow, angleOf, angleText, orbitTimes, predictPass, checkMission, missionComplete, syncPicker, syncGuide,
+  get mcShow() { return mcShow; }, get pickHidden() { return pickHidden; } };
 
 load();
 if (rescuedShips) setTimeout(() => toast(rescuedShips + (rescuedShips > 1 ? ' ships that had' : ' ship that had') + " been thrown impossibly far by an old bug " + (rescuedShips > 1 ? 'were' : 'was') + " put back at the edge of Terra's pull", true), 600);
+document.getElementById('mpGeoSub').textContent = 'GEO · ' + fmtDistK(GEO_ALT);
 openModeChoice('title'); // ask PC or Mobile every time the game opens
 requestAnimationFrame(frame);
 </script>

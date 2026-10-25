@@ -8,7 +8,7 @@ Click the link above and play in a browser on your PC or your phone. No download
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.3.1 (bug fixes: the edge of Terra's pull, and a countdown you start yourself)
+## Current version: v0.4.0 (missions, step-by-step guidance, Mission Complete, and an Angle reading)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -40,11 +40,40 @@ What a good pilot can do with it:
 
 Sparrow, Heron and Mule are **retired**: you can't launch them any more. Any that were already flying in your saved world are still there: they show up in the Tracking Station and you can still fly them.
 
+### Missions and guidance (new in v0.4.0, optional)
+
+When your Kestrel is on the pad, a **Pick a mission** panel appears (on the right on PC, top-left on a phone). You don't have to use it: ignore it, or pick **Free flight**, and fly anywhere like before.
+
+| Mission | Goal | Counts as done when |
+|---|---|---|
+| **Low orbit (LEO)** | Circle Terra about **100 km** up | Lowest and highest point both between 80 and 120 km, engine off |
+| **Medium orbit (MEO)** | Circle Terra **2,000 km** up | Both points between 1,800 and 2,200 km |
+| **High orbit (GEO)** | Circle Terra **8,140 km** up. Up there one lap takes exactly one Terra day (24 hours on the game clock), like a real GEO | Both points between 7,733 and 8,547 km (within 5%) |
+| **Luna orbit** | Fly to Luna and get caught by it | An orbit around Luna with its lowest point above 10 km and highest below 500 km |
+| **Luna landing** | Fly to Luna and land | Touch down on the legs, upright, slower than 8 m/s |
+
+Why those heights: Terra is much smaller than Earth, so the real heights were scaled down. They all sit well inside the 84,000 km edge of Terra's pull and below Luna's path (12,000 km out), so Luna never gets in the way.
+
+- **Pick one**: click it (PC, or press `1`–`5`, `0` = free flight) or tap it (Mobile). The chosen one gets a yellow outline and a short description.
+- **Change your mind** any time until liftoff, even during the countdown. **Hide** folds the panel into a small bar; **Show** opens it again.
+- Then start as usual: `Enter` / **START**.
+- **In flight** a pink panel tells you the next step in a few words, for example *"Tilt left to 45°"*, *"Cut engine now"*, *"Wait — warp to Ap"*, *"Burn prograde at Ap"*, *"Burn prograde to Luna"*, *"Fine-tune: burn at the arrow"*, *"Landing burn: nose up, follow the throttle"*. Under it are little tags: the **throttle** to use (FULL, CUT or a %), what to press (*"Press Space: drop the booster"*), and **Warp OK** when it's safe to speed up time.
+- **Pink arrows show where to point**: one next to your rocket (with a curved arrow saying *turn left* / *turn right*) and a pink marker on the dial.
+- **Time warp slows down by itself** before the next burn, so you can't warp past it.
+- Do what it says and you get there. When you make it, a gold **MISSION COMPLETE** banner appears. It's saved straight away, and the **Tracking Station** shows a ★ next to each mission you've done (and how many times).
+- Changed your mind in flight? Menu → **Stop the mission (fly free)**.
+- **Restart this flight from the pad** keeps the same mission.
+
+### The Angle reading (new in v0.4.0)
+
+The flight panel now shows **Angle**: how far your nose is above the horizon. **90° up** = straight up, **0°** = flat along the horizon, negative = nose below the horizon (**-90° down** = straight down). It also says **left** or **right** (which way you're leaning). It's measured against the ground right under you: Terra's horizon near Terra (and anywhere out to deep space), Luna's horizon near Luna. The guidance uses the same numbers ("Tilt left to 45°").
+
 ### PC controls
 
 | Key | What it does |
 |---|---|
 | `Enter` | On the pad: **start the countdown**. Press it again during the countdown to launch straight away |
+| `1`–`5`, `0` | On the pad: **pick a mission** (1 LEO, 2 MEO, 3 GEO, 4 Luna orbit, 5 Luna landing, 0 free flight) |
 | `W` / `S` (hold) | Throttle up / down (`Shift` also throttles up) |
 | `Z` / `X` | Full throttle / cut engine |
 | `A` / `D` or arrow keys | Turn left / right |
@@ -65,6 +94,7 @@ Hold your phone sideways (landscape). If you hold it upright, the game pauses an
 | Button | Where | What it does |
 |---|---|---|
 | **Action button** (green) | bottom left, next to the turn buttons (above them in portrait) | **New.** Changes with the moment: **START** on the pad (starts the countdown), then **SKIP** during the countdown (launch now), then **FAIRING** in flight (drop the nose cover), then **CHUTE** when the capsule is coming home (open the parachute). It turns **orange** when it isn't safe yet ("air thick", "too fast", "no air"). |
+| **Mission picker** | top left, on the pad | **New.** Tap a mission (or Free flight). **Hide** / **Show** folds it away. In flight the guidance shows in a strip at the top middle |
 | **Throttle slider** | right side | Drag up for more power, down for less |
 | **FULL** / **CUT** | above / below the slider | Full power / engine off |
 | **⟲** / **⟳** (hold) | bottom left | Turn left / right. You can hold one with your left thumb while dragging the throttle with your right |
@@ -94,7 +124,7 @@ All buttons are at least 48 px and don't overlap (checked on iPhone 13, iPhone S
 
 ### How to reach orbit
 
-Press `Enter` / tap **START** to start the countdown (press `Enter` again / tap **SKIP** to go straight away). Full throttle straight up. Around 2 km start leaning **left**, gently: a full rocket turns slowly. Left is the way Luna goes round Terra, which makes a Luna trip cheaper later. Aim for about 40° over at 10 km and 70° at 30 km. Keep an eye on the **Air push** reading. When the booster runs dry, drop it. Above about 45 km drop the fairing. Keep burning, nearly sideways, until **Periapsis** is above 70 km (cut the engine for a while if Apoapsis climbs well past 80 km while you're still low).
+Easiest way: pick the **Low orbit** mission on the pad and follow the pink arrows. By hand: press `Enter` / tap **START** to start the countdown (press `Enter` again / tap **SKIP** to go straight away). Full throttle straight up. Around 2 km start leaning **left**, gently: a full rocket turns slowly. Left is the way Luna goes round Terra, which makes a Luna trip cheaper later. Aim for about 40° over at 10 km and 70° at 30 km. Keep an eye on the **Air push** reading. When the booster runs dry, drop it. Above about 45 km drop the fairing. Keep burning, nearly sideways, until **Periapsis** is above 70 km (cut the engine for a while if Apoapsis climbs well past 80 km while you're still low).
 
 ### How to reach Luna
 
@@ -119,7 +149,8 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 - A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
 - The world clock only moves while you play.
 - The save lives in the browser on the device you play on. To keep it extra safe, or to move it to another device, use **Download a backup of my save** in the menu, and **Load a backup file** to bring it back.
-- Saves from v0.1.0, v0.2.0 and v0.3.0 still load in v0.3.1: the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
+- **New in v0.4.0:** your chosen mission and where you are in it are saved with the ship, so after a reload the guidance carries on from the same step. Finished missions are saved in your records.
+- Saves from v0.1.0, v0.2.0, v0.3.0 and v0.3.1 still load in v0.4.0 (and a v0.4.0 save still opens in v0.3.1, which just ignores the mission parts): the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
 - Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
 
 ### The worlds
@@ -132,6 +163,14 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
+
+- **v0.4.0** (missions and guidance):
+  - **Pick a mission on the pad (optional):** Low orbit (100 km), Medium orbit (2,000 km), High orbit (8,140 km, one lap per Terra day), Luna orbit, Luna landing, or Free flight. Click / press 1–5 on PC, tap on Mobile. You can change it or go back to free flight until liftoff. The countdown still waits for you (Enter / START).
+  - **Step-by-step guidance in flight:** a short instruction ("Tilt left to 45°", "Cut engine now", "Wait — warp to Ap", "Burn prograde at Ap", "Burn prograde to Luna", "Landing burn"...), a throttle tag, pink arrows next to the rocket and on the dial, and time warp that slows down by itself before each burn. Following it really does get the Kestrel there: it was tested by a robot pilot that only looks at the arrows and tags, on PC and on touch, for all five missions, and also with a deliberately slow, late-reacting pilot.
+  - **Mission Complete:** a gold banner when you make it, saved to your progress, with ★ stars in the Tracking Station.
+  - **Angle reading** in the flight panel (90° = straight up, 0° = flat), on PC and phones.
+  - Menu: **Stop the mission (fly free)**. Restarting a flight keeps its mission. Help screen and the launch screen explain missions.
+  - Saves: still the same format; old saves load, and the new parts are only added.
 
 - **v0.3.1** (bug fixes):
   - **Flying far away no longer breaks the game.** Before, if you flew fast enough to escape Terra, the ship could suddenly jump off the map and Altitude / Periapsis showed a giant frozen number (like 22,152,993,979,...). The cause: the maths that moves ships along their path during time warp made a bad first guess on escape paths and never checked its answer, so it could throw the ship to an impossible distance. Now every answer is checked and redone in smaller steps if it's wrong, so the numbers are always real and keep updating.
