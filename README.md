@@ -8,7 +8,7 @@ Click the link above and play in a browser on your PC or your phone. No download
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.4.0 (missions, step-by-step guidance, Mission Complete, and an Angle reading)
+## Current version: v0.5.0 (sound, looks and rewards)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -40,6 +40,47 @@ What a good pilot can do with it:
 
 Sparrow, Heron and Mule are **retired**: you can't launch them any more. Any that were already flying in your saved world are still there: they show up in the Tracking Station and you can still fly them.
 
+### Sound, music and settings (new in v0.5.0)
+
+Every sound is made by the game itself while you play (no sound files), so it's still just one `index.html`.
+
+- **Engines roar, and each one sounds different.** The Kestrel booster is a deep, crackling roar; the Kestrel upper stage is a higher, smoother hiss with a faint whine. The retired ships have their own voices too: Sparrow buzzes and rattles, Heron's booster pulses, Heron's lander whines higher, and the Mule is a slow, thundering rumble.
+- **The roar follows the throttle and the air.** More throttle = louder. As you climb, the air thins and the roar gets quieter and muffled. In space you only hear the low rumble coming through the ship itself (quiet, but not silent).
+- **Sounds for the big moments:** countdown beeps (higher for the last three), ignition, the clamps letting go at liftoff, staging bangs, the fairing popping off, the parachute opening, touchdown, splashdown, explosions, the max-Q alarm, milestones and a little fanfare for Mission Complete.
+- **Soft space music** plays quietly in the background while you fly.
+- **Camera shake:** a light wobble at liftoff, near max-Q, at staging and in a crash.
+- **Settings:** Menu (`Esc` / **☰ Menu**) → **Settings: sound, music & shake**. Sliders for **Master**, **Effects** and **Music** volume, **Sound on/off**, and **Camera shake on/off**. They're saved on this device (your world backup file doesn't change them).
+- Sound starts after your first click, tap or key press (phones and browsers require that). It goes quiet while the game is paused (menus) and when you switch to another tab or app.
+
+### What you'll see (new in v0.5.0)
+
+- **Terra:** clouds you fly up through (they drift slowly), sandy beaches and pale shallow water along the coasts, and **day and night**. The sun goes round once per Terra day (24 hours on the game clock); a new world starts at midday over the launch pad. At sunrise and sunset the sky glows orange and pink, and from orbit you can see the glow along Terra's edge. The map shows Terra's and Luna's night sides.
+- **Luna:** rolling hills and craters (up to about 12 km across, with flat floors and gentle walls). The ground you see is exactly the ground you land on, so the rocket never floats above it or sinks into it. On a slope the downhill landing leg reaches down to the ground. Any lander you parked on Luna in an older version is stood on the new ground when your save loads. **Altitude** near Luna now means height above the ground right under you.
+- **Dust and smoke:** the engine kicks up a spray of dust when you land on Luna, and blasts smoke sideways across the pad and the ground on Terra.
+- **Bigger explosions:** a flash, fire, dark smoke and pieces of the rocket tumbling away. The camera stays on the wreck.
+
+### Stars, results and personal bests (new in v0.5.0)
+
+When you finish a mission, the gold **MISSION COMPLETE** banner shows first, then a **results screen** with:
+- **Time** from liftoff to done (game clock, so time warp counts),
+- **Fuel left** in the upper stage and **fuel used** (all stages),
+- **Touchdown speed** (Luna landing),
+- **1 to 3 stars**, and your **personal bests**.
+
+**Star rules:** ★ for finishing the mission, **+★ Fuel saver**, **+★ Neat finish**:
+
+| Mission | Fuel saver (fuel left in the upper stage) | Neat finish |
+|---|---|---|
+| Low orbit (LEO) | at least 60% | highest and lowest point no more than 15 km apart |
+| Medium orbit (MEO) | at least 33% | no more than 300 km apart |
+| High orbit (GEO) | at least 28% | no more than 1,221 km apart |
+| Luna orbit | at least 30% | lowest and highest point both between 50 and 200 km |
+| Luna landing | at least 10% | touch down at 3 m/s or slower |
+
+Following the pink guidance carefully earns all three stars on every mission (that's how the limits were set: the test pilot that follows only the arrows gets 3 stars, with a little to spare).
+
+**Personal bests** are kept for each mission: best stars, **fastest** time, **least fuel used**, and **softest touchdown** (Luna landing). Beat one and the results screen says **new best!**. They're saved in your progress and shown in the **Tracking Station** under each mission.
+
 ### Missions and guidance (new in v0.4.0, optional)
 
 When your Kestrel is on the pad, a **Pick a mission** panel appears (on the right on PC, top-left on a phone). You don't have to use it: ignore it, or pick **Free flight**, and fly anywhere like before.
@@ -59,6 +100,7 @@ Why those heights: Terra is much smaller than Earth, so the real heights were sc
 - Then start as usual: `Enter` / **START**.
 - **In flight** a pink panel tells you the next step in a few words, for example *"Tilt left to 45°"*, *"Cut engine now"*, *"Wait — warp to Ap"*, *"Burn prograde at Ap"*, *"Burn prograde to Luna"*, *"Fine-tune: burn at the arrow"*, *"Landing burn: nose up, follow the throttle"*. Under it are little tags: the **throttle** to use (FULL, CUT or a %), what to press (*"Press Space: drop the booster"*), and **Warp OK** when it's safe to speed up time.
 - **Pink arrows show where to point**: one next to your rocket (with a curved arrow saying *turn left* / *turn right*) and a pink marker on the dial.
+- **Left or right, both work (v0.5.0).** The guidance leans you left (the way Luna goes round, which is a bit cheaper). If you lean clearly to the right before 1.5 km, it follows you and flies the whole mission round Terra the other way, including the trip to Luna ("Wait until Luna is 102° behind").
 - **Time warp slows down by itself** before the next burn, so you can't warp past it.
 - Do what it says and you get there. When you make it, a gold **MISSION COMPLETE** banner appears. It's saved straight away, and the **Tracking Station** shows a ★ next to each mission you've done (and how many times).
 - Changed your mind in flight? Menu → **Stop the mission (fly free)**.
@@ -85,7 +127,7 @@ The flight panel now shows **Angle**: how far your nose is above the horizon. **
 | `,` / `.` | Slow down / speed up time (limited when low, in the air, burning, or counting down; you can warp while the rocket waits on the pad) |
 | Mouse wheel | Zoom |
 | `H` | Help |
-| `Esc` | Menu: Tracking Station, new rocket, restart flight, sound, backups |
+| `Esc` | Menu: Tracking Station, new rocket, restart flight, **Settings** (sound, music, shake), backups |
 
 ### Mobile controls
 
@@ -103,9 +145,9 @@ Hold your phone sideways (landscape). If you hold it upright, the game pauses an
 | **Map** | right edge | Map view. Drag with one finger to move around, **Centre** to snap back (and zoom out to a far-away ship) |
 | **Warp +** / **Warp −** | right edge | Speed up / slow down time |
 | **Pinch**, or **+** / **−** (hold) | anywhere / next to STAGE | Zoom in / out |
-| **☰ Menu** | top right | Pause: Tracking Station, new rocket, restart, sound, backups, switch to PC controls |
+| **☰ Menu** | top right | Pause: Tracking Station, new rocket, restart, **Settings** (sound, music, shake), backups, switch to PC controls |
 
-All buttons are at least 48 px and don't overlap (checked on iPhone 13, iPhone SE, Pixel 7, landscape and portrait).
+All buttons are at least 48 px and don't overlap (checked on iPhone 13, iPhone SE, Pixel 7, landscape and portrait). **v0.5.0:** on a narrow phone held upright (like the iPhone SE) the **+ / − zoom** buttons move into the right-hand column, so the turn buttons, the green action button and **STAGE** each get their own spot at the bottom left, with the dial above them.
 
 ### What's new in the flying (in plain words)
 
@@ -150,7 +192,7 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 - The world clock only moves while you play.
 - The save lives in the browser on the device you play on. To keep it extra safe, or to move it to another device, use **Download a backup of my save** in the menu, and **Load a backup file** to bring it back.
 - **New in v0.4.0:** your chosen mission and where you are in it are saved with the ship, so after a reload the guidance carries on from the same step. Finished missions are saved in your records.
-- Saves from v0.1.0, v0.2.0, v0.3.0 and v0.3.1 still load in v0.4.0 (and a v0.4.0 save still opens in v0.3.1, which just ignores the mission parts): the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
+- Saves from v0.1.0 to v0.4.0 still load in v0.5.0 (the results and bests are new, optional parts of your progress). Saves from v0.1.0, v0.2.0, v0.3.0 and v0.3.1 still load in v0.4.0 (and a v0.4.0 save still opens in v0.3.1, which just ignores the mission parts): the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
 - Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
 
 ### The worlds
@@ -163,6 +205,15 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
+
+- **v0.5.0** (sound, looks and rewards):
+  - **Sound:** a real engine roar that follows the throttle and fades and muffles as the air thins (in space just the rumble through the ship). Every engine sounds different: Kestrel booster, Kestrel upper stage, and the retired Sparrow, Heron (booster and lander) and Mule. Sounds for the countdown, ignition, liftoff clamps, staging, fairing, parachute, touchdown, splashdown, explosions, the max-Q alarm, milestones and Mission Complete. Soft space music. All made in code, so it's still one file.
+  - **Settings** in the menu: master / effects / music volume, sound on/off, camera shake on/off. Saved on this device. Sound starts after your first tap/click/key and pauses with the game and when the tab is hidden.
+  - **Camera shake** (light) at liftoff, max-Q, staging and crashes.
+  - **Looks:** Luna has hills and craters (and you land on exactly what you see); Terra has clouds, beaches and shallow water at the coasts, and day and night with orange sunrise/sunset glows (also seen along Terra's edge from orbit and on the map). Dust sprays on Luna landings, smoke billows across the ground on Terra, and explosions now have a flash, smoke and tumbling debris.
+  - **Rewards:** a results screen after Mission Complete (time, fuel left, fuel used, touchdown speed) with 1–3 stars (rules above), and personal bests per mission (fastest, least fuel, softest touchdown, best stars), saved and shown in the Tracking Station.
+  - **Fixes:** iPhone SE held upright: the bottom buttons no longer overlap (zoom buttons moved to the right-hand column, the dial sits above the buttons, and only the two newest messages show). Luna guidance now works whichever way round Terra you fly (before, it asked you to orbit the other way if you went right).
+  - Saves: still the same format (v: 1). Old saves load; stars and bests are only added. Settings are stored separately, per device.
 
 - **v0.4.0** (missions and guidance):
   - **Pick a mission on the pad (optional):** Low orbit (100 km), Medium orbit (2,000 km), High orbit (8,140 km, one lap per Terra day), Luna orbit, Luna landing, or Free flight. Click / press 1–5 on PC, tap on Mobile. You can change it or go back to free flight until liftoff. The countdown still waits for you (Enter / START).
