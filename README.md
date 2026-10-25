@@ -2,11 +2,74 @@
 
 ## Play
 
-**[Play Space Prime](PLAY_LINK_TO_BE_SET_BY_HARK)**
+**[Play Space Prime](https://archonlancelot.github.io/Space-Prime/)**
 
 Click the link above and play in a desktop browser. No download, no install.
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
+
+## Current version: v0.1.0 (first playable)
+
+Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop browser.
+
+### Your world is always saved
+
+- Everything saves by itself every second, and when you close the tab: every ship, where it is, how fast it's going, its fuel, dropped boosters, landers left on Luna, milestones, records, the world clock, and your zoom/map view.
+- A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
+- The world clock only moves while you play, so nothing happens to your ships while the game is closed.
+- The save lives in this browser on this PC. To keep it extra safe (or move PCs), open the menu (`Esc`) and use **Download a backup of my save**, and **Load a backup file** to bring it back.
+- Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
+
+### Controls
+
+| Key | What it does |
+|---|---|
+| `W` / `S` (hold) | Throttle up / down (`Shift` also throttles up) |
+| `Z` / `X` | Full throttle / cut engine |
+| `A` / `D` or arrow keys | Turn left / right |
+| `T` | SAS on/off (when on, the rocket stops spinning by itself) |
+| `Space` | Drop the bottom stage |
+| `M` | Map view (drag to move, `C` to recentre) |
+| `,` / `.` | Slow down / speed up time (limited when low, in the air, or burning) |
+| Mouse wheel | Zoom |
+| `H` | Help |
+| `Esc` | Menu: Tracking Station, new rocket, restart flight, sound, backups |
+
+### Rockets
+
+| Rocket | Feel | Stages | Δv | Safe landing |
+|---|---|---|---|---|
+| **Sparrow** | Nimble trainer. Turns fast, fuel is tight; a careful pilot just reaches orbit. | 1 | 4,315 m/s | 6 m/s |
+| **Heron** | Moon lander. Booster gets you out of the air, the light upper stage goes to Luna and back. | 2 | 7,915 m/s | 8 m/s |
+| **Mule** | Heavy hauler. Slow to turn, big tank, tough legs; can reach Luna one-way. | 1 | 5,769 m/s | 12 m/s |
+
+### The worlds
+
+- **Terra**, home planet: 600 km radius, air up to 70 km (air slows you down). Launch pad on top.
+- **Luna**, the moon: 200 km radius, no air, orbits Terra at 12,000 km once every ~38.6 hours.
+
+### What you see while flying
+
+- Left panel: altitude, vertical speed, speed, apoapsis/periapsis (highest/lowest points of your orbit), throttle, fuel for the current stage, Δv left, thrust-to-weight, time warp, SAS.
+- Bottom dial: yellow line = where the rocket points, green circle = direction you're moving (prograde), red X = backwards (retrograde), top = straight up.
+- Map: your orbit in blue with Ap/Pe markers, Luna's path and sphere of influence, other ships, and a purple **Luna encounter** marker plus a box telling you when you'll arrive and how close you'll pass.
+- Crash or land: crashes explode and offer a quick relaunch; landing on Luna (or making it home from Luna) gets a celebration screen.
+
+### Milestones
+
+First Launch · Reach Space · Orbit Terra · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records, and every ship in the **Tracking Station** (`Esc` menu), where you can switch to any ship, or recover/delete it.
+
+### How to reach orbit
+
+Full throttle straight up. Around 10 km start leaning toward the side; by about 40 km point almost sideways. Burn until Apoapsis is above 80 km, cut the engine, warp to the apoapsis, then burn sideways again until Periapsis is above 70 km.
+
+### How to reach Luna
+
+From orbit, open the map. When Luna is a bit more than a quarter turn ahead of you, burn prograde (green marker) until the purple Luna encounter box shows up. Near Luna, burn retrograde (red X) to slow down, then land upright and slowly.
+
+### Changelog
+
+- **v0.1.0**: First playable. Three rockets, Terra and Luna, real orbits (patched conics, exact on-rails orbits during time warp), air drag, staging, landing/crash rules, map with orbit and encounter prediction, time warp, Tracking Station, milestones, records, sound, and a fully persistent auto-saved world with backup download/upload.
 
 ## What this is
 

@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Space Prime</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #02030a; color: #e8eefc;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; user-select: none; }
+  canvas { display: block; position: fixed; inset: 0; }
+  .hidden { display: none !important; }
+  .panel { background: rgba(10, 16, 34, 0.78); border: 1px solid rgba(120, 160, 255, 0.25);
+    border-radius: 10px; backdrop-filter: blur(6px); }
+  #hudL { position: fixed; left: 14px; top: 14px; width: 250px; padding: 12px 14px; font-size: 13px; }
+  #hudL .vname { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  #hudL .status { font-size: 12px; color: #9fb4e8; margin-bottom: 8px; }
+  #hudL .row { display: flex; justify-content: space-between; padding: 2px 0; }
+  #hudL .row span { color: #9fb4e8; }
+  #hudL .row b { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .bar { height: 9px; background: rgba(255,255,255,0.08); border-radius: 5px; overflow: hidden; margin: 3px 0 7px; }
+  .bar > div { height: 100%; width: 0%; background: linear-gradient(90deg, #3fa3ff, #7fd0ff); }
+  .bar.fuel > div { background: linear-gradient(90deg, #ff9a3c, #ffd36b); }
+  .lbl { display: flex; justify-content: space-between; font-size: 12px; color: #9fb4e8; margin-top: 6px; }
+  #hudR { position: fixed; right: 14px; top: 14px; padding: 10px 12px; font-size: 12px; color: #b9c8ee; line-height: 1.55; }
+  #hudR kbd, .help kbd { background: rgba(255,255,255,0.12); border-radius: 4px; padding: 0 5px; font-family: inherit; font-size: 11px; color: #fff; }
+  #clock { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); padding: 6px 14px; font-size: 13px; font-variant-numeric: tabular-nums; }
+  #toasts { position: fixed; top: 56px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
+  .toast { padding: 7px 14px; font-size: 14px; animation: fade 4s forwards; }
+  .toast.big { font-size: 18px; font-weight: 700; color: #ffe27a; border-color: rgba(255, 226, 122, 0.5); }
+  @keyframes fade { 0% { opacity: 0; transform: translateY(-6px); } 8% { opacity: 1; transform: none; } 80% { opacity: 1; } 100% { opacity: 0; } }
+  #encounter { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); padding: 6px 12px; font-size: 13px; color: #c9b8ff; }
+  .overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(2, 3, 10, 0.55); }
+  .overlay .box { width: min(860px, 92vw); max-height: 88vh; overflow: auto; padding: 26px 30px; }
+  h1 { margin: 0 0 4px; font-size: 52px; letter-spacing: 6px; font-weight: 800;
+    background: linear-gradient(90deg, #7fd0ff, #c9b8ff, #ffd36b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h2 { margin: 0 0 14px; font-size: 24px; }
+  h3 { margin: 18px 0 8px; font-size: 16px; color: #9fb4e8; }
+  .sub { color: #9fb4e8; margin-bottom: 22px; }
+  button { font: inherit; color: #fff; background: #1f4fa8; border: 1px solid #4f86ef; border-radius: 8px; padding: 9px 18px; cursor: pointer; margin: 4px 6px 4px 0; }
+  button:hover { background: #2a63cf; }
+  button.ghost { background: transparent; border-color: rgba(160, 190, 255, 0.4); }
+  button.ghost:hover { background: rgba(255,255,255,0.07); }
+  button.danger { background: #7a1f2a; border-color: #d0485a; }
+  button.small { padding: 4px 10px; font-size: 13px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .card { padding: 16px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(120,160,255,0.25); cursor: pointer; display: flex; flex-direction: column; }
+  .card:hover { border-color: #7fd0ff; background: rgba(127, 208, 255, 0.08); }
+  .card canvas { position: static; margin: 0 auto 8px; }
+  .card .name { font-size: 20px; font-weight: 700; }
+  .card .tag { color: #ffd36b; font-size: 13px; margin-bottom: 6px; }
+  .card .desc { font-size: 13px; color: #c3cff0; flex: 1; }
+  .card .stats { font-size: 12px; color: #9fb4e8; margin-top: 10px; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  td, th { text-align: left; padding: 7px 6px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  th { color: #9fb4e8; font-weight: 600; font-size: 12px; }
+  .ms { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px; }
+  .ms div { padding: 8px 10px; border-radius: 8px; background: rgba(255,255,255,0.04); font-size: 13px; color: #7f8db3; }
+  .ms div.done { color: #ffe27a; background: rgba(255, 226, 122, 0.08); }
+  .ms div small { display: block; color: #8796bf; }
+  .help { font-size: 14px; line-height: 1.7; color: #d3ddf7; }
+  .help td { padding: 3px 6px; border: none; }
+  .note { font-size: 12px; color: #8796bf; margin-top: 14px; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="hud" class="hidden">
+  <div id="hudL" class="panel">
+    <div class="vname" id="hName">-</div>
+    <div class="status" id="hStatus">-</div>
+    <div class="row"><span>Altitude</span><b id="hAlt">-</b></div>
+    <div class="row"><span>Vertical speed</span><b id="hVs">-</b></div>
+    <div class="row"><span>Speed</span><b id="hSpd">-</b></div>
+    <div class="row"><span>Apoapsis</span><b id="hAp">-</b></div>
+    <div class="row"><span>Periapsis</span><b id="hPe">-</b></div>
+    <div class="lbl"><span>Throttle</span><span id="hThrT">0%</span></div>
+    <div class="bar"><div id="hThr"></div></div>
+    <div class="lbl"><span id="hFuelL">Fuel</span><span id="hFuelT">-</span></div>
+    <div class="bar fuel"><div id="hFuel"></div></div>
+    <div class="row"><span>&Delta;v left</span><b id="hDv">-</b></div>
+    <div class="row"><span>Thrust / weight</span><b id="hTwr">-</b></div>
+    <div class="row"><span>Time warp</span><b id="hWarp">1x</b></div>
+    <div class="row"><span>SAS (hold steady)</span><b id="hSas">ON</b></div>
+  </div>
+  <div id="hudR" class="panel">
+    <kbd>W</kbd>/<kbd>S</kbd> throttle &nbsp;<kbd>Z</kbd> full <kbd>X</kbd> cut<br>
+    <kbd>A</kbd>/<kbd>D</kbd> turn &nbsp;<kbd>T</kbd> SAS<br>
+    <kbd>Space</kbd> drop stage<br>
+    <kbd>M</kbd> map &nbsp;<kbd>,</kbd>/<kbd>.</kbd> time warp<br>
+    Mouse wheel: zoom<br>
+    <kbd>H</kbd> help &nbsp;<kbd>Esc</kbd> menu
+  </div>
+  <div id="clock" class="panel">-</div>
+  <div id="encounter" class="panel hidden"></div>
+  <div id="toasts"></div>
+</div>
+
+<!-- Title -->
+<div id="ovTitle" class="overlay">
+  <div class="box panel">
+    <h1>SPACE PRIME</h1>
+    <div class="sub">Launch, reach orbit, land on Luna. Everything you do is saved automatically.</div>
+    <div id="titleBtns"></div>
+    <div class="note" id="titleNote"></div>
+  </div>
+</div>
+
+<!-- Rocket select -->
+<div id="ovSelect" class="overlay hidden">
+  <div class="box panel">
+    <h2>Choose your rocket</h2>
+    <div class="cards" id="rocketCards"></div>
+    <div style="margin-top:16px"><button class="ghost" data-act="back">Back</button></div>
+  </div>
+</div>
+
+<!-- Tracking station -->
+<div id="ovStation" class="overlay hidden">
+  <div class="box panel">
+    <h2>Tracking Station</h2>
+    <div id="stationTable"></div>
+    <div style="margin-top:12px">
+      <button data-act="launch">Launch new rocket</button>
+      <button class="ghost" data-act="back">Back</button>
+    </div>
+    <h3>Milestones</h3>
+    <div class="ms" id="msList"></div>
+    <h3>Records</h3>
+    <div id="records" class="help"></div>
+  </div>
+</div>
+
+<!-- Pause menu -->
+<div id="ovPause" class="overlay hidden">
+  <div class="box panel" style="width:min(460px,92vw)">
+    <h2>Paused</h2>
+    <div style="display:flex;flex-direction:column;align-items:stretch">
+      <button data-act="resume">Resume</button>
+      <button class="ghost" data-act="station">Tracking Station (all your ships)</button>
+      <button class="ghost" data-act="launch">Launch new rocket</button>
+      <button class="ghost" data-act="revert">Restart this flight from the pad</button>
+      <button class="ghost" data-act="help">Help &amp; controls</button>
+      <button class="ghost" data-act="sound">Sound: on</button>
+      <button class="ghost" data-act="export">Download a backup of my save</button>
+      <button class="ghost" data-act="import">Load a backup file</button>
+    </div>
+    <div class="note">Your world saves itself every second, in this browser on this PC. A backup file lets you keep it safe or move it to another PC.</div>
+  </div>
+</div>
+
+<!-- Help -->
+<div id="ovHelp" class="overlay hidden">
+  <div class="box panel help">
+    <h2>How to fly</h2>
+    <table>
+      <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Throttle up / down (hold)</td></tr>
+      <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Full throttle / cut engine</td></tr>
+      <tr><td><kbd>A</kbd> / <kbd>D</kbd> (or arrows)</td><td>Turn left / right</td></tr>
+      <tr><td><kbd>T</kbd></td><td>SAS on/off. When on, the rocket stops spinning by itself.</td></tr>
+      <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage (Heron's booster)</td></tr>
+      <tr><td><kbd>M</kbd></td><td>Map view. Drag to move around, <kbd>C</kbd> to recentre.</td></tr>
+      <tr><td><kbd>,</kbd> / <kbd>.</kbd></td><td>Slow down / speed up time (limited when low or burning)</td></tr>
+      <tr><td>Mouse wheel</td><td>Zoom</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Menu: tracking station, new rocket, restart, backups</td></tr>
+    </table>
+    <h3>Getting to orbit</h3>
+    Full throttle straight up. At about 10 km, start leaning right (east). By 40 km you should be pointing almost sideways.
+    Keep burning sideways until your <b>Apoapsis</b> is above 80 km, then cut the engine. Warp to the apoapsis
+    and burn sideways again until your <b>Periapsis</b> is above 70 km too. You're in orbit!
+    <h3>Getting to Luna</h3>
+    From orbit, open the map (<kbd>M</kbd>). Wait until Luna is a bit more than a quarter turn ahead of you, then burn
+    along your direction of travel (the green marker on the dial) until your orbit stretches out to Luna. A purple
+    "Luna encounter" box appears when you'll arrive. Near Luna, burn backwards (red marker) to slow down, then land gently:
+    under the rocket's safe speed, standing upright.
+    <h3>Landing</h3>
+    Point straight up (away from the ground), and use short burns to keep your speed low. Every rocket has a safe touchdown
+    speed: Sparrow 6 m/s, Heron 8 m/s, Mule 12 m/s. Faster or tilted over = crash.
+    <div style="margin-top:16px"><button data-act="back">Got it</button></div>
+  </div>
+</div>
+
+<!-- Outcome -->
+<div id="ovOutcome" class="overlay hidden">
+  <div class="box panel" style="width:min(520px,92vw)">
+    <h2 id="outTitle">-</h2>
+    <div id="outText" class="sub"></div>
+    <div id="outBtns"></div>
+  </div>
+</div>
+
+<input type="file" id="fileIn" accept=".json,application/json" class="hidden">
+
+<script>
+'use strict';
+// ============================================================
+// Space Prime - single-player rocket flight game
+// ============================================================
+const VERSION = '0.1.0';
+const SAVE_KEY = 'spacePrime.save.v1';
+const G0 = 9.81;
+
+// ---------- World ----------
+const BODIES = {
+  terra: { id: 'terra', name: 'Terra', R: 600000, mu: 3.5316e12, atmo: 70000, rho0: 1.2, H: 5600, soi: Infinity,
+           land: '#3e8e4e', deep: '#24563a', sea: '#2f6fd0', parent: null },
+  luna:  { id: 'luna', name: 'Luna', R: 200000, mu: 6.5138e10, atmo: 0, soi: 2429559, orbitR: 12000000,
+           land: '#a9a9a9', deep: '#6f6f6f', parent: 'terra', phase0: 1.9 }
+};
+const LUNA = BODIES.luna;
+LUNA.period = 2 * Math.PI * Math.sqrt(LUNA.orbitR ** 3 / BODIES.terra.mu);
+LUNA.w = 2 * Math.PI / LUNA.period;
+const PAD_THETA = Math.PI / 2;
+
+function lunaState(t) {
+  const a = LUNA.phase0 + LUNA.w * t, c = Math.cos(a), s = Math.sin(a);
+  return { x: LUNA.orbitR * c, y: LUNA.orbitR * s, vx: -LUNA.orbitR * LUNA.w * s, vy: LUNA.orbitR * LUNA.w * c };
+}
+function bodyState(id, t) { return id === 'luna' ? lunaState(t) : { x: 0, y: 0, vx: 0, vy: 0 }; }
+
+// ---------- Rockets ----------
+const ROCKETS = {
+  sparrow: { id: 'sparrow', name: 'Sparrow', tag: 'Nimble trainer',
+    desc: 'Light single-stage rocket. Turns fast and climbs hard, but fuel is tight. Great for learning; a careful pilot can just reach orbit.',
+    color: '#f1f3f7', accent: '#e0483e', turn: 1.4, crash: 6, cd: 0.5,
+    stages: [{ dry: 1500, fuel: 5000, thrust: 120000, isp: 300, len: 10, w: 1.8, legs: true }] },
+  heron: { id: 'heron', name: 'Heron', tag: 'Moon lander',
+    desc: 'Two stages. A big booster lifts you out of the air, then a light, efficient lander carries you to Luna and back. Press Space to drop the booster.',
+    color: '#e9edf5', accent: '#2f7de1', turn: 1.0, crash: 8, cd: 0.6,
+    stages: [{ dry: 3000, fuel: 18000, thrust: 520000, isp: 290, len: 15, w: 3.0 },
+             { dry: 1500, fuel: 5000, thrust: 60000, isp: 340, len: 6, w: 2.4, legs: true }] },
+  mule: { id: 'mule', name: 'Mule', tag: 'Heavy hauler',
+    desc: 'One huge, tough stage with a deep tank. Slow to turn, but its strong legs survive rough landings, and it can reach Luna in one piece.',
+    color: '#d9c9a3', accent: '#c7781c', turn: 0.45, crash: 12, cd: 0.8,
+    stages: [{ dry: 6000, fuel: 34000, thrust: 700000, isp: 310, len: 22, w: 4.2, legs: true }] }
+};
+
+const MILESTONES = [
+  ['launch', 'First Launch', 'Leave the launch pad.'],
+  ['space', 'Reach Space', 'Climb above 70 km on Terra.'],
+  ['orbit', 'Orbit Terra', 'Get your periapsis above 70 km.'],
+  ['lunaSoi', 'Reach Luna', "Enter Luna's sphere of influence."],
+  ['lunaOrbit', 'Orbit Luna', 'Settle into an orbit around Luna.'],
+  ['lunaLand', 'Land on Luna', 'Touch down gently on Luna.'],
+  ['home', 'There and Back', 'Land on Terra in a ship that has landed on Luna.']
+];
+const WARPS = [1, 2, 4, 10, 50, 100, 1000, 10000, 100000];
+
+// ---------- State (this whole object is the save) ----------
+function freshState() {
+  return { v: 1, t: 0, activeId: null, nextId: 1, vessels: [], milestones: {},
+    stats: { flights: 0, count: {}, maxAlt: 0, maxSpeed: 0, crashes: 0, landings: 0 },
+    view: { zoom: 4, mapZoom: 2.5e-5, map: false, panX: 0, panY: 0 }, sound: true, savedAt: 0 };
+}
+let S = freshState();
+let warpIdx = 0;
+let paused = true;
+
+// ---------- Vessel helpers ----------
+const rk = v => ROCKETS[v.rocket];
+function massOf(v) { let m = 0; for (const i of v.parts) m += rk(v).stages[i].dry + v.fuel[i]; return m; }
+function hasNose(v) { return v.parts.includes(rk(v).stages.length - 1); }
+function lengthOf(v) { let L = 0; for (const i of v.parts) L += rk(v).stages[i].len; if (hasNose(v)) L += noseLen(v); return L; }
+function noseLen(v) { const st = rk(v).stages; return st[st.length - 1].w * 1.1; }
+function widthOf(v) { let w = 0; for (const i of v.parts) w = Math.max(w, rk(v).stages[i].w); return w; }
+function engine(v) { return rk(v).stages[v.parts[0]]; }
+function byId(id) { return S.vessels.find(v => v.id === id) || null; }
+function active() { return byId(S.activeId); }
+function worldPos(v, t = S.t) { const b = bodyState(v.parent, t); return { x: b.x + v.x, y: b.y + v.y }; }
+function angDiff(a, b) { let d = a - b; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; }
+
+function deltaV(v) {
+  let m0 = massOf(v), dv = 0;
+  for (const i of v.parts) {
+    const st = rk(v).stages[i];
+    const m1 = m0 - v.fuel[i];
+    if (m1 > 0 && v.fuel[i] > 0) dv += st.isp * G0 * Math.log(m0 / m1);
+    m0 = m1 - st.dry;
+  }
+  return dv;
+}
+
+function placeLanded(v) {
+  const b = BODIES[v.parent], hl = lengthOf(v) / 2;
+  v.x = Math.cos(v.theta) * (b.R + hl); v.y = Math.sin(v.theta) * (b.R + hl);
+  v.vx = 0; v.vy = 0; v.ang = v.theta; v.angVel = 0;
+}
+
+function newVessel(rid) {
+  const r = ROCKETS[rid];
+  S.stats.count[rid] = (S.stats.count[rid] || 0) + 1;
+  const v = { id: S.nextId++, name: r.name + ' ' + S.stats.count[rid], rocket: rid,
+    parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel),
+    parent: 'terra', x: 0, y: 0, vx: 0, vy: 0, ang: PAD_THETA, angVel: 0, throttle: 0, sas: true,
+    landed: true, theta: PAD_THETA, debris: false, visitedLuna: false, launched: false, maxAlt: 0, born: S.t };
+  placeLanded(v);
+  S.vessels.push(v);
+  return v;
+}
+
+function orbitOf(x, y, vx, vy, mu) {
+  const r = Math.hypot(x, y), v2 = vx * vx + vy * vy;
+  const h = x * vy - y * vx, rv = x * vx + y * vy;
+  const ex = ((v2 - mu / r) * x - rv * vx) / mu, ey = ((v2 - mu / r) * y - rv * vy) / mu;
+  const e = Math.hypot(ex, ey);
+  const p = h * h / mu;
+  const a = 1 / (2 / r - v2 / mu);
+  const w = Math.atan2(ey, ex);
+  const rp = p / (1 + e);
+  const ra = e < 1 ? a * (1 + e) : Infinity;
+  return { e, a, p, w, rp, ra, h };
+}
+function vesselOrbit(v) { return orbitOf(v.x, v.y, v.vx, v.vy, BODIES[v.parent].mu); }
+
+function statusOf(v) {
+  const b = BODIES[v.parent];
+  if (v.landed) return (v.parent === 'terra' && Math.abs(angDiff(v.theta, PAD_THETA)) < 60 / b.R) ? 'On the launch pad' : 'Landed on ' + b.name;
+  const o = vesselOrbit(v), h = Math.hypot(v.x, v.y) - b.R;
+  if (o.rp < b.R) return 'Suborbital flight, ' + b.name;
+  if (b.atmo && h < b.atmo) return 'Flying in ' + b.name + "'s air";
+  if (o.e < 1 && o.ra < b.soi) return (b.atmo && o.rp < b.R + b.atmo) ? 'Orbit dips into the air' : 'Orbiting ' + b.name;
+  return v.parent === 'terra' ? 'Heading out from Terra' : 'Passing Luna';
+}
+
+// ---------- Formatting ----------
+function fmtDist(m) {
+  if (!isFinite(m)) return '-';
+  const s = m < 0 ? '-' : ''; m = Math.abs(m);
+  if (m < 1000) return s + m.toFixed(0) + ' m';
+  if (m < 100000) return s + (m / 1000).toFixed(2) + ' km';
+  return s + Math.round(m / 1000).toLocaleString() + ' km';
+}
+function fmtSpd(v) { return (Math.abs(v) < 100 ? v.toFixed(1) : v.toFixed(0)) + ' m/s'; }
+function fmtTime(s) {
+  s = Math.max(0, Math.floor(s));
+  const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  if (d) return d + 'd ' + h + 'h';
+  if (h) return h + 'h ' + m + 'm';
+  if (m) return m + 'm ' + sec + 's';
+  return sec + 's';
+}
+function clock(t) {
+  const s = Math.floor(t), d = Math.floor(s / 86400) + 1;
+  const h = String(Math.floor(s % 86400 / 3600)).padStart(2, '0'), m = String(Math.floor(s % 3600 / 60)).padStart(2, '0'), x = String(s % 60).padStart(2, '0');
+  return 'Day ' + d + ', ' + h + ':' + m + ':' + x;
+}
+
+// ---------- Save / load ----------
+function save() {
+  try { S.savedAt = Date.now(); localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { console.warn('save failed', e); }
+}
+function validSave(o) { return o && o.v === 1 && Array.isArray(o.vessels) && typeof o.t === 'number'; }
+function load() {
+  try { const raw = localStorage.getItem(SAVE_KEY); if (!raw) return false; const o = JSON.parse(raw); if (!validSave(o)) return false;
+    S = Object.assign(freshState(), o); S.view = Object.assign(freshState().view, o.view || {}); S.stats = Object.assign(freshState().stats, o.stats || {});
+    return true; } catch (e) { return false; }
+}
+function exportSave() {
+  save();
+  const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'space-prime-save-' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+document.getElementById('fileIn').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  f.text().then(txt => {
+    let o; try { o = JSON.parse(txt); } catch (err) { alert('That file is not a Space Prime save.'); return; }
+    if (!validSave(o)) { alert('That file is not a Space Prime save.'); return; }
+    if (!confirm('Replace your current world with this backup?')) return;
+    S = Object.assign(freshState(), o); save(); warpIdx = 0; toast('Backup loaded'); openTitle();
+  });
+  e.target.value = '';
+});
+window.addEventListener('beforeunload', save);
+document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });
+
+// ---------- Milestones / events ----------
+function milestone(key) {
+  if (S.milestones[key]) return;
+  S.milestones[key] = S.t;
+  const m = MILESTONES.find(x => x[0] === key);
+  toast('Milestone: ' + m[1], true); sfx('chime');
+  save();
+}
+function toast(msg, big) {
+  const d = document.createElement('div'); d.className = 'toast panel' + (big ? ' big' : ''); d.textContent = msg;
+  const box = document.getElementById('toasts'); box.appendChild(d);
+  while (box.children.length > 4) box.removeChild(box.firstChild);
+  setTimeout(() => d.remove(), 4100);
+}
+
+
+// ---------- Exact orbit propagation (universal-variable Kepler) ----------
+function stumpff(psi) {
+  if (psi > 1e-6) { const sp = Math.sqrt(psi); return [(1 - Math.cos(sp)) / psi, (sp - Math.sin(sp)) / (sp * sp * sp)]; }
+  if (psi < -1e-6) { const sp = Math.sqrt(-psi); return [(1 - Math.cosh(sp)) / psi, (Math.sinh(sp) - sp) / (sp * sp * sp)]; }
+  return [0.5, 1 / 6];
+}
+function kepler(x, y, vx, vy, mu, dt) {
+  const r0 = Math.hypot(x, y), v2 = vx * vx + vy * vy, sq = Math.sqrt(mu), rv = x * vx + y * vy;
+  const alpha = 2 / r0 - v2 / mu;
+  if (alpha > 1e-12) { const T = 2 * Math.PI / Math.sqrt(mu * alpha ** 3); if (Math.abs(dt) > T) dt = dt % T; }
+  let chi;
+  if (alpha > 1e-9) chi = sq * dt * alpha;
+  else if (alpha < -1e-9) {
+    const a = 1 / alpha, sg = Math.sign(dt) || 1;
+    chi = sg * Math.sqrt(-a) * Math.log((-2 * mu * alpha * dt) / (rv + sg * Math.sqrt(-mu * a) * (1 - r0 * alpha)));
+    if (!isFinite(chi)) chi = sq * dt / r0;
+  } else chi = sq * dt / r0;
+  let r = r0, c2 = 0.5, c3 = 1 / 6, psi = 0;
+  for (let i = 0; i < 60; i++) {
+    psi = chi * chi * alpha; [c2, c3] = stumpff(psi);
+    r = chi * chi * c2 + rv / sq * chi * (1 - psi * c3) + r0 * (1 - psi * c2);
+    const nchi = chi + (sq * dt - chi ** 3 * c3 - rv / sq * chi * chi * c2 - r0 * chi * (1 - psi * c3)) / r;
+    if (Math.abs(nchi - chi) < 1e-8 * Math.max(1, Math.abs(chi))) { chi = nchi; break; }
+    chi = nchi;
+  }
+  psi = chi * chi * alpha; [c2, c3] = stumpff(psi);
+  r = chi * chi * c2 + rv / sq * chi * (1 - psi * c3) + r0 * (1 - psi * c2);
+  const f = 1 - chi * chi / r0 * c2, g = dt - chi ** 3 / sq * c3;
+  const gd = 1 - chi * chi / r * c2, fd = sq / (r * r0) * chi * (psi * c3 - 1);
+  const out = { x: f * x + g * vx, y: f * y + g * vy, vx: fd * x + gd * vx, vy: fd * y + gd * vy };
+  return (isFinite(out.x) && isFinite(out.vx)) ? out : null;
+}
+
+// ---------- Physics ----------
+function hasThrust(v) { return v.throttle > 0 && v.fuel[v.parts[0]] > 0; }
+function maxDt(v, t = S.t) {
+  const b = BODIES[v.parent];
+  const r = Math.hypot(v.x, v.y), h = r - b.R;
+  if (v.landed) return hasThrust(v) ? 0.02 : 1e9;
+  if (hasThrust(v) || (b.atmo && h < b.atmo)) return 0.02;
+  const sp = Math.hypot(v.vx, v.vy) || 1;
+  let cap = Math.min(0.01 * Math.sqrt(r * r * r / b.mu), 0.25 * h / sp);
+  // take small steps near the edge of Luna's sphere of influence so arrivals are exact
+  if (v.parent === 'terra') {
+    const L = lunaState(t), d = Math.hypot(v.x - L.x, v.y - L.y) - LUNA.soi, rs = Math.hypot(v.vx - L.vx, v.vy - L.vy) || 1;
+    cap = Math.min(cap, Math.max(0.5, 0.2 * d / rs));
+  } else cap = Math.min(cap, Math.max(0.5, 0.2 * (LUNA.soi - r) / sp));
+  return Math.max(0.02, cap);
+}
+
+const input = { turn: 0 };
+
+// returns null | 'crash' | 'land'
+function stepVessel(v, dt, isActive) {
+  const b = BODIES[v.parent], r0 = rk(v);
+  const m = massOf(v), st = engine(v), ei = v.parts[0];
+  let thrust = 0;
+  if (v.throttle > 0 && v.fuel[ei] > 0) {
+    thrust = v.throttle * st.thrust;
+    const burn = thrust / (st.isp * G0) * dt;
+    if (burn >= v.fuel[ei]) { thrust *= v.fuel[ei] / burn; v.fuel[ei] = 0; if (isActive) { toast('Out of fuel' + (v.parts.length > 1 ? ' - press Space to drop this stage' : '')); } }
+    else v.fuel[ei] -= burn;
+  }
+  const hx = Math.cos(v.ang), hy = Math.sin(v.ang);
+  let r = Math.hypot(v.x, v.y);
+  const ux = v.x / r, uy = v.y / r;
+  const g = b.mu / (r * r);
+
+  if (v.landed) {
+    const aUp = thrust / m * (hx * ux + hy * uy);
+    if (aUp > g) { v.landed = false; if (!v.launched) { v.launched = true; S.stats.flights++; if (isActive) milestone('launch'); } }
+    else { v.ang = v.theta; return null; }
+  }
+
+  // rotation
+  const turn = r0.turn;
+  if (isActive && input.turn !== 0) {
+    v.angVel += input.turn * turn * 1.2 * dt;
+    v.angVel = Math.max(-turn * 0.7, Math.min(turn * 0.7, v.angVel));
+  } else if (v.sas) {
+    v.angVel *= Math.exp(-5 * dt);
+    if (Math.abs(v.angVel) < 1e-4) v.angVel = 0;
+  }
+  v.ang += v.angVel * dt;
+
+  const hAlt = r - b.R;
+  let railed = false;
+  if (thrust === 0 && !(b.atmo && hAlt < b.atmo)) {
+    const o = orbitOf(v.x, v.y, v.vx, v.vy, b.mu);
+    if (o.p > 1e-6 * r) {
+      const k = kepler(v.x, v.y, v.vx, v.vy, b.mu, dt);
+      if (k) { v.x = k.x; v.y = k.y; v.vx = k.vx; v.vy = k.vy; railed = true; }
+    }
+  }
+  let ax = -g * ux, ay = -g * uy;
+  ax += thrust / m * hx; ay += thrust / m * hy;
+  if (b.atmo && hAlt < b.atmo) {
+    const sp = Math.hypot(v.vx, v.vy);
+    if (sp > 0) {
+      const rho = b.rho0 * Math.exp(-hAlt / b.H);
+      const area = Math.PI * (widthOf(v) / 2) ** 2;
+      let ad = 0.5 * rho * sp * sp * r0.cd * area / m;
+      ad = Math.min(ad, sp / dt * 0.9);
+      ax -= ad * v.vx / sp; ay -= ad * v.vy / sp;
+    }
+  }
+  if (!railed) {
+    v.vx += ax * dt; v.vy += ay * dt;
+    v.x += v.vx * dt; v.y += v.vy * dt;
+  }
+
+  // ground contact
+  r = Math.hypot(v.x, v.y);
+  const nx = v.x / r, ny = v.y / r;
+  const tilt = angDiff(v.ang, Math.atan2(ny, nx));
+  const hl = lengthOf(v) / 2, hw = widthOf(v) / 2;
+  const bottom = hl * Math.abs(Math.cos(tilt)) + hw * Math.abs(Math.sin(tilt));
+  const h = r - b.R - bottom;
+  const vr = v.vx * nx + v.vy * ny;
+  if (h <= 0 && vr <= 0) {
+    const sp = Math.hypot(v.vx, v.vy);
+    v.impact = sp; v.impactTilt = Math.abs(tilt);
+    if (sp <= r0.crash && Math.abs(tilt) < 0.35) {
+      v.landed = true; v.theta = Math.atan2(ny, nx); v.throttle = 0; placeLanded(v);
+      return 'land';
+    }
+    return 'crash';
+  }
+  return null;
+}
+
+function soiCheck(v, t) {
+  if (v.landed) return null;
+  if (v.parent === 'terra') {
+    const L = lunaState(t), dx = v.x - L.x, dy = v.y - L.y;
+    if (dx * dx + dy * dy < LUNA.soi * LUNA.soi) {
+      v.parent = 'luna'; v.x = dx; v.y = dy; v.vx -= L.vx; v.vy -= L.vy; return 'enter';
+    }
+  } else if (v.parent === 'luna') {
+    if (v.x * v.x + v.y * v.y > LUNA.soi * LUNA.soi) {
+      const L = lunaState(t); v.parent = 'terra'; v.x += L.x; v.y += L.y; v.vx += L.vx; v.vy += L.vy; return 'leave';
+    }
+  }
+  return null;
+}
+
+function maxWarpFor(v) {
+  if (!v) return 100000;
+  if (v.landed) return hasThrust(v) ? 4 : 100000;
+  if (hasThrust(v)) return 4;
+  const b = BODIES[v.parent], h = Math.hypot(v.x, v.y) - b.R;
+  if (b.atmo && h < b.atmo) return 4;
+  if (h < 20000) return 10;
+  if (h < 100000) return 100;
+  if (h < 500000) return 1000;
+  if (h < 5000000) return 10000;
+  return 100000;
+}
+
+const particles = [];
+function explode(v) {
+  const p = worldPos(v);
+  for (let i = 0; i < 70; i++) {
+    const a = Math.random() * Math.PI * 2, s = 5 + Math.random() * 45;
+    particles.push({ x: p.x, y: p.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1 + Math.random() * 1.5, max: 2.5,
+      size: 1 + Math.random() * 3, parent: v.parent, rel: { x: v.x, y: v.y } });
+  }
+}
+
+function removeVessel(v) { S.vessels = S.vessels.filter(o => o !== v); }
+
+function onLand(v, isActive) {
+  const b = BODIES[v.parent];
+  S.stats.landings++;
+  if (v.parent === 'luna') {
+    const first = !v.visitedLuna; v.visitedLuna = true;
+    if (isActive) {
+      const wasNew = !S.milestones.lunaLand; milestone('lunaLand');
+      if (first) outcome('Touchdown on Luna!', v.name + ' landed at ' + v.impact.toFixed(1) + ' m/s.' + (wasNew ? ' The first ever landing on Luna.' : '') + ' It will stay right here until you fly it again.', [['Keep flying', 'resume'], ['Tracking Station', 'station']]);
+    }
+  } else if (isActive) {
+    if (v.visitedLuna && !v.returnedHome) {
+      v.returnedHome = true; milestone('home');
+      outcome('Welcome home!', v.name + ' went to Luna and made it back to Terra in one piece.', [['Keep flying', 'resume'], ['Launch a new rocket', 'launch'], ['Tracking Station', 'station']]);
+    } else if (v.launched) toast('Landed on ' + b.name + ' at ' + v.impact.toFixed(1) + ' m/s');
+  }
+  if (isActive) sfx('thud');
+}
+
+function onCrash(v, isActive) {
+  const b = BODIES[v.parent];
+  explode(v); removeVessel(v);
+  if (isActive) {
+    S.stats.crashes++; sfx('boom');
+    const why = v.impactTilt >= 0.35 && v.impact <= rk(v).crash ? 'It touched down tilted over.' : 'It hit ' + b.name + ' at ' + v.impact.toFixed(1) + ' m/s (safe is ' + rk(v).crash + ' m/s or less).';
+    S.activeId = null;
+    outcome(v.name + ' crashed', why, [['Launch another ' + rk(v).name, 'relaunch:' + v.rocket], ['Pick a rocket', 'launch'], ['Tracking Station', 'station']]);
+  } else if (!v.debris) toast(v.name + ' crashed on ' + b.name);
+  save();
+}
+
+let lastWarpWarn = 0;
+function update(realDt) {
+  const av = active();
+  // throttle keys (real time)
+  if (av && !paused) {
+    if (keys.KeyW || keys.ShiftLeft || keys.ShiftRight) av.throttle = Math.min(1, av.throttle + realDt * 0.9);
+    if (keys.KeyS) av.throttle = Math.max(0, av.throttle - realDt * 0.9);
+    input.turn = ((keys.KeyA || keys.ArrowLeft) ? 1 : 0) - ((keys.KeyD || keys.ArrowRight) ? 1 : 0);
+    if (WARPS[warpIdx] > 4) input.turn = 0;
+  } else input.turn = 0;
+
+  const allowed = maxWarpFor(av);
+  while (warpIdx > 0 && WARPS[warpIdx] > allowed) { warpIdx--; if (performance.now() - lastWarpWarn > 3000) { lastWarpWarn = performance.now(); } }
+
+  const fdt = Math.min(realDt, 0.05) * WARPS[warpIdx];
+  if (fdt <= 0) return;
+  const t0 = S.t;
+  for (const v of S.vessels.slice()) {
+    const isAct = v.id === S.activeId;
+    // vessels left in the air during fast warp are lost
+    if (!isAct && !v.landed && WARPS[warpIdx] > 4) {
+      const b = BODIES[v.parent];
+      if (b.atmo && Math.hypot(v.x, v.y) - b.R < b.atmo) { removeVessel(v); if (!v.debris) toast(v.name + ' burned up in the air'); continue; }
+    }
+    if (v.landed && !hasThrust(v)) { v.ang = v.theta; continue; }
+    let done = 0, count = 0;
+    const cap = isAct ? 20000 : 3000, minDt = fdt / cap;
+    while (done < fdt - 1e-9) {
+      const dt = Math.min(fdt - done, Math.max(minDt, maxDt(v, t0 + done)));
+      const res = stepVessel(v, dt, isAct);
+      done += dt; count++;
+      if (res === 'crash') { onCrash(v, isAct); break; }
+      if (res === 'land') { onLand(v, isAct); break; }
+      const sc = soiCheck(v, t0 + done);
+      if (sc && isAct) {
+        if (sc === 'enter') { toast("Entered Luna's sphere of influence"); milestone('lunaSoi'); }
+        else toast("Left Luna's sphere of influence");
+        if (WARPS[warpIdx] > 100) warpIdx = WARPS.indexOf(100);
+      }
+    }
+  }
+  S.t = t0 + fdt;
+
+  // particles
+  for (const p of particles) { p.rel.x += p.vx * Math.min(realDt, 0.05); p.rel.y += p.vy * Math.min(realDt, 0.05); p.life -= Math.min(realDt, 0.05); }
+  for (let i = particles.length - 1; i >= 0; i--) if (particles[i].life <= 0) particles.splice(i, 1);
+
+  // records + milestones for active vessel
+  const a = active();
+  if (a && !a.landed) {
+    const b = BODIES[a.parent], r = Math.hypot(a.x, a.y), h = r - b.R, sp = Math.hypot(a.vx, a.vy);
+    if (a.parent === 'terra') { if (h > S.stats.maxAlt) S.stats.maxAlt = h; if (h > 70000) milestone('space'); }
+    if (sp > S.stats.maxSpeed) S.stats.maxSpeed = sp;
+    if (!hasThrust(a)) {
+      const o = vesselOrbit(a);
+      if (a.parent === 'terra' && o.e < 1 && o.rp > b.R + 70000) milestone('orbit');
+      if (a.parent === 'luna' && o.e < 1 && o.rp > b.R + 3000 && o.ra < b.soi) milestone('lunaOrbit');
+    }
+  }
+}
+
+// ---------- Actions ----------
+function doStage() {
+  const v = active(); if (!v) return;
+  if (v.landed) { toast("Can't drop a stage while standing on the ground"); return; }
+  if (v.parts.length < 2) { toast('No stages left to drop'); return; }
+  const L0 = lengthOf(v), k = v.parts[0], st = rk(v).stages[k];
+  const hx = Math.cos(v.ang), hy = Math.sin(v.ang);
+  const bx = v.x - hx * L0 / 2, by = v.y - hy * L0 / 2;
+  const deb = JSON.parse(JSON.stringify(v));
+  deb.id = S.nextId++; deb.name = v.name + ' booster'; deb.parts = [k]; deb.debris = true; deb.throttle = 0; deb.sas = false;
+  deb.x = bx + hx * st.len / 2; deb.y = by + hy * st.len / 2; deb.vx = v.vx - hx * 2; deb.vy = v.vy - hy * 2; deb.angVel = (Math.random() - 0.5) * 0.4;
+  v.parts.shift();
+  const L1 = lengthOf(v);
+  v.x = bx + hx * (st.len + L1 / 2); v.y = by + hy * (st.len + L1 / 2); v.vx += hx * 1; v.vy += hy * 1;
+  S.vessels.push(deb);
+  sfx('clunk'); toast('Stage dropped');
+  save();
+}
+
+function fitMap() {
+  const v = active(); if (!v) return;
+  const b = BODIES[v.parent];
+  let ext = Math.max(b.R * 2.2, Math.hypot(v.x, v.y) * 1.3);
+  if (!v.landed) { const o = vesselOrbit(v); if (o.e < 1) ext = Math.max(ext, Math.min(o.ra, b.soi === Infinity ? 3e7 : b.soi) * 1.15); else ext = Math.max(ext, Math.min(b.soi, 2.6e7)); }
+  S.view.mapZoom = Math.min(W, H) * 0.45 / ext;
+}
+function cycleWarp(d) {
+  const allowed = maxWarpFor(active());
+  const ni = Math.max(0, Math.min(WARPS.length - 1, warpIdx + d));
+  if (WARPS[ni] > allowed) { toast(warnWarp(active())); return; }
+  warpIdx = ni;
+}
+function warnWarp(v) {
+  if (!v) return 'Time warp limited';
+  if (hasThrust(v)) return 'Cut the engine to warp faster';
+  const b = BODIES[v.parent];
+  if (b.atmo && Math.hypot(v.x, v.y) - b.R < b.atmo) return "Can't warp faster inside the air";
+  return 'Too close to ' + b.name + ' to warp faster';
+}
+
+function launch(rid) {
+  const old = active(); if (old) old.throttle = 0;
+  const v = newVessel(rid);
+  S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
+  camRot = PAD_THETA - Math.PI / 2;
+  save(); closeAll(); toast(v.name + ' is on the pad. Hold W (or press Z) to launch!');
+}
+
+function flyVessel(id) {
+  const old = active(); if (old && old.id !== id) old.throttle = 0;
+  S.activeId = id; warpIdx = 0; snapCam = true; save(); closeAll();
+}
+
+// ---------- Overlays ----------
+const OVERLAYS = ['ovTitle', 'ovSelect', 'ovStation', 'ovPause', 'ovHelp', 'ovOutcome'];
+let overlayStack = [];
+function showOverlay(id) {
+  for (const o of OVERLAYS) document.getElementById(o).classList.toggle('hidden', o !== id);
+  if (overlayStack[overlayStack.length - 1] !== id) overlayStack.push(id);
+  paused = true; keysClear();
+}
+function closeAll() {
+  for (const o of OVERLAYS) document.getElementById(o).classList.add('hidden');
+  overlayStack = []; paused = false; keysClear();
+  document.getElementById('hud').classList.remove('hidden');
+  ensureAudio();
+}
+function back() {
+  overlayStack.pop();
+  const prev = overlayStack.pop();
+  if (prev === 'ovTitle') openTitle();
+  else if (prev === 'ovStation') openStation();
+  else if (prev) showOverlay(prev);
+  else if (active()) closeAll(); else openTitle();
+}
+function openTitle() {
+  overlayStack = [];
+  const btns = document.getElementById('titleBtns');
+  const has = S.vessels.length > 0 || S.stats.flights > 0;
+  btns.innerHTML = '';
+  const add = (label, act, cls) => { const b = document.createElement('button'); b.textContent = label; b.dataset.act = act; if (cls) b.className = cls; btns.appendChild(b); };
+  if (active()) add('Continue flying ' + active().name, 'resume');
+  add('Launch a rocket', 'launch', active() ? 'ghost' : '');
+  if (has) add('Tracking Station', 'station', 'ghost');
+  add('How to fly', 'help', 'ghost');
+  add('Load a backup file', 'import', 'ghost');
+  if (has) add('Start a brand new world', 'wipe', 'ghost danger');
+  document.getElementById('titleNote').textContent = (S.savedAt ? 'World saved ' + new Date(S.savedAt).toLocaleString() + ' · ' + clock(S.t) + ' · ' + S.vessels.filter(v => !v.debris).length + ' ships, ' + S.vessels.filter(v => v.debris).length + ' pieces of debris' : 'New world') + ' · v' + VERSION;
+  showOverlay('ovTitle');
+}
+function openSelect() {
+  const box = document.getElementById('rocketCards'); box.innerHTML = '';
+  for (const r of Object.values(ROCKETS)) {
+    const fake = { rocket: r.id, parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel) };
+    const m = massOf(fake), twr = r.stages[0].thrust / (m * G0);
+    const c = document.createElement('div'); c.className = 'card'; c.dataset.act = 'pick:' + r.id;
+    const cv = document.createElement('canvas'); cv.width = 120; cv.height = 140; cv.dataset.act = 'pick:' + r.id;
+    drawRocketPreview(cv, fake);
+    c.appendChild(cv);
+    c.insertAdjacentHTML('beforeend', `<div class="name">${r.name}</div><div class="tag">${r.tag}</div><div class="desc">${r.desc}</div>
+      <div class="stats">Stages: ${r.stages.length} · Mass: ${(m / 1000).toFixed(1)} t<br>
+      Launch thrust/weight: ${twr.toFixed(2)} · &Delta;v: ${Math.round(deltaV(fake)).toLocaleString()} m/s<br>
+      Turning: ${r.turn >= 1.2 ? 'fast' : r.turn >= 0.8 ? 'medium' : 'slow'} · Safe landing: ${r.crash} m/s</div>`);
+    for (const el of c.querySelectorAll('*')) el.dataset.act = 'pick:' + r.id;
+    box.appendChild(c);
+  }
+  showOverlay('ovSelect');
+}
+function openStation() {
+  const ships = S.vessels.slice().sort((a, b) => (a.debris - b.debris) || (a.id - b.id));
+  let html = '';
+  if (!ships.length) html = '<div class="sub">No ships yet. Launch one!</div>';
+  else {
+    html = '<table><tr><th>Ship</th><th>Where</th><th>Fuel</th><th></th></tr>';
+    for (const v of ships) {
+      const tot = v.parts.reduce((s, i) => s + rk(v).stages[i].fuel, 0), cur = v.parts.reduce((s, i) => s + v.fuel[i], 0);
+      const recover = v.landed && v.parent === 'terra';
+      html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}</td><td>${statusOf(v)}</td><td>${tot ? Math.round(cur / tot * 100) : 0}%</td>
+        <td style="white-space:nowrap"><button class="small" data-act="fly:${v.id}">Fly</button><button class="small ghost" data-act="del:${v.id}">${recover ? 'Recover' : 'Delete'}</button></td></tr>`;
+    }
+    html += '</table>';
+  }
+  document.getElementById('stationTable').innerHTML = html;
+  document.getElementById('msList').innerHTML = MILESTONES.map(m => `<div class="${S.milestones[m[0]] !== undefined ? 'done' : ''}">${S.milestones[m[0]] !== undefined ? '★' : '☆'} ${m[1]}<small>${m[2]}</small></div>`).join('');
+  document.getElementById('records').innerHTML = `Flights: ${S.stats.flights} · Landings: ${S.stats.landings} · Crashes: ${S.stats.crashes}<br>
+    Highest above Terra: ${fmtDist(S.stats.maxAlt)} · Fastest: ${fmtSpd(S.stats.maxSpeed)} · World time: ${clock(S.t)}`;
+  showOverlay('ovStation');
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function outcome(title, text, buttons) {
+  document.getElementById('outTitle').textContent = title;
+  document.getElementById('outText').textContent = text;
+  const box = document.getElementById('outBtns'); box.innerHTML = '';
+  buttons.forEach(([label, act], i) => { const b = document.createElement('button'); b.textContent = label; b.dataset.act = act; if (i) b.className = 'ghost'; box.appendChild(b); });
+  overlayStack = [];
+  showOverlay('ovOutcome');
+}
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  const act = el.dataset.act;
+  ensureAudio();
+  if (act === 'resume') { if (active()) closeAll(); else openSelect(); }
+  else if (act === 'launch') openSelect();
+  else if (act === 'station') openStation();
+  else if (act === 'help') showOverlay('ovHelp');
+  else if (act === 'back') back();
+  else if (act === 'export') exportSave();
+  else if (act === 'import') document.getElementById('fileIn').click();
+  else if (act === 'sound') { S.sound = !S.sound; el.textContent = 'Sound: ' + (S.sound ? 'on' : 'off'); save(); }
+  else if (act === 'wipe') {
+    if (confirm('Start a brand new world? This deletes every ship, milestone and record. (Tip: download a backup first from the in-game menu.)') && confirm('Really erase your whole world?')) {
+      S = freshState(); save(); openTitle();
+    }
+  }
+  else if (act === 'revert') {
+    const v = active(); if (!v) return;
+    if (!confirm('Delete ' + v.name + ' and start a fresh ' + rk(v).name + ' on the pad?')) return;
+    removeVessel(v); S.activeId = null; launch(v.rocket);
+  }
+  else if (act.startsWith('pick:')) launch(act.slice(5));
+  else if (act.startsWith('relaunch:')) launch(act.slice(9));
+  else if (act.startsWith('fly:')) flyVessel(+act.slice(4));
+  else if (act.startsWith('del:')) {
+    const v = byId(+act.slice(4)); if (!v) return;
+    const recover = v.landed && v.parent === 'terra';
+    if (!confirm((recover ? 'Recover ' : 'Delete ') + v.name + '? It will be removed from your world.')) return;
+    removeVessel(v); if (S.activeId === v.id) S.activeId = null; save(); openStation();
+  }
+});
+
+// ---------- Input ----------
+const keys = {};
+function keysClear() { for (const k in keys) keys[k] = false; }
+window.addEventListener('keydown', e => {
+  if (e.code === 'Space' || e.code.startsWith('Arrow')) e.preventDefault();
+  if (e.code === 'Escape') {
+    if (!paused) { document.querySelector('[data-act=sound]').textContent = 'Sound: ' + (S.sound ? 'on' : 'off'); overlayStack = []; showOverlay('ovPause'); }
+    else if (overlayStack.length && overlayStack[overlayStack.length - 1] !== 'ovTitle' && overlayStack[overlayStack.length - 1] !== 'ovOutcome') back();
+    return;
+  }
+  if (paused) return;
+  keys[e.code] = true;
+  const v = active();
+  if (e.repeat) return;
+  switch (e.code) {
+    case 'KeyZ': if (v) v.throttle = 1; break;
+    case 'KeyX': if (v) v.throttle = 0; break;
+    case 'KeyT': if (v) { v.sas = !v.sas; toast('SAS ' + (v.sas ? 'on' : 'off')); } break;
+    case 'Space': doStage(); break;
+    case 'KeyM': S.view.map = !S.view.map; S.view.panX = 0; S.view.panY = 0; if (S.view.map) fitMap(); break;
+    case 'KeyC': S.view.panX = 0; S.view.panY = 0; break;
+    case 'Comma': cycleWarp(-1); break;
+    case 'Period': cycleWarp(1); break;
+    case 'KeyH': overlayStack = []; showOverlay('ovHelp'); break;
+  }
+});
+window.addEventListener('keyup', e => { keys[e.code] = false; });
+window.addEventListener('blur', keysClear);
+
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let W = 0, H = 0, DPR = 1;
+function resize() { DPR = window.devicePixelRatio || 1; W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; cv.style.width = W + 'px'; cv.style.height = H + 'px'; }
+window.addEventListener('resize', resize); resize();
+
+cv.addEventListener('wheel', e => {
+  e.preventDefault();
+  const f = Math.pow(1.0015, -e.deltaY);
+  if (S.view.map) S.view.mapZoom = Math.min(0.05, Math.max(5e-7, S.view.mapZoom * f));
+  else S.view.zoom = Math.min(40, Math.max(2e-6, S.view.zoom * f));
+}, { passive: false });
+let drag = null;
+cv.addEventListener('mousedown', e => { if (S.view.map) drag = { x: e.clientX, y: e.clientY }; });
+window.addEventListener('mouseup', () => { drag = null; });
+window.addEventListener('mousemove', e => {
+  if (!drag) return;
+  S.view.panX -= (e.clientX - drag.x) / S.view.mapZoom; S.view.panY += (e.clientY - drag.y) / S.view.mapZoom;
+  drag = { x: e.clientX, y: e.clientY };
+});
+
+// ---------- Audio ----------
+let AC = null, engineGain = null;
+function ensureAudio() {
+  if (AC) { if (AC.state === 'suspended') AC.resume(); return; }
+  try {
+    AC = new (window.AudioContext || window.webkitAudioContext)();
+    const len = AC.sampleRate * 2, buf = AC.createBuffer(1, len, AC.sampleRate), d = buf.getChannelData(0);
+    let last = 0; for (let i = 0; i < len; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
+    const src = AC.createBufferSource(); src.buffer = buf; src.loop = true;
+    const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700;
+    engineGain = AC.createGain(); engineGain.gain.value = 0;
+    src.connect(lp); lp.connect(engineGain); engineGain.connect(AC.destination); src.start();
+  } catch (e) { AC = null; }
+}
+function sfx(kind) {
+  if (!AC || !S.sound) return;
+  const t = AC.currentTime, o = AC.createOscillator(), g = AC.createGain();
+  o.connect(g); g.connect(AC.destination);
+  if (kind === 'chime') { o.type = 'sine'; o.frequency.setValueAtTime(660, t); o.frequency.setValueAtTime(990, t + 0.12); g.gain.setValueAtTime(0.12, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.6); o.start(t); o.stop(t + 0.6); }
+  else if (kind === 'clunk') { o.type = 'square'; o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(50, t + 0.15); g.gain.setValueAtTime(0.15, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.2); o.start(t); o.stop(t + 0.2); }
+  else if (kind === 'thud') { o.type = 'sine'; o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.25); g.gain.setValueAtTime(0.25, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.3); o.start(t); o.stop(t + 0.3); }
+  else if (kind === 'boom') { o.type = 'sawtooth'; o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(20, t + 1.2); g.gain.setValueAtTime(0.35, t); g.gain.exponentialRampToValueAtTime(0.001, t + 1.3); o.start(t); o.stop(t + 1.3); }
+}
+
+// ---------- Rendering ----------
+let camRot = 0, snapCam = true;
+const cam = { x: 0, y: 0, z: 1, c: 1, s: 0 };
+function w2s(x, y) { const dx = x - cam.x, dy = y - cam.y; const rx = dx * cam.c + dy * cam.s, ry = -dx * cam.s + dy * cam.c; return [W / 2 + rx * cam.z, H / 2 - ry * cam.z]; }
+const STARS = Array.from({ length: 260 }, (_, i) => { const s = Math.sin(i * 12.9898) * 43758.5453; const s2 = Math.sin(i * 78.233) * 12345.678; return { x: s - Math.floor(s), y: s2 - Math.floor(s2), b: 0.3 + ((i * 37) % 70) / 100, r: (i % 9 === 0) ? 1.6 : 1 }; });
+
+function lerpColor(a, b, t) {
+  const pa = [1, 3, 5].map(i => parseInt(a.substr(i, 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.substr(i, 2), 16));
+  return 'rgb(' + pa.map((v, i) => Math.round(v + (pb[i] - v) * t)).join(',') + ')';
+}
+
+function drawBody(b, bx, by) {
+  const [sx, sy] = w2s(bx, by), rp = b.R * cam.z;
+  const diag = Math.hypot(W, H) / cam.z;
+  if (b.atmo && S.view.map) {
+    ctx.beginPath(); ctx.arc(sx, sy, (b.R + b.atmo) * cam.z, 0, Math.PI * 2); ctx.fillStyle = 'rgba(90,150,255,0.13)'; ctx.fill();
+  }
+  if (rp < 30000) {
+    const grd = ctx.createRadialGradient(sx - rp * 0.3, sy - rp * 0.3, rp * 0.1, sx, sy, rp);
+    grd.addColorStop(0, b.id === 'terra' ? '#4f9be8' : '#c4c4c4'); grd.addColorStop(1, b.id === 'terra' ? '#1d4fa0' : '#6a6a6a');
+    ctx.beginPath(); ctx.arc(sx, sy, Math.max(rp, 2), 0, Math.PI * 2); ctx.fillStyle = grd; ctx.fill();
+    // continents / craters, drawn in world space so they stay put
+    if (rp > 6) {
+      ctx.save(); ctx.beginPath(); ctx.arc(sx, sy, rp, 0, Math.PI * 2); ctx.clip();
+      const spots = b.id === 'terra' ? TERRA_SPOTS : LUNA_SPOTS;
+      for (const s of spots) {
+        const [px, py] = w2s(bx + Math.cos(s.a) * b.R * s.d, by + Math.sin(s.a) * b.R * s.d);
+        ctx.beginPath(); ctx.arc(px, py, s.r * rp, 0, Math.PI * 2); ctx.fillStyle = s.c; ctx.fill();
+      }
+      ctx.restore();
+    }
+  } else {
+    // huge on screen: draw the nearby surface as a polygon
+    const pc = Math.atan2(cam.y - by, cam.x - bx);
+    const span = Math.min(Math.PI, 1.6 * diag / b.R + 0.002);
+    const depth = Math.min(b.R * 0.9, diag * 3);
+    ctx.beginPath();
+    const N = 140;
+    for (let i = 0; i <= N; i++) { const a = pc - span + 2 * span * i / N; const [px, py] = w2s(bx + Math.cos(a) * b.R, by + Math.sin(a) * b.R); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    for (let i = N; i >= 0; i--) { const a = pc - span + 2 * span * i / N; const [px, py] = w2s(bx + Math.cos(a) * (b.R - depth), by + Math.sin(a) * (b.R - depth)); ctx.lineTo(px, py); }
+    ctx.closePath(); ctx.fillStyle = b.land; ctx.fill();
+    ctx.save(); ctx.clip();
+    // ground texture marks so speed near the ground is visible
+    const spacing = Math.pow(10, Math.ceil(Math.log10(Math.max(5, diag / 12))));
+    const dth = spacing / b.R;
+    const k0 = Math.floor((pc - span) / dth), k1 = Math.ceil((pc + span) / dth);
+    if (k1 - k0 < 600) {
+      ctx.fillStyle = b.deep;
+      for (let k = k0; k <= k1; k++) {
+        const hsh = Math.sin(k * 91.17) * 1000; const fr = hsh - Math.floor(hsh);
+        const a = k * dth + fr * dth * 0.5, sz = spacing * (0.04 + fr * 0.08);
+        const [px, py] = w2s(bx + Math.cos(a) * (b.R + sz * 0.15), by + Math.sin(a) * (b.R + sz * 0.15));
+        ctx.beginPath(); ctx.arc(px, py, sz * cam.z, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.restore();
+    if (b.id === 'terra') drawPad(bx, by);
+  }
+}
+const TERRA_SPOTS = [{ a: 0.4, d: 0.5, r: 0.35, c: '#3e8e4e' }, { a: 2.4, d: 0.6, r: 0.3, c: '#3e8e4e' }, { a: 4.1, d: 0.4, r: 0.4, c: '#47995a' }, { a: 1.57, d: 0.95, r: 0.12, c: '#3e8e4e' }, { a: 5.3, d: 0.85, r: 0.2, c: '#e8eef8' }];
+const LUNA_SPOTS = [{ a: 0.7, d: 0.4, r: 0.18, c: '#8e8e8e' }, { a: 2.2, d: 0.6, r: 0.12, c: '#8a8a8a' }, { a: 3.7, d: 0.3, r: 0.22, c: '#949494' }, { a: 5.0, d: 0.7, r: 0.1, c: '#858585' }, { a: 4.3, d: 0.75, r: 0.08, c: '#7d7d7d' }];
+
+function worldPoly(pts, fill) {
+  ctx.beginPath(); pts.forEach(([x, y], i) => { const [px, py] = w2s(x, y); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); });
+  ctx.closePath(); ctx.fillStyle = fill; ctx.fill();
+}
+function drawPad(bx, by) {
+  // pad sits at angle PAD_THETA; local frame: e = along surface, u = up
+  const R = BODIES.terra.R, ux = Math.cos(PAD_THETA), uy = Math.sin(PAD_THETA), ex = -uy, ey = ux;
+  const P = (a, u) => [bx + ux * (R + u) + ex * a, by + uy * (R + u) + ey * a];
+  worldPoly([P(-14, -2), P(14, -2), P(14, 0.01), P(-14, 0.01)], '#6b7280');
+  worldPoly([P(-14, -2), P(14, -2), P(14, -1.4), P(-14, -1.4)], '#4b5563');
+  worldPoly([P(10, 0), P(12, 0), P(12, 34), P(10, 34)], '#9aa3ad');
+  for (let h = 4; h < 34; h += 6) worldPoly([P(8, h), P(10, h), P(10, h + 0.6), P(8, h + 0.6)], '#c04040');
+  worldPoly([P(-30, 0), P(-22, 0), P(-22, 6), P(-30, 6)], '#c9ced6');
+  worldPoly([P(-29, 3), P(-23, 3), P(-23, 4.5), P(-29, 4.5)], '#2f7de1');
+}
+
+function drawRocketShape(c, v, flame) {
+  // local coordinates in metres, +y = nose direction, origin at centre
+  const r = rk(v), L = lengthOf(v);
+  let y = -L / 2;
+  c.lineWidth = 0;
+  for (let idx = 0; idx < v.parts.length; idx++) {
+    const st = r.stages[v.parts[idx]];
+    const w = st.w;
+    if (idx === 0) {
+      // engine bell + flame
+      if (flame > 0) {
+        const fl = (st.thrust / 120000) ** 0.4 * 9 * flame * (0.85 + Math.random() * 0.3);
+        const grd = c.createLinearGradient(0, y, 0, y - fl);
+        grd.addColorStop(0, 'rgba(255,250,210,0.95)'); grd.addColorStop(0.4, 'rgba(255,170,60,0.85)'); grd.addColorStop(1, 'rgba(255,80,20,0)');
+        c.beginPath(); c.moveTo(-w * 0.35, y - w * 0.15); c.lineTo(w * 0.35, y - w * 0.15); c.lineTo(0, y - fl); c.closePath(); c.fillStyle = grd; c.fill();
+      }
+      c.beginPath(); c.moveTo(-w * 0.22, y); c.lineTo(w * 0.22, y); c.lineTo(w * 0.34, y - w * 0.25); c.lineTo(-w * 0.34, y - w * 0.25); c.closePath(); c.fillStyle = '#4b5563'; c.fill();
+      if (st.legs) { c.strokeStyle = '#9ca3af'; c.lineWidth = Math.max(0.15, w * 0.08); c.beginPath(); c.moveTo(-w / 2, y + st.len * 0.3); c.lineTo(-w * 0.95, y - w * 0.25); c.moveTo(w / 2, y + st.len * 0.3); c.lineTo(w * 0.95, y - w * 0.25); c.stroke(); }
+    }
+    c.fillStyle = r.color; c.fillRect(-w / 2, y, w, st.len);
+    c.fillStyle = r.accent; c.fillRect(-w / 2, y + st.len * 0.12, w, Math.min(1.2, st.len * 0.08));
+    c.fillStyle = 'rgba(0,0,0,0.12)'; c.fillRect(w * 0.15, y, w * 0.35, st.len);
+    if (idx > 0) { c.fillStyle = '#374151'; c.fillRect(-w / 2, y, w, 0.25); }
+    y += st.len;
+  }
+  if (hasNose(v)) {
+    const w = r.stages[r.stages.length - 1].w, nl = noseLen(v);
+    c.beginPath(); c.moveTo(-w / 2, y); c.lineTo(w / 2, y); c.quadraticCurveTo(w / 2, y + nl * 0.7, 0, y + nl); c.quadraticCurveTo(-w / 2, y + nl * 0.7, -w / 2, y); c.fillStyle = r.accent; c.fill();
+    c.beginPath(); c.arc(0, y + nl * 0.3, w * 0.13, 0, Math.PI * 2); c.fillStyle = '#9fd6ff'; c.fill();
+  }
+}
+function drawRocketPreview(canvas, v) {
+  const c = canvas.getContext('2d'); const L = lengthOf(v) + 4, sc = Math.min(120 / L, 16);
+  c.save(); c.translate(60, 70); c.scale(sc, -sc); drawRocketShape(c, v, 0); c.restore();
+}
+
+function drawVessel(v, isAct) {
+  const p = worldPos(v); const [sx, sy] = w2s(p.x, p.y);
+  if (sx < -200 || sy < -200 || sx > W + 200 || sy > H + 200) return;
+  const L = lengthOf(v);
+  const scrAng = v.ang - camRot - Math.PI / 2;
+  if (L * cam.z < 8) {
+    // icon
+    ctx.save(); ctx.translate(sx, sy); ctx.rotate(-scrAng);
+    ctx.beginPath(); ctx.moveTo(0, -7); ctx.lineTo(5, 6); ctx.lineTo(0, 3); ctx.lineTo(-5, 6); ctx.closePath();
+    ctx.fillStyle = isAct ? '#7fd0ff' : (v.debris ? '#6b7280' : '#e5e7eb'); ctx.fill(); ctx.restore();
+    if (S.view.map && !v.debris) { ctx.fillStyle = isAct ? '#7fd0ff' : '#cbd5e1'; ctx.font = '11px sans-serif'; ctx.fillText(v.name, sx + 9, sy + 4); }
+    return;
+  }
+  ctx.save(); ctx.translate(sx, sy); ctx.rotate(-scrAng); ctx.scale(cam.z, -cam.z);
+  drawRocketShape(ctx, v, hasThrust(v) && !paused ? v.throttle : (hasThrust(v) ? v.throttle : 0));
+  ctx.restore();
+}
+
+function drawConic(v, color, width) {
+  if (v.landed) return null;
+  const b = BODIES[v.parent], bs = bodyState(v.parent, S.t), o = vesselOrbit(v);
+  const lim = v.parent === 'luna' ? b.soi : LUNA.orbitR * 2.2;
+  ctx.beginPath(); let started = false;
+  const N = 360;
+  let nuMax = Math.PI;
+  if (o.e >= 1) nuMax = Math.acos(-1 / o.e) - 1e-3;
+  for (let i = 0; i <= N; i++) {
+    const nu = -nuMax + 2 * nuMax * i / N;
+    const rr = o.p / (1 + o.e * Math.cos(nu));
+    if (!(rr > 0) || rr > lim) { started = false; continue; }
+    const a = nu + o.w;
+    const [px, py] = w2s(bs.x + Math.cos(a) * rr, bs.y + Math.sin(a) * rr);
+    if (!started) { ctx.moveTo(px, py); started = true; } else ctx.lineTo(px, py);
+  }
+  ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke();
+  return { o, bs, b };
+}
+function marker(x, y, label, color) {
+  const [px, py] = w2s(x, y);
+  ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+  ctx.font = '12px sans-serif'; ctx.fillStyle = color; ctx.fillText(label, px + 7, py - 6);
+}
+
+let encounter = null, encTimer = 0;
+function predictEncounter(v) {
+  if (!v || v.landed || v.parent !== 'terra') return null;
+  const mu = BODIES.terra.mu, o = vesselOrbit(v);
+  if (o.e < 1 && o.ra < LUNA.orbitR - LUNA.soi * 1.05) return null;
+  if (o.p < 0.02 * Math.hypot(v.x, v.y)) return null;
+  let T = o.e < 1 ? 2 * Math.PI * Math.sqrt(o.a ** 3 / mu) : 8e5;
+  T = Math.min(T, 3e6);
+  const N = 2400, dt = T / N;
+  const inside = tau => { const k = kepler(v.x, v.y, v.vx, v.vy, mu, tau); if (!k) return null; const L = lunaState(S.t + tau); return { k, L, d: Math.hypot(k.x - L.x, k.y - L.y) }; };
+  for (let i = 1; i <= N; i++) {
+    const s1 = inside(i * dt); if (!s1) return null;
+    if (Math.hypot(s1.k.x, s1.k.y) < BODIES.terra.R) return null;
+    if (s1.d < LUNA.soi) {
+      let lo = (i - 1) * dt, hi = i * dt, best = s1;
+      for (let j = 0; j < 40; j++) { const mid = (lo + hi) / 2, sm = inside(mid); if (!sm) break; if (sm.d < LUNA.soi) { hi = mid; best = sm; } else lo = mid; }
+      const { k, L } = best;
+      const oL = orbitOf(k.x - L.x, k.y - L.y, k.vx - L.vx, k.vy - L.vy, LUNA.mu);
+      return { tau: hi, x: k.x, y: k.y, lx: L.x, ly: L.y, pe: oL.rp - LUNA.R };
+    }
+  }
+  return null;
+}
+
+function drawDial(v) {
+  const cx = W / 2, cy = H - 70, R = 52;
+  const b = BODIES[v.parent], up = Math.atan2(v.y, v.x);
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fillStyle = 'rgba(10,16,34,0.8)'; ctx.fill();
+  ctx.strokeStyle = 'rgba(120,160,255,0.35)'; ctx.lineWidth = 1; ctx.stroke();
+  // ground half
+  ctx.beginPath(); ctx.arc(cx, cy, R - 3, 0, Math.PI); ctx.fillStyle = 'rgba(130,90,40,0.35)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(cx, cy, R - 3, Math.PI, Math.PI * 2); ctx.fillStyle = 'rgba(60,120,220,0.3)'; ctx.fill();
+  const toScr = a => { const rel = angDiff(a, up); return -Math.PI / 2 - rel; }; // screen angle (canvas, y down)
+  const sp = Math.hypot(v.vx, v.vy);
+  if (sp > 0.5 && !v.landed) {
+    const pg = toScr(Math.atan2(v.vy, v.vx));
+    const px = cx + Math.cos(pg) * (R - 12), py = cy + Math.sin(pg) * (R - 12);
+    ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI * 2); ctx.strokeStyle = '#5ef08a'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI * 2); ctx.fillStyle = '#5ef08a'; ctx.fill();
+    const rx = cx - Math.cos(pg) * (R - 12), ry = cy - Math.sin(pg) * (R - 12);
+    ctx.beginPath(); ctx.moveTo(rx - 5, ry - 5); ctx.lineTo(rx + 5, ry + 5); ctx.moveTo(rx + 5, ry - 5); ctx.lineTo(rx - 5, ry + 5); ctx.strokeStyle = '#ff6b6b'; ctx.stroke();
+  }
+  const hd = toScr(v.ang);
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(hd) * (R - 4), cy + Math.sin(hd) * (R - 4)); ctx.strokeStyle = '#ffd36b'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fillStyle = '#ffd36b'; ctx.fill();
+  ctx.font = '10px sans-serif'; ctx.fillStyle = '#9fb4e8'; ctx.textAlign = 'center'; ctx.fillText('UP', cx, cy - R + 13);
+  ctx.restore();
+}
+
+function render() {
+  const v = active();
+  const map = S.view.map;
+  // camera
+  let target = v ? worldPos(v) : { x: 0, y: BODIES.terra.R + 20 };
+  if (map) {
+    const bs = v ? bodyState(v.parent, S.t) : { x: 0, y: 0 };
+    cam.x = bs.x + S.view.panX; cam.y = bs.y + S.view.panY; cam.z = S.view.mapZoom;
+    camRot = 0;
+  } else {
+    cam.x = target.x; cam.y = target.y; cam.z = S.view.zoom;
+    const want = v ? Math.atan2(v.y, v.x) - Math.PI / 2 : 0;
+    if (snapCam) { camRot = want; snapCam = false; } else camRot += angDiff(want, camRot) * 0.08;
+  }
+  cam.c = Math.cos(camRot); cam.s = Math.sin(camRot);
+
+  // sky
+  let skyT = 1;
+  if (v && !map && v.parent === 'terra') { const h = Math.hypot(v.x, v.y) - BODIES.terra.R; skyT = Math.min(1, Math.max(0, h / 60000)) ** 0.55; }
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.fillStyle = skyT >= 1 ? '#02030a' : lerpColor('#78b8f5', '#02030a', skyT); ctx.fillRect(0, 0, W, H);
+  const starA = Math.max(0, (skyT - 0.35) / 0.65);
+  if (starA > 0) { for (const s of STARS) { ctx.globalAlpha = s.b * starA; ctx.fillStyle = '#fff'; ctx.fillRect(s.x * W, s.y * H, s.r, s.r); } ctx.globalAlpha = 1; }
+
+  const L = lunaState(S.t);
+  if (map) {
+    // Luna's path and sphere of influence
+    const [tx, ty] = w2s(0, 0);
+    ctx.beginPath(); ctx.arc(tx, ty, LUNA.orbitR * cam.z, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(200,200,200,0.18)'; ctx.lineWidth = 1; ctx.stroke();
+    const [lx, ly] = w2s(L.x, L.y);
+    ctx.setLineDash([4, 6]); ctx.beginPath(); ctx.arc(lx, ly, LUNA.soi * cam.z, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(200,190,255,0.25)'; ctx.stroke(); ctx.setLineDash([]);
+    // other ships' orbits
+    for (const o of S.vessels) if (o !== v && !o.debris) drawConic(o, 'rgba(200,210,230,0.28)', 1);
+    if (v) {
+      const res = drawConic(v, '#7fd0ff', 2);
+      if (res) {
+        const { o, bs, b } = res;
+        if (o.rp > 0) marker(bs.x + Math.cos(o.w) * o.rp, bs.y + Math.sin(o.w) * o.rp, 'Pe ' + fmtDist(o.rp - b.R), '#ffb36b');
+        if (o.e < 1 && o.ra < (v.parent === 'luna' ? b.soi : 3e7)) marker(bs.x + Math.cos(o.w + Math.PI) * o.ra, bs.y + Math.sin(o.w + Math.PI) * o.ra, 'Ap ' + fmtDist(o.ra - b.R), '#7fd0ff');
+      }
+      if (encounter) {
+        const [gx, gy] = w2s(encounter.lx, encounter.ly);
+        ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.arc(gx, gy, Math.max(4, LUNA.R * cam.z), 0, Math.PI * 2); ctx.strokeStyle = '#c9b8ff'; ctx.lineWidth = 1.5; ctx.stroke(); ctx.setLineDash([]);
+        marker(encounter.x, encounter.y, 'Luna encounter', '#c9b8ff');
+      }
+    }
+  }
+  drawBody(BODIES.terra, 0, 0);
+  drawBody(LUNA, L.x, L.y);
+  if (map) {
+    ctx.font = '13px sans-serif'; ctx.fillStyle = '#cfe0ff'; ctx.textAlign = 'center';
+    let [px, py] = w2s(0, 0); ctx.fillText('Terra', px, py + Math.max(BODIES.terra.R * cam.z, 4) + 16);
+    [px, py] = w2s(L.x, L.y); ctx.fillText('Luna', px, py + Math.max(LUNA.R * cam.z, 4) + 16); ctx.textAlign = 'left';
+  }
+  // ships
+  for (const o of S.vessels) if (o !== v) drawVessel(o, false);
+  if (v) drawVessel(v, true);
+  // particles
+  for (const p of particles) {
+    const bs = bodyState(p.parent, S.t); const [px, py] = w2s(bs.x + p.rel.x, bs.y + p.rel.y);
+    ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.life > 1.4 ? '#ffd36b' : '#ff7a3c';
+    ctx.beginPath(); ctx.arc(px, py, Math.max(1.5, p.size * cam.z), 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  if (v && !paused) drawDial(v);
+}
+
+// ---------- HUD ----------
+const $ = id => document.getElementById(id);
+let hudTimer = 0;
+function updateHud() {
+  const v = active();
+  $('clock').textContent = clock(S.t) + (WARPS[warpIdx] > 1 ? '   ▶▶ ' + WARPS[warpIdx] + 'x' : '');
+  $('hudL').classList.toggle('hidden', !v);
+  if (!v) { $('encounter').classList.add('hidden'); return; }
+  const b = BODIES[v.parent], r = Math.hypot(v.x, v.y);
+  const h = r - b.R - (v.landed ? lengthOf(v) / 2 : lengthOf(v) / 2);
+  const sp = Math.hypot(v.vx, v.vy), vs = (v.x * v.vx + v.y * v.vy) / r;
+  $('hName').textContent = v.name;
+  $('hStatus').textContent = statusOf(v);
+  $('hAlt').textContent = fmtDist(Math.max(0, h));
+  $('hVs').textContent = fmtSpd(vs);
+  $('hSpd').textContent = fmtSpd(sp);
+  if (v.landed) { $('hAp').textContent = '-'; $('hPe').textContent = '-'; }
+  else {
+    const o = vesselOrbit(v);
+    $('hAp').textContent = o.e >= 1 || o.ra > b.soi ? 'Escaping' : fmtDist(o.ra - b.R);
+    $('hPe').textContent = o.rp < b.R ? 'Below surface' : fmtDist(o.rp - b.R);
+  }
+  $('hThr').style.width = (v.throttle * 100) + '%'; $('hThrT').textContent = Math.round(v.throttle * 100) + '%';
+  const ei = v.parts[0], st = engine(v);
+  $('hFuel').style.width = (v.fuel[ei] / st.fuel * 100) + '%';
+  $('hFuelL').textContent = 'Fuel' + (rk(v).stages.length > 1 ? ' (stage ' + (rk(v).stages.length - v.parts.length + 1) + ' of ' + rk(v).stages.length + ')' : '');
+  $('hFuelT').textContent = Math.round(v.fuel[ei] / st.fuel * 100) + '%';
+  $('hDv').textContent = Math.round(deltaV(v)).toLocaleString() + ' m/s';
+  const g = b.mu / (r * r);
+  $('hTwr').textContent = (st.thrust / (massOf(v) * g)).toFixed(2);
+  $('hWarp').textContent = WARPS[warpIdx] + 'x';
+  $('hSas').textContent = v.sas ? 'ON' : 'OFF';
+  const enc = $('encounter');
+  if (encounter) {
+    enc.classList.remove('hidden');
+    enc.textContent = 'Luna encounter in ' + fmtTime(encounter.tau) + ' · closest pass ' + (encounter.pe < 0 ? 'hits the surface!' : fmtDist(encounter.pe) + ' up');
+  } else enc.classList.add('hidden');
+}
+
+// ---------- Loop ----------
+let last = performance.now(), saveTimer = 0;
+function frame(now) {
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  if (!paused) {
+    update(dt);
+    saveTimer += dt; if (saveTimer > 1) { saveTimer = 0; save(); }
+    encTimer -= dt; if (encTimer <= 0) { encTimer = 0.25; encounter = predictEncounter(active()); }
+  }
+  render();
+  hudTimer -= dt; if (hudTimer <= 0) { hudTimer = 0.1; updateHud(); }
+  if (engineGain) {
+    const v = active();
+    const on = v && !paused && S.sound && hasThrust(v) && WARPS[warpIdx] <= 4;
+    let vol = on ? 0.05 + 0.25 * v.throttle * Math.min(1, engine(v).thrust / 300000 + 0.4) : 0;
+    if (on && v.parent === 'terra') { const hh = Math.hypot(v.x, v.y) - BODIES.terra.R; vol *= Math.max(0.15, 1 - hh / 70000); } else if (on) vol *= 0.15;
+    engineGain.gain.setTargetAtTime(vol, AC.currentTime, 0.05);
+  }
+  requestAnimationFrame(frame);
+}
+
+// expose for testing
+window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; } };
+
+load();
+openTitle();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
