@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#02030a">
 <title>Space Prime</title>
 <style>
   * { box-sizing: border-box; }
@@ -61,6 +64,106 @@
   .help { font-size: 14px; line-height: 1.7; color: #d3ddf7; }
   .help td { padding: 3px 6px; border: none; }
   .note { font-size: 12px; color: #8796bf; margin-top: 14px; }
+
+  /* ---------- Control choice screen ---------- */
+  .modeBtns { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+  .modeBtn { flex: 1 1 200px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 22px 16px; margin: 0; font-size: 22px; font-weight: 700; min-height: 120px; justify-content: center; }
+  .modeBtn .ico { display: block; }
+  .modeBtn small { font-size: 13px; font-weight: 400; color: #c3cff0; }
+  .modeBtn.suggest { box-shadow: 0 0 0 2px #ffd36b inset; }
+  .modeHint { font-size: 12px; color: #ffd36b; min-height: 16px; margin-top: 10px; }
+  .mobile-only { display: none; }
+  body.mobile .pc-only { display: none !important; }
+  body.mobile .mobile-only { display: revert; }
+  body.mobile span.mobile-only { display: inline; }
+
+  /* ---------- Mobile mode ---------- */
+  html, body { overscroll-behavior: none; }
+  body.mobile { --sl: env(safe-area-inset-left, 0px); --sr: env(safe-area-inset-right, 0px); --st: env(safe-area-inset-top, 0px); --sb: env(safe-area-inset-bottom, 0px);
+    --bA: clamp(48px, calc((100vh - 16px - var(--st) - var(--sb) - 24px) / 5), 56px);
+    touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  body.mobile canvas#c, body.mobile #touch, body.mobile #hud { touch-action: none; }
+  body.mobile #hudR { display: none; }
+  body.mobile #hudL { left: calc(8px + var(--sl)); top: calc(8px + var(--st)); width: 178px; padding: 6px 9px; font-size: 11px; }
+  body.mobile #hudL .vname { font-size: 13px; margin: 0; }
+  body.mobile #hudL .status { font-size: 10.5px; margin-bottom: 3px; }
+  body.mobile #hudL .row { padding: 0; line-height: 15px; }
+  body.mobile #hudL .lbl { font-size: 10.5px; margin-top: 2px; }
+  body.mobile #hudL .bar { height: 7px; margin: 2px 0 3px; }
+  body.mobile #hudL .row.pcrow { display: none; }
+  body.mobile #clock { top: calc(8px + var(--st)); font-size: 11px; padding: 4px 10px; white-space: nowrap; }
+  body.mobile #toasts { top: calc(40px + var(--st)); left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; }
+  body.mobile .toast { font-size: 12px; padding: 5px 10px; text-align: center; }
+  body.mobile .toast.big { font-size: 14px; }
+  body.mobile #encounter { left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; bottom: calc(140px + var(--sb)); font-size: 11px; text-align: center; }
+  body.mobile .overlay { padding: calc(6px + var(--st)) calc(6px + var(--sr)) calc(6px + var(--sb)) calc(6px + var(--sl)); }
+  body.mobile .overlay .box { width: min(860px, 100%); max-height: 100%; padding: 14px 16px; touch-action: pan-y; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  body.mobile h1 { font-size: 34px; letter-spacing: 4px; }
+  body.mobile h2 { font-size: 19px; margin-bottom: 8px; }
+  body.mobile h3 { margin: 12px 0 6px; font-size: 14px; }
+  body.mobile .sub { margin-bottom: 12px; font-size: 14px; }
+  body.mobile button { min-height: 48px; min-width: 48px; font-size: 15px; padding: 10px 16px; }
+  body.mobile button.small { font-size: 14px; padding: 6px 12px; }
+  body.mobile .cards { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  body.mobile .card { padding: 10px; display: block; }
+  body.mobile .card canvas { float: left; width: 48px; height: 56px; margin: 0 8px 2px 0; }
+  body.mobile .card .stats { clear: both; }
+  body.mobile #ovHelp .box > div:last-child,
+  body.mobile #ovSelect .box > div:last-child { position: sticky; bottom: -14px; margin: 8px -16px -14px !important; padding: 6px 16px; background: rgba(10, 16, 34, 0.96); }
+  body.mobile .card .name { font-size: 17px; }
+  body.mobile .card .tag { font-size: 12px; margin-bottom: 3px; }
+  body.mobile .card .desc { font-size: 12px; }
+  body.mobile .card .stats { font-size: 11px; margin-top: 6px; line-height: 1.45; }
+  body.mobile table { font-size: 13px; }
+  body.mobile td, body.mobile th { padding: 5px 4px; }
+  body.mobile .help { font-size: 13px; line-height: 1.55; }
+  body.mobile #ovPause .box { width: min(680px, 100%) !important; }
+  body.mobile #ovPause .pauseBtns { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; }
+  body.mobile #ovPause .pauseBtns button { margin: 0; font-size: 14px; padding: 6px 10px; line-height: 1.2; }
+  body.mobile #ovPause .note { margin-top: 8px; font-size: 11px; }
+  body.mobile .modeBtn { min-height: 96px; padding: 14px 12px; font-size: 20px; }
+
+  /* touch buttons */
+  #touch { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+  #touch .tb, #touch .tcol, #touch .tthr { pointer-events: auto; }
+  .tb { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0; padding: 0;
+    width: var(--bA); height: var(--bA); min-width: 48px; min-height: 48px; border-radius: 12px; font-size: 13px; font-weight: 700; line-height: 1.05;
+    background: rgba(20, 40, 90, 0.72); border: 1px solid rgba(120, 170, 255, 0.55); color: #fff; touch-action: none; }
+  .tb small { white-space: nowrap; font-size: 9.5px; font-weight: 600; color: #b9c8ee; margin-top: 2px; }
+  .tb b { font-size: 17px; }
+  .tb:hover { background: rgba(20, 40, 90, 0.72); }
+  .tb.held, .tb:active { background: rgba(60, 120, 230, 0.9); }
+  .tb.on { background: rgba(40, 140, 90, 0.85); border-color: #5ef08a; }
+  .tb.dim { opacity: 0.55; }
+  .tcol { position: absolute; display: flex; flex-direction: column; gap: 6px; }
+  .tcol .tb { position: static; }
+  #tColA { right: calc(8px + var(--sr)); top: calc(8px + var(--st)); bottom: calc(8px + var(--sb)); justify-content: space-between; }
+  #tColB { right: calc(16px + var(--bA) + var(--sr)); top: calc(8px + var(--st)); bottom: calc(8px + var(--sb)); width: 66px; }
+  #tColB .tb { width: 66px; height: 48px; }
+  #tFull { background: rgba(120, 70, 20, 0.8); border-color: #ffb36b; }
+  #tCut { background: rgba(90, 25, 35, 0.8); border-color: #d0485a; }
+  .tthr { flex: 1; position: relative; border-radius: 12px; background: rgba(10, 16, 34, 0.75); border: 1px solid rgba(120, 170, 255, 0.55); overflow: hidden; touch-action: none; min-height: 60px; }
+  .tthr .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0%; background: linear-gradient(0deg, rgba(255,154,60,0.85), rgba(255,211,107,0.85)); }
+  .tthr .knob { position: absolute; left: 4px; right: 4px; height: 10px; bottom: 0%; margin-bottom: -5px; border-radius: 5px; background: #fff; box-shadow: 0 0 6px rgba(0,0,0,0.6); }
+  .tthr .pct { position: absolute; left: 0; right: 0; top: 6px; text-align: center; font-size: 13px; font-weight: 700; text-shadow: 0 1px 2px #000; }
+  .tthr .cap { position: absolute; left: 0; right: 0; top: 26px; text-align: center; font-size: 9.5px; color: #e8eefc; text-shadow: 0 1px 2px #000; }
+  #tColC { right: calc(98px + var(--bA) + var(--sr)); bottom: calc(8px + var(--sb)); width: 72px; align-items: center; }
+  #tColC .tb { width: 56px; height: 48px; }
+  #tColC #tStage { width: 72px; height: 72px; font-size: 15px; background: rgba(120, 30, 40, 0.8); border-color: #ff7a7a; }
+  #tLeft, #tRight { bottom: calc(8px + var(--sb)); width: 76px; height: 76px; font-size: 30px; }
+  #tLeft { left: calc(8px + var(--sl)); }
+  #tRight { left: calc(94px + var(--sl)); }
+  @media (orientation: portrait) {
+    body.mobile #clock { left: calc(8px + var(--sl)); transform: none; top: calc(206px + var(--st)); }
+    body.mobile #toasts { top: calc(240px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
+    body.mobile #encounter { left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); bottom: calc(262px + var(--sb)); }
+    body.mobile #tLeft, body.mobile #tRight { width: 66px; }
+    body.mobile #tRight { left: calc(80px + var(--sl)); }
+  }
+  #rotHint { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; background: rgba(2,3,10,0.92); text-align: center; padding: 24px; }
+  #rotHint .box { max-width: 340px; padding: 22px; }
+  #rotHint .phone { font-size: 54px; display: inline-block; animation: tip 2.4s ease-in-out infinite; }
+  @keyframes tip { 0%, 30% { transform: rotate(0deg); } 60%, 100% { transform: rotate(-90deg); } }
 </style>
 </head>
 <body>
@@ -80,9 +183,9 @@
     <div class="lbl"><span id="hFuelL">Fuel</span><span id="hFuelT">-</span></div>
     <div class="bar fuel"><div id="hFuel"></div></div>
     <div class="row"><span>&Delta;v left</span><b id="hDv">-</b></div>
-    <div class="row"><span>Thrust / weight</span><b id="hTwr">-</b></div>
-    <div class="row"><span>Time warp</span><b id="hWarp">1x</b></div>
-    <div class="row"><span>SAS (hold steady)</span><b id="hSas">ON</b></div>
+    <div class="row pcrow"><span>Thrust / weight</span><b id="hTwr">-</b></div>
+    <div class="row pcrow"><span>Time warp</span><b id="hWarp">1x</b></div>
+    <div class="row pcrow"><span>SAS (hold steady)</span><b id="hSas">ON</b></div>
   </div>
   <div id="hudR" class="panel">
     <kbd>W</kbd>/<kbd>S</kbd> throttle &nbsp;<kbd>Z</kbd> full <kbd>X</kbd> cut<br>
@@ -95,10 +198,55 @@
   <div id="clock" class="panel">-</div>
   <div id="encounter" class="panel hidden"></div>
   <div id="toasts"></div>
+  <div id="touch" class="hidden">
+    <div class="tcol" id="tColA">
+      <button class="tb" id="tMenu" data-t="menu"><b>&#9776;</b><small>Menu</small></button>
+      <button class="tb" id="tMap" data-t="map"><b>&#9673;</b><small>Map</small></button>
+      <button class="tb" id="tSas" data-t="sas"><b>SAS</b><small id="tSasL">on</small></button>
+      <button class="tb" id="tWarpUp" data-t="warpUp"><b>&#9654;&#9654;</b><small>Warp +</small></button>
+      <button class="tb" id="tWarpDn" data-t="warpDn"><b>&#9664;&#9664;</b><small>Warp &minus;</small></button>
+    </div>
+    <div class="tcol" id="tColB">
+      <button class="tb" id="tFull" data-t="full">FULL</button>
+      <div class="tthr" id="tThr"><div class="fill" id="tThrFill"></div><div class="knob" id="tThrKnob"></div><div class="pct" id="tThrPct">0%</div><div class="cap">THROTTLE</div></div>
+      <button class="tb" id="tCut" data-t="cut">CUT</button>
+    </div>
+    <div class="tcol" id="tColC">
+      <button class="tb hidden" id="tCentre" data-t="centre"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="6"/><path d="M10 0v5M10 15v5M0 10h5M15 10h5"/></svg><small>Centre</small></button>
+      <button class="tb" id="tZoomIn" data-t="zoomIn" data-hold="1"><b>+</b><small>Zoom</small></button>
+      <button class="tb" id="tZoomOut" data-t="zoomOut" data-hold="1"><b>&minus;</b><small>Zoom</small></button>
+      <button class="tb" id="tStage" data-t="stage">STAGE</button>
+    </div>
+    <button class="tb" id="tLeft" data-t="left" data-hold="1" aria-label="Turn left">&#10226;</button>
+    <button class="tb" id="tRight" data-t="right" data-hold="1" aria-label="Turn right">&#10227;</button>
+  </div>
+</div>
+
+<!-- PC or Mobile? (asked every time the game opens) -->
+<div id="ovMode" class="overlay">
+  <div class="box panel" style="width:min(620px,96vw)">
+    <h1>SPACE PRIME</h1>
+    <div class="sub">How are you playing today?</div>
+    <div class="modeBtns">
+      <button class="modeBtn" id="modePc" data-act="mode:pc"><svg class="ico" data-act="mode:pc" width="44" height="40" viewBox="0 0 44 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="3" y="3" width="38" height="25" rx="3"/><path d="M15 37h14M22 28v9"/></svg><span data-act="mode:pc">PC</span><small data-act="mode:pc">Keyboard &amp; mouse</small></button>
+      <button class="modeBtn" id="modeMobile" data-act="mode:mobile"><svg class="ico" data-act="mode:mobile" width="44" height="40" viewBox="0 0 44 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="13" y="2" width="18" height="36" rx="4"/><path d="M19 32h6"/></svg><span data-act="mode:mobile">Mobile</span><small data-act="mode:mobile">Touch buttons on screen</small></button>
+    </div>
+    <div class="modeHint" id="modeHint"></div>
+  </div>
+</div>
+
+<!-- Portrait hint (mobile only) -->
+<div id="rotHint" class="hidden">
+  <div class="box panel">
+    <div class="phone"><svg width="48" height="54" viewBox="0 0 44 40" fill="none" stroke="#7fd0ff" stroke-width="3" stroke-linejoin="round"><rect x="13" y="2" width="18" height="36" rx="4"/><path d="M19 32h6"/></svg></div>
+    <h2 style="margin-top:10px">Turn your phone sideways</h2>
+    <div class="sub">Space Prime plays best in landscape. The game is paused until you turn it.</div>
+    <button class="ghost" id="rotAnyway">Play in portrait anyway</button>
+  </div>
 </div>
 
 <!-- Title -->
-<div id="ovTitle" class="overlay">
+<div id="ovTitle" class="overlay hidden">
   <div class="box panel">
     <h1>SPACE PRIME</h1>
     <div class="sub">Launch, reach orbit, land on Luna. Everything you do is saved automatically.</div>
@@ -136,7 +284,7 @@
 <div id="ovPause" class="overlay hidden">
   <div class="box panel" style="width:min(460px,92vw)">
     <h2>Paused</h2>
-    <div style="display:flex;flex-direction:column;align-items:stretch">
+    <div class="pauseBtns" style="display:flex;flex-direction:column;align-items:stretch">
       <button data-act="resume">Resume</button>
       <button class="ghost" data-act="station">Tracking Station (all your ships)</button>
       <button class="ghost" data-act="launch">Launch new rocket</button>
@@ -145,8 +293,9 @@
       <button class="ghost" data-act="sound">Sound: on</button>
       <button class="ghost" data-act="export">Download a backup of my save</button>
       <button class="ghost" data-act="import">Load a backup file</button>
+      <button class="ghost" data-act="modeSwitch" id="pauseModeBtn">Controls: PC (tap to change)</button>
     </div>
-    <div class="note">Your world saves itself every second, in this browser on this PC. A backup file lets you keep it safe or move it to another PC.</div>
+    <div class="note">Your world saves itself every second, in this browser on this device. A backup file lets you keep it safe or move it to another device.</div>
   </div>
 </div>
 
@@ -154,7 +303,17 @@
 <div id="ovHelp" class="overlay hidden">
   <div class="box panel help">
     <h2>How to fly</h2>
-    <table>
+    <table class="mobile-only">
+      <tr><td><b>Throttle slider</b> (right)</td><td>Drag up for more power, down for less. <b>FULL</b> / <b>CUT</b> jump to 100% / 0%.</td></tr>
+      <tr><td><b>&#10226; / &#10227;</b> (bottom left)</td><td>Hold to turn left / right. You can hold one while dragging the throttle.</td></tr>
+      <tr><td><b>SAS</b></td><td>On/off. When on, the rocket stops spinning by itself.</td></tr>
+      <tr><td><b>STAGE</b></td><td>Drop the bottom stage (Heron's booster)</td></tr>
+      <tr><td><b>Map</b></td><td>Map view. Drag with one finger to move around, <b>Centre</b> to recentre.</td></tr>
+      <tr><td><b>Warp + / &minus;</b></td><td>Speed up / slow down time (limited when low or burning)</td></tr>
+      <tr><td><b>Pinch</b> or <b>+ / &minus;</b></td><td>Zoom</td></tr>
+      <tr><td><b>&#9776; Menu</b></td><td>Tracking station, new rocket, restart, backups, switch to PC controls</td></tr>
+    </table>
+    <table class="pc-only">
       <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Throttle up / down (hold)</td></tr>
       <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Full throttle / cut engine</td></tr>
       <tr><td><kbd>A</kbd> / <kbd>D</kbd> (or arrows)</td><td>Turn left / right</td></tr>
@@ -170,7 +329,7 @@
     Keep burning sideways until your <b>Apoapsis</b> is above 80 km, then cut the engine. Warp to the apoapsis
     and burn sideways again until your <b>Periapsis</b> is above 70 km too. You're in orbit!
     <h3>Getting to Luna</h3>
-    From orbit, open the map (<kbd>M</kbd>). Wait until Luna is a bit more than a quarter turn ahead of you, then burn
+    From orbit, open the map (<span class="pc-only"><kbd>M</kbd></span><span class="mobile-only">Map button</span>). Wait until Luna is a bit more than a quarter turn ahead of you, then burn
     along your direction of travel (the green marker on the dial) until your orbit stretches out to Luna. A purple
     "Luna encounter" box appears when you'll arrive. Near Luna, burn backwards (red marker) to slow down, then land gently:
     under the rocket's safe speed, standing upright.
@@ -197,7 +356,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.1.0';
+const VERSION = '0.2.0';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -347,15 +506,28 @@ function clock(t) {
 }
 
 // ---------- Save / load ----------
-function save() {
-  try { S.savedAt = Date.now(); localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { console.warn('save failed', e); }
+// Everything about storing the world lives in this section, so a cloud sync can be added later
+// by hooking into saveGame() / loadGame() / serializeSave() / applySave().
+// The save format is unchanged since v0.1.0 (v: 1). The PC/Mobile choice is deliberately NOT saved.
+function serializeSave() { S.savedAt = Date.now(); return JSON.stringify(S); }
+function validSave(o) { return !!(o && o.v === 1 && Array.isArray(o.vessels) && typeof o.t === 'number'); }
+// Turn a parsed save object into the live world, filling in any fields an older save lacks.
+function applySave(o) {
+  const f = freshState();
+  S = Object.assign(f, o);
+  S.view = Object.assign(freshState().view, o.view || {});
+  S.stats = Object.assign(freshState().stats, o.stats || {});
+  S.stats.count = S.stats.count || {};
+  S.milestones = S.milestones || {};
 }
-function validSave(o) { return o && o.v === 1 && Array.isArray(o.vessels) && typeof o.t === 'number'; }
-function load() {
+function saveGame() {
+  try { localStorage.setItem(SAVE_KEY, serializeSave()); return true; } catch (e) { console.warn('save failed', e); return false; }
+}
+function loadGame() {
   try { const raw = localStorage.getItem(SAVE_KEY); if (!raw) return false; const o = JSON.parse(raw); if (!validSave(o)) return false;
-    S = Object.assign(freshState(), o); S.view = Object.assign(freshState().view, o.view || {}); S.stats = Object.assign(freshState().stats, o.stats || {});
-    return true; } catch (e) { return false; }
+    applySave(o); return true; } catch (e) { return false; }
 }
+const save = saveGame, load = loadGame; // short names used throughout the game
 function exportSave() {
   save();
   const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
@@ -369,7 +541,7 @@ document.getElementById('fileIn').addEventListener('change', e => {
     let o; try { o = JSON.parse(txt); } catch (err) { alert('That file is not a Space Prime save.'); return; }
     if (!validSave(o)) { alert('That file is not a Space Prime save.'); return; }
     if (!confirm('Replace your current world with this backup?')) return;
-    S = Object.assign(freshState(), o); save(); warpIdx = 0; toast('Backup loaded'); openTitle();
+    applySave(o); save(); warpIdx = 0; toast('Backup loaded'); openTitle();
   });
   e.target.value = '';
 });
@@ -443,6 +615,7 @@ function maxDt(v, t = S.t) {
 }
 
 const input = { turn: 0 };
+const touchHold = { left: false, right: false, zoomIn: false, zoomOut: false };
 
 // returns null | 'crash' | 'land'
 function stepVessel(v, dt, isActive) {
@@ -452,7 +625,7 @@ function stepVessel(v, dt, isActive) {
   if (v.throttle > 0 && v.fuel[ei] > 0) {
     thrust = v.throttle * st.thrust;
     const burn = thrust / (st.isp * G0) * dt;
-    if (burn >= v.fuel[ei]) { thrust *= v.fuel[ei] / burn; v.fuel[ei] = 0; if (isActive) { toast('Out of fuel' + (v.parts.length > 1 ? ' - press Space to drop this stage' : '')); } }
+    if (burn >= v.fuel[ei]) { thrust *= v.fuel[ei] / burn; v.fuel[ei] = 0; if (isActive) { toast('Out of fuel' + (v.parts.length > 1 ? (MODE === 'mobile' ? ' - tap STAGE to drop this stage' : ' - press Space to drop this stage') : '')); } }
     else v.fuel[ei] -= burn;
   }
   const hx = Math.cos(v.ang), hy = Math.sin(v.ang);
@@ -600,7 +773,7 @@ function update(realDt) {
   if (av && !paused) {
     if (keys.KeyW || keys.ShiftLeft || keys.ShiftRight) av.throttle = Math.min(1, av.throttle + realDt * 0.9);
     if (keys.KeyS) av.throttle = Math.max(0, av.throttle - realDt * 0.9);
-    input.turn = ((keys.KeyA || keys.ArrowLeft) ? 1 : 0) - ((keys.KeyD || keys.ArrowRight) ? 1 : 0);
+    input.turn = ((keys.KeyA || keys.ArrowLeft || touchHold.left) ? 1 : 0) - ((keys.KeyD || keys.ArrowRight || touchHold.right) ? 1 : 0);
     if (WARPS[warpIdx] > 4) input.turn = 0;
   } else input.turn = 0;
 
@@ -699,7 +872,7 @@ function launch(rid) {
   const v = newVessel(rid);
   S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
   camRot = PAD_THETA - Math.PI / 2;
-  save(); closeAll(); toast(v.name + ' is on the pad. Hold W (or press Z) to launch!');
+  save(); closeAll(); toast(v.name + ' is on the pad. ' + (MODE === 'mobile' ? 'Push the throttle up (or tap FULL) to launch!' : 'Hold W (or press Z) to launch!'));
 }
 
 function flyVessel(id) {
@@ -708,18 +881,43 @@ function flyVessel(id) {
 }
 
 // ---------- Overlays ----------
-const OVERLAYS = ['ovTitle', 'ovSelect', 'ovStation', 'ovPause', 'ovHelp', 'ovOutcome'];
+const OVERLAYS = ['ovMode', 'ovTitle', 'ovSelect', 'ovStation', 'ovPause', 'ovHelp', 'ovOutcome'];
 let overlayStack = [];
 function showOverlay(id) {
   for (const o of OVERLAYS) document.getElementById(o).classList.toggle('hidden', o !== id);
   if (overlayStack[overlayStack.length - 1] !== id) overlayStack.push(id);
-  paused = true; keysClear();
+  paused = true; keysClear(); syncTouchUi();
 }
 function closeAll() {
   for (const o of OVERLAYS) document.getElementById(o).classList.add('hidden');
   overlayStack = []; paused = false; keysClear();
   document.getElementById('hud').classList.remove('hidden');
+  syncTouchUi(); layoutDirty = true;
   ensureAudio();
+}
+function openPause() {
+  document.querySelector('[data-act=sound]').textContent = 'Sound: ' + (S.sound ? 'on' : 'off');
+  document.getElementById('pauseModeBtn').textContent = 'Controls: ' + (MODE === 'mobile' ? 'Mobile' : 'PC') + ' (' + (MODE === 'mobile' ? 'tap' : 'click') + ' to change)';
+  overlayStack = []; showOverlay('ovPause');
+}
+
+// ---------- PC / Mobile choice (asked on every open, never saved) ----------
+let MODE = null;           // 'pc' | 'mobile' (null until chosen)
+let modeReturn = 'title';  // where to go after choosing
+const looksTouch = (navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.matchMedia && matchMedia('(pointer: coarse)').matches);
+function openModeChoice(ret) {
+  modeReturn = ret || 'title';
+  document.getElementById('modePc').classList.toggle('suggest', !looksTouch);
+  document.getElementById('modeMobile').classList.toggle('suggest', looksTouch);
+  document.getElementById('modeHint').textContent = MODE ? 'Right now: ' + (MODE === 'mobile' ? 'Mobile' : 'PC') + ' controls' : (looksTouch ? 'This looks like a touch screen, so Mobile is probably the one.' : 'This looks like a computer, so PC is probably the one.');
+  overlayStack = []; showOverlay('ovMode');
+}
+function setMode(m) {
+  MODE = m === 'mobile' ? 'mobile' : 'pc';
+  document.body.classList.toggle('mobile', MODE === 'mobile');
+  document.body.classList.toggle('pc', MODE === 'pc');
+  resize(); syncTouchUi(); layoutDirty = true;
+  if (modeReturn === 'pause' && active()) openPause(); else openTitle();
 }
 function back() {
   overlayStack.pop();
@@ -740,6 +938,7 @@ function openTitle() {
   if (has) add('Tracking Station', 'station', 'ghost');
   add('How to fly', 'help', 'ghost');
   add('Load a backup file', 'import', 'ghost');
+  add('Controls: ' + (MODE === 'mobile' ? 'Mobile' : 'PC') + ' (change)', 'modeSwitch', 'ghost');
   if (has) add('Start a brand new world', 'wipe', 'ghost danger');
   document.getElementById('titleNote').textContent = (S.savedAt ? 'World saved ' + new Date(S.savedAt).toLocaleString() + ' · ' + clock(S.t) + ' · ' + S.vessels.filter(v => !v.debris).length + ' ships, ' + S.vessels.filter(v => v.debris).length + ' pieces of debris' : 'New world') + ' · v' + VERSION;
   showOverlay('ovTitle');
@@ -753,7 +952,7 @@ function openSelect() {
     const cv = document.createElement('canvas'); cv.width = 120; cv.height = 140; cv.dataset.act = 'pick:' + r.id;
     drawRocketPreview(cv, fake);
     c.appendChild(cv);
-    c.insertAdjacentHTML('beforeend', `<div class="name">${r.name}</div><div class="tag">${r.tag}</div><div class="desc">${r.desc}</div>
+    c.insertAdjacentHTML('beforeend', `<div class="name">${r.name}</div><div class="tag">${r.tag}</div><div class="desc">${MODE === 'mobile' ? r.desc.replace('Press Space', 'Tap STAGE') : r.desc}</div>
       <div class="stats">Stages: ${r.stages.length} · Mass: ${(m / 1000).toFixed(1)} t<br>
       Launch thrust/weight: ${twr.toFixed(2)} · &Delta;v: ${Math.round(deltaV(fake)).toLocaleString()} m/s<br>
       Turning: ${r.turn >= 1.2 ? 'fast' : r.turn >= 0.8 ? 'medium' : 'slow'} · Safe landing: ${r.crash} m/s</div>`);
@@ -796,7 +995,9 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]'); if (!el) return;
   const act = el.dataset.act;
   ensureAudio();
-  if (act === 'resume') { if (active()) closeAll(); else openSelect(); }
+  if (act === 'mode:pc' || act === 'mode:mobile') setMode(act.slice(5));
+  else if (act === 'modeSwitch') openModeChoice(paused && overlayStack[overlayStack.length - 1] === 'ovPause' ? 'pause' : 'title');
+  else if (act === 'resume') { if (active()) closeAll(); else openSelect(); }
   else if (act === 'launch') openSelect();
   else if (act === 'station') openStation();
   else if (act === 'help') showOverlay('ovHelp');
@@ -827,12 +1028,14 @@ document.addEventListener('click', e => {
 
 // ---------- Input ----------
 const keys = {};
-function keysClear() { for (const k in keys) keys[k] = false; }
+function keysClear() { for (const k in keys) keys[k] = false; for (const k in touchHold) touchHold[k] = false; document.querySelectorAll('.tb.held').forEach(b => b.classList.remove('held')); }
 window.addEventListener('keydown', e => {
   if (e.code === 'Space' || e.code.startsWith('Arrow')) e.preventDefault();
   if (e.code === 'Escape') {
-    if (!paused) { document.querySelector('[data-act=sound]').textContent = 'Sound: ' + (S.sound ? 'on' : 'off'); overlayStack = []; showOverlay('ovPause'); }
-    else if (overlayStack.length && overlayStack[overlayStack.length - 1] !== 'ovTitle' && overlayStack[overlayStack.length - 1] !== 'ovOutcome') back();
+    const top = overlayStack[overlayStack.length - 1];
+    if (top === 'ovMode') { if (MODE && modeReturn === 'pause' && active()) openPause(); else if (MODE) openTitle(); return; }
+    if (!paused) openPause();
+    else if (overlayStack.length && top !== 'ovTitle' && top !== 'ovOutcome') back();
     return;
   }
   if (paused) return;
@@ -844,7 +1047,7 @@ window.addEventListener('keydown', e => {
     case 'KeyX': if (v) v.throttle = 0; break;
     case 'KeyT': if (v) { v.sas = !v.sas; toast('SAS ' + (v.sas ? 'on' : 'off')); } break;
     case 'Space': doStage(); break;
-    case 'KeyM': S.view.map = !S.view.map; S.view.panX = 0; S.view.panY = 0; if (S.view.map) fitMap(); break;
+    case 'KeyM': toggleMap(); break;
     case 'KeyC': S.view.panX = 0; S.view.panY = 0; break;
     case 'Comma': cycleWarp(-1); break;
     case 'Period': cycleWarp(1); break;
@@ -853,11 +1056,21 @@ window.addEventListener('keydown', e => {
 });
 window.addEventListener('keyup', e => { keys[e.code] = false; });
 window.addEventListener('blur', keysClear);
+function toggleMap() { S.view.map = !S.view.map; S.view.panX = 0; S.view.panY = 0; if (S.view.map) fitMap(); syncTouchUi(); }
 
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
 let W = 0, H = 0, DPR = 1;
-function resize() { DPR = window.devicePixelRatio || 1; W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; cv.style.width = W + 'px'; cv.style.height = H + 'px'; }
-window.addEventListener('resize', resize); resize();
+function resize() {
+  // phones: cap the pixel ratio at 2 to keep the frame rate up
+  DPR = window.devicePixelRatio || 1; if (MODE === 'mobile') DPR = Math.min(2, DPR);
+  W = innerWidth; H = innerHeight; cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); cv.style.width = W + 'px'; cv.style.height = H + 'px';
+  layoutDirty = true;
+}
+let layoutDirty = true;
+window.addEventListener('resize', resize);
+window.addEventListener('orientationchange', () => setTimeout(resize, 150));
+if (window.visualViewport) visualViewport.addEventListener('resize', resize);
+resize();
 
 cv.addEventListener('wheel', e => {
   e.preventDefault();
@@ -873,6 +1086,116 @@ window.addEventListener('mousemove', e => {
   S.view.panX -= (e.clientX - drag.x) / S.view.mapZoom; S.view.panY += (e.clientY - drag.y) / S.view.mapZoom;
   drag = { x: e.clientX, y: e.clientY };
 });
+
+// ---------- Touch (Mobile mode) ----------
+function zoomBy(f) {
+  if (S.view.map) S.view.mapZoom = Math.min(0.05, Math.max(5e-7, S.view.mapZoom * f));
+  else S.view.zoom = Math.min(40, Math.max(2e-6, S.view.zoom * f));
+}
+// canvas: one finger drags the map, two fingers pinch-zoom (map and flight)
+const cvPtrs = new Map(); let pinchD = 0;
+cv.addEventListener('pointerdown', e => {
+  if (MODE !== 'mobile' || e.pointerType === 'mouse') return;
+  e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  cvPtrs.set(e.pointerId, { x: e.clientX, y: e.clientY }); pinchD = 0;
+});
+cv.addEventListener('pointermove', e => {
+  if (!cvPtrs.has(e.pointerId)) return;
+  e.preventDefault();
+  const prev = cvPtrs.get(e.pointerId); cvPtrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (cvPtrs.size >= 2) {
+    const [a, b] = [...cvPtrs.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y);
+    if (pinchD > 0 && d > 0) zoomBy(d / pinchD);
+    pinchD = d;
+  } else if (S.view.map && !paused) {
+    S.view.panX -= (e.clientX - prev.x) / S.view.mapZoom; S.view.panY += (e.clientY - prev.y) / S.view.mapZoom;
+  }
+});
+const cvUp = e => { cvPtrs.delete(e.pointerId); pinchD = 0; };
+cv.addEventListener('pointerup', cvUp); cv.addEventListener('pointercancel', cvUp); cv.addEventListener('lostpointercapture', cvUp);
+// no long-press menus, no iOS pinch-zoom of the page, no double-tap zoom while in Mobile mode
+document.addEventListener('contextmenu', e => { if (MODE === 'mobile' && !e.target.closest('.box')) e.preventDefault(); });
+['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, e => { if (MODE === 'mobile') e.preventDefault(); }, { passive: false }));
+document.addEventListener('touchmove', e => { if (MODE === 'mobile' && (e.touches.length > 1 || !e.target.closest('.box'))) e.preventDefault(); }, { passive: false });
+let lastTouchEnd = 0;
+document.addEventListener('touchend', e => { if (MODE !== 'mobile') return; const n = Date.now(); if (n - lastTouchEnd < 320 && !e.target.closest('.box')) e.preventDefault(); lastTouchEnd = n; }, { passive: false });
+
+// on-screen buttons: every finger is tracked on its own, so you can hold turn while dragging the throttle
+function touchAction(name) {
+  const v = active();
+  switch (name) {
+    case 'menu': openPause(); break;
+    case 'map': toggleMap(); break;
+    case 'centre': S.view.panX = 0; S.view.panY = 0; break;
+    case 'sas': if (v) { v.sas = !v.sas; toast('SAS ' + (v.sas ? 'on' : 'off')); syncTouchUi(); } break;
+    case 'warpUp': cycleWarp(1); break;
+    case 'warpDn': cycleWarp(-1); break;
+    case 'full': if (v) v.throttle = 1; break;
+    case 'cut': if (v) v.throttle = 0; break;
+    case 'stage': doStage(); break;
+  }
+}
+document.querySelectorAll('#touch .tb').forEach(btn => {
+  const name = btn.dataset.t, hold = !!btn.dataset.hold, ids = new Set();
+  const release = e => {
+    if (!ids.has(e.pointerId)) return; ids.delete(e.pointerId);
+    if (!ids.size) { btn.classList.remove('held'); if (hold) touchHold[name] = false; }
+  };
+  btn.addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation(); ensureAudio();
+    if (paused) return;
+    try { btn.setPointerCapture(e.pointerId); } catch (_) {}
+    ids.add(e.pointerId); btn.classList.add('held');
+    if (hold) touchHold[name] = true; else touchAction(name);
+  });
+  btn.addEventListener('pointerup', release); btn.addEventListener('pointercancel', release); btn.addEventListener('lostpointercapture', release);
+  btn.addEventListener('click', e => e.preventDefault());
+});
+// throttle slider
+const thrEl = document.getElementById('tThr'), thrIds = new Set();
+function thrFromY(y) { const r = thrEl.getBoundingClientRect(); const pad = 6; const f = 1 - (y - r.top - pad) / Math.max(1, r.height - pad * 2); return Math.max(0, Math.min(1, f)); }
+function setThrFromEvent(e) { const v = active(); if (!v || paused) return; let f = thrFromY(e.clientY); if (f < 0.03) f = 0; if (f > 0.97) f = 1; v.throttle = f; }
+thrEl.addEventListener('pointerdown', e => { e.preventDefault(); ensureAudio(); if (paused) return; try { thrEl.setPointerCapture(e.pointerId); } catch (_) {} thrIds.add(e.pointerId); setThrFromEvent(e); });
+thrEl.addEventListener('pointermove', e => { if (thrIds.has(e.pointerId)) { e.preventDefault(); setThrFromEvent(e); } });
+const thrUp = e => thrIds.delete(e.pointerId);
+thrEl.addEventListener('pointerup', thrUp); thrEl.addEventListener('pointercancel', thrUp); thrEl.addEventListener('lostpointercapture', thrUp);
+
+let lastThrShown = -1;
+function syncTouchUi() {
+  const show = MODE === 'mobile' && !paused;
+  document.getElementById('touch').classList.toggle('hidden', !show);
+  if (MODE !== 'mobile') return;
+  const v = active();
+  document.getElementById('tSas').classList.toggle('on', !!(v && v.sas));
+  document.getElementById('tSasL').textContent = v && v.sas ? 'on' : 'off';
+  document.getElementById('tMap').classList.toggle('on', !!S.view.map);
+  document.getElementById('tCentre').classList.toggle('hidden', !S.view.map);
+  document.getElementById('tStage').classList.toggle('dim', !(v && v.parts.length > 1));
+  lastThrShown = -1;
+}
+function updateTouchFrame(realDt) {
+  if (MODE !== 'mobile' || paused) return;
+  if (touchHold.zoomIn) zoomBy(Math.pow(2.2, realDt));
+  if (touchHold.zoomOut) zoomBy(Math.pow(2.2, -realDt));
+  const v = active(), t = v ? v.throttle : 0;
+  if (Math.abs(t - lastThrShown) > 0.002) {
+    lastThrShown = t;
+    document.getElementById('tThrFill').style.height = (t * 100) + '%';
+    document.getElementById('tThrKnob').style.bottom = (t * 100) + '%';
+    document.getElementById('tThrPct').textContent = Math.round(t * 100) + '%';
+  }
+}
+// where the direction dial goes in Mobile mode (between the turn buttons and the right-hand controls)
+let dialPos = null;
+function layoutTouch() {
+  layoutDirty = false; dialPos = null;
+  if (MODE !== 'mobile') return;
+  const ll = document.getElementById('tLeft').getBoundingClientRect(), rr = document.getElementById('tRight').getBoundingClientRect(), cc = document.getElementById('tColC').getBoundingClientRect();
+  if (!rr.width || !cc.width) { layoutDirty = true; return; }
+  const R = 46, x0 = rr.right + 10, x1 = cc.left - 10;
+  if (x1 - x0 >= 2 * R + 4) dialPos = { x: (x0 + x1) / 2, y: H - 8 - R - 4, R };
+  else dialPos = { x: (ll.left + rr.right) / 2, y: rr.top - R - 12, R }; // narrow portrait: sit above the turn buttons
+}
 
 // ---------- Audio ----------
 let AC = null, engineGain = null;
@@ -1080,7 +1403,8 @@ function predictEncounter(v) {
 }
 
 function drawDial(v) {
-  const cx = W / 2, cy = H - 70, R = 52;
+  let cx = W / 2, cy = H - 70, R = 52;
+  if (MODE === 'mobile') { if (layoutDirty) layoutTouch(); if (dialPos) { cx = dialPos.x; cy = dialPos.y; R = dialPos.R; } }
   const b = BODIES[v.parent], up = Math.atan2(v.y, v.x);
   ctx.save();
   ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fillStyle = 'rgba(10,16,34,0.8)'; ctx.fill();
@@ -1204,6 +1528,7 @@ function updateHud() {
   $('hTwr').textContent = (st.thrust / (massOf(v) * g)).toFixed(2);
   $('hWarp').textContent = WARPS[warpIdx] + 'x';
   $('hSas').textContent = v.sas ? 'ON' : 'OFF';
+  if (MODE === 'mobile') { $('tSas').classList.toggle('on', v.sas); $('tSasL').textContent = v.sas ? 'on' : 'off'; $('tStage').classList.toggle('dim', v.parts.length < 2); }
   const enc = $('encounter');
   if (encounter) {
     enc.classList.remove('hidden');
@@ -1213,10 +1538,14 @@ function updateHud() {
 
 // ---------- Loop ----------
 let last = performance.now(), saveTimer = 0;
+let portraitOk = false, rotShown = false;
+document.getElementById('rotAnyway').addEventListener('click', () => { portraitOk = true; layoutDirty = true; });
 function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now;
-  if (!paused) {
-    update(dt);
+  const portraitBlock = MODE === 'mobile' && !paused && H > W && !portraitOk;
+  if (portraitBlock !== rotShown) { rotShown = portraitBlock; document.getElementById('rotHint').classList.toggle('hidden', !portraitBlock); if (portraitBlock) keysClear(); }
+  if (!paused && !portraitBlock) {
+    update(dt); updateTouchFrame(dt);
     saveTimer += dt; if (saveTimer > 1) { saveTimer = 0; save(); }
     encTimer -= dt; if (encTimer <= 0) { encTimer = 0.25; encounter = predictEncounter(active()); }
   }
@@ -1233,10 +1562,10 @@ function frame(now) {
 }
 
 // expose for testing
-window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; } };
+window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold };
 
 load();
-openTitle();
+openModeChoice('title'); // ask PC or Mobile every time the game opens
 requestAnimationFrame(frame);
 </script>
 </body>

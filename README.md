@@ -4,23 +4,32 @@
 
 **[Play Space Prime](https://archonlancelot.github.io/Space-Prime/)**
 
-Click the link above and play in a desktop browser. No download, no install.
+Click the link above and play in a browser on your PC or your phone. No download, no install.
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.1.0 (first playable)
+## Current version: v0.2.0 (phone support)
 
-Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop browser.
+Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
+
+### PC or Mobile?
+
+Every time you open the game it asks **PC** or **Mobile** first. It asks every time on purpose (it doesn't remember), so the same link works on both.
+
+- **PC**: keyboard and mouse, exactly like before.
+- **Mobile**: big touch buttons on the screen, sized for thumbs.
+- Picked the wrong one? Change it any time from the menu (**Controls: ...**) or the title screen. Your flight is not affected.
 
 ### Your world is always saved
 
 - Everything saves by itself every second, and when you close the tab: every ship, where it is, how fast it's going, its fuel, dropped boosters, landers left on Luna, milestones, records, the world clock, and your zoom/map view.
 - A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
 - The world clock only moves while you play, so nothing happens to your ships while the game is closed.
-- The save lives in this browser on this PC. To keep it extra safe (or move PCs), open the menu (`Esc`) and use **Download a backup of my save**, and **Load a backup file** to bring it back.
+- The save lives in the browser on the device you play on. Your phone and your PC each have their own world for now (sharing one world between them is planned). To keep it extra safe, or to move it to another device, open the menu (`Esc` on PC, **☰ Menu** on a phone) and use **Download a backup of my save**, and **Load a backup file** to bring it back.
+- Saves from v0.1.0 still load in v0.2.0; nothing about the save changed.
 - Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
 
-### Controls
+### PC controls
 
 | Key | What it does |
 |---|---|
@@ -34,6 +43,24 @@ Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` fi
 | Mouse wheel | Zoom |
 | `H` | Help |
 | `Esc` | Menu: Tracking Station, new rocket, restart flight, sound, backups |
+
+### Mobile controls
+
+Hold your phone sideways (landscape). If you hold it upright, the game pauses and asks you to turn it; you can also tap **Play in portrait anyway**.
+
+| Button | Where | What it does |
+|---|---|---|
+| **Throttle slider** | right side | Drag up for more power, down for less |
+| **FULL** / **CUT** | above / below the slider | Full power / engine off |
+| **⟲** / **⟳** (hold) | bottom left | Turn left / right. You can hold one with your left thumb while dragging the throttle with your right |
+| **STAGE** | bottom, next to the slider | Drop the bottom stage (Heron's booster) |
+| **SAS** | right edge | On/off (green = on: the rocket stops spinning by itself) |
+| **Map** | right edge | Map view. Drag with one finger to move around, **Centre** to snap back |
+| **Warp +** / **Warp −** | right edge | Speed up / slow down time (same limits as on PC) |
+| **Pinch**, or **+** / **−** (hold) | anywhere / next to STAGE | Zoom in / out |
+| **☰ Menu** | top right | Pause: Tracking Station, new rocket, restart, sound, backups, switch to PC controls |
+
+Everything else (picking a rocket, Tracking Station, backups, help) is plain tapping, no keyboard needed. The page won't scroll, zoom or pop up menus while you fly, and the buttons stay clear of the notch.
 
 ### Rockets
 
@@ -69,6 +96,7 @@ From orbit, open the map. When Luna is a bit more than a quarter turn ahead of y
 
 ### Changelog
 
+- **v0.2.0**: Plays on phones. A PC or Mobile choice every time the game opens (also switchable from the menu). Mobile mode has on-screen buttons: throttle slider with FULL/CUT, hold-to-turn buttons, STAGE, SAS, Map, time warp, zoom (pinch or buttons) and Menu, and several fingers work at once. Bigger, tidier menus on small screens, a "turn your phone sideways" hint, notch-safe layout, and a lighter graphics setting on phones for smooth play. PC mode plays exactly as before, and v0.1.0 saves still load.
 - **v0.1.0**: First playable. Three rockets, Terra and Luna, real orbits (patched conics, exact on-rails orbits during time warp), air drag, staging, landing/crash rules, map with orbit and encounter prediction, time warp, Tracking Station, milestones, records, sound, and a fully persistent auto-saved world with backup download/upload.
 
 ## What this is
@@ -78,8 +106,7 @@ Space Prime is a rocket flight game inspired by Ellipse: Rocket Simulator and Sp
 ## Who plays, and on what
 
 - One player only: Armando. Single-player only. No multiplayer, no accounts, no login needed to play.
-- PC only, in a desktop browser. Keyboard and mouse controls.
-- No phone / touch version needed.
+- PC in a desktop browser (keyboard and mouse), and, since v0.2.0 at Armando's request, phones in a mobile browser (on-screen touch buttons).
 
 ## A decision that is Hark's, not Hsin's
 
