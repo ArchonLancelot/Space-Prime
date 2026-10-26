@@ -8,7 +8,7 @@ Click the link above and play in a browser on your PC or your phone. No download
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.6.0 (smaller phone UI, 3 launch pads)
+## Current version: v0.7.0 (Primos: astronauts who fly for you)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -81,6 +81,54 @@ Following the pink guidance carefully earns all three stars on every mission (th
 
 **Personal bests** are kept for each mission: best stars, **fastest** time, **least fuel used**, and **softest touchdown** (Luna landing). Beat one and the results screen says **new best!**. They're saved in your progress and shown in the **Tracking Station** under each mission.
 
+### Primos: your astronauts (new in v0.7.0)
+
+Space Prime now has **Primos**: little astronauts who live in the **Astronaut Complex** and fly with you. They act on their own, like small AI crews.
+
+**The Astronaut Complex** (title screen, or the Tracking Station) shows every Primo: their face, name, **job**, **level** (0 to 5, with an XP bar), **trait** and **status**:
+- **Ready**: free to fly.
+- **Flying**: aboard a ship (it says which, and the mission).
+- **Resting**: getting over a hard landing (it says how many days are left).
+
+You start with three: **Nova Quill** (Pilot, Steady), **Bram Ostrow** (Engineer, Efficient) and **Lumi Sato** (Scientist, Precise). Old saves get these three too. A **new recruit joins on their own every 3 game days** (random name, job, face and trait). There is a hard limit of **50 Primos** (the count shows as e.g. "12 / 50").
+
+**Jobs**
+| Job | What they do aboard |
+|---|---|
+| **Pilot** | **Flies the whole mission for you**, start to finish (see below). |
+| **Engineer** | Saves fuel: the engines burn **4% less fuel** (plus 1% for each level). Drops an empty booster straight away, even on a flight you fly yourself. |
+| **Scientist** | Runs an **experiment at every new place** the ship reaches (high in the air, space, Terra orbit, 1,000 km and 5,000 km up, near Luna, Luna orbit, Luna's surface, back on Terra). They go in the **Discovery log**. |
+
+**Traits** (all calm: astronauts don't get scared)
+| Trait | Effect |
+|---|---|
+| **Precise** | Steers more exactly (as Pilot), +10% science (as Scientist). |
+| **Efficient** | 2% less fuel on every flight. |
+| **Quick** | Learns faster (+1 XP a mission) and rests a day less after a hard landing. |
+| **Steady** | Softer touchdowns and gentler in thick air (as Pilot). |
+
+**Picking a crew.** On the pad, the mission panel has a **Crew** button (on a phone it sits next to **Hide**). Tap it and choose up to **3** Ready Primos for the capsule. A crew is optional. **With no Pilot aboard you fly exactly as before.**
+
+**A Pilot flies everything.** With a Pilot aboard, pick a mission (or Free flight) and give the go (**Enter** on PC, **GO** on a phone). The Pilot then does it all alone: countdown, liftoff, the turn, staging, the fairing, getting into orbit, the Luna burn, getting caught by Luna, the Luna landing, and it ends with **Mission Complete** and the results screen with stars, just like when you fly. With **Free flight** the Pilot flies up to a low orbit, looks around for 2 minutes and comes home (heat shield, parachute, splashdown or landing). It works from all three pads.
+- **Take over any time**: press **O** (PC) or tap **TAKE** (phone). You fly. Press **O** again, or tap **PRIMO**, to hand it back: the Pilot carries on with the mission. While the Pilot flies, your throttle/turn/stage keys are ignored and a short message tells you how to take over.
+- The crew talk on the **radio**: short calm lines like "Staging complete. Looking good." shown as messages. On a phone only the flight you are watching talks (plus the important bits), so the screen stays clear.
+
+**Several flights at once.** Launch from one pad while other flights are already flying. Every flight keeps going when you are not watching it; a Pilot keeps flying its mission. A pad is **busy until its rocket has climbed clear** (3 km up): if you launch then, the new rocket goes to a free pad and a message tells you. **Time warp slows down by itself whenever any Primo flight needs a burn or something important**, wherever you are looking. Your own flights left alone just coast (the engine is cut when you leave them).
+
+**No crashes into each other.** The flights stay well apart on the way up and in orbit. On Luna, a second Pilot waits in orbit until the first ship is down, then **lands about 3 km from it** (near each other, never on the same spot).
+
+**Flights button.** **Flights** (bottom-left on PC, or key **L**; a button with the number of flights on a phone) lists every ship: name, crew faces, mission, where it is, and who is flying (Pilot or you). Tap one to jump to it. (The list is built so boosters can be added later, when they fly themselves back.)
+
+**Experience.** Every Primo aboard earns XP when a mission is done (LEO 2, MEO 3, GEO 4, Luna orbit 5, Luna landing 6, Primo free flight 2), Scientists also get 1 XP for every first-ever discovery. Levels: 3, 7, 12, 18 and 25 XP. Higher levels really help: a Pilot steers more exactly and saves 0.5% fuel a level, an Engineer saves 1% more a level, a Scientist gets 15% more science a level.
+
+**Nobody dies.** After a crash, a break-up, burning up or a hard landing, the crew get out in time and are **recovered with minor injuries**: they rest **3 game days** (Quick ones 2), then they are Ready again.
+
+**Crews come home.** After a mission out in space the crew ride the shuttle home **one game day later** and are Ready again. A crew that lands back on Terra is home at once. In the Flights list you can also tap **Crew home** to bring a crew back straight away.
+
+**Discovery log.** In the Tracking Station: every experiment, who did it, on which ship and when. **First-ever** discoveries are marked **FIRST**. Total science points are shown at the top.
+
+Everything is saved: the roster, the recruit timer, XP and levels, injuries and rest, the Discovery log, every flight in the air, and who is aboard what.
+
 ### Launch pads (new in v0.6.0)
 
 Terra now has **three launch pads** on its big continent. On the pad, the **Pick a mission** panel has a **Launch pad** row under the missions. They are listed in the order they sit on Terra, left to right on screen:
@@ -145,6 +193,8 @@ The flight panel now shows **Angle**: how far your nose is above the horizon. **
 | `M` | Map view (drag to move, `C` to recentre; if your ship is far away, `C` also zooms out to show it) |
 | `,` / `.` | Slow down / speed up time (limited when low, in the air, burning, or counting down; you can warp while the rocket waits on the pad) |
 | Mouse wheel | Zoom |
+| `O` | **New:** Primo Pilot on/off (take over the ship / hand it back to the Pilot) |
+| `L` | **New:** Flights list (jump to any ship in flight) |
 | `H` | Help |
 | `Esc` | Menu: Tracking Station, new rocket, restart flight, **Settings** (sound, music, shake), backups |
 
@@ -233,6 +283,17 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
+
+- **v0.7.0** (Primos):
+  - **Primos**, Space Prime's astronauts: an **Astronaut Complex** with each Primo's face (drawn in code), name, job (Pilot, Engineer, Scientist), level, trait and status (Ready / Flying / Resting). Start with Nova Quill, Bram Ostrow and Lumi Sato; a new recruit joins every 3 game days; never more than **50**.
+  - **Crew picker** on the pad (3 seats). No Pilot aboard = you fly exactly as before.
+  - **A Pilot flies the whole mission** by itself (every mission, from every pad, and Free flight = orbit and home), ending in Mission Complete and the results screen. **Take over** any time (O / TAKE) and hand it back (O / PRIMO).
+  - **Engineer** saves fuel and stages at once; **Scientist** runs experiments at each new place (**Discovery log** in the Tracking Station, first-time ones marked).
+  - **Several flights at once**, every one keeps flying when not watched; pads busy until their rocket climbs clear; **time warp slows down by itself** for any Primo flight; no collisions, and a second Luna lander comes down a few km from the first.
+  - **Flights** button / key L: every ship in flight, one tap to jump to it.
+  - **XP and levels** (0-5), calm **traits** (Precise, Efficient, Quick, Steady) with small real effects, calm **radio lines**.
+  - **Nobody dies**: crashed crews are recovered with minor injuries and rest a few game days.
+  - Saves: same format (v: 1); the Primos live inside the stats part of the save. Old saves (v0.1 - v0.6) load and get the three starter Primos.
 
 - **v0.6.0** (smaller phone UI, 3 launch pads):
   - **Phone screen made much smaller and tidier** (Armando: "UI (only in mobile) is like way too big"). Smaller text and buttons (44 px, 40 px on the smallest phones), everything grouped at the edges, the rocket in the middle always visible. The flight panel starts short and opens to the full list with a tap (remembered on your phone). The mission picker is compact, messages move aside instead of covering the rocket, and the dial and its Ap/Pe line fit between the buttons. Works held sideways and upright on small and big phones. PC looks exactly as before.
