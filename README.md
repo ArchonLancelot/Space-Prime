@@ -8,7 +8,7 @@ Click the link above and play in a browser on your PC or your phone. No download
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.5.0 (sound, looks and rewards)
+## Current version: v0.6.0 (smaller phone UI, 3 launch pads)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -17,7 +17,7 @@ Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` fi
 Every time you open the game it asks **PC** or **Mobile** first. It asks every time on purpose (it doesn't remember), so the same link works on both.
 
 - **PC**: keyboard and mouse.
-- **Mobile**: big touch buttons on the screen, sized for thumbs.
+- **Mobile**: touch buttons round the edges of the screen, sized for thumbs (since v0.6.0 smaller and tidier, so you can actually see your rocket).
 - Picked the wrong one? Change it any time from the menu (**Controls: ...**) or the title screen. Your flight is not affected.
 
 ### Your rocket: the Kestrel
@@ -81,6 +81,25 @@ Following the pink guidance carefully earns all three stars on every mission (th
 
 **Personal bests** are kept for each mission: best stars, **fastest** time, **least fuel used**, and **softest touchdown** (Luna landing). Beat one and the results screen says **new best!**. They're saved in your progress and shown in the **Tracking Station** under each mission.
 
+### Launch pads (new in v0.6.0)
+
+Terra now has **three launch pads** on its big continent. On the pad, the **Pick a mission** panel has a **Launch pad** row under the missions. They are listed in the order they sit on Terra, left to right on screen:
+
+| Pad | Where | What it's like |
+|---|---|---|
+| **Cape Halcyon** | about **390 km to the left** of Prime Field | A coastal pad, about 1.5 km from the beach. Tall white tower, lightning masts and a water tower. Fly left (the usual way) and you go out over the sea, like real coastal spaceports. |
+| **Prime Field** | in the middle (the original pad) | The pad you've always launched from. Still the default. |
+| **Redrock Range** | about **210 km to the right** of Prime Field | An inland desert pad (about 85 km from the coast), on sandy ground with red rock mesas and a flame trench. |
+
+Why those distances: Terra is about a tenth of Earth's size, so 210 km and 390 km here are like roughly 2,000 and 4,000 km on Earth, about how far apart real spaceports are.
+
+- **Pick a pad**: click it (PC) or tap it (Mobile) while the clock holds at **T-10 HOLD**. Your rocket moves to that pad straight away, ready to go.
+- Once the countdown is running the pad is fixed (the buttons go grey).
+- The pad you pick is **remembered**: every new rocket launches from it until you pick another. **Restart this flight from the pad** uses the same pad.
+- Everything else works the same from every pad: countdown, clamps, missions, the pink guidance and the stars. Orbits and Luna trips don't care which pad you used.
+- The **map** shows all three pads as little markers on Terra (the one you're using in yellow), with their names when you zoom in.
+- The pads are set up so more can be added later.
+
 ### Missions and guidance (new in v0.4.0, optional)
 
 When your Kestrel is on the pad, a **Pick a mission** panel appears (on the right on PC, top-left on a phone). You don't have to use it: ignore it, or pick **Free flight**, and fly anywhere like before.
@@ -133,21 +152,29 @@ The flight panel now shows **Angle**: how far your nose is above the horizon. **
 
 Hold your phone sideways (landscape). If you hold it upright, the game pauses and asks you to turn it; you can also tap **Play in portrait anyway**.
 
+**v0.6.0: a smaller, tidier phone screen.** Everything is smaller and pushed to the edges so the middle of the screen (your rocket) stays clear:
+- The flight numbers are a small panel in the top-left corner (held sideways) or bottom-left (held upright). It starts **short** (altitude, speed, angle, Ap, Pe, fuel). **Tap it** for the full list (vertical speed, Δv, air push and heat too), tap again to shorten it. The game remembers your choice on this phone (also in Menu → Settings → **Flight info**).
+- The clock, the pink guidance strip and messages sit in a narrow strip at the top. Messages that would cover the rocket go beside it instead.
+- On the pad, the mission and pad picker is a compact panel in the corner.
+- Buttons are 44 px (40 px on the smallest phones), still easy to hit with a thumb.
+- Checked on iPhone SE, iPhone 14, iPhone 15, iPhone 15 Pro Max, Pixel 7, Galaxy S24, Galaxy S9+ and Moto G4, held sideways and upright: nothing overlaps, nothing is cut off, nothing sits on the rocket. The game's controls take up about a third to almost half less of the screen than in v0.5.0.
+- The PC screen is exactly the same as before (apart from the new launch pad row in the mission panel).
+
 | Button | Where | What it does |
 |---|---|---|
 | **Action button** (green) | bottom left, next to the turn buttons (above them in portrait) | **New.** Changes with the moment: **START** on the pad (starts the countdown), then **SKIP** during the countdown (launch now), then **FAIRING** in flight (drop the nose cover), then **CHUTE** when the capsule is coming home (open the parachute). It turns **orange** when it isn't safe yet ("air thick", "too fast", "no air"). |
-| **Mission picker** | top left, on the pad | **New.** Tap a mission (or Free flight). **Hide** / **Show** folds it away. In flight the guidance shows in a strip at the top middle |
+| **Mission & pad picker** | top left, on the pad | Tap a mission (or Free flight) and a launch pad. **Hide** / **Show** folds it into a small chip. In flight the guidance shows in a strip at the top |
 | **Throttle slider** | right side | Drag up for more power, down for less |
 | **FULL** / **CUT** | above / below the slider | Full power / engine off |
 | **⟲** / **⟳** (hold) | bottom left | Turn left / right. You can hold one with your left thumb while dragging the throttle with your right |
-| **STAGE** | bottom, next to the slider | Drop the bottom stage (booster first, then the upper stage) |
+| **STAGE** | bottom, next to the zoom buttons (upright: bottom left, next to the action button) | Drop the bottom stage (booster first, then the upper stage) |
 | **SAS** | right edge | On/off (green = on) |
 | **Map** | right edge | Map view. Drag with one finger to move around, **Centre** to snap back (and zoom out to a far-away ship) |
 | **Warp +** / **Warp −** | right edge | Speed up / slow down time |
-| **Pinch**, or **+** / **−** (hold) | anywhere / next to STAGE | Zoom in / out |
+| **Pinch**, or **+** / **−** (hold) | anywhere / above STAGE (upright: right edge) | Zoom in / out |
 | **☰ Menu** | top right | Pause: Tracking Station, new rocket, restart, **Settings** (sound, music, shake), backups, switch to PC controls |
 
-All buttons are at least 48 px and don't overlap (checked on iPhone 13, iPhone SE, Pixel 7, landscape and portrait). **v0.5.0:** on a narrow phone held upright (like the iPhone SE) the **+ / − zoom** buttons move into the right-hand column, so the turn buttons, the green action button and **STAGE** each get their own spot at the bottom left, with the dial above them.
+In flight the buttons are 44 px (40 px on the smallest phones) and never overlap; menus keep their bigger 48 px buttons. Held upright, the **+ / − zoom** buttons sit in the right-hand column, and the action button and **STAGE** sit just above the turn buttons.
 
 ### What's new in the flying (in plain words)
 
@@ -191,13 +218,14 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 - A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
 - The world clock only moves while you play.
 - The save lives in the browser on the device you play on. To keep it extra safe, or to move it to another device, use **Download a backup of my save** in the menu, and **Load a backup file** to bring it back.
+- **New in v0.6.0:** the launch pad you picked is saved (and each ship remembers which pad it launched from). The "short flight info" choice is saved with your settings on this device.
 - **New in v0.4.0:** your chosen mission and where you are in it are saved with the ship, so after a reload the guidance carries on from the same step. Finished missions are saved in your records.
-- Saves from v0.1.0 to v0.4.0 still load in v0.5.0 (the results and bests are new, optional parts of your progress). Saves from v0.1.0, v0.2.0, v0.3.0 and v0.3.1 still load in v0.4.0 (and a v0.4.0 save still opens in v0.3.1, which just ignores the mission parts): the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
+- Saves from v0.1.0 to v0.5.0 still load in v0.6.0: they simply use Prime Field (the original pad), and you can pick another pad any time. Saves from v0.1.0 to v0.4.0 still load in v0.5.0 (the results and bests are new, optional parts of your progress). Saves from v0.1.0, v0.2.0, v0.3.0 and v0.3.1 still load in v0.4.0 (and a v0.4.0 save still opens in v0.3.1, which just ignores the mission parts): the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
 - Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
 
 ### The worlds
 
-- **Terra**, home planet: 600 km radius, air up to 70 km, continents and oceans. Launch pad on top. Its pull reaches 84,000 km out; past that is deep space.
+- **Terra**, home planet: 600 km radius, air up to 70 km, continents and oceans. Three launch pads on the big continent: Cape Halcyon (coast, left), Prime Field (middle, on top at the start) and Redrock Range (desert, right). Its pull reaches 84,000 km out; past that is deep space.
 - **Luna**, the moon: 200 km radius, no air, orbits Terra at 12,000 km once every ~38.6 hours.
 
 ### Milestones
@@ -205,6 +233,11 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
+
+- **v0.6.0** (smaller phone UI, 3 launch pads):
+  - **Phone screen made much smaller and tidier** (Armando: "UI (only in mobile) is like way too big"). Smaller text and buttons (44 px, 40 px on the smallest phones), everything grouped at the edges, the rocket in the middle always visible. The flight panel starts short and opens to the full list with a tap (remembered on your phone). The mission picker is compact, messages move aside instead of covering the rocket, and the dial and its Ap/Pe line fit between the buttons. Works held sideways and upright on small and big phones. PC looks exactly as before.
+  - **Two new launch pads**: **Cape Halcyon** (a coastal pad about 390 km to the left, rockets fly out over the sea) and **Redrock Range** (a desert pad about 210 km to the right). Pick one on the pad in the mission panel; the rocket moves there at once. Each has its own tower, clamps, ground and buildings. Countdown, clamps, missions and the pink guidance work the same from all three, and the map shows all three pads.
+  - Saves: same format (v: 1). Old saves load and use Prime Field. Your pad choice is saved, and so is each ship's pad.
 
 - **v0.5.0** (sound, looks and rewards):
   - **Sound:** a real engine roar that follows the throttle and fades and muffles as the air thins (in space just the rumble through the ship). Every engine sounds different: Kestrel booster, Kestrel upper stage, and the retired Sparrow, Heron (booster and lander) and Mule. Sounds for the countdown, ignition, liftoff clamps, staging, fairing, parachute, touchdown, splashdown, explosions, the max-Q alarm, milestones and Mission Complete. Soft space music. All made in code, so it's still one file.

@@ -89,18 +89,6 @@
     touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
   body.mobile canvas#c, body.mobile #touch, body.mobile #hud { touch-action: none; }
   body.mobile #hudR { display: none; }
-  body.mobile #hudL { left: calc(8px + var(--sl)); top: calc(8px + var(--st)); width: 178px; padding: 6px 9px; font-size: 11px; }
-  body.mobile #hudL .vname { font-size: 13px; margin: 0; }
-  body.mobile #hudL .status { font-size: 10.5px; margin-bottom: 3px; }
-  body.mobile #hudL .row { padding: 0; line-height: 15px; }
-  body.mobile #hudL .lbl { font-size: 10.5px; margin-top: 2px; }
-  body.mobile #hudL .bar { height: 7px; margin: 2px 0 3px; }
-  body.mobile #hudL .row.pcrow { display: none; }
-  body.mobile #clock { top: calc(8px + var(--st)); font-size: 11px; padding: 4px 10px; white-space: nowrap; }
-  body.mobile #toasts { top: calc(40px + var(--st)); left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; }
-  body.mobile .toast { font-size: 12px; padding: 5px 10px; text-align: center; }
-  body.mobile .toast.big { font-size: 14px; }
-  body.mobile #encounter { left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; bottom: calc(140px + var(--sb)); font-size: 11px; text-align: center; }
   body.mobile .overlay { padding: calc(6px + var(--st)) calc(6px + var(--sr)) calc(6px + var(--sb)) calc(6px + var(--sl)); }
   body.mobile .overlay .box { width: min(860px, 100%); max-height: 100%; padding: 14px 16px; touch-action: pan-y; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
   body.mobile h1 { font-size: 34px; letter-spacing: 4px; }
@@ -144,9 +132,6 @@
   .tb.dim { opacity: 0.55; }
   .tcol { position: absolute; display: flex; flex-direction: column; gap: 6px; }
   .tcol .tb { position: static; }
-  #tColA { right: calc(8px + var(--sr)); top: calc(8px + var(--st)); bottom: calc(8px + var(--sb)); justify-content: space-between; }
-  #tColB { right: calc(16px + var(--bA) + var(--sr)); top: calc(8px + var(--st)); bottom: calc(8px + var(--sb)); width: 66px; }
-  #tColB .tb { width: 66px; height: 48px; }
   #tFull { background: rgba(120, 70, 20, 0.8); border-color: #ffb36b; }
   #tCut { background: rgba(90, 25, 35, 0.8); border-color: #d0485a; }
   .tthr { flex: 1; position: relative; border-radius: 12px; background: rgba(10, 16, 34, 0.75); border: 1px solid rgba(120, 170, 255, 0.55); overflow: hidden; touch-action: none; min-height: 60px; }
@@ -154,22 +139,8 @@
   .tthr .knob { position: absolute; left: 4px; right: 4px; height: 10px; bottom: 0%; margin-bottom: -5px; border-radius: 5px; background: #fff; box-shadow: 0 0 6px rgba(0,0,0,0.6); }
   .tthr .pct { position: absolute; left: 0; right: 0; top: 6px; text-align: center; font-size: 13px; font-weight: 700; text-shadow: 0 1px 2px #000; }
   .tthr .cap { position: absolute; left: 0; right: 0; top: 26px; text-align: center; font-size: 9.5px; color: #e8eefc; text-shadow: 0 1px 2px #000; }
-  #tColC { right: calc(98px + var(--bA) + var(--sr)); bottom: calc(8px + var(--sb)); width: 72px; align-items: center; }
-  #tColC .tb { width: 56px; height: 48px; }
-  #tColC #tStage { width: 72px; height: 72px; font-size: 15px; background: rgba(120, 30, 40, 0.8); border-color: #ff7a7a; }
-  #tLeft, #tRight { bottom: calc(8px + var(--sb)); width: 76px; height: 76px; font-size: 30px; }
-  #tLeft { left: calc(8px + var(--sl)); }
-  #tRight { left: calc(94px + var(--sl)); }
-  @media (orientation: portrait) {
-    body.mobile #clock { left: calc(8px + var(--sl)); transform: none; top: calc(232px + var(--st)); }
-    body.mobile #toasts { top: calc(266px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
-    body.mobile #encounter { left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); bottom: calc(262px + var(--sb)); }
-    body.mobile #tLeft, body.mobile #tRight { width: 66px; }
-    body.mobile #tRight { left: calc(80px + var(--sl)); }
-  }
   /* ---------- v0.3.0: countdown, warnings, context button ---------- */
   .mrow { display: none !important; }
-  body.mobile #hudL .row.mrow { display: flex !important; }
   #hudL .row b.ok { color: #9ff0b4; } #hudL .row b.hot { color: #ffb36b; } #hudL .row b.bad { color: #ff7a7a; }
   #countdown { position: fixed; top: 31%; left: 50%; transform: translateX(-50%); font-size: 64px; font-weight: 800; letter-spacing: 3px; color: #ffe27a;
     text-shadow: 0 2px 14px rgba(0,0,0,0.75); pointer-events: none; text-align: center; white-space: nowrap; }
@@ -180,20 +151,10 @@
   #warn.heat { background: rgba(170, 80, 10, 0.9); border: 1px solid #ffb36b; }
   #warn.blink { animation: blink 0.7s steps(2) infinite; }
   @keyframes blink { 50% { opacity: 0.55; } }
-  #tCtx { left: calc(180px + var(--sl)); bottom: calc(8px + var(--sb)); width: 62px; height: 62px; background: rgba(30, 90, 60, 0.85); border-color: #5ef08a; }
   #tCtx b { font-size: 12px; }
   #tCtx.warnc { background: rgba(120, 70, 20, 0.88); border-color: #ffb36b; }
   #tCtx.on { background: rgba(40, 140, 90, 0.85); }
   #tCtx.off { visibility: hidden; pointer-events: none !important; }
-  body.mobile #countdown { top: calc(44px + var(--st)); left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; font-size: 38px; letter-spacing: 1px; white-space: normal; }
-  body.mobile #countdown small { font-size: 11px; }
-  body.mobile #warn { top: auto; bottom: calc(136px + var(--sb)); left: calc(196px + var(--sl)); right: calc(240px + var(--sr)); transform: none; font-size: 12px; padding: 5px 8px; }
-  @media (orientation: portrait) {
-    body.mobile #tCtx { left: calc(8px + var(--sl)); bottom: calc(92px + var(--sb)); width: 138px; height: 52px; }
-    body.mobile #countdown { top: calc(300px + var(--st)); left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
-    body.mobile #warn { top: calc(380px + var(--st)); bottom: auto; left: calc(8px + var(--sl)); right: calc(150px + var(--sr)); }
-    body.mobile #encounter { bottom: calc(330px + var(--sb)); }
-  }
   #rotHint { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; background: rgba(2,3,10,0.92); text-align: center; padding: 24px; }
   #rotHint .box { max-width: 340px; padding: 22px; }
   #rotHint .phone { font-size: 54px; display: inline-block; animation: tip 2.4s ease-in-out infinite; }
@@ -217,8 +178,6 @@
   #mpick .sh { display: none; }
   #mpick .mpHead .cur { display: none; font-size: 13px; color: #9fb4e8; } #mpick .mpHead .cur b { color: #ffd36b; }
   #mpick.collapsed .mpHead .ttl, #mpick.collapsed .mpClock { display: none; } #mpick.collapsed .mpHead .cur { display: block; }
-  body.mobile #mpick.collapsed { right: auto; width: 178px; }
-  body.mobile #mpick.collapsed .mpBlurb, body.mobile #mpick.collapsed .mpGrid { display: none; }
   #mpick .mpCurL { font-size: inherit; color: #9fb4e8; } #mpick .mpBlurb { margin-top: 7px; }
   #guide { position: fixed; right: 14px; top: 184px; width: 318px; padding: 9px 12px; border-color: rgba(255, 106, 213, 0.55); z-index: 3; }
   #guide.done { border-color: rgba(255, 226, 122, 0.75); }
@@ -236,36 +195,6 @@
   #mcBanner .mcT { font-size: 34px; font-weight: 900; letter-spacing: 4px; color: #ffe27a; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
   #mcBanner .mcN { font-size: 18px; font-weight: 700; } #mcBanner .mcS { font-size: 12.5px; color: #c3cff0; margin-top: 4px; line-height: 1.45; }
   .ms div.mdone { color: #ffe27a; background: rgba(255, 106, 213, 0.08); }
-  body.mobile #mpick { left: calc(8px + var(--sl)); top: calc(8px + var(--st)); right: calc(178px + var(--bA) + var(--sr)); width: auto;
-    max-height: calc(100% - 116px - var(--st) - var(--sb)); overflow: auto; padding: 4px 8px 4px; touch-action: pan-y; }
-  body.mobile #mpick .mpHead b { font-size: 13px; } body.mobile #mpick .mpHead .opt { font-size: 11px; }
-  body.mobile #mpick .mpHead button { min-height: 40px; padding: 4px 12px; font-size: 13px; }
-  body.mobile #mpick .mpClock { font-size: 11px; margin: 0 0 3px; } body.mobile #mpick .mpHead .cur { font-size: 12px; }
-  body.mobile #mpick .mpGrid { grid-template-columns: repeat(3, 1fr); gap: 5px; }
-  body.mobile #mpick .mpGrid button { min-height: 48px; padding: 3px 6px; min-width: 0; }
-  body.mobile #mpick .mpGrid button b { font-size: 12.5px; } body.mobile #mpick .mpGrid button small { font-size: 10px; }
-  body.mobile #mpick .mpGrid button .k { display: none; }
-  body.mobile #mpick .mpBlurb { font-size: 10.5px; line-height: 1.35; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  body.mobile #guide { left: calc(196px + var(--sl)); right: calc(90px + var(--bA) + var(--sr)); top: calc(34px + var(--st)); width: auto; padding: 3px 8px 4px; }
-  body.mobile #guide .gm { display: none; }
-  body.mobile #guide .gt { font-size: 12.5px; margin: 0 0 1px; line-height: 1.25; }
-  body.mobile #guide .gd { font-size: 10.5px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  body.mobile #guide .gc { margin-top: 2px; gap: 3px; } body.mobile .chip { font-size: 9.5px; padding: 0 5px; }
-  body.mobile.guiding #toasts { top: calc(98px + var(--st)); }
-  body.mobile #mcBanner { top: calc(34px + var(--st)); left: calc(196px + var(--sl)); right: calc(90px + var(--bA) + var(--sr)); transform: none; padding: 4px 8px; animation: none; }
-  body.mobile.mcshow #toasts { top: calc(124px + var(--st)); }
-  body.mobile #mcBanner .mcT { font-size: 19px; letter-spacing: 2px; } body.mobile #mcBanner .how { display: none; } body.mobile #mcBanner .mcN { font-size: 13px; } body.mobile #mcBanner .mcS { font-size: 10.5px; }
-  @media (orientation: portrait) {
-    body.mobile #mpick { right: calc(158px + var(--sr)); max-height: calc(100% - 250px - var(--st) - var(--sb)); }
-    body.mobile #mpick .mpGrid { grid-template-columns: 1fr 1fr; }
-    body.mobile #mpick .lg { display: none; } body.mobile #mpick .sh { display: inline; }
-    body.mobile #mpick .mpHead .opt { display: none; }
-    body.mobile #mpick #mpBlurb { display: none; }
-    body.mobile #guide { left: calc(8px + var(--sl)); right: calc(158px + var(--sr)); top: calc(260px + var(--st)); }
-    body.mobile.guiding #toasts { top: calc(334px + var(--st)); }
-    body.mobile #mcBanner { left: calc(8px + var(--sl)); right: calc(158px + var(--sr)); top: calc(260px + var(--st)); }
-    body.mobile.mcshow #toasts { top: calc(340px + var(--st)); }
-  }
 
   /* ---------- v0.5.0: settings, results, personal bests, iPhone SE portrait ---------- */
   .setRow { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
@@ -287,26 +216,105 @@
   body.mobile #ovSettings h2 { margin-bottom: 2px; } body.mobile #ovSettings .note { margin-top: 6px; font-size: 11px; }
   body.mobile #ovResults .stars { font-size: 30px; margin-bottom: 4px; } body.mobile #resRules { font-size: 12px; margin-top: 6px; }
   body.mobile #ovResults table td { padding: 3px 4px; }
-  /* map open on a phone held sideways: the Centre button appears at the top of the STAGE column, so the guidance strip makes room for it */
-  @media (orientation: landscape) { body.mobile.mapview #guide, body.mobile.mapview #mcBanner { right: calc(178px + var(--bA) + var(--sr)); } }
-  /* iPhone SE (and other narrow phones) held upright: every button gets its own spot, nothing overlaps */
-  @media (orientation: portrait) and (max-width: 400px) {
-    body.mobile #hudL { width: 168px; }
-    body.mobile #hudL .lbl:first-of-type, body.mobile #hudL .bar:not(.fuel) { display: none; }
-    body.mobile #clock { top: calc(216px + var(--st)); }
-    body.mobile #warn, body.mobile #encounter { top: calc(214px + var(--st)); bottom: auto; left: calc(8px + var(--sl)); right: auto; width: 168px; z-index: 4; }
-    body.mobile #countdown { top: calc(244px + var(--st)); right: calc(150px + var(--sr)); }
-    body.mobile #guide, body.mobile #mcBanner { top: calc(244px + var(--st)); right: calc(146px + var(--sr)); }
-    body.mobile #toasts { top: calc(244px + var(--st)); right: calc(146px + var(--sr)); }
-    body.mobile.guiding #toasts, body.mobile.mcshow #toasts { top: calc(316px + var(--st)); }
-    body.mobile #toasts .toast:nth-last-child(n+3) { display: none; }   /* only the newest two messages, so they don't cover the dial */
-    body.mobile #tColA { justify-content: flex-start; gap: 6px; }
-    body.mobile #tColA .tb { flex: 1 1 0; height: auto; min-height: 48px; max-height: 64px; }
-    body.mobile #tColC { right: auto; left: calc(104px + var(--sl)); bottom: calc(92px + var(--sb)); width: 70px; }
-    body.mobile #tColC #tStage { width: 70px; height: 52px; }
-    body.mobile #tCtx { width: 90px; }
-    body.mobile #tLeft { width: 76px; } body.mobile #tRight { left: calc(90px + var(--sl)); width: 76px; }
+
+  /* ---------- v0.6.0: launch pad row in the mission picker ---------- */
+  #mpick .mpPadHead { display: flex; justify-content: space-between; align-items: baseline; margin-top: 9px; font-size: 13px; }
+  #mpick .mpPadHead .opt { color: #9fb4e8; font-size: 11px; }
+  #mpick .mpPads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 4px; }
+  #mpick .mpPads button { margin: 0; padding: 5px 7px; text-align: left; display: flex; flex-direction: column; justify-content: center; line-height: 1.2; background: rgba(31, 79, 168, 0.5); min-width: 0; }
+  #mpick .mpPads button b { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } #mpick .mpPads button small { font-size: 10.5px; color: #b9c8ee; white-space: nowrap; }
+  #mpick .mpPads button.sel { background: #2a63cf; box-shadow: 0 0 0 2px #ffd36b inset; }
+  #mpick .mpPads button.dim { opacity: 0.5; }
+  #mpick .mpPadBlurb { font-size: 12px; color: #c3cff0; margin-top: 6px; line-height: 1.4; } #mpick .mpPadBlurb b { color: #ffd36b; }
+  #mpick.collapsed .mpPadHead, #mpick.collapsed .mpPads, #mpick.collapsed .mpPadBlurb { display: none; }
+  #mpick .mpPads .lg { display: none; } #mpick .mpPads .sh { display: inline; }   /* short names on the buttons; the full name is in the line below */
+  #hMore { display: none; }
+
+  /* ---------- v0.6.0: compact Mobile layout (PC is untouched) ----------
+     Buttons are 44 px (40 px on the smallest phones), grouped at the edges: turn buttons + action button bottom-left,
+     menu/map/SAS/warp column far right, throttle next to it, zoom + STAGE beside that (held sideways).
+     The flight numbers, the clock, the mission picker and the guidance strip are small panels placed by layoutMobileHud()
+     (in the script) so they stack neatly without covering the rocket in the middle of the screen. */
+  body.mobile { --b: 44px; --cw: 52px; }
+  @media (orientation: landscape) and (max-height: 340px) { body.mobile { --b: 40px; } }
+  @media (orientation: portrait) and (max-width: 340px) { body.mobile { --b: 40px; } }
+  @media (orientation: portrait) { body.mobile { --cw: 48px; } }
+  body.mobile .tb { width: var(--b); height: var(--b); min-width: 0; min-height: 0; padding: 0; border-radius: 10px; font-size: 11px; }
+  body.mobile .tb b { font-size: 14px; } body.mobile .tb small { font-size: 8.5px; margin-top: 1px; }
+  .tcol { gap: 6px; }
+  #tColA { right: calc(8px + var(--sr)); top: calc(8px + var(--st)); }
+  #tColB { right: calc(14px + var(--b) + var(--sr)); top: calc(8px + var(--st)); bottom: calc(8px + var(--sb)); width: var(--cw); }
+  body.mobile #tColB .tb { width: var(--cw); height: var(--b); font-size: 12px; }
+  .tthr { border-radius: 10px; min-height: 60px; }
+  .tthr .pct { font-size: 11px; top: 4px; } .tthr .cap { font-size: 7.5px; top: 18px; letter-spacing: 0.3px; }
+  .tthr .knob { height: 8px; margin-bottom: -4px; }
+  #tColC { right: calc(20px + var(--b) + var(--cw) + var(--sr)); bottom: calc(8px + var(--sb)); width: 56px; align-items: stretch; }
+  body.mobile #tColC .tb { width: 56px; height: var(--b); }
+  body.mobile #tColC #tStage { width: 56px; height: 52px; font-size: 12px; background: rgba(120, 30, 40, 0.8); border-color: #ff7a7a; }
+  body.mobile #tLeft, body.mobile #tRight { bottom: calc(8px + var(--sb)); width: 56px; height: 56px; font-size: 24px; }
+  #tLeft { left: calc(8px + var(--sl)); } #tRight { left: calc(70px + var(--sl)); }
+  body.mobile #tCtx { left: calc(132px + var(--sl)); bottom: calc(8px + var(--sb)); width: 60px; height: 56px; background: rgba(30, 90, 60, 0.85); border-color: #5ef08a; }
+  body.mobile #tCtx b { font-size: 11px; }
+  @media (orientation: portrait) {
+    #tColB { top: auto; height: clamp(200px, 44vh, 330px); }
+    #tColC { right: auto; left: calc(74px + var(--sl)); bottom: calc(70px + var(--sb)); width: 60px; }
+    body.mobile #tColC #tStage { width: 60px; height: 48px; }
+    body.mobile #tCtx { left: calc(8px + var(--sl)); bottom: calc(70px + var(--sb)); width: 60px; height: 48px; }
   }
+  /* small panels: left/top (and some widths) are set by layoutMobileHud() */
+  body.mobile #hudL { left: calc(8px + var(--sl)); top: calc(8px + var(--st)); width: 148px; padding: 3px 7px 4px; font-size: 10px; line-height: 13px; cursor: pointer; }
+  body.mobile #hudL .vname { font-size: 11.5px; line-height: 14px; margin: 0 14px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  body.mobile #hudL .status { font-size: 9.5px; line-height: 12px; margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  body.mobile #hudL .row { padding: 0; line-height: 13px; gap: 5px; white-space: nowrap; }
+  body.mobile #hudL .row.mrow { display: flex !important; }
+  body.mobile #hudL .lbl { font-size: 9.5px; margin-top: 0; line-height: 12px; }
+  body.mobile #hudL .bar { height: 5px; margin: 1px 0 2px; border-radius: 3px; }
+  body.mobile #hudL .row.pcrow, body.mobile #hudL .thrL, body.mobile #hudL .thrB { display: none; }
+  body.mobile.hudMini #hudL .mx, body.mobile.hudMini #hudL .row.mrow { display: none !important; }
+  body.mobile #hMore { display: block; position: absolute; right: 6px; top: 2px; font-size: 10px; color: #9fb4e8; }
+  body.mobile.picking #hudL { display: none; }   /* on the pad with the picker open the flight numbers are all zero anyway */
+  body.mobile.hudNarrow #hudL { font-size: 9.5px; padding-left: 6px; padding-right: 6px; } body.mobile.hudNarrow #hudL .vname { font-size: 11px; }
+  body.mobile #clock { transform: none; font-size: 10px; padding: 2px 8px; white-space: nowrap; }
+  body.mobile #toasts { transform: none; gap: 4px; }
+  body.mobile .toast { font-size: 11px; line-height: 14px; padding: 3px 8px; text-align: center; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; max-height: 48px; animation-name: fadeM; }
+  @keyframes fadeM { 0% { opacity: 0; } 8% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }   /* no slide on phones: messages stay exactly in their spot */
+  body.mobile .toast.big { font-size: 12px; }
+  body.mobile #toasts .toast:nth-last-child(n+3), body.mobile #toasts.squeeze .toast:nth-last-child(n+2) { display: none; }
+  body.mobile #countdown { transform: none; font-size: 22px; letter-spacing: 1px; white-space: nowrap; }
+  body.mobile #countdown small { font-size: 9.5px; }
+  body.mobile.picking #countdown { display: none; }
+  body.mobile #warn { transform: none; bottom: auto; font-size: 11px; padding: 3px 6px; z-index: 4; }
+  body.mobile #encounter { transform: none; bottom: auto; font-size: 10px; padding: 3px 6px; text-align: left; }
+  body.mobile #guide { right: auto; width: 300px; padding: 3px 8px 4px; }
+  body.mobile #guide .gm { display: none; }
+  body.mobile #guide .gt { font-size: 12px; margin: 0; line-height: 1.25; }
+  body.mobile #guide .gd { font-size: 10px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  body.mobile #guide .gc { margin-top: 2px; gap: 3px; } body.mobile .chip { font-size: 9px; padding: 0 5px; }
+  body.mobile #mcBanner { right: auto; width: 300px; transform: none; padding: 3px 8px; animation: none; }
+  body.mobile #mcBanner .mcT { font-size: 15px; letter-spacing: 2px; } body.mobile #mcBanner .how { display: none; } body.mobile #mcBanner .mcN { font-size: 12px; } body.mobile #mcBanner .mcS { font-size: 10px; }
+  body.mobile #mpick { right: auto; width: min(270px, calc(50vw - 30px)); max-height: none; overflow: visible; padding: 3px 7px 6px; font-size: 11px; }
+  body.mobile #mpick .mpHead { gap: 6px; } body.mobile #mpick .mpHead b { font-size: 12px; } body.mobile #mpick .mpHead .opt { display: none; }
+  body.mobile #mpick .mpHead button { min-height: 40px; min-width: 52px; padding: 0 10px; font-size: 12px; }
+  body.mobile #mpick .mpClock { font-size: 10px; margin: 0 0 3px; }
+  body.mobile #mpick .mpGrid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  body.mobile #mpick .mpGrid button, body.mobile #mpick .mpPads button { min-height: 40px; height: 40px; padding: 2px 5px; min-width: 0; }
+  body.mobile #mpick .mpGrid button b, body.mobile #mpick .mpPads button b { font-size: 11px; } body.mobile #mpick .mpGrid button small, body.mobile #mpick .mpPads button small { font-size: 9px; }
+  body.mobile #mpick .mpGrid button .k, body.mobile #mpick .lg { display: none; } body.mobile #mpick .sh, body.mobile #mpick .mpPads .sh { display: inline; }
+  body.mobile #mpick .mpBlurb, body.mobile #mpick .mpPadBlurb { display: none; }
+  body.mobile #mpick .mpPadHead { margin-top: 4px; font-size: 10px; } body.mobile #mpick .mpPadHead .opt { font-size: 9px; }
+  body.mobile #mpick .mpPads { gap: 4px; margin-top: 2px; }
+  body.mobile #mpick.collapsed { width: 148px; padding: 2px 4px 2px 7px; }
+  body.mobile #mpick.collapsed .mpHead .cur { font-size: 10px; line-height: 13px; }
+  body.mobile #mpick.collapsed .mpHead .cur .curPad { display: block; }
+  body.mobile #mpick.collapsed .mpHead button { min-width: 48px; padding: 0 8px; }
+  /* Tracking Station on a narrow phone: Fly / Recover stack in their cell so the table never runs off the side */
+  body.mobile #stationTable table { font-size: 12px; }
+  body.mobile #stationTable td:last-child { white-space: normal !important; width: 1%; }
+  body.mobile #stationTable td:last-child button { display: block; width: 100%; margin: 2px 0; padding: 4px 10px; }
+  /* Settings on a phone: a little wider so the four buttons (sound, shake, flight info, done) fit on one row */
+  body.mobile #ovSettings .box { width: min(600px, 100%) !important; }
+  body.mobile #ovSettings .setBtns button { font-size: 14px; padding: 8px 12px; }
+  body.mobile #ovSettings .setRow > label { flex: 0 0 34%; } body.mobile #ovSettings .setRow input[type=range] { flex: 1 1 auto; min-width: 0; margin: 0; }
 </style>
 </head>
 <body>
@@ -314,19 +322,20 @@
 
 <div id="hud" class="hidden">
   <div id="hudL" class="panel">
+    <span id="hMore" aria-hidden="true">&#9662;</span>
     <div class="vname" id="hName">-</div>
-    <div class="status" id="hStatus">-</div>
+    <div class="status mx" id="hStatus">-</div>
     <div class="row"><span>Altitude</span><b id="hAlt">-</b></div>
-    <div class="row"><span>Vertical speed</span><b id="hVs">-</b></div>
+    <div class="row mx"><span><span class="pc-only">Vertical speed</span><span class="mobile-only">Vert. speed</span></span><b id="hVs">-</b></div>
     <div class="row"><span>Speed</span><b id="hSpd">-</b></div>
     <div class="row"><span>Angle</span><b id="hAng">-</b></div>
     <div class="row"><span>Apoapsis</span><b id="hAp">-</b></div>
     <div class="row"><span>Periapsis</span><b id="hPe">-</b></div>
-    <div class="lbl"><span>Throttle</span><span id="hThrT">0%</span></div>
-    <div class="bar"><div id="hThr"></div></div>
+    <div class="lbl thrL"><span>Throttle</span><span id="hThrT">0%</span></div>
+    <div class="bar thrB"><div id="hThr"></div></div>
     <div class="lbl"><span id="hFuelL">Fuel</span><span id="hFuelT">-</span></div>
     <div class="bar fuel"><div id="hFuel"></div></div>
-    <div class="row"><span>&Delta;v left</span><b id="hDv">-</b></div>
+    <div class="row mx"><span>&Delta;v left</span><b id="hDv">-</b></div>
     <div class="row pcrow"><span>Air push (max-Q)</span><b id="hQ">-</b></div>
     <div class="row pcrow"><span>Heat</span><b id="hHeat">-</b></div>
     <div class="row mrow"><span>Air · Heat</span><b id="hQH">-</b></div>
@@ -351,17 +360,25 @@
   <div id="toasts"></div>
   <!-- v0.4.0: optional mission picker on the pad, guidance panel in flight, Mission Complete banner -->
   <div id="mpick" class="panel hidden">
-    <div class="mpHead"><div class="ttl"><b>Pick a mission</b> <span class="opt">(optional)</span></div><div class="cur">Mission: <b id="mpShort">Free flight</b></div><button class="small ghost" data-act="mpToggle" id="mpToggle">Hide</button></div>
+    <div class="mpHead"><div class="ttl"><b>Pick a mission</b> <span class="opt">(optional)</span></div><div class="cur">Mission: <b id="mpShort">Free flight</b><span class="curPad"> &middot; Pad: <b id="mpPadShort">Prime Field</b></span></div><button class="small ghost" data-act="mpToggle" id="mpToggle">Hide</button></div>
     <div class="mpClock" id="mpClock">T-10 HOLD</div>
     <div class="mpGrid">
-      <button data-act="mission:leo"><b><span class="lg">Low orbit</span><span class="sh">LEO</span></b><small>LEO · 100 km</small><span class="k">1</span></button>
-      <button data-act="mission:meo"><b><span class="lg">Medium orbit</span><span class="sh">MEO</span></b><small>MEO · 2,000 km</small><span class="k">2</span></button>
+      <button data-act="mission:leo"><b><span class="lg">Low orbit</span><span class="sh">LEO</span></b><small><span class="lg">LEO · </span>100 km</small><span class="k">1</span></button>
+      <button data-act="mission:meo"><b><span class="lg">Medium orbit</span><span class="sh">MEO</span></b><small><span class="lg">MEO · </span>2,000 km</small><span class="k">2</span></button>
       <button data-act="mission:geo"><b><span class="lg">High orbit</span><span class="sh">GEO</span></b><small id="mpGeoSub">GEO</small><span class="k">3</span></button>
       <button data-act="mission:lunaOrbit"><b><span class="lg">Luna orbit</span><span class="sh">Luna orbit</span></b><small>get captured</small><span class="k">4</span></button>
       <button data-act="mission:lunaLand"><b><span class="lg">Luna landing</span><span class="sh">Luna land</span></b><small>touch down</small><span class="k">5</span></button>
       <button data-act="mission:none"><b><span class="lg">Free flight</span><span class="sh">Free</span></b><small>no mission</small><span class="k">0</span></button>
     </div>
     <div class="mpBlurb"><span class="mpCurL">Chosen: <b id="mpCur">Free flight</b>. </span><span id="mpBlurb"></span></div>
+    <!-- v0.6.0: which launch pad (left to right, the way they sit on Terra) -->
+    <div class="mpPadHead"><b>Launch pad</b> <span class="opt">&#9664; left &middot; right &#9654;</span></div>
+    <div class="mpPads">
+      <button data-act="pad:cape"><b><span class="lg">Cape Halcyon</span><span class="sh">Halcyon</span></b><small>coast &middot; left</small></button>
+      <button data-act="pad:prime"><b><span class="lg">Prime Field</span><span class="sh">Prime</span></b><small>middle</small></button>
+      <button data-act="pad:redrock"><b><span class="lg">Redrock Range</span><span class="sh">Redrock</span></b><small>desert &middot; right</small></button>
+    </div>
+    <div class="mpPadBlurb">Pad: <b id="mpPadName">Prime Field</b>. <span id="mpPadBlurb"></span></div>
   </div>
   <div id="guide" class="panel hidden"></div>
   <div id="mcBanner" class="panel hidden"></div>
@@ -531,6 +548,11 @@
     with a throttle cue (FULL / CUT / a %). A <b>pink arrow</b> next to the rocket and a pink marker on the dial show where to point, and a curved arrow shows which way to turn.
     The <b>Angle</b> reading helps: 90&deg; is straight up, 0&deg; is flat along the horizon (near Luna it's Luna's horizon). When you're told to warp, time warp slows down by itself before the next burn.
     Do what the panel says and you'll get there: reach the orbit (or land) and a <b>MISSION COMPLETE</b> banner appears. It's saved, and the Tracking Station shows your stars.
+    <h3>Launch pads</h3>
+    Terra has three launch pads. Pick one in the <b>Launch pad</b> row of the mission panel while the clock holds at T-10 (<span class="pc-only">click</span><span class="mobile-only">tap</span> it) and your rocket moves there.
+    Left to right: <b>Cape Halcyon</b> (on the coast, about 390 km to the left: fly left and you go out over the sea), <b>Prime Field</b> (the original pad, in the middle) and <b>Redrock Range</b> (in the desert, about 210 km to the right).
+    The pad you pick is remembered for your next launches. Everything else works the same from every pad, and the map shows all three.
+    <span class="mobile-only">Tip: the flight numbers panel starts short; tap it to see everything (and again to shorten it).</span>
     <h3>The edge of Terra's pull</h3>
     Terra's pull reaches out 84,000 km (the dashed yellow circle on the map). Go faster than escape speed and your Apoapsis says <b>Escaping</b>; the map marks where you'll leave.
     Past the edge you're in <b>deep space</b>: nothing pulls on you, so you coast in a straight line and the distance keeps counting up (in km, then million km).
@@ -571,7 +593,7 @@
     <div class="setRow"><label for="setMaster">Master volume</label><input type="range" id="setMaster" min="0" max="100" step="1"><b id="setMasterV">-</b></div>
     <div class="setRow"><label for="setSfx">Effects <small class="pc-only">(engines, bangs, beeps)</small></label><input type="range" id="setSfx" min="0" max="100" step="1"><b id="setSfxV">-</b></div>
     <div class="setRow"><label for="setMusic">Music</label><input type="range" id="setMusic" min="0" max="100" step="1"><b id="setMusicV">-</b></div>
-    <div class="setBtns"><button class="ghost" data-act="sound" id="setSound">Sound: on</button><button class="ghost" data-act="shakeToggle" id="setShake">Camera shake: on</button><button data-act="back" id="setDone">Done</button></div>
+    <div class="setBtns"><button class="ghost" data-act="sound" id="setSound">Sound: on</button><button class="ghost" data-act="shakeToggle" id="setShake">Camera shake: on</button><button class="ghost mobile-only" data-act="hudMini" id="setHud">Flight info: full</button><button data-act="back" id="setDone">Done</button></div>
     <div class="note">Camera shake = a little wobble at liftoff, max-Q and staging. Saved on this device only. Sound starts after your first tap or key press, and goes quiet while the game is paused.</div>
   </div>
 </div>
@@ -596,7 +618,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.5.0';
+const VERSION = '0.6.0';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -613,6 +635,26 @@ const LUNA = BODIES.luna;
 LUNA.period = 2 * Math.PI * Math.sqrt(LUNA.orbitR ** 3 / BODIES.terra.mu);
 LUNA.w = 2 * Math.PI / LUNA.period;
 const PAD_THETA = Math.PI / 2;
+// v0.6.0: three launch pads on Terra's big continent (which runs from 62 to 128 degrees round the planet).
+// Seen from the pad, "left" on screen is the way Luna goes round Terra (bigger angle), "right" is the other way.
+// To add a pad later: add one line here (an id, a name, where it is in degrees, and a look) and it shows up everywhere.
+// Distances along the ground: 1 degree of Terra = about 10.5 km.
+const PADS = [
+  { id: 'cape', name: 'Cape Halcyon', short: 'Cape Halcyon', deg: 127.85, look: 'cape', side: 'left',
+    blurb: 'On the coast, about 390 km to the left of Prime Field. Fly left (the usual way) and your rocket goes out over the sea.' },
+  { id: 'prime', name: 'Prime Field', short: 'Prime Field', deg: 90, look: 'prime', side: 'middle',
+    blurb: 'The original pad, in the middle of the big continent.' },
+  { id: 'redrock', name: 'Redrock Range', short: 'Redrock', deg: 70, look: 'redrock', side: 'right',
+    blurb: 'A desert pad inland, about 210 km to the right of Prime Field.' }
+];
+for (const p of PADS) p.theta = p.deg * Math.PI / 180;
+PADS.find(p => p.id === 'prime').theta = PAD_THETA;   // exactly where the pad has always been
+const PAD = Object.fromEntries(PADS.map(p => [p.id, p]));
+const DEFAULT_PAD = 'prime';
+function padById(id) { return PAD[id] || PAD[DEFAULT_PAD]; }
+// which pad a ship stands on / launched from: saved as v.pad since v0.6.0; older ships (no v.pad) used Prime Field
+function padOf(v) { return v && PAD[v.pad] ? PAD[v.pad] : PAD[DEFAULT_PAD]; }
+function padAt(theta) { return PADS.find(p => Math.abs(angDiff(theta, p.theta)) < 60 / BODIES.terra.R) || null; }
 
 function lunaState(t) {
   const a = LUNA.phase0 + LUNA.w * t, c = Math.cos(a), s = Math.sin(a);
@@ -774,13 +816,13 @@ function placeLanded(v) {
   v.vx = 0; v.vy = 0; v.ang = v.theta; v.angVel = 0;
 }
 
-function newVessel(rid) {
-  const r = ROCKETS[rid];
+function newVessel(rid, padId) {
+  const r = ROCKETS[rid], pad = padById(padId);
   S.stats.count[rid] = (S.stats.count[rid] || 0) + 1;
   const v = { id: S.nextId++, name: r.name + ' ' + S.stats.count[rid], rocket: rid,
     parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel),
-    parent: 'terra', x: 0, y: 0, vx: 0, vy: 0, ang: PAD_THETA, angVel: 0, throttle: 0, sas: true,
-    landed: true, theta: PAD_THETA, debris: false, visitedLuna: false, launched: false, maxAlt: 0, born: S.t };
+    parent: 'terra', x: 0, y: 0, vx: 0, vy: 0, ang: pad.theta, angVel: 0, throttle: 0, sas: true,
+    landed: true, theta: pad.theta, debris: false, visitedLuna: false, launched: false, maxAlt: 0, born: S.t, pad: pad.id };
   // v0.3.0 fields (older saves simply don't have them, which means "not fitted")
   if (r.fairing) v.fairing = true;
   if (r.stages.some(s => s.capsule)) v.chute = 'packed';
@@ -811,7 +853,7 @@ function statusOf(v) {
   if (v.landed) {
     if (v.countdown > 0 && v.hold) return 'Holding at T-' + Math.ceil(v.countdown);
     if (v.countdown > 0) return 'Countdown T-' + Math.ceil(v.countdown);
-    if (v.parent === 'terra' && Math.abs(angDiff(v.theta, PAD_THETA)) < 60 / b.R) return 'On the launch pad';
+    if (v.parent === 'terra' && padAt(v.theta)) return 'On the launch pad';
     return v.splashed ? "Splashed down in Terra's ocean" : 'Landed on ' + b.name;
   }
   const o = vesselOrbit(v), h = Math.hypot(v.x, v.y) - b.R;
@@ -874,6 +916,9 @@ function applySave(o) {
   for (const v of S.vessels) if (rescueFar(v)) rescuedShips++;
   // v0.5.0: Luna now has hills and craters; stand any lander parked there on the ground under it
   for (const v of S.vessels) if (v.landed && v.parent === 'luna' && isFinite(v.theta)) placeLanded(v);
+  // v0.6.0: the chosen launch pad (S.pad) and each ship's pad (v.pad); older saves have neither and use Prime Field
+  if (S.pad !== undefined && !PAD[S.pad]) delete S.pad;
+  for (const v of S.vessels) if (v.pad !== undefined && !PAD[v.pad]) delete v.pad;
   if (!(S.stats.maxAlt < 1e15)) S.stats.maxAlt = BODIES.terra.soi - BODIES.terra.R;
   if (!(S.stats.maxSpeed < 1e5)) S.stats.maxSpeed = 0;
 }
@@ -934,6 +979,7 @@ function toast(msg, big) {
   const box = document.getElementById('toasts'); box.appendChild(d);
   while (box.children.length > 4) box.removeChild(box.firstChild);
   setTimeout(() => d.remove(), 4100);
+  if (MODE === 'mobile') layoutMobileHud();
 }
 
 
@@ -1533,16 +1579,17 @@ function warnWarp(v) {
   return 'Too close to ' + b.name + ' to warp faster';
 }
 
-function launch(rid, mission) {
+function launch(rid, mission, padId) {
   if (!ROCKETS[rid] || ROCKETS[rid].retired) rid = LAUNCH_ROCKET; // retired rockets can't be launched any more
   const old = active(); if (old) old.throttle = 0;
-  const v = newVessel(rid);
+  if (padId && PAD[padId]) S.pad = padId;               // v0.6.0: the chosen pad is remembered for the next launch
+  const v = newVessel(rid, S.pad);
   if (mission && MISSION[mission]) { v.mission = mission; v.guide = {}; }
   pickHidden = false;
   v.countdown = COUNTDOWN; v.hold = true; v.clamped = true; v.ignited = false; liftoffShow = 0; clampAnim = null;
   S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
-  camRot = PAD_THETA - Math.PI / 2;
-  save(); closeAll(); toast(v.name + ' is on the pad, clock holding at T-10. ' + (MODE === 'mobile' ? 'Tap START to begin the countdown.' : 'Press Enter to start the countdown.'));
+  camRot = v.theta - Math.PI / 2; snapCam = true;
+  save(); closeAll(); toast(v.name + ' is on the pad at ' + padOf(v).name + ', clock holding at T-10. ' + (MODE === 'mobile' ? 'Tap START to begin the countdown.' : 'Press Enter to start the countdown.'));
 }
 
 function flyVessel(id) {
@@ -2039,11 +2086,25 @@ function pickMission(id) {
   else { v.mission = id; v.guide = {}; delete v.missionDone; toast('Mission: ' + missionLabel(id) + '. ' + (v.hold ? keyHint('Press Enter', 'Tap START') + ' when you are ready.' : '')); }
   G_cache.key = ''; syncPicker(true); save(); return true;
 }
+// v0.6.0: pick the launch pad. While the clock holds at T-10 the waiting rocket simply moves to the new pad;
+// the choice is saved (S.pad) and used for every launch after that until you pick another one.
+function pickPad(id) {
+  if (!PAD[id]) return false;
+  const v = active(), onPad = !!(v && v.landed && v.countdown > 0 && v.parent === 'terra' && !v.launched);
+  if (onPad && !v.hold) { toast('The countdown is running: pick the pad before you start it'); return false; }
+  S.pad = id;
+  if (onPad && v.pad !== id) {
+    v.pad = id; v.theta = PAD[id].theta; placeLanded(v); clampAnim = null;
+    snapCam = true; particles.length = 0; G_cache.key = '';
+    toast(v.name + ' moved to ' + PAD[id].name + '. ' + keyHint('Press Enter', 'Tap START') + ' when you are ready.');
+  } else if (!onPad) toast('New rockets will launch from ' + PAD[id].name);
+  syncPicker(true); save(); return true;
+}
 let pickKey = '';
 function syncPicker(force) {
   const v = active(), box = document.getElementById('mpick');
   const show = !!(v && v.landed && v.countdown > 0 && !paused && ROCKETS[v.rocket] && !ROCKETS[v.rocket].retired);
-  const key = show ? [v.id, v.mission || 'none', pickHidden, v.hold, Math.ceil(v.countdown), MODE].join('|') : '';
+  const key = show ? [v.id, v.mission || 'none', pickHidden, v.hold, Math.ceil(v.countdown), MODE, padOf(v).id].join('|') : '';
   if (key === pickKey && !force) return; pickKey = key;
   box.classList.toggle('hidden', !show);
   document.body.classList.toggle('picking', show && !pickHidden);
@@ -2057,6 +2118,11 @@ function syncPicker(force) {
   document.getElementById('mpShort').textContent = cur === 'none' ? 'Free flight' : MISSION[cur].tag === 'Land' ? 'Luna landing' : MISSION[cur].tag === 'Luna' ? 'Luna orbit' : MISSION[cur].tag;
   document.getElementById('mpBlurb').textContent = cur === 'none' ? 'No mission: fly anywhere you like. Pick one to get step-by-step help with arrows.' : MISSION[cur].blurb + ' Arrows and short steps will show you how.';
   document.getElementById('mpToggle').textContent = pickHidden ? 'Show' : 'Hide';
+  const pad = padOf(v);
+  box.querySelectorAll('[data-act^="pad:"]').forEach(b => { b.classList.toggle('sel', b.dataset.act === 'pad:' + pad.id); b.classList.toggle('dim', !v.hold); });
+  document.getElementById('mpPadName').textContent = pad.name;
+  document.getElementById('mpPadShort').textContent = pad.short;
+  document.getElementById('mpPadBlurb').textContent = pad.blurb + (v.hold ? '' : ' (The countdown is running, so the pad is fixed now.)');
 }
 // ---- the guidance panel
 let guideKey = '';
@@ -2164,6 +2230,7 @@ function syncSettingsUi() {
   for (const [id, k] of [['setMaster', 'master'], ['setSfx', 'sfx'], ['setMusic', 'music']]) { const el = $(id); el.value = Math.round(SET[k] * 100); $(id + 'V').textContent = Math.round(SET[k] * 100) + '%'; }
   $('setSound').textContent = 'Sound: ' + (S.sound ? 'on' : 'off');
   $('setShake').textContent = 'Camera shake: ' + (SET.shake ? 'on' : 'off'); $('setShake').classList.toggle('on', !!SET.shake);
+  $('setHud').textContent = 'Flight info: ' + (hudMiniOn() ? 'short' : 'full');
 }
 function openSettings() { ensureAudio(); syncSettingsUi(); showOverlay('ovSettings'); }
 for (const [id, k] of [['setMaster', 'master'], ['setSfx', 'sfx'], ['setMusic', 'music']]) {
@@ -2188,6 +2255,7 @@ function setMode(m) {
   document.body.classList.toggle('mobile', MODE === 'mobile');
   document.body.classList.toggle('pc', MODE === 'pc');
   resize(); syncTouchUi(); layoutDirty = true;
+  syncHudMini(); if (MODE !== 'mobile') clearMobileHud();
   if (modeReturn === 'pause' && active()) openPause(); else openTitle();
 }
 function back() {
@@ -2238,7 +2306,7 @@ function openSelect() {
   const old = S.vessels.filter(v => rk(v).retired && !v.debris).length, mob = MODE === 'mobile';
   box.insertAdjacentHTML('beforeend', `<div class="selInfo"><b>What the Kestrel can do</b><ol>
       <li>Reach orbit around Terra.</li><li>Fly on to Luna and land on the upper stage's legs.</li><li>Or come home from orbit: heat shield, then parachute, for the <b>Round Trip</b> milestone.</li></ol>
-      <b>Missions (optional)</b><div style="margin:2px 0 8px">On the pad you can pick a mission (low, medium or high orbit, Luna orbit, Luna landing) and get step-by-step help with pink arrows. Or just fly free.</div>
+      <b>Missions (optional)</b><div style="margin:2px 0 8px">On the pad you can pick a mission (low, medium or high orbit, Luna orbit, Luna landing) and get step-by-step help with pink arrows. Or just fly free. You can also pick one of three launch pads: Cape Halcyon (coast, left), Prime Field (middle) or Redrock Range (desert, right).</div>
       <b>How a flight goes</b><ol><li>The rocket waits on the pad. ${mob ? 'Tap START' : 'Press Enter'} to start the 10-second countdown (${mob ? 'tap SKIP' : 'Enter again'} to go now). The clamps let go at zero.</li>
       <li>Booster empty: ${mob ? 'tap STAGE' : 'press Space'} to drop it.</li><li>Above ~45 km: drop the fairing (${mob ? 'FAIRING' : 'F'}).</li>
       <li>Upper stage to orbit, to Luna, or back down. Coming home: drop the upper stage, then open the parachute (${mob ? 'CHUTE' : 'P'}) below 250 m/s.</li></ol>
@@ -2294,6 +2362,7 @@ document.addEventListener('click', e => {
   else if (act === 'import') document.getElementById('fileIn').click();
   else if (act === 'sound') { S.sound = !S.sound; save(); syncSettingsUi(); applyVolumes(); }
   else if (act === 'settings') openSettings();
+  else if (act === 'hudMini') { setHudMini(!hudMiniOn()); syncSettingsUi(); }
   else if (act === 'shakeToggle') { SET.shake = !SET.shake; saveSettings(); syncSettingsUi(); if (!SET.shake) shake.a = 0; }
   else if (act === 'wipe') {
     if (confirm('Start a brand new world? This deletes every ship, milestone and record. (Tip: download a backup first from the in-game menu.)') && confirm('Really erase your whole world?')) {
@@ -2304,9 +2373,10 @@ document.addEventListener('click', e => {
     const v = active(); if (!v) return;
     const nr = rk(v).retired ? ROCKETS[LAUNCH_ROCKET].name : rk(v).name;
     if (!confirm('Delete ' + v.name + ' and start a fresh ' + nr + ' on the pad?')) return;
-    removeVessel(v); S.activeId = null; launch(v.rocket, v.mission);
+    removeVessel(v); S.activeId = null; launch(v.rocket, v.mission, padOf(v).id);
   }
   else if (act.startsWith('pick:')) launch(act.slice(5));
+  else if (act.startsWith('pad:')) { pickPad(act.slice(4)); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
   else if (act.startsWith('mission:')) { pickMission(act.slice(8)); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
   else if (act === 'mpToggle') { pickHidden = !pickHidden; syncPicker(true); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
   else if (act === 'endMission') { const v = active(); if (v && v.mission) { delete v.mission; delete v.guide; G_cache.key = ''; toast('Mission stopped: free flight'); save(); } closeAll(); }
@@ -2475,6 +2545,8 @@ document.querySelectorAll('#touch .tb').forEach(btn => {
   btn.addEventListener('pointerup', release); btn.addEventListener('pointercancel', release); btn.addEventListener('lostpointercapture', release);
   btn.addEventListener('click', e => e.preventDefault());
 });
+// v0.6.0: tap the flight panel on a phone to switch between full and short (saved on this device)
+document.getElementById('hudL').addEventListener('pointerdown', e => { if (MODE !== 'mobile' || paused) return; e.preventDefault(); setHudMini(!hudMiniOn()); });
 // throttle slider
 const thrEl = document.getElementById('tThr'), thrIds = new Set();
 function thrFromY(y) { const r = thrEl.getBoundingClientRect(); const pad = 6; const f = 1 - (y - r.top - pad) / Math.max(1, r.height - pad * 2); return Math.max(0, Math.min(1, f)); }
@@ -2512,10 +2584,11 @@ function updateTouchFrame(realDt) {
 // where the direction dial goes in Mobile mode (between the turn buttons and the right-hand controls)
 let dialPos = null;
 // v0.5.0: on a narrow phone held upright (iPhone SE) the zoom buttons move into the right-hand column so the
-// bottom-left corner has room for the turn buttons, the action button and STAGE side by side
+// bottom-left corner has room for the turn buttons, the action button and STAGE side by side.
+// v0.6.0: the same for every phone held upright (the compact layout uses it on all of them)
 let narrowLayout = null;
 function arrangeTouch() {
-  const narrow = MODE === 'mobile' && H > W && W <= 400;
+  const narrow = MODE === 'mobile' && H > W;
   if (narrow === narrowLayout) return; narrowLayout = narrow;
   const A = document.getElementById('tColA'), C = document.getElementById('tColC'), zi = document.getElementById('tZoomIn'), zo = document.getElementById('tZoomOut'), ce = document.getElementById('tCentre');
   if (narrow) { document.getElementById('tMap').after(ce); A.append(zi, zo); }
@@ -2526,14 +2599,118 @@ function layoutTouch() {
   layoutDirty = false; dialPos = null;
   arrangeTouch();
   if (MODE !== 'mobile') return;
-  const ll = document.getElementById('tLeft').getBoundingClientRect(), rr = document.getElementById('tRight').getBoundingClientRect(), cc = document.getElementById('tColC').getBoundingClientRect();
+  // v0.6.0: the dial sits at the bottom, in the gap between the left-hand buttons and the right-hand ones
+  const rr = document.getElementById('tRight').getBoundingClientRect(), cc = document.getElementById('tColC').getBoundingClientRect(), cb = document.getElementById('tColB').getBoundingClientRect();
   const xb = document.getElementById('tCtx').getBoundingClientRect(); // reserved even while hidden (visibility only)
-  if (!rr.width || !cc.width) { layoutDirty = true; return; }
-  const sideBy = xb.width && xb.left >= rr.right - 1;
-  const x0 = (sideBy ? xb.right : rr.right) + 8, x1 = cc.left - 8;
-  const R = Math.min(46, Math.floor((x1 - x0 - 4) / 2));
-  if (R >= 34) dialPos = { x: (x0 + x1) / 2, y: H - 8 - R - 4, R };
-  else { const top = Math.min(rr.top, xb.width && !sideBy ? xb.top : rr.top), R2 = narrowLayout ? 42 : 46; dialPos = { x: (ll.left + rr.right) / 2, y: top - R2 - (narrowLayout ? 10 : 30), R: R2 }; } // narrow portrait: sit above the buttons
+  if (!rr.width || !cb.width) { layoutDirty = true; return; }
+  const port = H > W;
+  const x0 = (port ? rr.right : Math.max(rr.right, xb.right)) + 8, x1 = (port ? cb.left : Math.min(cb.left, cc.width ? cc.left : cb.left)) - 8;
+  // (on short screens a little smaller, so the Ap/Pe line above it stays below a rocket standing in the middle)
+  const R = Math.max(28, Math.min(40, Math.floor((x1 - x0 - 4) / 2), Math.floor((H / 2 - 88) / 2)));
+  // the Ap/Pe line above the dial must also clear the action button and STAGE (held upright they sit one row up)
+  const lx0 = port ? Math.max(x0, Math.max(xb.right, cc.right) + 8) : x0, cxd = (x0 + x1) / 2;
+  dialPos = { x: cxd, y: H - 8 - safeIns().b - R - 2, R, lw: 2 * Math.min(cxd - lx0, x1 - cxd) };
+}
+// v0.6.0: the phone's safe-area insets (notch, home bar) in px, read from a hidden probe
+let safeCache = null;
+function safeIns() {
+  if (safeCache && safeCache.W === W && safeCache.H === H) return safeCache;
+  let pr = document.getElementById('safeProbe');
+  if (!pr) { pr = document.createElement('div'); pr.id = 'safeProbe'; pr.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)'; document.body.appendChild(pr); }
+  const cs = getComputedStyle(pr);
+  safeCache = { W, H, t: parseFloat(cs.paddingTop) || 0, r: parseFloat(cs.paddingRight) || 0, b: parseFloat(cs.paddingBottom) || 0, l: parseFloat(cs.paddingLeft) || 0 };
+  return safeCache;
+}
+// v0.6.0: the small flight panels on a phone. Held sideways: flight numbers top-left (the mission picker takes that spot
+// on the pad), clock + countdown + guidance + messages in a strip at the top middle. Held upright: picker, clock,
+// guidance and messages at the top; the flight numbers bottom-left above the turn buttons. Anything that would reach
+// down to the rocket in the middle of the screen is kept to the left of it instead.
+const MLAY = ['hudL', 'mpick', 'clock', 'countdown', 'guide', 'mcBanner', 'toasts', 'warn', 'encounter'];
+let mlayOn = false;
+// the short flight panel is the default on phones (SET.hudMini is only stored once you change it)
+const hudMiniOn = () => SET.hudMini !== false;
+function syncHudMini() { document.body.classList.toggle('hudMini', hudMiniOn()); const m = document.getElementById('hMore'); if (m) m.innerHTML = hudMiniOn() ? '&#9662;' : '&#9652;'; }
+function setHudMini(on) { SET.hudMini = !!on; saveSettings(); syncHudMini(); layoutMobileHud(); }
+function clearMobileHud() {
+  if (!mlayOn) return; mlayOn = false;
+  for (const id of MLAY) { const st = document.getElementById(id).style; st.left = st.top = st.width = ''; }
+  document.body.classList.remove('mland', 'mport', 'hudNarrow');
+}
+function layoutMobileHud() {
+  if (MODE !== 'mobile') { clearMobileHud(); return; }
+  mlayOn = true;
+  const port = H > W, ins = safeIns(), B = document.body;
+  if (!B.classList.contains(port ? 'mport' : 'mland')) { B.classList.toggle('mport', port); B.classList.toggle('mland', !port); layoutDirty = true; }
+  if (document.getElementById('hud').classList.contains('hidden') || paused) return;
+  const el = id => document.getElementById(id);
+  const shown = e => !e.classList.contains('hidden') && getComputedStyle(e).display !== 'none';
+  const place = (e, x, y, w) => { const st = e.style, L = Math.round(x) + 'px', T = Math.round(y) + 'px'; if (st.left !== L) st.left = L; if (st.top !== T) st.top = T; if (w !== undefined) { const Wd = Math.max(60, Math.round(w)) + 'px'; if (st.width !== Wd) st.width = Wd; } };
+  const v = active(), gap = 5;
+  // keep clear of the rocket: it is drawn in the middle of the screen
+  const half = v && !S.view.map ? Math.min(H / 2 - 30, Math.max(18, lengthOf(v) * S.view.zoom / 2)) : H;
+  const rocketTop = H / 2 - half - 8, rocketL = W / 2 - 22;
+  const mp = el('mpick'), picking = shown(mp) && !mp.classList.contains('collapsed');
+  const colA = el('tColA').getBoundingClientRect(), colC = el('tColC').getBoundingClientRect(), colB = el('tColB').getBoundingClientRect();
+  const x = ins.l + 8, SW = 148;
+  // the band of small panels at the top: [x0, x1], stacking down from y
+  const band = (x0, x1, y, maxW, items) => {
+    const bw = Math.min(maxW, x1 - x0), bx = x0 + (x1 - x0 - bw) / 2;
+    for (const [e, kind] of items) {
+      if (!shown(e) || (kind === 'toasts' && !e.children.length)) continue;
+      if (kind === 'clock' || kind === 'cd') {
+        const w = e.offsetWidth; place(e, port ? bx : bx + bw / 2 - w / 2, y); y += e.offsetHeight + (kind === 'clock' ? 3 : gap); continue;
+      }
+      if (kind === 'toasts') { y = placeToasts(e, bx, bx + bw, y); continue; }
+      place(e, bx, y, bw); y += e.offsetHeight + gap;
+    }
+    return y;
+  };
+  // messages: in the strip above the rocket if they fit there, otherwise beside the rocket (the side with more room)
+  const dl = (layoutDirty ? null : dialPos), floor = dl ? dl.y - dl.R - 32 : H - 72;
+  const placeToasts = (e, x0, x1, y) => {
+    const regions = [[x0, x1, y, rocketTop], [x0, Math.min(x1, rocketL - 6), y, port ? Math.min(floor, yHudTop - gap) : floor], [Math.max(x0, rocketR + 6), x1, y, port ? Math.min(floor, colB.top - gap) : floor]];
+    if (!port) regions.push([x, x + SW, yStack, H - 72]);
+    for (const squeeze of [false, true]) {          // second try: only the newest message
+      e.classList.toggle('squeeze', squeeze);
+      let best = null;
+      regions.forEach(([a, b, t, bot], i) => {
+        if (best && best.fit) return;
+        if (b - a < 96 || bot - t < 20) return;
+        place(e, a, t, b - a); const hgt = e.offsetHeight;
+        if (t + hgt <= bot) best = { a, b, t, fit: true, hgt };
+        else if (i > 0 && (!best || bot - t - hgt > best.room)) best = { a, b, t, room: bot - t - hgt, hgt };
+      });
+      if (best && (best.fit || squeeze)) { place(e, best.a, best.t, best.b - best.a); return best.t + e.offsetHeight + gap; }
+    }
+    return y + e.offsetHeight + gap;
+  };
+  const rocketR = W - rocketL; let yStack = ins.t + 8, yHudTop = H;
+  if (!port) {
+    let y = ins.t + 8, bandL;
+    B.classList.remove('hudNarrow');
+    if (picking) { place(mp, x, y, Math.min(270, W / 2 - 30)); bandL = x + mp.offsetWidth + 8; y += mp.offsetHeight + gap; }
+    else {
+      const hud = el('hudL'); if (shown(hud)) { place(hud, x, y, SW); y += hud.offsetHeight + gap; }
+      if (shown(mp)) { place(mp, x, y, SW); y += mp.offsetHeight + gap; }
+      bandL = x + SW + 8;
+    }
+    for (const id of ['warn', 'encounter']) { const e = el(id); if (shown(e)) { place(e, x, y, SW); y += e.offsetHeight + gap; } }
+    yStack = y;
+    const bandR = (colC.width ? Math.min(colC.left, colB.left) : colB.left) - 8;
+    band(bandL, bandR, ins.t + 8, 380, [[el('clock'), 'clock'], [el('countdown'), 'cd'], [el('guide')], [el('mcBanner')], [el('toasts'), 'toasts']]);
+  } else {
+    const x1 = colA.left - 6;
+    // flight numbers bottom-left, just above the action button / STAGE row; warnings above them
+    let yb = Math.min(el('tCtx').getBoundingClientRect().top, colC.top) - gap;
+    // on narrow phones the panel gets a little narrower so it stays left of the rocket
+    const rw = v && !S.view.map ? Math.min(60, widthOf(v) * S.view.zoom / 2) : 0, hw = Math.max(124, Math.min(SW, W / 2 - rw - 6 - x));
+    B.classList.toggle('hudNarrow', hw < SW);
+    for (const id of ['hudL', 'warn', 'encounter']) { const e = el(id); if (!shown(e)) continue; place(e, x, yb - e.offsetHeight, hw); yb -= e.offsetHeight + gap; }
+    yHudTop = yb + gap;
+    let y = ins.t + 8;
+    if (shown(mp)) { place(mp, x, y, picking ? Math.min(x1 - x, 330) : SW); y += mp.offsetHeight + gap; }
+    band(x, x1, y, 360, [[el('clock'), 'clock'], [el('countdown'), 'cd'], [el('guide')], [el('mcBanner')], [el('toasts'), 'toasts']]);
+  }
 }
 
 // ---------- Audio ----------
@@ -3016,7 +3193,7 @@ function drawBody(b, bx, by) {
         }
       }
       drawClouds(bx, by, pc, span, diag, night, tw);
-      drawPad(bx, by);
+      drawPad(bx, by, pc, span);
     }
   }
 }
@@ -3026,27 +3203,77 @@ function worldPoly(pts, fill) {
   ctx.beginPath(); pts.forEach(([x, y], i) => { const [px, py] = w2s(x, y); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); });
   ctx.closePath(); ctx.fillStyle = fill; ctx.fill();
 }
-function drawPad(bx, by) {
-  // pad sits at angle PAD_THETA; local frame: e = along surface, u = up
-  const R = BODIES.terra.R, ux = Math.cos(PAD_THETA), uy = Math.sin(PAD_THETA), ex = -uy, ey = ux;
+// v0.6.0: every launch pad is drawn the same way (concrete, tower, swinging clamps), each with its own look.
+// Only pads near the camera are drawn.
+function drawPad(bx, by, pc, span) {
+  for (const pad of PADS) if (Math.abs(angDiff(pad.theta, pc)) < span + 400 / BODIES.terra.R) drawOnePad(bx, by, pad);
+}
+// v0.6.0: the three pads on the map: a small marker on Terra's surface, with its name once Terra is big enough
+function drawPadMarkers() {
+  const rp = BODIES.terra.R * cam.z; if (rp < 25) return;
+  const v = active(), cur = v && v.parent === 'terra' && v.landed && v.countdown > 0 ? padOf(v).id : (S.pad || DEFAULT_PAD);
+  ctx.save(); ctx.font = (MODE === 'mobile' ? 10 : 11) + 'px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  for (const pad of PADS) {
+    const ux = Math.cos(pad.theta), uy = Math.sin(pad.theta), R = BODIES.terra.R;
+    const [sx, sy] = w2s(ux * R, uy * R), dx = ux * cam.c + uy * cam.s, dy = -(-ux * cam.s + uy * cam.c);      // "up" on screen at the pad
+    const sel = pad.id === cur, sz = sel ? 7 : 5.5;
+    ctx.beginPath(); ctx.moveTo(sx + dx * sz * 2.2, sy + dy * sz * 2.2); ctx.lineTo(sx - dy * sz, sy + dx * sz); ctx.lineTo(sx + dy * sz, sy - dx * sz); ctx.closePath();
+    ctx.fillStyle = sel ? '#ffd36b' : '#e8eefc'; ctx.fill(); ctx.strokeStyle = 'rgba(2,3,10,0.85)'; ctx.lineWidth = 1.2; ctx.stroke();
+    if (rp > 90) {
+      const tx = sx + dx * (sz * 2.2 + 12), ty = sy + dy * (sz * 2.2 + 12), t = pad.name;
+      const tw = ctx.measureText(t).width + 8; ctx.fillStyle = 'rgba(10,16,34,0.78)'; ctx.fillRect(tx - tw / 2, ty - 7, tw, 14);
+      ctx.fillStyle = sel ? '#ffd36b' : '#cfe0ff'; ctx.fillText(t, tx, ty + 0.5);
+    }
+  }
+  ctx.restore();
+}
+function drawOnePad(bx, by, pad) {
+  // local frame: e = along the surface, u = up
+  const R = BODIES.terra.R, ux = Math.cos(pad.theta), uy = Math.sin(pad.theta), ex = -uy, ey = ux;
   const P = (a, u) => [bx + ux * (R + u) + ex * a, by + uy * (R + u) + ey * a];
-  worldPoly([P(-14, -2), P(14, -2), P(14, 0.01), P(-14, 0.01)], '#6b7280');
+  const look = pad.look;
+  // the ground round the pad: a sandy desert patch at Redrock, a light coastal apron at Cape Halcyon
+  if (look === 'redrock') {
+    // sandy desert ground, with red rock mesas standing in it
+    worldPoly([P(-1300, -400), P(1300, -400), P(900, 0.02), P(640, 0.5), P(380, 0.9), P(-380, 0.9), P(-640, 0.5), P(-900, 0.02)], '#cfae74');
+    worldPoly([P(-330, 0.8), P(-318, 30), P(-300, 34), P(-238, 34), P(-222, 27), P(-205, 0.8)], '#b2603a'); worldPoly([P(-318, 30), P(-300, 34), P(-238, 34), P(-226, 30)], '#8c4528');
+    worldPoly([P(250, 0.8), P(262, 20), P(276, 23), P(318, 23), P(334, 0.8)], '#a9583a'); worldPoly([P(262, 20), P(276, 23), P(318, 23), P(322, 20)], '#874026');
+    worldPoly([P(-80, 0.9), P(-70, 5), P(-58, 4), P(-50, 0.9)], '#b8744a'); worldPoly([P(60, 0.9), P(66, 3), P(80, 2.6), P(88, 0.9)], '#a8643a');
+  }
+  if (look === 'cape') worldPoly([P(-60, -0.5), P(60, -0.5), P(60, 0.25), P(-60, 0.25)], '#b9b4a2');
+  const slab = look === 'redrock' ? '#8a7a66' : look === 'cape' ? '#9aa1aa' : '#6b7280';
+  worldPoly([P(-14, -2), P(14, -2), P(14, 0.01), P(-14, 0.01)], slab);
   worldPoly([P(-14, -2), P(14, -2), P(14, -1.4), P(-14, -1.4)], '#4b5563');
-  worldPoly([P(10, 0), P(12, 0), P(12, 34), P(10, 34)], '#9aa3ad');
-  for (let h = 4; h < 34; h += 6) worldPoly([P(8, h), P(10, h), P(10, h + 0.6), P(8, h + 0.6)], '#c04040');
+  if (look === 'redrock') worldPoly([P(-4, -2.2), P(4, -2.2), P(4, 0.02), P(-4, 0.02)], '#3a3029');   // flame trench under the rocket
+  // the service tower (taller at the Cape), with coloured bands
+  const tH = look === 'cape' ? 40 : 34, tCol = look === 'redrock' ? '#7d6a5a' : look === 'cape' ? '#d6dbe2' : '#9aa3ad', band = look === 'redrock' ? '#e2672b' : look === 'cape' ? '#2f7de1' : '#c04040';
+  worldPoly([P(10, 0), P(12, 0), P(12, tH), P(10, tH)], tCol);
+  for (let h = 4; h < tH; h += 6) worldPoly([P(8, h), P(10, h), P(10, h + 0.6), P(8, h + 0.6)], band);
   // launch clamps: arms from the tower hold the rocket until T-0, then swing back
-  const held = S.vessels.find(v => v.clamped && v.landed && v.parent === 'terra');
+  const held = S.vessels.find(v => v.clamped && v.landed && v.parent === 'terra' && padOf(v) === pad);
   let reach = 0, half = 1.4;
   if (held) { reach = 1; half = widthOf(held) / 2; }
-  else if (clampAnim) { const k = (performance.now() - clampAnim.t0) / 1200; if (k < 1) { reach = 1 - k; const cv = byId(clampAnim.id); if (cv) half = widthOf(cv) / 2; } else clampAnim = null; }
+  else if (clampAnim) { const cv = byId(clampAnim.id), k = (performance.now() - clampAnim.t0) / 1200; if (cv && padOf(cv) === pad) { if (k < 1) { reach = 1 - k; half = widthOf(cv) / 2; } else clampAnim = null; } else if (!cv || k >= 1) clampAnim = null; }
   for (const hh of [5, 13, 21]) {
     const x0 = 10, x1 = x0 - (x0 - half - 0.05) * reach;
     if (x0 - x1 > 0.2) { worldPoly([P(x1, hh), P(x0, hh), P(x0, hh + 0.7), P(x1, hh + 0.7)], '#c9ced6'); worldPoly([P(x1, hh - 0.3), P(x1 + 0.4, hh - 0.3), P(x1 + 0.4, hh + 1), P(x1, hh + 1)], '#e2672b'); }
     else worldPoly([P(10, hh), P(10.6, hh), P(10.6, hh + 0.7), P(10, hh + 0.7)], '#c9ced6');
   }
   if (held) for (const sd of [-1, 1]) worldPoly([P(sd * (half + 0.9), 0), P(sd * (half - 0.1), 0), P(sd * (half - 0.1), 1.3), P(sd * (half + 0.9), 1.3)], '#e2672b'); // hold-down clamps at the base
-  worldPoly([P(-30, 0), P(-22, 0), P(-22, 6), P(-30, 6)], '#c9ced6');
-  worldPoly([P(-29, 3), P(-23, 3), P(-23, 4.5), P(-29, 4.5)], '#2f7de1');
+  if (look === 'cape') {
+    // lightning masts either side, and a round water tower for the sound-damping deluge
+    for (const a of [-24, 30]) { worldPoly([P(a - 0.3, 0), P(a + 0.3, 0), P(a + 0.15, 52), P(a - 0.15, 52)], '#c9ced6'); }
+    worldPoly([P(-44, 0), P(-43, 0), P(-43, 14), P(-44, 14)], '#9aa3ad'); worldPoly([P(-39, 0), P(-38, 0), P(-38, 14), P(-39, 14)], '#9aa3ad');
+    worldPoly([P(-45, 14), P(-37, 14), P(-36, 17), P(-37, 20), P(-45, 20), P(-46, 17)], '#e8ecf2');
+    worldPoly([P(-32, 0), P(-24, 0), P(-24, 5), P(-32, 5)], '#c9ced6'); worldPoly([P(-31, 2.6), P(-25, 2.6), P(-25, 3.8), P(-31, 3.8)], '#2f7de1');
+  } else if (look === 'redrock') {
+    // a low hangar with a rounded roof, and a fuel tank
+    worldPoly([P(-40, 0), P(-22, 0), P(-22, 5), P(-25, 7), P(-37, 7), P(-40, 5)], '#b08c62'); worldPoly([P(-34, 0), P(-28, 0), P(-28, 4), P(-34, 4)], '#5a4636');
+    worldPoly([P(20, 0), P(27, 0), P(27, 6), P(20, 6)], '#e8e2d6'); worldPoly([P(20, 2.6), P(27, 2.6), P(27, 3.3), P(20, 3.3)], '#e2672b');
+  } else {
+    worldPoly([P(-30, 0), P(-22, 0), P(-22, 6), P(-30, 6)], '#c9ced6');
+    worldPoly([P(-29, 3), P(-23, 3), P(-23, 4.5), P(-29, 4.5)], '#2f7de1');
+  }
 }
 
 // pf = outside air pressure as a fraction of sea level: the flame is tight and long in thick air, wide and soft in vacuum
@@ -3331,8 +3558,16 @@ function drawDial(v) {
     const ap = apText(v, o).toLowerCase(), pe = peText(v, o, true);
     const txt = 'Ap ' + ap + '  ·  Pe ' + pe;
     ctx.font = 'bold ' + (MODE === 'mobile' ? 10 : 12) + 'px sans-serif'; const tw = ctx.measureText(txt).width + 12;
-    ctx.fillStyle = 'rgba(10,16,34,0.8)'; ctx.fillRect(cx - tw / 2, cy - R - 20, tw, 16);
-    ctx.fillStyle = '#e8eefc'; ctx.fillText(txt, cx, cy - R - 8);
+    const room = MODE === 'mobile' && dialPos && dialPos.lw ? dialPos.lw : Infinity;
+    if (tw <= room) {
+      ctx.fillStyle = 'rgba(10,16,34,0.8)'; ctx.fillRect(cx - tw / 2, cy - R - 20, tw, 16);
+      ctx.fillStyle = '#e8eefc'; ctx.fillText(txt, cx, cy - R - 8);
+    } else {   // v0.6.0: not enough room beside the buttons (narrow phone held upright): Ap and Pe on two short lines
+      ctx.font = 'bold 9px sans-serif';
+      const l1 = 'Ap ' + ap, l2 = 'Pe ' + pe, w2 = Math.max(ctx.measureText(l1).width, ctx.measureText(l2).width) + 10;
+      ctx.fillStyle = 'rgba(10,16,34,0.8)'; ctx.fillRect(cx - w2 / 2, cy - R - 27, w2, 24);
+      ctx.fillStyle = '#e8eefc'; ctx.fillText(l1, cx, cy - R - 17); ctx.fillText(l2, cx, cy - R - 6);
+    }
   }
   ctx.restore();
 }
@@ -3424,6 +3659,7 @@ function render() {
     ctx.font = '13px sans-serif'; ctx.fillStyle = '#cfe0ff'; ctx.textAlign = 'center';
     let [px, py] = w2s(0, 0); ctx.fillText('Terra', px, py + Math.max(BODIES.terra.R * cam.z, 4) + 16);
     const [qx, qy] = w2s(L.x, L.y); if (Math.hypot(qx - px, qy - py) > 40) ctx.fillText('Luna', qx, qy + Math.max(LUNA.R * cam.z, 4) + 16); ctx.textAlign = 'left';
+    drawPadMarkers();
   }
   // ships
   for (const o of S.vessels) if (o !== v) drawVessel(o, false);
@@ -3472,7 +3708,7 @@ function updateHud() {
   $('clock').textContent = clock(S.t) + (WARPS[warpIdx] > 1 ? '   ▶▶ ' + WARPS[warpIdx] + 'x' : '');
   document.body.classList.toggle('mapview', !!S.view.map);
   $('hudL').classList.toggle('hidden', !v);
-  if (!v) { $('encounter').classList.add('hidden'); $('warn').className = 'hidden'; $('countdown').classList.add('hidden'); syncCtx(); syncPicker(); syncGuide(); return; }
+  if (!v) { $('encounter').classList.add('hidden'); $('warn').className = 'hidden'; $('countdown').classList.add('hidden'); syncCtx(); syncPicker(); syncGuide(); layoutMobileHud(); return; }
   const b = BODIES[v.parent], r = Math.hypot(v.x, v.y);
   // altitude above the ground right under the ship (on Luna that includes its hills and craters)
   const h = r - b.R - lengthOf(v) / 2 - (v.parent === 'luna' && r - b.R < 30000 ? groundUnder(v, Math.atan2(v.y, v.x)) : 0);
@@ -3525,6 +3761,7 @@ function updateHud() {
     enc.classList.remove('hidden');
     enc.textContent = 'Luna encounter in ' + fmtTime(encounter.tau) + ' · closest pass ' + (encounter.pe < 0 ? 'hits the surface!' : fmtDist(encounter.pe) + ' up');
   } else enc.classList.add('hidden');
+  layoutMobileHud();
 }
 
 // ---------- Loop ----------
@@ -3564,11 +3801,13 @@ window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, la
   // v0.5.0
   get AC() { return AC; }, get BUS() { return BUS; }, audioStats, SET, saveSettings, ENGINE_SOUNDS, engineSoundKey, get engineVoiceKey() { return engineVoice ? engineVoice.key : null; }, renderEngine, renderSfx, renderMusic, renderClimb, playSfx,
   groundH, groundUnder, lunaGround, CRATERS, sunAngle, sunElev, STAR_RULES, missionResult, openResults, upperFuelPct, fuelUsedOf, get resultsPending() { return resultsPending; }, set resultsPending(x) { resultsPending = x; },
-  shake, addShake, perf, explode, particles, dustBurst, openSettings, syncSettingsUi, get narrowLayout() { return narrowLayout; }, render, placeLanded, stepParticles, CLOUDS };
+  shake, addShake, perf, explode, particles, dustBurst, openSettings, syncSettingsUi, get narrowLayout() { return narrowLayout; }, render, placeLanded, stepParticles, CLOUDS,
+  // v0.6.0
+  PADS, PAD, padOf, padAt, pickPad, layoutMobileHud, setHudMini, safeIns, LAND, groundCheck: () => PADS.map(p => ({ id: p.id, ocean: isOcean('terra', p.theta) })) };
 
 load();
 if (rescuedShips) setTimeout(() => toast(rescuedShips + (rescuedShips > 1 ? ' ships that had' : ' ship that had') + " been thrown impossibly far by an old bug " + (rescuedShips > 1 ? 'were' : 'was') + " put back at the edge of Terra's pull", true), 600);
-document.getElementById('mpGeoSub').textContent = 'GEO · ' + fmtDistK(GEO_ALT);
+document.getElementById('mpGeoSub').innerHTML = '<span class="lg">GEO · </span>' + fmtDistK(GEO_ALT);
 openModeChoice('title'); // ask PC or Mobile every time the game opens
 requestAnimationFrame(frame);
 </script>
