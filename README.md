@@ -8,7 +8,7 @@ Click the link above and play in a browser on your PC or your phone. No download
 
 *Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
 
-## Current version: v0.7.0 (Primos: astronauts who fly for you)
+## Current version: v0.7.1 (Primos: astronauts who fly for you; fix: no extra rocket on the pads)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -283,6 +283,8 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
+
+- **v0.7.1** (bug fix: an extra rocket on the pads): pressing Launch again while a rocket was already waiting put a brand-new rocket exactly on top of the old one, so it looked like one rocket until you switched pads and found three. Now a new rocket never goes onto a pad that already has a rocket, Launch gives you back an untouched waiting rocket (no crew, no mission) instead of making another, the rocket screen has "Back to ..." buttons for rockets already waiting, a rocket can't be moved onto another rocket's pad, and leaving your rocket mid-countdown puts it back on hold. Old saves are tidied when loaded: never-launched, crew-less extra rockets are put away (with a short message); crewed ones that shared a pad move to a free pad. Rockets counting down or flying are never touched; two (or three) rockets from different pads still launch together.
 
 - **v0.7.0** (Primos):
   - **Primos**, Space Prime's astronauts: an **Astronaut Complex** with each Primo's face (drawn in code), name, job (Pilot, Engineer, Scientist), level, trait and status (Ready / Flying / Resting). Start with Nova Quill, Bram Ostrow and Lumi Sato; a new recruit joins every 3 game days; never more than **50**.

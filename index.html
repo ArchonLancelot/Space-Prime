@@ -57,6 +57,8 @@
   #ovSelect .cards { grid-template-columns: minmax(250px, 340px) 1fr; }
   .card .go { margin-top: 12px; text-align: center; padding: 9px; border-radius: 8px; background: #1f4fa8; border: 1px solid #4f86ef; font-weight: 700; }
   .card:hover .go { background: #2a63cf; }
+  #selWait { margin: 0 0 12px; padding: 8px 10px; border: 1px solid rgba(120,200,255,0.35); border-radius: 10px; background: rgba(40,80,140,0.18); font-size: 13px; color: #c3cff0; }
+  #selWait b { color: #e8eefc; } #selWait button { display: block; width: 100%; margin-top: 6px; text-align: left; white-space: normal; }
   .selInfo { font-size: 13px; color: #c3cff0; line-height: 1.55; padding: 4px 4px 0; }
   .selInfo b { color: #e8eefc; } .selInfo ol { margin: 4px 0 10px; padding-left: 20px; } .selInfo li { margin-bottom: 3px; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -484,6 +486,7 @@
 <div id="ovSelect" class="overlay hidden">
   <div class="box panel">
     <h2>Choose your rocket</h2>
+    <div id="selWait" class="hidden"></div>
     <div class="cards" id="rocketCards"></div>
     <div style="margin-top:16px"><button class="ghost" data-act="back">Back</button><button class="mobile-only" data-act="pick:kestrel" id="selLaunch">Launch Kestrel &#9654;</button></div>
   </div>
@@ -688,7 +691,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.7.0';
+const VERSION = '0.7.1';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -785,7 +788,7 @@ const WARPS = [1, 2, 4, 10, 50, 100, 1000, 10000, 100000];
 // ---------- State (this whole object is the save) ----------
 function freshState() {
   return { v: 1, t: 0, activeId: null, nextId: 1, vessels: [], milestones: {},
-    stats: { flights: 0, count: {}, maxAlt: 0, maxSpeed: 0, crashes: 0, landings: 0, splashdowns: 0, softest: 0 },
+    stats: { flights: 0, count: {}, maxAlt: 0, maxSpeed: 0, crashes: 0, landings: 0, splashdowns: 0, softest: 0, pads071: 1 },
     view: { zoom: 4, mapZoom: 2.5e-5, map: false, panX: 0, panY: 0 }, sound: true, savedAt: 0 };
 }
 let S = freshState();
@@ -886,10 +889,10 @@ function placeLanded(v) {
   v.vx = 0; v.vy = 0; v.ang = v.theta; v.angVel = 0;
 }
 
-function newVessel(rid, padId) {
+function newVessel(rid, padId, reuse) {
   const r = ROCKETS[rid], pad = padById(padId);
-  S.stats.count[rid] = (S.stats.count[rid] || 0) + 1;
-  const v = { id: S.nextId++, name: r.name + ' ' + S.stats.count[rid], rocket: rid,
+  if (reuse) removeVessel(reuse); else S.stats.count[rid] = (S.stats.count[rid] || 0) + 1;   // v0.7.1: reuse = an untouched rocket that was already waiting: same name, fresh rocket
+  const v = { id: reuse ? reuse.id : S.nextId++, name: reuse ? reuse.name : r.name + ' ' + S.stats.count[rid], rocket: rid,
     parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel),
     parent: 'terra', x: 0, y: 0, vx: 0, vy: 0, ang: pad.theta, angVel: 0, throttle: 0, sas: true,
     landed: true, theta: pad.theta, debris: false, visitedLuna: false, launched: false, maxAlt: 0, born: S.t, pad: pad.id };
@@ -971,7 +974,7 @@ function serializeSave() { S.savedAt = Date.now(); return JSON.stringify(S); }
 function validSave(o) { return !!(o && o.v === 1 && Array.isArray(o.vessels) && typeof o.t === 'number'); }
 // Turn a parsed save object into the live world, filling in any fields an older save lacks.
 function applySave(o) {
-  const f = freshState();
+  const f = freshState(), before071 = !(o.stats && o.stats.pads071);   // v0.7.1: a save made before v0.7.1 may hold extra rockets left on the pads
   S = Object.assign(f, o);
   S.view = Object.assign(freshState().view, o.view || {});
   S.stats = Object.assign(freshState().stats, o.stats || {});
@@ -993,6 +996,8 @@ function applySave(o) {
   if (!(S.stats.maxSpeed < 1e5)) S.stats.maxSpeed = 0;
   // v0.7.0: the Astronaut Complex (S.stats.crew) and who rides in which ship (v.crew); older saves get the 3 starter Primos
   ensureCrew();
+  tidyPads(before071);   // v0.7.1
+  S.stats.pads071 = 1;   // (inside stats: the top-level save fields stay the same as v0.1.0)
 }
 let rescuedShips = 0;
 const FAR_LIMIT = 1e13; // 10 billion km: nothing in the game can honestly get further than this
@@ -1674,26 +1679,42 @@ function launch(rid, mission, padId) {
   if (!ROCKETS[rid] || ROCKETS[rid].retired) rid = LAUNCH_ROCKET; // retired rockets can't be launched any more
   const old = active(); if (old && old.primo !== 'auto') old.throttle = 0;
   if (padId && PAD[padId]) S.pad = padId;               // v0.6.0: the chosen pad is remembered for the next launch
+  parkLeft(old);   // v0.7.1: your own rocket you leave before its engines light goes back to holding at T-10
   // v0.7.0: a pad is busy until the rocket on it has climbed clear; then the new rocket goes to a free pad
-  let usePad = padById(S.pad).id;
-  const leaving = old && old.primo !== 'auto' ? old : null;   // your own rocket you are leaving stops its countdown
-  const busy = padBusyBy(usePad, leaving);
-  if (busy) {
-    const free = PADS.find(p => !padBusyBy(p.id, leaving));
-    if (!free) { toast('Every launch pad is busy right now: wait a few seconds until a rocket has climbed clear'); return; }
-    toast(padById(usePad).name + ' is busy (' + busy.name + ' is lifting off), so your rocket goes to ' + free.name); usePad = free.id;
+  // v0.7.1: a rocket waiting on a pad also keeps it taken (before, a new rocket was put right on top of it, hidden), and
+  // if you already have an untouched rocket waiting (never started, no crew, no mission) you get that one back instead of an extra rocket
+  let usePad = padById(S.pad).id, note = '', tail = '';
+  let spare = [old, waitingAt(usePad)].concat(S.vessels).find(v => v && untouchedHold(v) && v.rocket === rid) || null;
+  if (spare) {
+    for (const o of S.vessels.slice()) if (o !== spare && o.id !== S.activeId && untouchedHold(o)) { releaseCrew(o, 'home'); removeVessel(o); }   // (leftovers from v0.7.0)
+    if (padTakenBy(usePad, spare)) { const at = padAtV(spare); usePad = at && !padTakenBy(at.id, spare) ? at.id : (PADS.find(p => !padTakenBy(p.id, spare)) || {}).id; }
+    if (!usePad) { toast('Every launch pad is busy right now: wait a few seconds until a rocket has climbed clear'); return; }
+  } else {
+    const taken = padTakenBy(usePad);
+    if (taken) {
+      const free = PADS.find(p => !padTakenBy(p.id));
+      if (!free) {
+        const mine = PADS.map(p => waitingAt(p.id)).find(w => w && w.hold && w.id !== S.activeId && (w.id === (waitingAt(usePad) || {}).id)) || PADS.map(p => waitingAt(p.id)).find(w => w && w.hold && w.id !== S.activeId);
+        if (mine) { S.activeId = mine.id; S.view.map = false; warpIdx = 0; snapCam = true; save(); closeAll(); syncPicker(true); toast('Every launch pad already has a rocket on it, so here is ' + mine.name + ', waiting on ' + padOf(mine).name + '. ' + keyHint('Press Enter', 'Tap START') + ' when you are ready.'); return; }
+        toast('Every launch pad is busy right now: wait a few seconds until a rocket has climbed clear'); return;
+      }
+      note = ' (' + padById(usePad).name + (taken.hold && waitingOnPad(taken) ? ' already has ' + taken.name + ' waiting on it' : ' is busy: ' + taken.name + (waitingOnPad(taken) ? ' is counting down' : ' is lifting off')) + ')'; usePad = free.id;
+    }
+    if (old && old.hold && waitingOnPad(old) && old !== taken) note += ' (' + old.name + ' stays on ' + padOf(old).name + ')';
+    if (old && old.hold && waitingOnPad(old)) tail = ' Flights takes you back to ' + old.name + '.';
   }
-  const v = newVessel(rid, usePad);
+  const v = newVessel(rid, usePad, spare);
   if (mission && MISSION[mission]) { v.mission = mission; v.guide = {}; }
   pickHidden = false;
   v.countdown = COUNTDOWN; v.hold = true; v.clamped = true; v.ignited = false; liftoffShow = 0; clampAnim = null;
   S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
-  camRot = v.theta - Math.PI / 2; snapCam = true;
-  save(); closeAll(); toast(v.name + ' is on the pad at ' + padOf(v).name + ', clock holding at T-10. ' + (MODE === 'mobile' ? 'Tap START to begin the countdown.' : 'Press Enter to start the countdown.'));
+  camRot = v.theta - Math.PI / 2; snapCam = true; if (spare) { G_cache.delete(v.id); apGuides.delete(v.id); }
+  save(); closeAll(); toast(v.name + ' is on the pad at ' + padOf(v).name + (spare ? ' (the rocket you already had waiting, no extra one)' : note) + ', clock holding at T-10. ' + (MODE === 'mobile' ? 'Tap START to begin the countdown.' : 'Press Enter to start the countdown.') + tail);
 }
 
 function flyVessel(id) {
   const old = active(); if (old && old.id !== id && old.primo !== 'auto') old.throttle = 0;
+  if (old && old.id !== id) parkLeft(old);   // v0.7.1
   S.activeId = id; warpIdx = 0; snapCam = true; save(); closeAll();
 }
 
@@ -2203,6 +2224,13 @@ function pickPad(id) {
   const v = active(), onPad = !!(v && v.landed && v.countdown > 0 && v.parent === 'terra' && !v.launched);
   if (onPad && !v.hold) { toast('The countdown is running: pick the pad before you start it'); return false; }
   const busy = padBusyBy(id); if (busy && busy !== v) { toast(PAD[id].name + ' is busy: ' + busy.name + ' is lifting off from it'); return false; }
+  // v0.7.1: never two rockets on one pad. An untouched rocket left there (never started, no crew, no mission) is put away;
+  // a rocket you set up (crew or mission) keeps the pad
+  const wait = onPad && v.pad !== id ? waitingAt(id, v) : null;
+  if (wait) {
+    if (wait.id !== S.activeId && untouchedHold(wait)) { releaseCrew(wait, 'home'); removeVessel(wait); toast('An unused ' + wait.name + ' was standing on ' + PAD[id].name + ': put away'); }
+    else { toast(PAD[id].name + ' already has ' + wait.name + ' waiting on it: pick another pad (Flights shows every ship)'); return false; }
+  }
   S.pad = id;
   if (onPad && v.pad !== id) {
     v.pad = id; v.theta = PAD[id].theta; placeLanded(v); clampAnim = null;
@@ -2405,6 +2433,11 @@ function openTitle() {
   showOverlay('ovTitle');
 }
 function openSelect() {
+  { // v0.7.1: your rockets already waiting on the pads: go back to one instead of making another
+    const ws = S.vessels.filter(v => waitingOnPad(v) && v.hold && !rk(v).retired), el = document.getElementById('selWait');
+    el.classList.toggle('hidden', !ws.length);
+    el.innerHTML = ws.length ? '<b>Already waiting on the pads:</b>' + ws.map(v => '<button class="ghost" data-act="fly:' + v.id + '">Back to ' + esc(v.name) + ' · ' + esc(padOf(v).name) + ' · ' + esc(missionLabel(v.mission)) + (v.crew && v.crew.length ? ' · ' + esc(crewOf(v).map(firstName).join(', ')) : '') + '</button>').join('') + '<small>Launch below for another rocket on a free pad' + (ws.some(untouchedHold) ? ' (an untouched waiting rocket is reused, not doubled)' : '') + '.</small>' : '';
+  }
   const box = document.getElementById('rocketCards'); box.innerHTML = '';
   for (const r of Object.values(ROCKETS)) {
     if (r.retired) continue;
@@ -4348,6 +4381,43 @@ function padBusyBy(padId, ignore) {
   const p = PAD[padId]; if (!p) return null;
   return S.vessels.find(v => v !== ignore && !v.debris && v.parent === 'terra' && Math.abs(angDiff(Math.atan2(v.y, v.x), p.theta)) < 6000 / BODIES.terra.R &&
     (v.landed ? (v.countdown > 0 && !v.hold && (v.primo === 'auto' || v.id === S.activeId)) || (v.launched && v.ignited && hasThrust(v)) : (v.launched && Math.hypot(v.x, v.y) - BODIES.terra.R < 3000))) || null;
+}
+
+// ---- v0.7.1: rockets waiting on the pads. Never two rockets on one pad, and no forgotten rockets
+const PAD_NEAR = 6000 / BODIES.terra.R;
+function padAtV(v) { if (!v || v.debris || v.parent !== 'terra') return null; const a = v.landed && isFinite(v.theta) ? v.theta : Math.atan2(v.y, v.x); return PADS.find(p => Math.abs(angDiff(a, p.theta)) < PAD_NEAR) || null; }
+function waitingOnPad(v) { return !!(v && !v.debris && v.parent === 'terra' && v.landed && v.countdown > 0 && !v.launched); }
+function waitingAt(padId, ignore) { return S.vessels.find(v => v !== ignore && waitingOnPad(v) && (padAtV(v) || {}).id === padId) || null; }
+function padTakenBy(padId, ignore) { return padBusyBy(padId, ignore) || waitingAt(padId, ignore); }
+// your rocket still waiting at T-10 that was never started and has nothing chosen for it (no crew, no mission)
+function untouchedHold(v) { return !!(waitingOnPad(v) && (v.hold || v.countdown >= COUNTDOWN) && !v.ignited && typeof v.launchT !== 'number' && !(v.crew && v.crew.length) && !v.mission && v.primo !== 'auto' && ROCKETS[v.rocket] && !ROCKETS[v.rocket].retired); }
+// your own rocket you leave before its engines are lit stops its countdown and holds at T-10 again (it used to freeze half-way)
+function parkLeft(v) { if (v && v.primo !== 'auto' && waitingOnPad(v) && !v.ignited && !v.hold) { v.hold = true; v.countdown = COUNTDOWN; } }
+// loading a save: v0.7.0 could leave extra rockets standing on the pads (often hidden right under another rocket).
+// Put away rockets that were never started, have no crew and are not the one you are flying, when nothing was chosen for
+// them, they stand on the same pad as another rocket, or the save is from before v0.7.1 (any crew is released, Ready again);
+// a rocket you set up with a crew that shares a pad moves to a free pad.
+function tidyPads(oldSave) {
+  const gone = [];
+  for (const v of S.vessels) if (v.primo !== 'auto' && v.id !== S.activeId && waitingOnPad(v) && !v.ignited && !v.hold && typeof v.launchT !== 'number') { v.hold = true; v.countdown = COUNTDOWN; }
+  const stray = v => v.id !== S.activeId && waitingOnPad(v) && v.hold && !v.ignited && typeof v.launchT !== 'number' && !(v.crew && v.crew.length) && v.primo !== 'auto' && ROCKETS[v.rocket] && !ROCKETS[v.rocket].retired;
+  const put = v => { releaseCrew(v, 'home'); removeVessel(v); gone.push(v.name); };
+  // (a save from before v0.7.1 can't tell a forgotten rocket from a set-up one, so there every one of them goes)
+  for (const v of S.vessels.slice()) if (stray(v) && (!v.mission || oldSave)) put(v);
+  for (const p of PADS) {
+    const on = S.vessels.filter(v => waitingOnPad(v) && (padAtV(v) || {}).id === p.id);
+    if (on.length < 2) continue;
+    const rank = v => (v.id === S.activeId ? 0 : !v.hold || v.ignited ? 1 : v.crew && v.crew.length ? 2 : 3);
+    on.sort((a, b) => rank(a) - rank(b) || b.id - a.id);
+    for (const v of on.slice(1)) {
+      if (stray(v)) { put(v); continue; }
+      if (!v.hold || v.ignited) continue;
+      const free = PADS.find(q => !waitingAt(q.id, v));   // (a rocket still climbing away from a pad does not matter here)
+      if (free) { v.pad = free.id; v.theta = free.theta; placeLanded(v); }
+    }
+  }
+  if (gone.length) setTimeout(() => toast('Tidied the launch pads: put away ' + gone.length + ' extra rocket' + (gone.length > 1 ? 's' : '') + ' that ' + (gone.length > 1 ? 'were' : 'was') + ' never launched (' + gone.join(', ') + ')'), 400);
+  return gone;
 }
 
 // ---- faces, drawn in code (no image files): skin tone, hair colour and style, suit colour, eyes
