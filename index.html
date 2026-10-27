@@ -318,6 +318,7 @@
   body.mobile #ovSettings .setBtns button { font-size: 14px; padding: 8px 12px; }
   body.mobile #ovSettings .setRow > label { flex: 0 0 34%; } body.mobile #ovSettings .setRow input[type=range] { flex: 1 1 auto; min-width: 0; margin: 0; }
   /* ---------- v0.7.0: Primos ---------- */
+  .toast.warn { color: #ffcf8a; border-color: rgba(255, 159, 67, 0.75); background: rgba(70, 34, 10, 0.92); font-weight: 600; animation-duration: 7s; }   /* v0.7.2 */
   .toast.radio { color: #bfe8ff; border-color: rgba(94, 200, 255, 0.55); font-style: italic; }
   #mpick .mpPadRow { display: block; }
   #mpick #mpCrew { margin: 6px 0 0; width: 100%; text-align: left; padding: 5px 8px; background: rgba(40, 120, 90, 0.55); border-color: #5ef08a; display: flex; flex-direction: column; line-height: 1.2; }
@@ -572,13 +573,16 @@
       <tr><td><b>Map</b></td><td>Map view. Drag with one finger to move around, <b>Centre</b> to recentre.</td></tr>
       <tr><td><b>Warp + / &minus;</b></td><td>Speed up / slow down time (limited when low or burning)</td></tr>
       <tr><td><b>Pinch</b> or <b>+ / &minus;</b></td><td>Zoom</td></tr>
+      <tr><td><b>TAKE</b> / <b>PRIMO</b></td><td>When a Primo Pilot is flying: <b>TAKE</b> to fly it yourself, <b>PRIMO</b> to hand it back</td></tr>
+      <tr><td><b>Flights</b> (with a number)</td><td>Every ship in flight: tap one to jump to it</td></tr>
       <tr><td><b>&#9776; Menu</b></td><td>Tracking station, new rocket, restart, settings (sound, music, shake), backups, switch to PC controls</td></tr>
     </table>
     <table class="pc-only">
-      <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Throttle up / down (hold)</td></tr>
+      <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Throttle up / down (hold). <kbd>Shift</kbd> also throttles up</td></tr>
       <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Full throttle / cut engine</td></tr>
       <tr><td><kbd>A</kbd> / <kbd>D</kbd> (or arrows)</td><td>Turn left / right</td></tr>
       <tr><td><kbd>Enter</kbd></td><td>On the pad: start the countdown. Press it again during the countdown to launch now</td></tr>
+      <tr><td><kbd>1</kbd>&ndash;<kbd>5</kbd>, <kbd>0</kbd></td><td>On the pad: pick a mission (0 = free flight)</td></tr>
       <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule)</td></tr>
       <tr><td><kbd>F</kbd></td><td>Drop the fairing (the nose cover over the capsule)</td></tr>
       <tr><td><kbd>P</kbd></td><td>Open the parachute (only below 250 m/s, or it tears)</td></tr>
@@ -586,6 +590,9 @@
       <tr><td><kbd>M</kbd></td><td>Map view. Drag to move around, <kbd>C</kbd> to recentre.</td></tr>
       <tr><td><kbd>,</kbd> / <kbd>.</kbd></td><td>Slow down / speed up time (limited when low or burning)</td></tr>
       <tr><td>Mouse wheel</td><td>Zoom</td></tr>
+      <tr><td><kbd>O</kbd></td><td>Primo Pilot: take over the ship / hand it back to the Pilot</td></tr>
+      <tr><td><kbd>L</kbd></td><td>Flights: every ship in flight, jump to any of them</td></tr>
+      <tr><td><kbd>H</kbd></td><td>This help</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>Menu: tracking station, new rocket, restart, settings (sound, music, shake), backups</td></tr>
     </table>
     <h3>Launching</h3>
@@ -606,6 +613,11 @@
     along your direction of travel (the green marker) until your orbit stretches out to Luna. A purple
     "Luna encounter" box appears when you'll arrive. Near Luna, burn backwards (red marker) to slow down, then land on the upper stage's legs:
     under 8 m/s, standing upright. There's no air on Luna, so no parachute there.
+    Getting back home from Luna's surface is possible only if you land with plenty of fuel left in the upper stage (roughly 15&ndash;20% or more). Primo crews ride the shuttle home, by design.
+    <h3>Primos: your astronauts</h3>
+    The <b>Astronaut Complex</b> (title screen or Tracking Station) lists your Primos: Pilots, Engineers and Scientists, with their level and whether they're Ready, Flying or Resting. A new one joins every 3 game days.
+    On the pad, tap <b>Crew</b> in the mission panel to seat up to 3. A <b>Pilot</b> flies the whole mission for you after you give the go; <span class="pc-only">press <kbd>O</kbd></span><span class="mobile-only">tap <b>TAKE</b></span> to fly it yourself and <span class="pc-only"><kbd>O</kbd> again</span><span class="mobile-only"><b>PRIMO</b></span> to hand it back.
+    Engineers save fuel, Scientists run experiments. Nobody dies: after a crash the crew rest a few days. <b>Flights</b> (<span class="pc-only"><kbd>L</kbd></span><span class="mobile-only">the Flights button</span>) shows every ship in flight.
     <h3>Coming home to Terra</h3>
     From orbit, point backwards (red marker) and burn until your <b>Periapsis</b> is about 25&ndash;35 km. Then drop the upper stage so only the capsule is left.
     Keep the capsule's dark heat shield (its bottom) facing the way you're moving; the capsule tends to swing that way by itself in the air.
@@ -636,7 +648,7 @@
     <table>
       <tr><td><b>Low orbit</b></td><td>fuel: at least 60% left in the upper stage &middot; neat: highest and lowest point no more than 15 km apart</td></tr>
       <tr><td><b>Medium orbit</b></td><td>fuel: at least 33% &middot; neat: no more than 300 km apart</td></tr>
-      <tr><td><b>High orbit</b></td><td>fuel: at least 28% &middot; neat: no more than 1,221 km apart</td></tr>
+      <tr><td><b>High orbit</b></td><td>fuel: at least 28% &middot; neat: no more than 400 km apart</td></tr>
       <tr><td><b>Luna orbit</b></td><td>fuel: at least 30% &middot; neat: lowest and highest point both between 50 and 200 km</td></tr>
       <tr><td><b>Luna landing</b></td><td>fuel: at least 10% &middot; neat: touch down at 3 m/s or slower</td></tr>
     </table>
@@ -691,7 +703,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.7.1';
+const VERSION = '0.7.2';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -970,7 +982,8 @@ function clock(t) {
 // clamped, splashed, reachedOrbit, roundTrip, hints; stats: splashdowns, softest), so v0.1.0 / v0.2.0 saves load as they are.
 // v0.3.1 adds two more optional vessel fields: hold (clock holding on the pad) and deep (past the edge of Terra's pull).
 // The PC/Mobile choice is deliberately NOT saved.
-function serializeSave() { S.savedAt = Date.now(); return JSON.stringify(S); }
+// v0.7.2: S.savedAt only changes after the browser really stored the world (see saveGame)
+function serializeSave() { const prev = S.savedAt; S.savedAt = Date.now(); try { return JSON.stringify(S); } finally { S.savedAt = prev; } }
 function validSave(o) { return !!(o && o.v === 1 && Array.isArray(o.vessels) && typeof o.t === 'number'); }
 // Turn a parsed save object into the live world, filling in any fields an older save lacks.
 function applySave(o) {
@@ -1015,12 +1028,144 @@ function rescueFar(v) {
   v.angVel = 0; if (!isFinite(v.ang)) v.ang = dir;
   return true;
 }
+// v0.7.2: never write a broken world over a good save, only mark the world saved when the write really worked,
+// and say so once if this browser refuses to store it (private mode, storage full, ...)
+let saveFailed = false, saveWarned = false, loadProblem = null;
+function worldLooksOk(w) {
+  return !!(validSave(w) && w.stats && typeof w.stats === 'object' && w.vessels.every(v => v && ROCKETS[v.rocket] && Array.isArray(v.parts) && Array.isArray(v.fuel) && BODIES[v.parent]));
+}
 function saveGame() {
-  try { localStorage.setItem(SAVE_KEY, serializeSave()); return true; } catch (e) { console.warn('save failed', e); return false; }
+  if (loadProblem && loadProblem.keep) return false;   // the stored save could not be loaded: don't overwrite it until the player starts over or imports a backup
+  if (!worldLooksOk(S)) { console.warn('save skipped: the world looks broken'); return false; }
+  const at = Date.now(), prev = S.savedAt;
+  try {
+    S.savedAt = at; const txt = JSON.stringify(S);
+    localStorage.setItem(SAVE_KEY, txt);
+    saveFailed = false; return true;
+  } catch (e) {
+    S.savedAt = prev; saveFailed = true; console.warn('save failed', e);
+    if (!saveWarned) { saveWarned = true; try { toast("Couldn't save your world: this browser refused to store it (private mode or full storage?). Use Menu → Download backup to keep it.", true, 'warn'); } catch (e2) { } }
+    return false;
+  }
+}
+// v0.7.2: check and tidy a save on a COPY first; only a save that fully loads replaces the live world.
+// Returns true, or false (the live world is left exactly as it was).
+const num = (x, d) => (typeof x === 'number' && isFinite(x) ? x : d);
+function normaliseSave(o) {
+  if (!validSave(o)) throw new Error('not a Space Prime save');
+  o.t = Math.max(0, num(o.t, 0));
+  if (!o.stats || typeof o.stats !== 'object' || Array.isArray(o.stats)) o.stats = {};
+  const st = o.stats;
+  for (const k of ['flights', 'maxAlt', 'maxSpeed', 'crashes', 'landings', 'splashdowns', 'softest']) if (k in st) st[k] = Math.max(0, num(st[k], 0));
+  if (!st.count || typeof st.count !== 'object' || Array.isArray(st.count)) st.count = {};
+  for (const k of Object.keys(st.count)) st.count[k] = Math.max(0, Math.floor(num(st.count[k], 0)));
+  if ('missions' in st && (!st.missions || typeof st.missions !== 'object' || Array.isArray(st.missions))) delete st.missions;
+  if (st.missions) for (const k of Object.keys(st.missions)) {
+    const r = st.missions[k];
+    if (!r || typeof r !== 'object' || !MISSION[k]) { delete st.missions[k]; continue; }
+    r.count = Math.max(0, Math.floor(num(r.count, 0)));
+    if (r.best !== undefined && (!r.best || typeof r.best !== 'object')) delete r.best;
+    if (r.best) for (const b of Object.keys(r.best)) if (typeof r.best[b] !== 'number' || !isFinite(r.best[b])) delete r.best[b];
+    if (r.lastRes !== undefined && (!r.lastRes || typeof r.lastRes !== 'object')) delete r.lastRes;
+  }
+  if (st.crew !== undefined) {
+    const C = st.crew;
+    if (!C || typeof C !== 'object' || !Array.isArray(C.list)) delete st.crew;
+    else {
+      C.list = C.list.filter(p => p && typeof p === 'object' && typeof p.id === 'number' && isFinite(p.id) && JOBS[p.job]);
+      const seen = new Set(); C.list = C.list.filter(p => !seen.has(p.id) && seen.add(p.id));
+      for (const p of C.list) {
+        if (typeof p.name !== 'string' || !p.name.trim()) p.name = 'Primo ' + p.id;
+        if (!p.face || typeof p.face !== 'object') p.face = {};
+        for (const k of ['skin', 'hair', 'style', 'suit', 'eye']) p.face[k] = Math.max(0, Math.floor(num(p.face[k], 0)));
+        p.xp = Math.max(0, num(p.xp, 0)); p.missions = Math.max(0, num(p.missions, 0)); p.injuries = Math.max(0, num(p.injuries, 0));
+        p.restUntil = num(p.restUntil, 0); p.joined = num(p.joined, 0);
+        if (typeof p.ship !== 'number') p.ship = null;
+      }
+      if (!Array.isArray(C.log)) C.log = []; C.log = C.log.filter(e => e && typeof e === 'object');
+      if (!C.places || typeof C.places !== 'object' || Array.isArray(C.places)) C.places = {};
+      if (!(num(C.nextId, 0) > 0)) delete C.nextId;
+    }
+  }
+  if (!o.milestones || typeof o.milestones !== 'object' || Array.isArray(o.milestones)) o.milestones = {};
+  for (const k of Object.keys(o.milestones)) if (typeof o.milestones[k] !== 'number' || !isFinite(o.milestones[k])) delete o.milestones[k];
+  if (!o.view || typeof o.view !== 'object' || Array.isArray(o.view)) o.view = {};
+  const fv = freshState().view;
+  for (const k of ['zoom', 'mapZoom', 'panX', 'panY']) if (k in o.view) o.view[k] = num(o.view[k], fv[k]);
+  if (!(o.view.zoom > 0)) o.view.zoom = fv.zoom; if (!(o.view.mapZoom > 0)) o.view.mapZoom = fv.mapZoom;
+  o.view.map = !!o.view.map;
+  if ('sound' in o) o.sound = o.sound !== false;
+  o.savedAt = num(o.savedAt, 0);
+  // ships: every field the game reads gets a sane value; a ship that can't be made sane is dropped
+  const ids = new Set(); let maxId = 0;
+  const ships = [];
+  for (const v of o.vessels) {
+    if (!v || typeof v !== 'object' || Array.isArray(v) || !ROCKETS[v.rocket]) continue;
+    const stg = ROCKETS[v.rocket].stages;
+    if (!Array.isArray(v.parts)) continue;
+    const parts = []; for (const i of v.parts) if (Number.isInteger(i) && i >= 0 && i < stg.length && !parts.includes(i)) parts.push(i);
+    if (!parts.length) continue; if (parts.length !== v.parts.length) v.parts = parts;
+    const launched = !!v.launched;
+    const fuel = Array.isArray(v.fuel) ? v.fuel : [];
+    const okFuel = Array.isArray(v.fuel) && v.fuel.length === stg.length && v.fuel.every((f, i) => typeof f === 'number' && f >= 0 && f <= stg[i].fuel);
+    if (!okFuel) v.fuel = stg.map((s0, i) => { const f = fuel[i]; return typeof f === 'number' && isFinite(f) ? Math.max(0, Math.min(s0.fuel, f)) : (launched ? 0 : s0.fuel); });
+    if (typeof v.id !== 'number' || !isFinite(v.id) || ids.has(v.id)) v.id = null; else { ids.add(v.id); maxId = Math.max(maxId, v.id); }
+    if (!BODIES[v.parent]) { v.parent = 'terra'; if (v.landed) v.landed = false; }
+    // (only fields that are there but broken are changed: an old save's ships keep exactly the fields they had)
+    if (typeof v.landed !== 'boolean') v.landed = !!v.landed;
+    if ('debris' in v && typeof v.debris !== 'boolean') v.debris = !!v.debris;
+    for (const k of ['x', 'y', 'vx', 'vy']) if (typeof v[k] !== 'number') v[k] = NaN;   // rescueFar() puts a ship with no real position back at the edge of Terra's pull
+    if (!(typeof v.ang === 'number' && isFinite(v.ang))) v.ang = 0;
+    if ('angVel' in v && !(typeof v.angVel === 'number' && isFinite(v.angVel))) v.angVel = 0;
+    if (!(typeof v.throttle === 'number' && v.throttle >= 0 && v.throttle <= 1)) v.throttle = Math.max(0, Math.min(1, num(v.throttle, 0)));
+    for (const k of ['maxAlt', 'born', 'heat']) if (k in v && !(typeof v[k] === 'number' && isFinite(v[k]))) v[k] = 0;
+    if (v.landed && !(typeof v.theta === 'number' && isFinite(v.theta) && isFinite(v.x) && isFinite(v.y))) {
+      if (typeof v.theta !== 'number' || !isFinite(v.theta)) { const a = Math.atan2(num(v.y, 0), num(v.x, 0)); v.theta = isFinite(a) ? a : PADS[0].theta; }
+      placeLanded(v);
+    }
+    if ('countdown' in v && !(typeof v.countdown === 'number' && v.countdown >= 0)) v.countdown = Math.max(0, num(v.countdown, 0));
+    if ('impact' in v && !(typeof v.impact === 'number' && v.impact >= 0)) v.impact = Math.max(0, num(v.impact, 0));
+    if (typeof v.name !== 'string' || !v.name) v.name = ROCKETS[v.rocket].name;
+    if (v.crew !== undefined && !Array.isArray(v.crew)) delete v.crew;
+    if (Array.isArray(v.crew)) v.crew = v.crew.filter(id => typeof id === 'number');
+    for (const k of ['guide', 'ap', 'sci', 'hints', 'lastRes']) if (v[k] !== undefined && (!v[k] || typeof v[k] !== 'object' || Array.isArray(v[k]))) { if (k === 'hints') v.hints = {}; else delete v[k]; }
+    if (v.mission !== undefined && !MISSION[v.mission]) { delete v.mission; delete v.guide; }
+    ships.push(v);
+  }
+  let next = Math.max(num(o.nextId, 1), maxId + 1);
+  for (const v of ships) if (v.id === null) v.id = next++;
+  o.vessels = ships; o.nextId = Math.floor(next);
+  if (o.activeId !== null && !ships.some(v => v.id === o.activeId)) o.activeId = null;
+  return o;
+}
+function safeApplySave(o) {
+  const prevS = S, prevResc = rescuedShips;
+  try {
+    const copy = normaliseSave(JSON.parse(JSON.stringify(o)));
+    applySave(copy);
+    // try what every screen does with each ship before calling it loaded
+    for (const v of S.vessels) { statusOf(v); deltaV(v); massOf(v); if (!v.landed) vesselOrbit(v); crewOf(v); }
+    if (!worldLooksOk(S)) throw new Error('world still broken after loading');
+    G_cache.clear(); passCache.clear(); apGuides.clear(); resultsPending = null; resultsHeld.clear();
+    return true;
+  } catch (e) {
+    console.warn('load failed, keeping the current world', e);
+    S = prevS; rescuedShips = prevResc;
+    try { if (S.stats && S.stats.crew && Array.isArray(S.stats.crew.list)) rebuildPrimoIndex(); } catch (e2) { }
+    return false;
+  }
 }
 function loadGame() {
-  try { const raw = localStorage.getItem(SAVE_KEY); if (!raw) return false; const o = JSON.parse(raw); if (!validSave(o)) return false;
-    applySave(o); return true; } catch (e) { return false; }
+  let raw = null;
+  try { raw = localStorage.getItem(SAVE_KEY); } catch (e) { return false; }
+  if (!raw) return false;
+  let o = null; try { o = JSON.parse(raw); } catch (e) { o = null; }
+  if (o && validSave(o) && safeApplySave(o)) { loadProblem = null; return true; }
+  // v0.7.2: the stored save is damaged. A fresh world starts; a copy of the damaged save is kept (spacePrime.save.v1.damaged)
+  // before anything is saved over it, and if even that copy can't be stored, nothing is saved over it at all.
+  let kept = false; try { localStorage.setItem(SAVE_KEY + '.damaged', raw); kept = true; } catch (e) { }
+  loadProblem = { keep: !kept };
+  return false;
 }
 const save = saveGame, load = loadGame; // short names used throughout the game
 function exportSave() {
@@ -1033,13 +1178,16 @@ function exportSave() {
 document.getElementById('fileIn').addEventListener('change', e => {
   const f = e.target.files[0]; if (!f) return;
   f.text().then(txt => {
-    let o; try { o = JSON.parse(txt); } catch (err) { alert('That file is not a Space Prime save.'); return; }
-    if (!validSave(o)) { alert('That file is not a Space Prime save.'); return; }
+    let o; try { o = JSON.parse(txt); } catch (err) { importFailed('That file is not a Space Prime save.'); return; }
+    if (!validSave(o)) { importFailed('That file is not a Space Prime save.'); return; }
     if (!confirm('Replace your current world with this backup?')) return;
-    applySave(o); save(); warpIdx = 0; toast('Backup loaded'); openTitle();
-  });
+    // v0.7.2: the backup is checked on a copy first; if anything in it is broken the current world stays as it was
+    if (!safeApplySave(o)) { importFailed('That backup is damaged and could not be loaded. Your current world was not changed.'); return; }
+    loadProblem = null; save(); warpIdx = 0; toast('Backup loaded'); openTitle();
+  }).catch(err => { console.warn('import failed', err); importFailed('That backup could not be read. Your current world was not changed.'); });
   e.target.value = '';
 });
+function importFailed(msg) { toast(msg, true, 'warn'); alert(msg); }
 window.addEventListener('beforeunload', save);
 document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });
 
@@ -1055,7 +1203,7 @@ function toast(msg, big, cls) {
   const d = document.createElement('div'); d.className = 'toast panel' + (big ? ' big' : '') + (cls ? ' ' + cls : ''); d.textContent = msg;
   const box = document.getElementById('toasts'); box.appendChild(d);
   while (box.children.length > 4) box.removeChild(box.firstChild);
-  setTimeout(() => d.remove(), 4100);
+  setTimeout(() => d.remove(), cls === 'warn' ? 7100 : 4100);
   if (MODE === 'mobile') layoutMobileHud();
 }
 
@@ -1333,9 +1481,11 @@ function removeVessel(v) { S.vessels = S.vessels.filter(o => o !== v); }
 
 function onLand(v, isActive) {
   const b = BODIES[v.parent];
-  S.stats.landings++;
-  if (v.splashed) S.stats.splashdowns = (S.stats.splashdowns || 0) + 1;
-  if (v.launched && v.impact > 0.05 && (!S.stats.softest || v.impact < S.stats.softest)) S.stats.softest = v.impact;
+  if (!v.debris) {   // v0.7.2: a dropped booster coming down doesn't count as one of your landings
+    S.stats.landings++;
+    if (v.splashed) S.stats.splashdowns = (S.stats.splashdowns || 0) + 1;
+    if (v.launched && v.impact > 0.05 && (!S.stats.softest || v.impact < S.stats.softest)) S.stats.softest = v.impact;
+  }
   if (v.parent === 'luna') {
     const first = !v.visitedLuna; v.visitedLuna = true;
     let mc = false;
@@ -1409,7 +1559,7 @@ function update(realDt) {
   if (!paused) primoTick();
   const allowed = Math.min(maxWarpFor(av), primoWarpCap());
   { const w0 = warpIdx; while (warpIdx > 0 && WARPS[warpIdx] > allowed) { warpIdx--; if (performance.now() - lastWarpWarn > 3000) { lastWarpWarn = performance.now(); } }
-    if (warpIdx < w0 && WARPS[w0] > 4 && primoCapBy && primoCapBy !== av && WARPS[warpIdx] < maxWarpFor(av) && performance.now() - lastCapToast > 5000) { lastCapToast = performance.now(); toast('Time warp slowed: ' + primoCapBy.name + (primoCapBy.primo === 'auto' ? ' (Primo flight) needs attention' : ' needs attention')); } }
+    if (warpIdx < w0 && WARPS[w0] > 4 && primoCapBy && primoCapBy !== av && WARPS[warpIdx] < maxWarpFor(av) && performance.now() - lastCapToast > 5000) { lastCapToast = performance.now(); toast('Time warp slowed: ' + primoCapBy.name + (primoCapBy.primo === 'auto' ? ' (Primo flight) needs attention' : primoCapBy.crew && primoCapBy.crew.length ? ' needs attention' : ' is still flying in the air')); } }
   // v0.4.0: with a mission, time warp slows down by itself before the next step (so you don't warp past a burn)
   if (av && av.mission && !av.missionDone && !av.landed && !paused) {
     const g = guideNow(av);
@@ -1435,10 +1585,11 @@ function update(realDt) {
   const t0 = S.t;
   for (const v of S.vessels.slice()) {
     const isAct = v.id === S.activeId;
-    // vessels left in the air during fast warp are lost
-    if (!isAct && !v.landed && WARPS[warpIdx] > 4) {
+    // dropped boosters (debris) left in the air during fast warp are cleaned up. v0.7.2: real ships never vanish like this:
+    // time warp is held at 4x while one is in the air (primoWarpCap), and if one dips into the air mid-warp it is flown properly
+    if (v.debris && !isAct && !v.landed && WARPS[warpIdx] > 4) {
       const b = BODIES[v.parent];
-      if (b.atmo && Math.hypot(v.x, v.y) - b.R < b.atmo) { removeVessel(v); if (!v.debris) toast(v.name + ' burned up in the air'); continue; }
+      if (b.atmo && Math.hypot(v.x, v.y) - b.R < b.atmo) { removeVessel(v); continue; }
     }
     if (v.landed && !hasThrust(v)) { v.ang = v.theta; continue; }
     let done = 0, count = 0;
@@ -1714,8 +1865,15 @@ function launch(rid, mission, padId) {
 
 function flyVessel(id) {
   const old = active(); if (old && old.id !== id && old.primo !== 'auto') old.throttle = 0;
+  // v0.7.2: a dropped booster (debris) can't be flown: it has no crew, no guidance and no controls
+  const tv = S.vessels.find(v => v.id === id);
+  if (!tv) return false;
+  if (tv.debris) { toast(tv.name + ' is a dropped booster: it can\'t be flown'); return false; }
   if (old && old.id !== id) parkLeft(old);   // v0.7.1
+  if (resultsPending && resultsPending.shipId !== id && old && resultsPending.shipId === old.id) { holdResults(resultsPending); resultsPending = null; }   // v0.7.2
   S.activeId = id; warpIdx = 0; snapCam = true; save(); closeAll();
+  releaseHeldResults(id);   // v0.7.2: results that were waiting for this ship show now
+  return true;
 }
 
 // ---------- v0.4.0: missions, flight guidance, Mission Complete ----------
@@ -1796,8 +1954,13 @@ function predictPass(x, y, vx, vy, t0) {
 
 // v0.7.0: one cache per ship (several Primo flights work out their guidance every frame)
 const G_cache = new Map(), passCache = new Map();
-function passFor(v, fresh) {
+// v0.7.2: maxAge (game seconds): during the Luna burn and fine-tune the pass is worked out again at most every 250 ms of
+// real time AND every maxAge seconds of game time (before, it was worked out fresh 1-2 times every frame). The game-time
+// limit keeps the Primo autopilot exact when time runs fast (tests step the game far faster than real time).
+function passFor(v, fresh, maxAge) {
   const now = performance.now(), pc = passCache.get(v.id);
+  if (pc && Math.abs(S.t - pc.t) < 1e-9 && !(fresh && maxAge === undefined)) return pc.res;
+  if (pc && maxAge !== undefined && now - pc.real < 250 && S.t >= pc.t && S.t - pc.t < maxAge) return pc.res;
   if (!fresh && pc && (Math.abs(S.t - pc.t) < 1e-9 || now - pc.real < 250)) return pc.res;
   const res = predictPass(v.x, v.y, v.vx, v.vy, S.t);
   passCache.set(v.id, { t: S.t, real: now, res }); return res;
@@ -1991,13 +2154,13 @@ function computeGuide(v, mid) {
     }
     if (gs.lu === 'tli') {
       let pass = null;
-      if (o.e >= 1 || o.ra > 9.0e6) { pass = passFor(v, true); if (pass && pass.enc) { gs.lu = 'corr'; gs.cd = 0; } }
+      if (o.e >= 1 || o.ra > 9.0e6) { pass = passFor(v, true, 0.5); if (pass && pass.enc) { gs.lu = 'corr'; gs.cd = 0; } }
       if (o.e >= 1 || o.ra > 12.6e6) { gs.lu = 'corr'; gs.cd = 0; }
       if (gs.lu === 'tli' && o.ra < 2e6 && S.t - (gs.luT0 || S.t) > 60 + 2 * (gs.luTb || 100)) { delete gs.lu; delete gs.tliT0; return out('Missed the moment', 'No problem: wait for the next one.', pro, 0, { step: 'tliMissed' }); }
       if (gs.lu === 'tli') return out('Burn prograde to Luna', 'Full throttle until the Luna encounter shows up (Ap now ' + apText(v, o).toLowerCase() + ').', pro, 1, { step: 'tli', warp: 'no', evT: 0 });
     }
     if (gs.lu === 'corr') {
-      const pass = passFor(v, true);
+      const pass = passFor(v, true, 0.25);
       if (!pass) return out('Hold on', '', pro, 0, { step: 'plan' });
       const goal = (LUNA_PASS[0] + LUNA_PASS[1]) / 2, err = pass.m - goal;
       if (pass.enc && pass.pe >= LUNA_PASS[0] && pass.pe <= LUNA_PASS[1]) { gs.lu = 'coast'; delete gs.cd; }
@@ -2142,11 +2305,24 @@ function missionComplete(v, how) {
 // ---------- v0.5.0: mission results screen, stars and personal bests ----------
 // Stars: 1 for finishing the mission, +1 for saving fuel, +1 for a neat finish. The two bonus rules per mission:
 const STAR_RULES = {
-  leo: { fuel: 60, round: 15000 }, meo: { fuel: 33, round: 300000 }, geo: { fuel: 28, round: Math.round(GEO_ALT * 0.15 / 1000) * 1000 },
+  leo: { fuel: 60, round: 15000 }, meo: { fuel: 33, round: 300000 }, geo: { fuel: 28, round: 400000 },   // v0.7.2: was 1,221 km, more than the 814 km the mission allows, so it could never be missed
   lunaOrbit: { fuel: 30, lo: 50000, hi: 200000 }, lunaLand: { fuel: 10, soft: 3 }
 };
 const RESULTS_DELAY = 2600;   // ms: let the gold banner (and the touchdown) be seen first
 let resultsPending = null;
+// v0.7.2: results for a ship you switched away from before they showed wait here (ship id -> results) and show when you are back on it
+const resultsHeld = new Map();
+function holdResults(r) {
+  if (!r || !S.vessels.some(v => v.id === r.shipId)) return;
+  resultsHeld.set(r.shipId, r.res);
+  const v = S.vessels.find(x => x.id === r.shipId);
+  toast('Results for ' + v.name + ' are waiting: go back to it (Flights) to see them');
+}
+function releaseHeldResults(id) {
+  if (!resultsHeld.has(id)) return;
+  const res = resultsHeld.get(id); resultsHeld.delete(id);
+  resultsPending = { at: performance.now() + 700, res, shipId: id };
+}
 // fuel left in the last stage with an engine (the Kestrel's upper stage), as a % of its full tank
 function upperFuelPct(v) {
   const st = rk(v).stages; let k = -1;
@@ -2179,7 +2355,7 @@ function syncResultsTimer() {
   if (!resultsPending || performance.now() < resultsPending.at) return;
   if (paused && overlayStack.length) return;                 // another screen is open: wait until it closes
   const r = resultsPending; resultsPending = null;
-  if (S.activeId !== r.shipId) return;
+  if (S.activeId !== r.shipId) { holdResults(r); return; }
   openResults(r.res);
 }
 function openResults(res) {
@@ -2429,7 +2605,7 @@ function openTitle() {
   add('Load a backup file', 'import', 'ghost');
   add('Controls: ' + (MODE === 'mobile' ? 'Mobile' : 'PC') + ' (change)', 'modeSwitch', 'ghost');
   if (has) add('Start a brand new world', 'wipe', 'ghost danger');
-  document.getElementById('titleNote').textContent = (S.savedAt ? 'World saved ' + new Date(S.savedAt).toLocaleString() + ' · ' + clock(S.t) + ' · ' + S.vessels.filter(v => !v.debris).length + ' ships, ' + S.vessels.filter(v => v.debris).length + ' pieces of debris' : 'New world') + ' · v' + VERSION;
+  document.getElementById('titleNote').textContent = (saveFailed ? (S.savedAt ? 'NOT SAVED: this browser refused to store your world (last good save ' + new Date(S.savedAt).toLocaleString() + ')' : 'NOT SAVED: this browser refused to store your world') + ' · ' + clock(S.t) + ' · ' + S.vessels.filter(v => !v.debris).length + ' ships' : S.savedAt ? 'World saved ' + new Date(S.savedAt).toLocaleString() + ' · ' + clock(S.t) + ' · ' + S.vessels.filter(v => !v.debris).length + ' ships, ' + S.vessels.filter(v => v.debris).length + ' pieces of debris' : 'New world') + ' · v' + VERSION;
   showOverlay('ovTitle');
 }
 function openSelect() {
@@ -2479,7 +2655,7 @@ function openStation() {
       const fuelTxt = tot ? Math.round(cur / tot * 100) + '%' : '-';
       const recover = v.landed && v.parent === 'terra';
       html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}${v.crew ? '<br><small style="color:#c9f5da">Crew: ' + esc(crewOf(v).map(firstName).join(', ')) + (v.primo === 'auto' ? ' (Pilot flying)' : '') + '</small>' : ''}</td><td>${statusOf(v)}${v.mission && MISSION[v.mission] && !v.debris ? ' <small style="color:#ff9be6">· ' + (v.missionDone ? '★ ' : 'Mission: ') + MISSION[v.mission].name + '</small>' : ''}${rk(v).retired ? ' <small style="color:#8796bf">(retired type)</small>' : ''}</td><td>${fuelTxt}</td>
-        <td style="white-space:nowrap"><button class="small" data-act="fly:${v.id}">Fly</button><button class="small ghost" data-act="del:${v.id}">${recover ? 'Recover' : 'Delete'}</button></td></tr>`;
+        <td style="white-space:nowrap">${v.debris ? '' : `<button class="small" data-act="fly:${v.id}">Fly</button>`}<button class="small ghost" data-act="del:${v.id}">${recover ? 'Recover' : 'Delete'}</button></td></tr>`;
     }
     html += '</table>';
   }
@@ -2528,7 +2704,7 @@ document.addEventListener('click', e => {
   else if (act === 'shakeToggle') { SET.shake = !SET.shake; saveSettings(); syncSettingsUi(); if (!SET.shake) shake.a = 0; }
   else if (act === 'wipe') {
     if (confirm('Start a brand new world? This deletes every ship, milestone and record. (Tip: download a backup first from the in-game menu.)') && confirm('Really erase your whole world?')) {
-      S = freshState(); ensureCrew(); save(); openTitle();
+      S = freshState(); ensureCrew(); loadProblem = null; resultsHeld.clear(); resultsPending = null; save(); openTitle();
     }
   }
   else if (act === 'revert') {
@@ -3942,15 +4118,25 @@ let testFreeze = false; // automated tests only: stop the clock while they step 
 document.getElementById('rotAnyway').addEventListener('click', () => { portraitOk = true; layoutDirty = true; });
 let frameDt = 0.016;
 const perf = { n: 0, sum: 0, max: 0, recent: [] };   // v0.5.0: how long each frame takes to work out and draw (tests read this)
+// v0.7.2: one bad frame must never freeze the game: an error is logged (and shown once), and the next frame runs as normal
+let frameErrors = 0, frameErrWarned = false, lastFrameError = null;
 function frame(now) {
+  try { frameBody(now); } catch (e) { frameError(e); }
+  requestAnimationFrame(frame);
+}
+function frameError(e) {
+  frameErrors++; lastFrameError = String(e && e.message || e); console.error('frame error', e);
+  if (!frameErrWarned) { frameErrWarned = true; try { toast('Something went wrong in the game for a moment (it has kept running). If things look odd, reload the page: your world is saved.', true, 'warn'); } catch (e2) { } }
+}
+function frameBody(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now; frameDt = dt;
   const p0 = performance.now();
   const portraitBlock = MODE === 'mobile' && !paused && H > W && !portraitOk;
   if (portraitBlock !== rotShown) { rotShown = portraitBlock; document.getElementById('rotHint').classList.toggle('hidden', !portraitBlock); if (portraitBlock) keysClear(); }
   if (!paused && !portraitBlock && !testFreeze) {
-    update(dt); updateTouchFrame(dt);
+    try { update(dt); updateTouchFrame(dt); } catch (e) { frameError(e); }   // (the screen still draws even if the game step failed)
     saveTimer += dt; if (saveTimer > 1) { saveTimer = 0; save(); }
-    encTimer -= dt; if (encTimer <= 0) { encTimer = 0.25; encounter = predictEncounter(active()); }
+    encTimer -= dt; if (encTimer <= 0) { encTimer = 0.25; try { encounter = predictEncounter(active()); } catch (e) { encounter = null; frameError(e); } }
   }
   if ((paused || !active()) && particles.length && !testFreeze) stepParticles(dt, dt);   // keep the smoke and debris moving behind a pop-up
   render();
@@ -3960,7 +4146,6 @@ function frame(now) {
   audioTick(dt);
   syncResultsTimer();
   { const ft = performance.now() - p0; perf.n++; perf.sum += ft; perf.max = Math.max(perf.max, ft); perf.recent.push(ft); if (perf.recent.length > 240) perf.recent.shift(); }
-  requestAnimationFrame(frame);
 }
 
 // ---------- v0.7.0: Primos (the astronauts of Space Prime) ----------
@@ -4267,7 +4452,7 @@ function primoWarpCap() {
           if (g.warp === 'no' || g.thr > 0 || g.act) c = Math.min(c, 4);
         }
       }
-    } else if (v.crew && v.crew.length && !v.landed && v.id !== S.activeId) {
+    } else if (!v.landed && v.id !== S.activeId) {   // v0.7.2: EVERY real ship in the air (crewed or not), not only crewed ones
       const b = BODIES[v.parent]; if (b.atmo && Math.hypot(v.x, v.y) - b.R < b.atmo) c = 4;
     }
     if (c < cap) { cap = c; who = v; }
@@ -4549,9 +4734,13 @@ window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, la
   // v0.7.0
   CREW_CAP, RECRUIT_EVERY, LEVEL_XP, MISSION_XP, JOBS, TRAITS, PLACES, STARTERS, get PRIMO() { return PRIMO; }, ensureCrew, recruitPrimo, primoLevel, primoStatus, crewOf, crewJob, setCrew, releaseCrew,
   crewSaving, fuelFactor, takeOver, handBack, canHandBack, openCrew, openCrewPick, toggleCrew, openFlights, flightEntries, flightsCount, padBusyBy, primoWarpCap, get primoCapBy() { return primoCapBy; },
-  radioLog, apGuides, pickSite, landingRefs, crewHomeNow, gainXp, drawFace, discoveryHtml, freeGuide, primoGuide, closeAll };
+  radioLog, apGuides, pickSite, landingRefs, crewHomeNow, gainXp, drawFace, discoveryHtml, freeGuide, primoGuide, closeAll,
+  // v0.7.2
+  VERSION, openTitle, normaliseSave, safeApplySave, worldLooksOk, resultsHeld, passFor, passCache, get saveFailed() { return saveFailed; }, get loadProblem() { return loadProblem; },
+  get frameErrors() { return frameErrors; }, get lastFrameError() { return lastFrameError; }, frame };
 
-if (!load()) ensureCrew();
+if (!load()) { S = freshState(); rescuedShips = 0; ensureCrew(); }   // v0.7.2: a save that fails to load never leaves a half-loaded world
+if (loadProblem) setTimeout(() => toast("Your saved world couldn't be loaded (the save looks damaged), so a new world has started. A copy of the old save was kept on this device.", true, 'warn'), 700);
 if (rescuedShips) setTimeout(() => toast(rescuedShips + (rescuedShips > 1 ? ' ships that had' : ' ship that had') + " been thrown impossibly far by an old bug " + (rescuedShips > 1 ? 'were' : 'was') + " put back at the edge of Terra's pull", true), 600);
 document.getElementById('mpGeoSub').innerHTML = '<span class="lg">GEO · </span>' + fmtDistK(GEO_ALT);
 openModeChoice('title'); // ask PC or Mobile every time the game opens

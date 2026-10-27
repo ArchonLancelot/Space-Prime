@@ -6,9 +6,7 @@
 
 Click the link above and play in a browser on your PC or your phone. No download, no install.
 
-*Note for Hark: replace the placeholder above with the real, working play link as soon as the first playable build exists, and keep it working on every later build. If the hosting ever changes, update this link in the same change.*
-
-## Current version: v0.7.1 (Primos: astronauts who fly for you; fix: no extra rocket on the pads)
+## Current version: v0.7.2 (review fixes: safer saves, no ships vanishing in time warp, fuller Help)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -35,7 +33,7 @@ Numbers: 27.1 t on the pad, thrust/weight 1.42 at launch, about 6,575 m/s of Δv
 
 What a good pilot can do with it:
 1. **Reach orbit** around Terra with about 3,000 m/s of Δv to spare.
-2. **Fly to Luna and land** on the upper stage's legs (with the capsule on top). Coming back from Luna's surface is not possible with this rocket.
+2. **Fly to Luna and land** on the upper stage's legs (with the capsule on top). Coming back from Luna's surface is possible only if you land with plenty of fuel left in the upper stage (roughly 15–20% or more); with less, the lander stays on Luna. Primo crews don't need the fuel: they ride the shuttle home, by design.
 3. **Come home from orbit**: drop back into the air, survive the heat, open the parachute and land (or splash down). That earns **Round Trip**.
 
 Sparrow, Heron and Mule are **retired**: you can't launch them any more. Any that were already flying in your saved world are still there: they show up in the Tracking Station and you can still fly them.
@@ -73,7 +71,7 @@ When you finish a mission, the gold **MISSION COMPLETE** banner shows first, the
 |---|---|---|
 | Low orbit (LEO) | at least 60% | highest and lowest point no more than 15 km apart |
 | Medium orbit (MEO) | at least 33% | no more than 300 km apart |
-| High orbit (GEO) | at least 28% | no more than 1,221 km apart |
+| High orbit (GEO) | at least 28% | no more than 400 km apart (v0.7.2; was 1,221 km, which could never be missed) |
 | Luna orbit | at least 30% | lowest and highest point both between 50 and 200 km |
 | Luna landing | at least 10% | touch down at 3 m/s or slower |
 
@@ -271,6 +269,7 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 - **New in v0.6.0:** the launch pad you picked is saved (and each ship remembers which pad it launched from). The "short flight info" choice is saved with your settings on this device.
 - **New in v0.4.0:** your chosen mission and where you are in it are saved with the ship, so after a reload the guidance carries on from the same step. Finished missions are saved in your records.
 - Saves from v0.1.0 to v0.5.0 still load in v0.6.0: they simply use Prime Field (the original pad), and you can pick another pad any time. Saves from v0.1.0 to v0.4.0 still load in v0.5.0 (the results and bests are new, optional parts of your progress). Saves from v0.1.0, v0.2.0, v0.3.0 and v0.3.1 still load in v0.4.0 (and a v0.4.0 save still opens in v0.3.1, which just ignores the mission parts): the old Sparrows, Herons and Mules keep flying; milestones and records stay. Each version only adds new information to the save, it doesn't change the old parts. If an older version had thrown a ship impossibly far away (see v0.3.1 below), loading puts it back at the edge of Terra's pull so you can fly it again.
+- **New in v0.7.2:** a backup (or the saved world) is checked on a copy before it is used. If it's damaged, your current world stays exactly as it was and a message says so; a damaged save found when the game opens is kept aside on the device and a new world starts. If the browser refuses to store your world (private mode, full storage), a warning shows once and the title screen says **NOT SAVED** instead of "World saved". Use **Download a backup of my save** then.
 - Starting over is only possible from the title screen ("Start a brand new world"), and it asks twice.
 
 ### The worlds
@@ -283,6 +282,8 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
+
+- **v0.7.2** (review fixes): a ship you aren't flying that is still in Terra's air no longer silently disappears when you speed up time (time warp now stays at 4x while any real ship is in the air; dropped boosters are still cleaned up). Loading a save or a backup is checked first on a copy: a damaged file never replaces or breaks your world, you get a clear message, and a damaged save found at startup is kept aside instead of half-loading. "World saved" is only shown after a save really worked, with a one-time warning if the browser refuses to store it. One error in a frame no longer freezes the game. The GEO "neat orbit" star now needs the two points within 400 km (before, the limit was bigger than the mission window, so it could never be missed; old personal bests still show). Mission results you switched away from before they appeared now wait for that ship and show when you go back. Luna-trip guidance works out the Luna pass far less often during the burn and fine-tune (smoother on phones, same accuracy). Help now lists O, L, H, Shift and 1–5 on PC, TAKE/PRIMO and Flights on phones, plus a short Primos section. Dropped boosters no longer count as landings and can't be "flown" from the Tracking Station. Saves from v0.1.0 to v0.7.1 still load.
 
 - **v0.7.1** (bug fix: an extra rocket on the pads): pressing Launch again while a rocket was already waiting put a brand-new rocket exactly on top of the old one, so it looked like one rocket until you switched pads and found three. Now a new rocket never goes onto a pad that already has a rocket, Launch gives you back an untouched waiting rocket (no crew, no mission) instead of making another, the rocket screen has "Back to ..." buttons for rockets already waiting, a rocket can't be moved onto another rocket's pad, and leaving your rocket mid-countdown puts it back on hold. Old saves are tidied when loaded: never-launched, crew-less extra rockets are put away (with a short message); crewed ones that shared a pad move to a free pad. Rockets counting down or flying are never touched; two (or three) rockets from different pads still launch together.
 
@@ -327,6 +328,10 @@ First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna
 - **v0.3.0**: One rocket, the **Kestrel**: booster, upper stage with legs, crew capsule with heat shield and parachute, and a nose fairing. Sparrow/Heron/Mule retired (old ones still load and fly). Launch countdown with clamps and engine sound that builds up (skippable). Sky fades from blue to black; the flame is tight low down and wide in space. Engines are weaker in thick air. Max-Q readout, warning and breakup. Heavy rockets turn slowly (engine steering plus a small reaction wheel). Live Ap/Pe above the dial and a prograde marker next to the rocket. Stages push apart with a smoke puff. Fairing drop (warned in thick air). Reentry heating and glow, burn-up if too steep, heat shield. Parachute (tears if opened too fast). Land or splash down on Terra's new continents and oceans. New milestone **Round Trip**. New keys `Enter`, `F`, `P`; new Mobile action button (SKIP / FAIRING / CHUTE). Help screens updated for both. Saves from v0.1.0 and v0.2.0 still load.
 - **v0.2.0**: Plays on phones. A PC or Mobile choice every time the game opens (also switchable from the menu). Mobile mode has on-screen buttons: throttle slider with FULL/CUT, hold-to-turn buttons, STAGE, SAS, Map, time warp, zoom (pinch or buttons) and Menu, and several fingers work at once. Bigger, tidier menus on small screens, a "turn your phone sideways" hint, notch-safe layout, and a lighter graphics setting on phones for smooth play. PC mode plays exactly as before, and v0.1.0 saves still load.
 - **v0.1.0**: First playable. Three rockets, Terra and Luna, real orbits (patched conics, exact on-rails orbits during time warp), air drag, staging, landing/crash rules, map with orbit and encounter prediction, time warp, Tracking Station, milestones, records, sound, and a fully persistent auto-saved world with backup download/upload.
+
+## Original brief (history)
+
+*Everything below is the original brief the game was started from, kept for history. The game has moved on since (see above). One deliberate change from it: Space Prime has **one rocket on purpose**, the Kestrel. On 2026-10-25 Armando chose depth over breadth: one rocket that does everything well, rather than a roster.*
 
 ## What this is
 
