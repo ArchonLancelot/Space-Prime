@@ -6,7 +6,7 @@
 
 Click the link above and play in a browser on your PC or your phone. No download, no install.
 
-## Current version: v0.7.2 (review fixes: safer saves, no ships vanishing in time warp, fuller Help)
+## Current version: v0.8.0 "Primos take charge" (Mission Control, Directors, crews that pick themselves and think in flight)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -78,6 +78,62 @@ When you finish a mission, the gold **MISSION COMPLETE** banner shows first, the
 Following the pink guidance carefully earns all three stars on every mission (that's how the limits were set: the test pilot that follows only the arrows gets 3 stars, with a little to spare).
 
 **Personal bests** are kept for each mission: best stars, **fastest** time, **least fuel used**, and **softest touchdown** (Luna landing). Beat one and the results screen says **new best!**. They're saved in your progress and shown in the **Tracking Station** under each mission.
+
+### Mission Control: you are the boss (new in v0.8.0)
+
+You don't have to launch every rocket yourself any more. Give **standing orders** and your Primos carry them out.
+
+**Directors: a rank you earn.** Director is not a job. Any **Pilot, Engineer or Scientist** who reaches **level 3** can be **promoted** to Director with the **Promote to Director** button on their card in the Astronaut Complex (and **demoted** again with **Demote**). Training between flights only goes up to level 2, so level 3 is earned by **flying missions**. You can have **at most 3 Directors** at once. Below level 3 the button is greyed out and says "Needs level 3 (earned by flying)"; with 3 Directors already it says "Already 3 Directors (the most): demote one first".
+
+There is **no starter Director**: a new world starts with just Nova, Bram and Lumi, and old saves load without one. Until you promote someone, Mission Control still opens, says plainly how to get a Director ("Promote a level 3+ Primo in the Astronaut Complex"), and lets you write orders: they simply wait with **"No Director on duty"**.
+
+**One Director on duty.** Only one Director runs Mission Control at a time. You choose who in Mission Control (the **On duty:** buttons); if you never choose, it is the highest-level Ready Director. The Director on duty **stays on the ground**: Auto pick and the Director never put them in a rocket, and the crew picker shows them as **Directing · unavailable**. If the Director on duty goes flying or is resting (or you pick one who is), duty passes by itself to another Ready Director and the radio says so. The other Directors are **off duty**: they fly as normal crew, keep their job's skills, and wear a **◎ Director** badge.
+
+**Mission Control** opens from the title screen, the Tracking Station, the Astronaut Complex or the Flights list (key **K** on PC). It shows the Director on duty (and who else could be), your orders, and a short log of what the Director decided.
+
+**Orders you can give**
+| Order | What happens |
+|---|---|
+| **Keep ships in low orbit** (1-6) | Crews fly to low orbit until that many ships circle there. If one comes down or you delete it, another goes up. It never "finishes": it keeps holding. |
+| **Land on Luna** (1-10 times) | Crews fly to Luna and land until that many landings are done. |
+| **Fly a mission** (pick one, 1-10 times) | LEO, MEO, GEO, Luna orbit, Luna landing or a free flight, that many times. |
+| **Reach every mission once** | One of each: low, medium and high orbit, Luna orbit and a Luna landing. |
+| **Science flights** (1-10) | Flights that always carry a Scientist, sent where the Discovery log still has gaps. |
+
+**What the Director does by itself:** picks a crew (always a Pilot), picks a free launch pad (spreading launches over all three), picks the mission, gives the go, and the Pilot flies it. Rules it always keeps:
+- only **one rocket climbing** through the air at a time, and never two rockets on one pad;
+- **never more Director flights than there are pads** (3);
+- at most two Luna landers on the way down at once (they land 2 km+ apart);
+- Luna flights leave at least 5 game minutes apart, so they arrive spread out;
+- resting (injured) Primos are never picked; the Director on duty never flies;
+- if a Pilot is needed and none is Ready, the Director sends the shuttle early for a crew that has finished its mission, from anywhere: any orbit of Terra, Luna orbit or Luna's surface (5 game hours after the mission at level 3, an hour less per level above that, instead of the usual day).
+
+**Better Directors work better:** a level-3 Director waits at least 3 game minutes between launches, a level-5 one less than 2. **Quick** Directors launch 25% sooner, **Steady** ones only let one Luna lander come down at a time. Every Director matches crews carefully (Engineers on long trips, rookies with veterans). The Director on duty earns 1 XP for each of their flights that finishes its mission.
+
+**You stay the boss.** Orders run **top to bottom**: ▲ / ▼ to change which comes first. **Pause** stops new launches for that order (flights already up carry on), **Resume** starts it again, **Cancel** removes it (**Clear** removes a finished one). You can still launch your own rockets and **take over any flight** (O / TAKE), Director flights included. The Flights list marks Director flights with **◎ Director** and the order they are for. Director radio lines are calm: on a phone only a few show as messages (the rest are in the Mission Control log).
+
+**Good to know:** the Director works while game time is running (flying, watching a flight or warping). When you give an order on the Mission Control screen it launches the first flight straight away if it can; tap that flight in the list to watch it.
+
+### Crews that pick themselves (new in v0.8.0)
+
+On the pad, the crew picker has an **Auto pick** button. It (and the Director) chooses:
+- always a **Pilot**, then an **Engineer** and a **Scientist** when there are Ready ones;
+- a **Scientist first** on science flights and to places never studied (like the first Luna landing), an **Engineer first** on long trips;
+- **rookies fly with veterans**: once a level 2+ Primo is aboard, the other seats go to the least experienced Primos, who earn **+1 XP** for flying with someone at least 2 levels above them (shown on the results screen).
+
+You can still tap Primos in and out by hand after Auto pick.
+
+### Primos think in flight (new in v0.8.0)
+
+- **The Engineer watches the fuel.** In orbit around Terra (before heading higher or to Luna), and again on the way in to Luna, the Engineer works out whether there is enough fuel to finish. If not, they **call an abort** on the radio: around Terra the Pilot brings the capsule home (drops the stage, heat shield first, parachute, splashdown or landing); on the way to Luna the ship brakes into **Luna orbit** instead of landing and the crew wait there for the shuttle; if the rocket runs dry before reaching orbit, the Pilot drops the stage and lands the capsule. The mission is marked **aborted** (no stars, nothing counted), the crew are safe and Ready, and the abort is saved and shown in Mission Control. Healthy flights have plenty of margin and never abort. With no Engineer aboard nobody calls an abort (as before).
+- **The Scientist may ask for one extra orbit** when a new discovery needs it and it costs no fuel: before the first Luna landing, one lap of Luna to map **Luna's far side**; on the first Primo free flight, one whole lap of Terra instead of a 2-minute look. It is granted by itself with a short radio line. Two new places in the Discovery log: **A whole lap of Terra** and **Luna's far side** (any Scientist who stays a whole lap in a steady orbit gets them too).
+- **The Pilot picks a safer Luna landing spot.** A later lander looks at several spots 3-5 km from the others, picks the **flattest** one (at least 2 km from every other lander) and says so on the radio. On the way down, if the ground under the spot turns out rough, the Pilot slides a few hundred metres to a flatter patch.
+
+### Life between flights (new in v0.8.0)
+
+Ready Primos **train** in the Astronaut Complex: **1 XP for every 2 game days**, but training only takes a Primo **up to level 2**. After that only flying raises their level. Each card shows what the Primo is doing right now: **Training** (with a line like "Flying landings in the simulator" and when the next XP comes), **Flying**, **Resting** or **Directing** ("On duty at Mission Control: 2 orders, 1 flight up"). Off-duty Directors say so ("Off-duty Director: flies like any Pilot").
+
+Everything new is saved with your world: who is a Director, who is on duty, orders and their progress, the Director's log, training progress and the abort records.
 
 ### Primos: your astronauts (new in v0.7.0)
 
@@ -192,7 +248,8 @@ The flight panel now shows **Angle**: how far your nose is above the horizon. **
 | `,` / `.` | Slow down / speed up time (limited when low, in the air, burning, or counting down; you can warp while the rocket waits on the pad) |
 | Mouse wheel | Zoom |
 | `O` | **New:** Primo Pilot on/off (take over the ship / hand it back to the Pilot) |
-| `L` | **New:** Flights list (jump to any ship in flight) |
+| `L` | Flights list (jump to any ship in flight) |
+| `K` | **New:** Mission Control (standing orders for your Director) |
 | `H` | Help |
 | `Esc` | Menu: Tracking Station, new rocket, restart flight, **Settings** (sound, music, shake), backups |
 
@@ -221,6 +278,7 @@ Hold your phone sideways (landscape). If you hold it upright, the game pauses an
 | **Warp +** / **Warp −** | right edge | Speed up / slow down time |
 | **Pinch**, or **+** / **−** (hold) | anywhere / above STAGE (upright: right edge) | Zoom in / out |
 | **☰ Menu** | top right | Pause: Tracking Station, new rocket, restart, **Settings** (sound, music, shake), backups, switch to PC controls |
+| **Mission Control** (v0.8.0) | bottom of the **Flights** screen (also title screen, Tracking Station, Astronaut Complex) | Give your Director standing orders, choose who is on duty, see progress, pause / cancel / reorder orders |
 
 In flight the buttons are 44 px (40 px on the smallest phones) and never overlap; menus keep their bigger 48 px buttons. Held upright, the **+ / − zoom** buttons sit in the right-hand column, and the action button and **STAGE** sit just above the turn buttons.
 
@@ -282,6 +340,15 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
 
 ### Changelog
+
+- **v0.8.0** ("Primos take charge"):
+  - **Directors**: a rank, not a job. Any Pilot, Engineer or Scientist at level 3+ can be promoted (and demoted) in the Astronaut Complex, at most 3 at once. No starter Director, no Director recruits: new worlds start with the 3 v0.7 starters and old saves (v0.1.0 to v0.7.2) load without a Director. One Director is on duty at a time (choose who in Mission Control; default the highest-level Ready one) and stays on the ground; off-duty Directors fly as normal crew with a ◎ Director badge. If the one on duty goes flying or resting, duty passes to another Ready Director (with a radio line). With no Director, Mission Control explains how to get one and orders wait ("No Director on duty").
+  - **Mission Control** screen (PC + phone, key K): standing orders (keep N ships in low orbit, land on Luna N times, fly a mission N times, reach every mission once, science flights), progress per order, pause / resume / cancel / reorder, Director log. The Director launches Primo-flown rockets by itself: one rocket climbing at a time, never two on a pad, never more flights than pads, resting Primos never picked, Luna flights at least 5 game minutes apart. When a Pilot is needed and none is Ready, finished crews anywhere (Terra orbits, Luna orbit, Luna's surface) ride the shuttle home early.
+  - **Auto pick** for crews (pad crew picker and the Director): always a Pilot, Engineer / Scientist as needed, rookies with veterans (+1 XP for the rookies).
+  - **Thinking in flight:** Engineer fuel checks and safe **aborts** (capsule home, or Luna orbit only), Scientist **extra orbit** for new discoveries (two new Discovery log places), Pilot picks the **flattest** Luna landing spot and adjusts on the way down. Fixed in the same version: a Luna lander that went straight from its braking burn into the landing could skip choosing a spot and come down a few hundred metres from another lander; now it waits its turn and picks a spot 2 km+ away like the others.
+  - **Training** between flights (1 XP per 2 game days, up to level 2) and a live activity line for every Primo (Training / Flying / Resting / Directing).
+  - Help (PC + phone) has a short Mission Control section. Flights list marks Director flights and aborted ones. Saves: same format (v: 1), the new things live inside the stats part of the save; saves from v0.1.0 to v0.7.2 still load. Test saves from an early v0.8.0 build that had a "director" job: those Primos become Pilots and keep the Director rank only at level 3+ (at most 3).
+  - Built so it can grow: each kind of order is one entry in a list, and a Director flight carries a small plan (mission, and room for a rocket type, a payload and a target), so later goals like "build a habitat on Luna", colonies, other planets, gravity-assist routes or new rockets plug in without changing how the Director works.
 
 - **v0.7.2** (review fixes): a ship you aren't flying that is still in Terra's air no longer silently disappears when you speed up time (time warp now stays at 4x while any real ship is in the air; dropped boosters are still cleaned up). Loading a save or a backup is checked first on a copy: a damaged file never replaces or breaks your world, you get a clear message, and a damaged save found at startup is kept aside instead of half-loading. "World saved" is only shown after a save really worked, with a one-time warning if the browser refuses to store it. One error in a frame no longer freezes the game. The GEO "neat orbit" star now needs the two points within 400 km (before, the limit was bigger than the mission window, so it could never be missed; old personal bests still show). Mission results you switched away from before they appeared now wait for that ship and show when you go back. Luna-trip guidance works out the Luna pass far less often during the burn and fine-tune (smoother on phones, same accuracy). Help now lists O, L, H, Shift and 1–5 on PC, TAKE/PRIMO and Flights on phones, plus a short Primos section. Dropped boosters no longer count as landings and can't be "flown" from the Tracking Station. Saves from v0.1.0 to v0.7.1 still load.
 

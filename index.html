@@ -356,6 +356,32 @@
   body.mobile .crGrid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   body.mobile .flBtns button, body.mobile .cpRow { min-height: 44px; }
   body.mobile .flTxt b { font-size: 14px; }
+  /* ---------- v0.8.0: Mission Control, training ---------- */
+  .st.train { color: #ffd36b; } .st.dirg { color: #e7a6ff; } small.act { color: #c3cff0; }
+  .flTag.dir { color: #e7a6ff; font-weight: 700; } .flTag.ab { color: #ffb36b; font-weight: 700; } .flOrd { color: #e7a6ff !important; }
+  #ovOrders .box { width: min(860px, 94vw); }
+  .moDirCard { display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 10px; background: rgba(120, 60, 160, 0.25); border: 1px solid rgba(231, 166, 255, 0.35); font-size: 13px; line-height: 1.35; }
+  .moDirCard small { color: #d9c8f0; }
+  .moRow { padding: 8px; margin: 6px 0; border-radius: 10px; background: rgba(31, 79, 168, 0.25); border: 1px solid rgba(120, 160, 255, 0.2); }
+  .moRow.done { opacity: 0.75; border-color: rgba(94, 240, 138, 0.4); } .moRow.paused { border-style: dashed; }
+  .moTop { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; flex-wrap: wrap; } .moTxt { color: #c3cff0; font-size: 12px; display: block; }
+  .moBar { height: 7px; margin: 5px 0 3px; }
+  .moBtns, .moFls, .moTypes, .moMis { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; } .moBtns button, .moFls button, .moTypes button, .moMis button, .moForm button { margin: 0; }
+  .moForm { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 6px; }
+  .moN { display: inline-flex; align-items: center; gap: 6px; } .moN b { min-width: 22px; text-align: center; font-size: 16px; }
+  .disc.abort { color: #ffcf8a; }
+  body.mobile .moBtns button, body.mobile .moFls button, body.mobile .moTypes button, body.mobile .moMis button, body.mobile .moForm button { min-height: 44px; min-width: 44px; padding: 4px 12px; font-size: 14px; }
+  body.mobile #ovOrders h3 { margin: 10px 0 4px; } body.mobile #ovOrders .sub { font-size: 13px; }
+  body.mobile .moDirCard { font-size: 12.5px; padding: 6px 8px; } body.mobile .moDirCard small { font-size: 11px; line-height: 1.3; } body.mobile .moDirCard canvas.face { width: 36px !important; height: 36px !important; }
+  body.mobile .moRow { padding: 6px 8px; margin: 5px 0; } body.mobile .moTop b { font-size: 14px; } body.mobile .moTop .st { font-size: 13px; } body.mobile .moBtns { gap: 5px; }
+  /* v0.8.0 revision: Director rank, duty choice */
+  .dirBadge { display: inline-block; font-size: 11px; font-weight: 700; color: #f0d2ff; background: rgba(150, 70, 200, 0.45); border: 1px solid rgba(231, 166, 255, 0.5); border-radius: 8px; padding: 0 5px; white-space: nowrap; }
+  .crRank { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 4px; } .crRank button { margin: 0; padding: 3px 10px; font-size: 12px; min-height: 26px; }
+  .crRank small { color: #c3cff0; font-size: 11px; } .crRank small.why { color: #ffcf8a; } .crRank button:disabled { opacity: 0.55; cursor: default; }
+  .cpRow.off { opacity: 0.6; background: rgba(120, 60, 160, 0.3); cursor: default; } .cpRow.off small { color: #e7a6ff; }
+  .moDuty { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; } .moDuty button { margin: 0; } .moDuty button.sel { background: rgba(150, 70, 200, 0.75); border-color: #e7a6ff; } .moDutyL { font-size: 13px; color: #e7a6ff; font-weight: 700; }
+  .moNoDir { border-left: 3px solid #e7a6ff; padding: 4px 0 4px 9px; font-size: 13px; line-height: 1.4; color: #e8eefc; } .moNoDir + .moBtns { margin-bottom: 4px; }
+  body.mobile .crRank button, body.mobile .moDuty button { min-height: 44px; padding: 4px 12px; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -501,6 +527,7 @@
     <div style="margin-top:12px">
       <button data-act="launch">Launch new rocket</button>
       <button class="ghost" data-act="crew">Astronaut Complex</button>
+      <button class="ghost" data-act="orders">Mission Control</button>
       <button class="ghost" data-act="back">Back</button>
     </div>
     <h3>Milestones</h3>
@@ -520,7 +547,7 @@
     <h2>Astronaut Complex</h2>
     <div class="sub" id="crSub"></div>
     <div class="crGrid" id="crList"></div>
-    <div style="margin-top:12px"><button class="ghost" data-act="back">Back</button></div>
+    <div style="margin-top:12px"><button class="ghost" data-act="back">Back</button><button class="ghost" data-act="orders">Mission Control</button></div>
   </div>
 </div>
 <div id="ovCrewPick" class="overlay hidden">
@@ -529,7 +556,21 @@
     <div id="cpSeats"></div>
     <div class="note" id="cpNote"></div>
     <div id="cpList"></div>
-    <div style="margin-top:12px"><button data-act="back" id="cpDone">Done</button><button class="ghost" data-act="crewClear">No crew</button></div>
+    <div style="margin-top:12px"><button data-act="back" id="cpDone">Done</button><button class="ghost" data-act="crewAuto" id="cpAuto">Auto pick</button><button class="ghost" data-act="crewClear">No crew</button></div>
+  </div>
+</div>
+<div id="ovOrders" class="overlay hidden">
+  <div class="box panel">
+    <h2>Mission Control</h2>
+    <div class="sub" id="moSub"></div>
+    <div id="moDir"></div>
+    <h3>Standing orders</h3>
+    <div id="moList"></div>
+    <h3>Give a new order</h3>
+    <div id="moNew"></div>
+    <h3>Director's log</h3>
+    <div id="moLog"></div>
+    <div style="margin-top:12px"><button class="ghost" data-act="back">Back</button><button class="ghost" data-act="flights">Flights</button><button class="ghost" data-act="crew">Astronaut Complex</button></div>
   </div>
 </div>
 <div id="ovFlights" class="overlay hidden">
@@ -537,7 +578,7 @@
     <h2>Flights</h2>
     <div class="sub" id="flSub"></div>
     <div id="flList"></div>
-    <div style="margin-top:12px"><button class="ghost" data-act="back">Back</button><button class="ghost" data-act="launch">Launch another rocket</button></div>
+    <div style="margin-top:12px"><button class="ghost" data-act="back">Back</button><button class="ghost" data-act="launch">Launch another rocket</button><button class="ghost" data-act="orders">Mission Control</button></div>
   </div>
 </div>
 
@@ -574,7 +615,7 @@
       <tr><td><b>Warp + / &minus;</b></td><td>Speed up / slow down time (limited when low or burning)</td></tr>
       <tr><td><b>Pinch</b> or <b>+ / &minus;</b></td><td>Zoom</td></tr>
       <tr><td><b>TAKE</b> / <b>PRIMO</b></td><td>When a Primo Pilot is flying: <b>TAKE</b> to fly it yourself, <b>PRIMO</b> to hand it back</td></tr>
-      <tr><td><b>Flights</b> (with a number)</td><td>Every ship in flight: tap one to jump to it</td></tr>
+      <tr><td><b>Flights</b> (with a number)</td><td>Every ship in flight: tap one to jump to it. <b>Mission Control</b> is at the bottom</td></tr>
       <tr><td><b>&#9776; Menu</b></td><td>Tracking station, new rocket, restart, settings (sound, music, shake), backups, switch to PC controls</td></tr>
     </table>
     <table class="pc-only">
@@ -592,6 +633,7 @@
       <tr><td>Mouse wheel</td><td>Zoom</td></tr>
       <tr><td><kbd>O</kbd></td><td>Primo Pilot: take over the ship / hand it back to the Pilot</td></tr>
       <tr><td><kbd>L</kbd></td><td>Flights: every ship in flight, jump to any of them</td></tr>
+      <tr><td><kbd>K</kbd></td><td>Mission Control: standing orders for your Director</td></tr>
       <tr><td><kbd>H</kbd></td><td>This help</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>Menu: tracking station, new rocket, restart, settings (sound, music, shake), backups</td></tr>
     </table>
@@ -618,6 +660,13 @@
     The <b>Astronaut Complex</b> (title screen or Tracking Station) lists your Primos: Pilots, Engineers and Scientists, with their level and whether they're Ready, Flying or Resting. A new one joins every 3 game days.
     On the pad, tap <b>Crew</b> in the mission panel to seat up to 3. A <b>Pilot</b> flies the whole mission for you after you give the go; <span class="pc-only">press <kbd>O</kbd></span><span class="mobile-only">tap <b>TAKE</b></span> to fly it yourself and <span class="pc-only"><kbd>O</kbd> again</span><span class="mobile-only"><b>PRIMO</b></span> to hand it back.
     Engineers save fuel, Scientists run experiments. Nobody dies: after a crash the crew rest a few days. <b>Flights</b> (<span class="pc-only"><kbd>L</kbd></span><span class="mobile-only">the Flights button</span>) shows every ship in flight.
+    <h3>Mission Control: be the boss</h3>
+    <b>Mission Control</b> (<span class="pc-only"><kbd>K</kbd>, </span>title screen, Tracking Station, Astronaut Complex or Flights) is where you give standing orders like <b>Land on Luna 3 times</b>, <b>Keep 2 ships in low orbit</b> or <b>Reach every mission once</b>.
+    A <b>Director</b> on duty carries them out: picks the crew, pad and mission and launches Primo-flown rockets by itself (one rocket climbing at a time, never more flights than pads). Orders run top to bottom (&#9650; &#9660; to reorder) and can be paused or cancelled. You can still launch yourself and take over any flight.
+    <b>Getting a Director:</b> Director is a rank, not a job. In the Astronaut Complex, <b>Promote</b> any Pilot, Engineer or Scientist who is level 3 or higher (up to 3 Directors). Training stops at level 2, so level 3 is earned by flying.
+    One Director is on duty at a time (choose who in Mission Control) and stays on the ground; other Directors fly as normal crew. No Director on duty? Orders wait.
+    In flight Primos think: an <b>Engineer</b> checks the fuel and calls an <b>abort</b> if the mission can't be finished (the capsule comes home, or the crew wait safely in orbit for the shuttle); a <b>Scientist</b> may ask for one extra orbit for a new discovery; a <b>Pilot</b> picks flat ground on Luna, away from other landers.
+    On the pad, <b>Auto pick</b> in the crew picker chooses a crew for you (always a Pilot; rookies fly with veterans and learn faster). Between flights, Ready Primos train in the Complex and slowly earn XP, up to level 2.
     <h3>Coming home to Terra</h3>
     From orbit, point backwards (red marker) and burn until your <b>Periapsis</b> is about 25&ndash;35 km. Then drop the upper stage so only the capsule is left.
     Keep the capsule's dark heat shield (its bottom) facing the way you're moving; the capsule tends to swing that way by itself in the air.
@@ -703,7 +752,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.7.2';
+const VERSION = '0.8.0';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -1072,6 +1121,7 @@ function normaliseSave(o) {
     const C = st.crew;
     if (!C || typeof C !== 'object' || !Array.isArray(C.list)) delete st.crew;
     else {
+      for (const p of C.list) fixOldDirectorJob(p);   // v0.8.0
       C.list = C.list.filter(p => p && typeof p === 'object' && typeof p.id === 'number' && isFinite(p.id) && JOBS[p.job]);
       const seen = new Set(); C.list = C.list.filter(p => !seen.has(p.id) && seen.add(p.id));
       for (const p of C.list) {
@@ -1079,14 +1129,16 @@ function normaliseSave(o) {
         if (!p.face || typeof p.face !== 'object') p.face = {};
         for (const k of ['skin', 'hair', 'style', 'suit', 'eye']) p.face[k] = Math.max(0, Math.floor(num(p.face[k], 0)));
         p.xp = Math.max(0, num(p.xp, 0)); p.missions = Math.max(0, num(p.missions, 0)); p.injuries = Math.max(0, num(p.injuries, 0));
-        p.restUntil = num(p.restUntil, 0); p.joined = num(p.joined, 0);
+        p.restUntil = num(p.restUntil, 0); p.joined = num(p.joined, 0); p.train = Math.max(0, num(p.train, 0)); p.trainXp = Math.max(0, num(p.trainXp, 0));
         if (typeof p.ship !== 'number') p.ship = null;
+        if (p.dir) p.dir = true; else delete p.dir;   // v0.8.0: Director rank (checked again by ensureRanks)
       }
       if (!Array.isArray(C.log)) C.log = []; C.log = C.log.filter(e => e && typeof e === 'object');
       if (!C.places || typeof C.places !== 'object' || Array.isArray(C.places)) C.places = {};
       if (!(num(C.nextId, 0) > 0)) delete C.nextId;
     }
   }
+  if (st.control !== undefined && (!st.control || typeof st.control !== 'object' || Array.isArray(st.control))) delete st.control;   // v0.8.0 (the rest is tidied by ensureControl)
   if (!o.milestones || typeof o.milestones !== 'object' || Array.isArray(o.milestones)) o.milestones = {};
   for (const k of Object.keys(o.milestones)) if (typeof o.milestones[k] !== 'number' || !isFinite(o.milestones[k])) delete o.milestones[k];
   if (!o.view || typeof o.view !== 'object' || Array.isArray(o.view)) o.view = {};
@@ -1514,6 +1566,7 @@ function onLand(v, isActive) {
 // kind: 'crash' (hit the ground), 'breakup' (max-Q), 'burn' (reentry heat)
 function onCrash(v, isActive, kind) {
   const b = BODIES[v.parent];
+  if (v.dir) orderFlightEnd(v, 'lost');   // v0.8.0
   const crewNote = crewOnCrash(v);   // v0.7.0: nobody dies; the crew are recovered and rest
   explode(v); removeVessel(v);
   if (isActive) {
@@ -1561,7 +1614,7 @@ function update(realDt) {
   { const w0 = warpIdx; while (warpIdx > 0 && WARPS[warpIdx] > allowed) { warpIdx--; if (performance.now() - lastWarpWarn > 3000) { lastWarpWarn = performance.now(); } }
     if (warpIdx < w0 && WARPS[w0] > 4 && primoCapBy && primoCapBy !== av && WARPS[warpIdx] < maxWarpFor(av) && performance.now() - lastCapToast > 5000) { lastCapToast = performance.now(); toast('Time warp slowed: ' + primoCapBy.name + (primoCapBy.primo === 'auto' ? ' (Primo flight) needs attention' : primoCapBy.crew && primoCapBy.crew.length ? ' needs attention' : ' is still flying in the air')); } }
   // v0.4.0: with a mission, time warp slows down by itself before the next step (so you don't warp past a burn)
-  if (av && av.mission && !av.missionDone && !av.landed && !paused) {
+  if (av && av.mission && !av.missionDone && !av.landed && !paused && !pilotPlan(av)) {   // (a Primo flight: primoWarpCap does this)
     const g = guideNow(av);
     if (g && isFinite(g.evT)) {
       let slowed = false; const cap = g.maxWarp || Math.max(4, g.evT * 6.6);
@@ -1773,7 +1826,7 @@ function doStage(vv) {
   const bx = v.x - hx * L0 / 2, by = v.y - hy * L0 / 2;
   const deb = JSON.parse(JSON.stringify(v));
   deb.id = S.nextId++; deb.name = v.name + ' ' + (st.name || 'booster').toLowerCase(); deb.parts = [k]; deb.debris = true; deb.throttle = 0; deb.sas = false;
-  deb.fairing = false; delete deb.chute; deb.hints = {}; for (const k of ['crew', 'primo', 'ap', 'apAim', 'primoDone', 'primoFlown', 'crewHomeAt', 'sci', 'sciSpace', 'lastRes']) delete deb[k]; deb.clamped = false; deb.countdown = 0; delete deb.mission; delete deb.guide; delete deb.missionDone;
+  deb.fairing = false; delete deb.chute; deb.hints = {}; for (const k of ['crew', 'primo', 'ap', 'apAim', 'primoDone', 'primoFlown', 'crewHomeAt', 'sci', 'sciSpace', 'lastRes', 'dir', 'abort', 'payload', 'sciLap']) delete deb[k];   // (v0.8.0: + dir, abort, payload, sciLap) deb.clamped = false; deb.countdown = 0; delete deb.mission; delete deb.guide; delete deb.missionDone;
   deb.x = bx + hx * st.len / 2; deb.y = by + hy * st.len / 2; deb.vx = v.vx - hx * 2.5; deb.vy = v.vy - hy * 2.5; deb.angVel = (Math.random() - 0.5) * 0.4;
   v.parts.shift();
   const L1 = lengthOf(v);
@@ -2199,6 +2252,7 @@ function computeGuide(v, mid) {
       }
       // height of the legs above the ground right under the ship (v0.5.0: Luna's hills and craters count)
       const g = mu / (r * r), amax = Math.max(0.05, thrustNow(st, 0, 1) / m), hb = h - lengthOf(v) / 2 - (h < 30000 ? groundUnder(v, up) : 0);
+      if (v.primo === 'auto') siteAdjust(v, gs, hb);   // v0.8.0: rough ground under the spot? slide to a flatter patch
       const tilt = Math.max(hb < 60 ? -0.08 : -0.4, Math.min(hb < 60 ? 0.08 : 0.4, 0.03 * (vh - siteVh(gs, hb, up))));
       const aUp = amax * Math.cos(tilt) - g;
       // target down-speed: brake at a steady, comfortable rate, gentler near the ground, about 2 m/s at touchdown
@@ -2294,6 +2348,7 @@ function missionComplete(v, how) {
   crewMissionDone(v, M.id, res);   // v0.7.0
   v.lastRes = { stars: res.stars, mission: M.id };
   if (v.primo === 'auto' || v.primoFlown) { primoFinish(v); say(v, 'done', 'Mission complete. Thanks, Control.', null, true); }
+  if (v.dir) orderFlightEnd(v, 'done');   // v0.8.0
   if (v.id === S.activeId) {
     mcText = { name: missionLabel(M.id), how, first: rec.count === 1 };
     mcShow = 7; sfx('mission'); toast('Mission Complete: ' + missionLabel(M.id), true);
@@ -2369,6 +2424,7 @@ function openResults(res) {
   if (res.landing !== null) rows.push(['Touchdown speed', res.landing.toFixed(1) + ' m/s', res.beat.includes('soft')]);
   if (res.free) { rows.splice(1, 1); $('resName').textContent = 'Free flight: round trip'; }
   if (res.crew && res.crew.length) rows.push(['Crew (+' + res.xp + ' XP each)', res.crew.map(c => c.name.split(' ')[0] + ' (' + JOBS[c.job].name + ')').join(', ') + (res.pilot ? ' · flown by ' + res.pilot.split(' ')[0] : ''), false]);
+  if (res.rookies && res.rookies.length) rows.push(['Flew with veterans (+1 XP)', res.rookies.map(n => n.split(' ')[0]).join(', '), false]);   // v0.8.0
   if (res.levelUps && res.levelUps.length) rows.push(['Level up! ⭐', res.levelUps.join(', '), false]);
   $('resTable').innerHTML = rows.map(([a, b2, nb]) => '<tr><td>' + esc(a) + '</td><td><b>' + esc(b2) + '</b>' + (nb ? ' <span class="nb">new best!</span>' : '') + '</td></tr>').join('');
   $('resRules').innerHTML = res.checks.map(c => '<div class="' + (c.ok ? 'ok' : 'no') + '">' + (c.ok ? '★' : '☆') + ' ' + esc(c.text) + (c.yours ? ' <small>(you: ' + esc(c.yours) + ')</small>' : '') + '</div>').join('');
@@ -2450,7 +2506,7 @@ function syncPicker(force) {
 let guideKey = '';
 function syncGuide() {
   const v = active(), box = document.getElementById('guide');
-  const g = v && v.primo === 'auto' && !v.mission ? (v.landed ? null : apGuides.get(v.id) || null) : v && !v.landed || (v && v.missionDone) ? guideNow(v) : null;
+  const g = v && v.primo === 'auto' && (!v.mission || pilotPlan(v)) ? (v.landed ? null : apGuides.get(v.id) || null) : v && !v.landed || (v && v.missionDone) ? guideNow(v) : null;
   const cdVisible = !document.getElementById('countdown').classList.contains('hidden');
   const show = !!(g && !paused && !(MODE === 'mobile' && (cdVisible || mcShow > 0))) && !(v.landed && v.countdown > 0);
   box.classList.toggle('hidden', !show);
@@ -2463,7 +2519,7 @@ function syncGuide() {
   if (g.act === 'stage' || g.act === 'fairing') chips.push('<span class="chip act">' + esc(g.actText) + '</span>');
   if (g.warp === 'go') chips.push('<span class="chip warp">' + (mob ? 'Warp OK ▶▶' : 'Warp OK (.)') + '</span>');
   const pil = v.primo === 'auto' ? crewJob(v, 'pilot') : null;
-  const html = '<div class="gm">' + (pil ? 'Pilot ' + esc(firstName(pil)) + ' flying (O: take over) · ' : '') + (g.done ? '★ ' : 'Mission: ') + esc(missionLabel(g.mission)) + '</div><div class="gt">' + esc(g.title) + '</div>' + (g.detail ? '<div class="gd">' + esc(g.detail) + '</div>' : '') + (chips.length ? '<div class="gc">' + chips.join('') + '</div>' : '');
+  const html = '<div class="gm">' + (pil ? 'Pilot ' + esc(firstName(pil)) + ' flying (O: take over) · ' : '') + (g.done ? '★ ' : 'Mission: ') + esc(g.label || missionLabel(g.mission)) + '</div><div class="gt">' + esc(g.title) + '</div>' + (g.detail ? '<div class="gd">' + esc(g.detail) + '</div>' : '') + (chips.length ? '<div class="gc">' + chips.join('') + '</div>' : '');
   if (html !== guideKey) { guideKey = html; box.innerHTML = html; box.classList.toggle('done', !!g.done); }
 }
 function syncBanner(realDt) {
@@ -2523,7 +2579,7 @@ function drawGuideDial(v, g, cx, cy, R, toScr) {
 }
 
 // ---------- Overlays ----------
-const OVERLAYS = ['ovMode', 'ovTitle', 'ovSelect', 'ovStation', 'ovPause', 'ovHelp', 'ovOutcome', 'ovSettings', 'ovResults', 'ovCrew', 'ovCrewPick', 'ovFlights'];
+const OVERLAYS = ['ovMode', 'ovTitle', 'ovSelect', 'ovStation', 'ovPause', 'ovHelp', 'ovOutcome', 'ovSettings', 'ovResults', 'ovCrew', 'ovCrewPick', 'ovFlights', 'ovOrders'];
 let overlayStack = [];
 function showOverlay(id) {
   for (const o of OVERLAYS) document.getElementById(o).classList.toggle('hidden', o !== id);
@@ -2601,6 +2657,7 @@ function openTitle() {
   add('Launch a rocket', 'launch', active() ? 'ghost' : '');
   if (has) add('Tracking Station', 'station', 'ghost');
   add('Astronaut Complex (' + S.stats.crew.list.length + ' / ' + CREW_CAP + ')', 'crew', 'ghost');
+  add('Mission Control' + (S.stats.control && activeOrders().length ? ' (' + activeOrders().length + ' order' + (activeOrders().length > 1 ? 's' : '') + ')' : ''), 'orders', 'ghost');   // v0.8.0
   add('How to fly', 'help', 'ghost');
   add('Load a backup file', 'import', 'ghost');
   add('Controls: ' + (MODE === 'mobile' ? 'Mobile' : 'PC') + ' (change)', 'modeSwitch', 'ghost');
@@ -2692,6 +2749,10 @@ document.addEventListener('click', e => {
   else if (act === 'flights') openFlights();
   else if (act === 'crewPick') { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); openCrewPick(); }
   else if (act.startsWith('crewTog:')) toggleCrew(+act.slice(8));
+  else if (act === 'crewAuto') autoPickCrew();   // v0.8.0
+  else if (act === 'orders') openOrders();
+  else if ((act.startsWith('crPromote:') || act.startsWith('crDemote:')) && rankClick(act)) { /* v0.8.0: Director rank */ }
+  else if (act.startsWith('mo') && ordersClick(act)) { /* v0.8.0: Mission Control buttons */ }
   else if (act === 'crewClear') { const v = active(); if (crewEditable(v)) { setCrew(v, []); save(); renderCrewPick(); syncPicker(true); } }
   else if (act.startsWith('crewHome:')) { crewHomeNow(+act.slice(9)); openFlights(); }
   else if (act === 'help') showOverlay('ovHelp');
@@ -2718,14 +2779,14 @@ document.addEventListener('click', e => {
   else if (act.startsWith('pad:')) { pickPad(act.slice(4)); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
   else if (act.startsWith('mission:')) { pickMission(act.slice(8)); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
   else if (act === 'mpToggle') { pickHidden = !pickHidden; syncPicker(true); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
-  else if (act === 'endMission') { const v = active(); if (v && v.mission) { delete v.mission; delete v.guide; G_cache.clear(); if (v.primo === 'auto') { v.primo = 'manual'; v.primoDone = true; v.apAim = null; } toast('Mission stopped: free flight'); save(); } closeAll(); }
+  else if (act === 'endMission') { const v = active(); if (v && v.mission) { if (v.dir) orderFlightEnd(v, 'stopped'); delete v.mission; delete v.guide; G_cache.clear(); if (v.primo === 'auto') { v.primo = 'manual'; v.primoDone = true; v.apAim = null; } toast('Mission stopped: free flight'); save(); } closeAll(); }
   else if (act.startsWith('relaunch:')) launch(act.slice(9));
   else if (act.startsWith('fly:')) flyVessel(+act.slice(4));
   else if (act.startsWith('del:')) {
     const v = byId(+act.slice(4)); if (!v) return;
     const recover = v.landed && v.parent === 'terra';
     if (!confirm((recover ? 'Recover ' : 'Delete ') + v.name + '? It will be removed from your world.')) return;
-    releaseCrew(v, 'home'); removeVessel(v); if (S.activeId === v.id) S.activeId = null; save(); openStation();
+    if (v.dir) orderFlightEnd(v, 'stopped'); releaseCrew(v, 'home'); removeVessel(v); if (S.activeId === v.id) S.activeId = null; save(); openStation();
   }
 });
 
@@ -2749,6 +2810,7 @@ window.addEventListener('keydown', e => {
   switch (e.code) {
     case 'KeyO': if (v) { if (!takeOver(v) && !handBack(v)) toast(crewJob(v, 'pilot') ? (v.primoDone || v.missionDone ? 'The Pilot has finished this flight' : 'Nothing for the Pilot to fly right now') : 'No Pilot aboard this ship'); } break;
     case 'KeyL': openFlights(); break;
+    case 'KeyK': openOrders(); break;   // v0.8.0
     case 'KeyZ': if (v) v.throttle = 1; break;
     case 'KeyX': if (v) v.throttle = 0; break;
     case 'KeyT': if (v) { v.sas = !v.sas; toast('SAS ' + (v.sas ? 'on' : 'off')); } break;
@@ -3893,7 +3955,7 @@ function drawDial(v) {
     const rx = cx - Math.cos(pg) * (R - 12), ry = cy - Math.sin(pg) * (R - 12);
     ctx.beginPath(); ctx.moveTo(rx - 5, ry - 5); ctx.lineTo(rx + 5, ry + 5); ctx.moveTo(rx + 5, ry - 5); ctx.lineTo(rx - 5, ry + 5); ctx.strokeStyle = '#ff6b6b'; ctx.stroke();
   }
-  drawGuideDial(v, guideNow(v), cx, cy, R, toScr);
+  drawGuideDial(v, (v.mission ? pilotPlan(v) : null) || guideNow(v), cx, cy, R, toScr);
   const hd = toScr(v.ang);
   ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(hd) * (R - 4), cy + Math.sin(hd) * (R - 4)); ctx.strokeStyle = '#ffd36b'; ctx.lineWidth = 3; ctx.stroke();
   ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fillStyle = '#ffd36b'; ctx.fill();
@@ -4042,7 +4104,7 @@ function render() {
   }
   ctx.globalAlpha = 1;
   if (v && !map && !paused) drawProgradeNear(v);
-  if (v && !map && !paused) drawGuideNear(v, guideNow(v));
+  if (v && !map && !paused) drawGuideNear(v, (v.mission ? pilotPlan(v) : null) || guideNow(v));
   if (v && !paused && !(MODE === 'mobile' && document.body.classList.contains('picking'))) drawDial(v);
 }
 
@@ -4205,13 +4267,16 @@ function ensureCrew() {
   const C = S.stats.crew;
   if (!Array.isArray(C.log)) C.log = []; if (!C.places || typeof C.places !== 'object') C.places = {};
   if (!(C.nextId > 0)) C.nextId = 1 + C.list.reduce((m, p) => Math.max(m, p.id || 0), 0);
+  for (const p of C.list) fixOldDirectorJob(p);   // v0.8.0
   C.list = C.list.filter(p => p && typeof p.id === 'number' && JOBS[p.job]);
   if (!C.started && !C.list.length) for (const s of STARTERS) addPrimo(s);
   C.started = true;
   if (C.list.length > CREW_CAP) C.list.length = CREW_CAP;
   if (typeof C.nextRecruit !== 'number' || !isFinite(C.nextRecruit)) C.nextRecruit = S.t + RECRUIT_EVERY;
-  for (const p of C.list) { if (!TRAITS[p.trait]) p.trait = 'steady'; if (!p.face) p.face = { skin: 0, hair: 0, style: 0, suit: 0, eye: 0 }; p.xp = p.xp || 0; p.missions = p.missions || 0; p.injuries = p.injuries || 0; if (typeof p.restUntil !== 'number') p.restUntil = 0; }
+  for (const p of C.list) { if (!TRAITS[p.trait]) p.trait = 'steady'; if (!p.face) p.face = { skin: 0, hair: 0, style: 0, suit: 0, eye: 0 }; p.xp = p.xp || 0; p.missions = p.missions || 0; p.injuries = p.injuries || 0; if (typeof p.restUntil !== 'number') p.restUntil = 0;
+    if (!(p.train >= 0)) p.train = 0; if (!(p.trainXp >= 0)) p.trainXp = 0; }   // v0.8.0: training
   rebuildPrimoIndex();
+  ensureRanks();   // v0.8.0: Director rank (level 3+, at most 3). No starter Director: old saves load without one
   // who is aboard what: both sides must agree (a ship that is gone frees its crew)
   for (const v of S.vessels) {
     if (!Array.isArray(v.crew)) { delete v.crew; if (v.primo) delete v.primo; continue; }
@@ -4221,6 +4286,8 @@ function ensureCrew() {
     else if (v.primo && !crewJob(v, 'pilot')) delete v.primo;
   }
   for (const p of C.list) if (p.ship !== null && p.ship !== undefined && !S.vessels.some(v => v.id === p.ship && v.crew && v.crew.includes(p.id))) p.ship = null;
+  ensureControl();   // v0.8.0: Mission Control's orders (S.stats.control)
+  trainT = S.t;
 }
 function primoLevel(p) { let L = 0; for (let i = 0; i < LEVEL_XP.length; i++) if ((p.xp || 0) >= LEVEL_XP[i]) L = i; return L; }
 function primoStatus(p) { if (p.ship !== null && p.ship !== undefined) return 'flying'; if (p.restUntil > S.t) return 'resting'; return 'ready'; }
@@ -4285,10 +4352,12 @@ function primoFly(v) {
   const ap = v.ap || (v.ap = {});
   if (v.landed && v.countdown > 0) { v.apAim = null; apGuides.set(v.id, v.hold ? null : { step: 'countdown', evT: 0, warp: 'no', aim: null, thr: null }); return; }   // waiting for GO, or counting down
   v.primoFlown = true;
+  if (engineerWatch(v) && v.primo !== 'auto') { apGuides.delete(v.id); return; }   // v0.8.0: the Engineer called an abort (ship stays in orbit)
   const g = primoGuide(v);
   apGuides.set(v.id, g);
   if (!g) { v.apAim = null; return; }
   if (g.done) { primoFinish(v); return; }
+  if (g.step === 'over' && v.mission && crewJob(v, 'engineer') && v.parent === 'terra' && v.launched && !v.landed && !isDeep(v)) { primoAbort(v, 'noFuelAscent', 0, 0); return; }   // v0.8.0
   if (g.step === 'over' || g.step === 'wrong') { primoGiveUp(v, g.title); return; }
   if (g.act === 'stage') {
     // an Engineer drops the empty stage at once; a Pilot on their own takes a second to check first
@@ -4305,10 +4374,12 @@ function primoFly(v) {
 }
 // what the Pilot should do now: the mission guidance (with a landing spot next to other ships on Luna), or the free-flight plan
 function primoGuide(v) {
+  if (v.abort && v.abort.how === 'home') { const g = freeGuide(v); if (g) g.label = 'Aborted ' + missionLabel(v.abort.mission) + ': coming home'; return g; }   // v0.8.0: aborting: the capsule comes home
+  if (v.abort && v.abort.how === 'orbit') return abortOrbitGuide(v);   // v0.8.0: aborted landing: Luna orbit only
   const gs = v.guide || (v.guide = {}), pilot = crewJob(v, 'pilot');
   if (pilot) { const L = primoLevel(pilot); gs.soft = pilot.trait === 'steady' ? 1.0 : 1.5 - 0.06 * L; gs.qk = pilot.trait === 'steady' ? 0.55 : 0.62; }
   if (v.mission && MISSION[v.mission]) {
-    if (v.mission === 'lunaLand') { const s = siteGuide(v); if (s) return s; }
+    if (v.mission === 'lunaLand') { const h = sciHold(v); if (h) return h; const s = siteGuide(v); if (s) return s; }   // v0.8.0: a Scientist's extra orbit first
     return guideNow(v);
   }
   return freeGuide(v);
@@ -4320,11 +4391,14 @@ function primoTurn(v, auth, dt) {
   const err = angDiff(v.apAim, v.ang), want = Math.max(-0.4, Math.min(0.4, 1.5 * err));
   return v.angVel < want - tol ? 1 : v.angVel > want + tol ? -1 : 0;
 }
+// v0.8.0: the Pilot's current plan for a Primo-flown mission (null if the player flies)
+function pilotPlan(v) { if (!v || v.primo !== 'auto' || v.landed) return null; const g = apGuides.get(v.id); return g && g.title ? g : null; }
 function primoFinish(v) {
   v.primoDone = true; v.primo = 'manual'; v.apAim = null; if (hasThrust(v)) v.throttle = 0; apGuides.delete(v.id);
 }
 function primoGiveUp(v, why) {
   v.primo = 'manual'; v.apAim = null; v.throttle = 0; apGuides.delete(v.id);
+  if (v.dir) orderFlightEnd(v, 'stopped');   // v0.8.0
   say(v, 'giveup', "Control, I can't finish this one: " + why + '. Your ship.', null, true);
 }
 function takeOver(v) {
@@ -4367,7 +4441,8 @@ function pickSite(v) {
 }
 function siteGuide(v) {
   const gs = v.guide || (v.guide = {});
-  if (v.parent !== 'luna' || v.landed || v.missionDone || gs.land) return null;
+  if (v.parent !== 'luna' || v.landed || v.missionDone) return null;
+  if (gs.land && !siteUndoLand(v, gs)) return null;   // v0.8.0 revision
   const R = LUNA.R, o = vesselOrbit(v), raA = o.e < 1 ? o.ra - R : Infinity;
   if (!(o.e < 1 && o.ra < LUNA.soi && raA <= 160000) || (gs.burn && gs.burn.k === 'capture')) return null;
   const r = Math.hypot(v.x, v.y), up = Math.atan2(v.y, v.x), vh = (v.x * v.vy - v.y * v.vx) / r, retro = Math.atan2(-v.vy, -v.vx);
@@ -4376,8 +4451,8 @@ function siteGuide(v) {
     // let the ship that got here first go down first, then pick a spot next to it
     const first = S.vessels.find(w => w !== v && w.primo === 'auto' && w.mission === 'lunaLand' && w.parent === 'luna' && !w.landed && !w.missionDone && w.id < v.id);
     if (first) return mk('Holding in orbit', first.name + ' lands first; then we land next to it.', 0, { step: 'siteHold', warp: 'go', evT: 600 });
-    gs.site = pickSite(v); (v.ap || (v.ap = {})).site = gs.site;
-    if (gs.site !== null) { const ref = landingRefs(v).reduce((a, b) => (b.id > a.id ? b : a)); const nb = byId(ref.id); say(v, 'site', 'Landing spot picked: ' + (Math.abs(angDiff(gs.site, ref.th)) * R / 1000).toFixed(1) + ' km from ' + (nb ? nb.name : 'the other ship') + '.'); }
+    const ps = pickSafeSite(v); gs.site = ps ? ps.th : null; (v.ap || (v.ap = {})).site = gs.site;   // v0.8.0: the flattest spot, 2 km+ from every other lander
+    if (gs.site !== null) { const ref = landingRefs(v).reduce((a, b) => (b.id > a.id ? b : a)); const nb = byId(ref.id); say(v, 'site', 'Landing spot picked: ' + (Math.abs(angDiff(gs.site, ref.th)) * R / 1000).toFixed(1) + ' km from ' + (nb ? nb.name : 'the other ship') + (ps.looked > 1 ? ', the flattest of ' + ps.looked + ' spots I checked' : '') + '.'); }
   }
   if (gs.site === null) return null;                          // nobody down here yet: land the usual way
   const m = massOf(v), amax = Math.max(0.05, thrustNow(engine(v), 0, 1) / m);
@@ -4415,7 +4490,9 @@ function freeGuide(v) {
     else { const g = computeGuide(v, 'leo'); g.mission = 'free'; return g; }
   }
   if (ap.ff === 'orbit') {
-    const left = 120 - (S.t - ap.ffT);
+    if (!v.abort && !ap.sciAsk && crewJob(v, 'scientist')) sciAsk(v, 'terraMap');   // v0.8.0: one full lap for the Scientist (first time only)
+    const left = (ap.sciAsk && !ap.sciAsk.done ? ap.sciAsk.until - S.t : 120 - (S.t - ap.ffT));
+    if (ap.sciAsk && !ap.sciAsk.done && left <= 0) sciDone(v);
     if (left > 0) return mk('In orbit: a quick look around', 'Heading home in ' + fmtTime(left) + '.', pro, 0, { step: 'ffOrbit', warp: 'go', evT: left });
     ap.ff = 'deorbit';
   }
@@ -4476,6 +4553,7 @@ function crewTick() {
     primoRecords(v);
     const sci = crewJob(v, 'scientist'); if (sci) runExperiments(v, sci);
   }
+  trainTick(); directorTick();   // v0.8.0
   flushRadio();
 }
 // milestones and records count for Primo flights too
@@ -4498,14 +4576,28 @@ const PLACES = [
   { id: 'lunaOrbit', name: 'Luna orbit', text: 'photographed craters from Luna orbit', sci: 18, at: (v, b, h, o) => v.parent === 'luna' && !v.landed && !hasThrust(v) && o && o.e < 1 && o.rp > b.R + 3000 && o.ra < b.soi },
   { id: 'lunaSurface', name: 'Luna surface', text: 'collected rock and dust samples on Luna', sci: 30, at: v => v.parent === 'luna' && v.landed },
   { id: 'splash', name: "Terra's ocean", text: 'tested the capsule after splashdown', sci: 5, at: v => v.parent === 'terra' && v.landed && v.splashed && (v.sciSpace || v.reachedOrbit) },
-  { id: 'homeLand', name: 'Back on Terra', text: 'checked the capsule after landing on Terra', sci: 5, at: v => v.parent === 'terra' && v.landed && !v.splashed && (v.sciSpace || v.reachedOrbit) }];
+  { id: 'homeLand', name: 'Back on Terra', text: 'checked the capsule after landing on Terra', sci: 5, at: v => v.parent === 'terra' && v.landed && !v.splashed && (v.sciSpace || v.reachedOrbit) },
+  // v0.8.0: these need one whole lap in a steady orbit (a Scientist may ask for an extra orbit to get them)
+  { id: 'terraMap', name: 'A whole lap of Terra', text: 'mapped the whole of Terra in one full orbit', sci: 9, dwell: 'terra', at: () => false },
+  { id: 'lunaMap', name: "Luna's far side", text: "mapped Luna's far side over one full orbit", sci: 20, dwell: 'luna', at: () => false }];
 const PLACE = Object.fromEntries(PLACES.map(p => [p.id, p]));
 function runExperiments(v, sci) {
   const b = BODIES[v.parent], h = Math.hypot(v.x, v.y) - b.R, o = v.landed ? null : vesselOrbit(v);
   if (v.parent === 'terra' && h > 70000) v.sciSpace = true;
   const done = v.sci || (v.sci = {});
+  // v0.8.0: a whole lap in a steady orbit
+  const steady = o && !hasThrust(v) && o.e < 1 && o.ra < b.soi && o.rp > b.R + (b.atmo ? b.atmo : 3000);
+  if (steady && !(v.sciLap && v.sciLap.b === v.parent)) v.sciLap = { b: v.parent, t0: S.t };
+  else if (!steady && v.sciLap) delete v.sciLap;
+  if (v.sciLap) { const pl = PLACES.find(p => p.dwell === v.parent); if (pl && !done[pl.id] && S.t - v.sciLap.t0 >= orbitPeriod(v) * 0.98) logPlace(v, sci, pl); }
   for (const pl of PLACES) {
-    if (done[pl.id] || !pl.at(v, b, h, o)) continue;
+    if (done[pl.id] || pl.dwell || !pl.at(v, b, h, o)) continue;
+    logPlace(v, sci, pl);
+  }
+}
+function logPlace(v, sci, pl) {
+  const done = v.sci || (v.sci = {}); if (!pl || done[pl.id]) return;
+  {
     done[pl.id] = 1;
     const C = S.stats.crew, first = !C.places[pl.id];
     C.places[pl.id] = (C.places[pl.id] || 0) + 1;
@@ -4525,9 +4617,9 @@ function gainXp(p, n) {
 // mission done: every Primo aboard earns XP; out in space they ride home a day later
 function crewMissionDone(v, mid, res) {
   const cr = crewOf(v); if (!cr.length) return;
-  const base = MISSION_XP[mid] || 2, ups = [];
-  for (const p of cr) { p.missions++; if (gainXp(p, base + (p.trait === 'quick' ? 1 : 0))) ups.push(p.name + ' (now level ' + primoLevel(p) + ')'); }
-  if (res) { res.crew = cr.map(p => ({ name: p.name, job: p.job, level: primoLevel(p) })); res.xp = base; res.levelUps = ups; res.pilot = v.primoFlown && crewJob(v, 'pilot') ? crewJob(v, 'pilot').name : null; }
+  const base = MISSION_XP[mid] || 2, ups = [], rook = cr.length > 1 ? rookieBonus(cr) : [];   // v0.8.0: rookies flying with veterans learn faster
+  for (const p of cr) { p.missions++; if (gainXp(p, base + (p.trait === 'quick' ? 1 : 0) + (rook.includes(p) ? 1 : 0))) ups.push(p.name + ' (now level ' + primoLevel(p) + ')'); }
+  if (res) { res.crew = cr.map(p => ({ name: p.name, job: p.job, level: primoLevel(p) })); res.xp = base; res.levelUps = ups; res.pilot = v.primoFlown && crewJob(v, 'pilot') ? crewJob(v, 'pilot').name : null; res.rookies = rook.map(p => p.name); }
   if (!(v.landed && v.parent === 'terra')) v.crewHomeAt = S.t + HOME_AFTER;
 }
 // called from onLand: Luna touchdown lines, a Primo free flight finishing, and crews recovered back on Terra
@@ -4536,7 +4628,8 @@ function crewOnLand(v, isActive) {
   if (v.parent === 'luna') { if (v.primoFlown && !isActive) milestone('lunaLand'); say(v, 'lunaDown', 'Touchdown on Luna at ' + v.impact.toFixed(1) + ' m/s. All good here.', null, true); return; }
   if (!v.launched) return;
   const sci = crewJob(v, 'scientist'); if (sci) runExperiments(v, sci);
-  if (v.primoFlown && !v.mission && v.ap && v.ap.ff && v.ap.ff !== 'up' && !v.missionDone) primoFreeDone(v, isActive);
+  if (v.primoFlown && !v.mission && !v.abort && v.ap && v.ap.ff && v.ap.ff !== 'up' && !v.missionDone) primoFreeDone(v, isActive);
+  if (v.abort && !v.abort.home) { v.abort.home = S.t; const e = S.stats.control.aborts.find(x => x.id === v.id && x.t === v.abort.t); if (e) e.safe = true; toast('Abort over: ' + namesOf(crewOf(v)) + ' ' + (crewOf(v).length > 1 ? 'are' : 'is') + ' home safe on Terra (' + v.name + ').', true); }   // v0.8.0
   say(v, 'home', (v.splashed ? 'Splashdown' : 'Touchdown') + ' at ' + v.impact.toFixed(1) + ' m/s. Good to be home.', null, true);
   const cr = releaseCrew(v, 'home');
   if (cr.length) toast(namesOf(cr) + (cr.length > 1 ? ' are' : ' is') + ' home safe and ready to fly again');
@@ -4550,6 +4643,7 @@ function primoFreeDone(v, isActive) {
   const res = { mission: 'free', ship: v.name, at: S.t, time: Math.max(0, S.t - t0), fuelPct: 0, fuelUsed: fuelUsedOf(v), landing: v.impact, stars: checks.filter(c => c.ok).length, checks, beat: [], firstTime: false, free: true };
   crewMissionDone(v, 'free', res);
   v.lastRes = res;
+  if (v.dir) orderFlightEnd(v, 'done');   // v0.8.0
   if (isActive) { mcText = { name: 'Free flight: round trip', how: (v.splashed ? 'Splashed down' : 'Landed') + ' at ' + v.impact.toFixed(1) + ' m/s', first: false }; mcShow = 7; sfx('mission'); resultsPending = { at: performance.now() + RESULTS_DELAY, res, shipId: v.id }; }
   else toast(v.name + ': free flight complete ' + starText(res.stars), true);
   say(v, 'done', 'Flight complete. Thanks, Control.', null, true);
@@ -4635,23 +4729,26 @@ function faceHtml(p, px, cls) { return '<canvas class="face ' + (cls || '') + '"
 function paintFaces(root) { root.querySelectorAll('canvas[data-face]').forEach(c => { const p = PRIMO.get(+c.dataset.face); if (p) drawFace(c, p.face, +c.dataset.px); }); }
 function levelText(p) { const L = primoLevel(p); return 'Level ' + L + (L >= 5 ? ' (max)' : ''); }
 function statusHtml(p) {
-  const s = primoStatus(p);
+  const s = primoStatus(p), a = primoActivity(p);   // v0.8.0: Training / Flying / Resting / Directing + a short line
+  if (a.k === 'training') return '<span class="st ok">Ready</span> · <span class="st train">Training</span> <small class="act">' + esc(a.line) + '</small>';
+  if (a.k === 'directing') return '<span class="st ok">Ready</span> · <span class="st dirg">Directing</span> <small class="act">' + esc(a.line) + '</small>';
+  if (s === 'ready' && a.line) return '<span class="st ok">Ready</span> <small class="act">' + esc(a.line) + '</small>';
   if (s === 'flying') { const v = byId(p.ship); const where = v ? (v.landed && v.countdown > 0 ? 'on the pad in ' + v.name : v.name + (v.mission ? ' · ' + missionLabel(v.mission) : '') + (v.crewHomeAt ? ' · home in ' + fmtTime(v.crewHomeAt - S.t) : '')) : ''; return '<span class="st fly">Flying</span> <small>' + esc(where) + '</small>'; }
   if (s === 'resting') return '<span class="st rest">Resting</span> <small>' + fmtTime(p.restUntil - S.t) + ' left</small>';
   return '<span class="st ok">Ready</span>';
 }
 
 // ---- Astronaut Complex screen
-function openCrew() {
+function openCrew() { renderCrew(); showOverlay('ovCrew'); }
+function renderCrew() {   // v0.8.0: split from openCrew so Promote / Demote can redraw it
   if (!S.stats.crew) ensureCrew();
   const C = S.stats.crew, list = C.list.slice().sort((a, b) => ({ ready: 0, flying: 1, resting: 2 }[primoStatus(a)] - { ready: 0, flying: 1, resting: 2 }[primoStatus(b)]) || a.id - b.id);
   const n = C.list.length;
-  $('crSub').innerHTML = '<b>' + n + ' / ' + CREW_CAP + '</b> Primos · ' + list.filter(p => primoStatus(p) === 'ready').length + ' ready' + (n < CREW_CAP ? ' · next recruit in ' + fmtTime(C.nextRecruit - S.t) : ' · the Complex is full') + '<br><small>Pilots fly whole missions for you, Engineers save fuel, Scientists run experiments. They earn XP on every mission (levels 0-5).</small>';
+  $('crSub').innerHTML = '<b>' + n + ' / ' + CREW_CAP + '</b> Primos · ' + list.filter(p => primoStatus(p) === 'ready').length + ' ready' + (n < CREW_CAP ? ' · next recruit in ' + fmtTime(C.nextRecruit - S.t) : ' · the Complex is full') + '<br><small>Pilots fly whole missions for you, Engineers save fuel, Scientists run experiments. They earn XP on every mission (levels 0-5); between flights they train (up to level 2). A level 3+ Primo can be promoted to <b>Director</b> to run Mission Control (' + directors().length + ' of ' + DIRECTOR_CAP + ' Directors now).</small>';
   $('crList').innerHTML = list.map(p => { const L = primoLevel(p), nx = LEVEL_XP[L + 1], pct = nx ? Math.round(100 * (p.xp - LEVEL_XP[L]) / (nx - LEVEL_XP[L])) : 100;
-    return '<div class="crCard" data-pid="' + p.id + '">' + faceHtml(p, 56) + '<div class="crInfo"><b class="crName">' + esc(p.name) + '</b><div class="crJob">' + JOBS[p.job].icon + ' ' + JOBS[p.job].name + ' · ' + levelText(p) + '</div>' +
-      '<div class="crXp"><div style="width:' + pct + '%"></div></div><div class="crTrait"><b>' + TRAITS[p.trait].name + '</b>: ' + esc(TRAITS[p.trait].does) + '</div><div class="crStat">' + statusHtml(p) + (p.missions ? ' <small>· ' + p.missions + ' mission' + (p.missions > 1 ? 's' : '') + '</small>' : '') + '</div></div></div>'; }).join('');
+    return '<div class="crCard" data-pid="' + p.id + '">' + faceHtml(p, 56) + '<div class="crInfo"><b class="crName">' + esc(p.name) + '</b><div class="crJob">' + JOBS[p.job].icon + ' ' + JOBS[p.job].name + ' · ' + levelText(p) + (p.dir ? ' <span class="dirBadge">◎ Director' + (onDuty(p) ? ' · on duty' : '') + '</span>' : '') + '</div>' +
+      '<div class="crXp"><div style="width:' + pct + '%"></div></div><div class="crTrait"><b>' + TRAITS[p.trait].name + '</b>: ' + esc(TRAITS[p.trait].does) + '</div><div class="crStat">' + statusHtml(p) + (p.missions ? ' <small>· ' + p.missions + ' mission' + (p.missions > 1 ? 's' : '') + '</small>' : '') + '</div>' + rankHtml(p) + '</div></div>'; }).join('');
   paintFaces($('crList'));
-  showOverlay('ovCrew');
 }
 // ---- crew picker for the rocket on the pad
 function openCrewPick() {
@@ -4661,14 +4758,16 @@ function openCrewPick() {
 function renderCrewPick() {
   const v = active(); if (!v) return;
   const aboard = crewOf(v), ids = new Set(aboard.map(p => p.id));
-  const avail = S.stats.crew.list.filter(p => ids.has(p.id) || primoStatus(p) === 'ready' || (primoStatus(p) === 'flying' && byId(p.ship) && crewEditable(byId(p.ship))));
-  const busy = S.stats.crew.list.length - avail.length;
+  const duty = dutyDirector();   // v0.8.0: the Director on duty stays on the ground (listed, but can't be picked)
+  const avail = S.stats.crew.list.filter(p => p !== duty && (ids.has(p.id) || primoStatus(p) === 'ready' || (primoStatus(p) === 'flying' && byId(p.ship) && crewEditable(byId(p.ship)))));
+  const busy = S.stats.crew.list.length - avail.length - (duty ? 1 : 0);
   const seats = []; for (let i = 0; i < SEATS; i++) seats.push(aboard[i] ? '<span class="seat on">' + faceHtml(aboard[i], 28) + esc(firstName(aboard[i])) + ' <small>' + JOBS[aboard[i].job].name + '</small></span>' : '<span class="seat">empty seat</span>');
   const pilot = crewJob(v, 'pilot');
   $('cpTitle').textContent = 'Crew for ' + v.name;
   $('cpSeats').innerHTML = seats.join('');
   $('cpNote').textContent = pilot ? 'Pilot ' + pilot.name + ' will fly ' + (v.mission ? 'the whole ' + missionLabel(v.mission) + ' mission' : 'a free flight (to orbit and home)') + ' after you give the go. You can take over at any time.' : 'No Pilot aboard: you fly, exactly as before.' + (aboard.length ? '' : ' (A crew is optional.)');
-  $('cpList').innerHTML = avail.map(p => '<button class="cpRow' + (ids.has(p.id) ? ' sel' : '') + '" data-act="crewTog:' + p.id + '">' + faceHtml(p, 36) + '<span class="cpTxt"><b>' + esc(p.name) + '</b><small>' + JOBS[p.job].name + ' · Level ' + primoLevel(p) + ' · ' + TRAITS[p.trait].name + (primoStatus(p) === 'flying' && !ids.has(p.id) ? ' · on another pad' : '') + '</small></span><span class="cpMark">' + (ids.has(p.id) ? '✓' : '+') + '</span></button>').join('') +
+  $('cpList').innerHTML = avail.map(p => '<button class="cpRow' + (ids.has(p.id) ? ' sel' : '') + '" data-act="crewTog:' + p.id + '">' + faceHtml(p, 36) + '<span class="cpTxt"><b>' + esc(p.name) + (p.dir ? ' <span class="dirBadge">◎ Director</span>' : '') + '</b><small>' + JOBS[p.job].name + ' · Level ' + primoLevel(p) + ' · ' + TRAITS[p.trait].name + (primoStatus(p) === 'flying' && !ids.has(p.id) ? ' · on another pad' : '') + '</small></span><span class="cpMark">' + (ids.has(p.id) ? '✓' : '+') + '</span></button>').join('') +
+    (duty ? '<button class="cpRow off" id="cpDuty" disabled>' + faceHtml(duty, 36) + '<span class="cpTxt"><b>' + esc(duty.name) + ' <span class="dirBadge">◎ Director</span></b><small>Directing · unavailable</small></span><span class="cpMark">–</span></button>' : '') +
     (busy ? '<div class="note">' + busy + ' more Primo' + (busy > 1 ? 's are' : ' is') + ' flying or resting.</div>' : '');
   paintFaces($('ovCrewPick'));
 }
@@ -4685,7 +4784,8 @@ function flightKind(v) { if (!v.debris) return 'ship'; return v.kind && FLIGHT_K
 function flightEntries() {
   const grp = v => (!v.landed ? 0 : v.countdown > 0 ? 1 : 2);
   return S.vessels.filter(v => flightKind(v)).sort((a, b) => grp(a) - grp(b) || b.id - a.id).map(v => ({ id: v.id, kind: flightKind(v), name: v.name,
-    crew: crewOf(v), mission: v.mission && MISSION[v.mission] ? missionLabel(v.mission) : 'Free flight', status: statusOf(v), auto: v.primo === 'auto', done: !!v.missionDone,
+    crew: crewOf(v), mission: v.mission && MISSION[v.mission] ? missionLabel(v.mission) : v.abort ? 'Aborted ' + missionLabel(v.abort.mission) : 'Free flight', status: statusOf(v), auto: v.primo === 'auto', done: !!v.missionDone,
+    dir: v.dir ? { order: v.dir.order, label: (S.stats.control.orders.find(o => o.id === v.dir.order) ? orderLabel(S.stats.control.orders.find(o => o.id === v.dir.order)) : 'order finished'), end: v.dir.end || '' } : null, abort: !!v.abort,
     landed: !!v.landed, onPad: !!(v.landed && v.countdown > 0), active: v.id === S.activeId, group: grp(v) }));
 }
 function flightsCount() { return S.vessels.filter(v => flightKind(v) && (!v.landed || (v.countdown > 0 && !v.hold))).length; }
@@ -4697,7 +4797,7 @@ function openFlights() {
     const who = e.crew.length ? e.crew.map(p => esc(firstName(p))).join(', ') : 'no crew';
     const v = byId(e.id), home = e.crew.length && v && !hasThrust(v) && !e.onPad && (e.done || v.primo !== 'auto');
     html += '<div class="flRow' + (e.active ? ' cur' : '') + '"><div class="flFaces">' + (e.crew.length ? e.crew.map(p => faceHtml(p, 26)).join('') : '<span class="flNo">—</span>') + '</div>' +
-      '<div class="flTxt"><b>' + (e.active ? '▶ ' : '') + esc(e.name) + '</b> <span class="flTag ' + (e.auto ? 'auto' : '') + '">' + (e.auto ? 'Pilot flying' : e.crew.length && crewJob(v, 'pilot') && !e.done ? 'You fly' : e.done ? '★ done' : FLIGHT_KINDS[e.kind]) + '</span><small>' + esc(e.mission) + ' · ' + esc(e.status) + '</small><small>Crew: ' + who + '</small></div>' +
+      '<div class="flTxt"><b>' + (e.active ? '▶ ' : '') + esc(e.name) + '</b> <span class="flTag ' + (e.auto ? 'auto' : '') + '">' + (e.auto ? 'Pilot flying' : e.crew.length && crewJob(v, 'pilot') && !e.done ? 'You fly' : e.done ? '★ done' : FLIGHT_KINDS[e.kind]) + '</span>' + (e.dir ? ' <span class="flTag dir">◎ Director</span>' : '') + (e.abort ? ' <span class="flTag ab">Aborted</span>' : '') + '<small>' + esc(e.mission) + ' · ' + esc(e.status) + '</small>' + (e.dir ? '<small class="flOrd">Order: ' + esc(e.dir.label) + '</small>' : '') + '<small>Crew: ' + who + '</small></div>' +
       '<div class="flBtns"><button class="small" data-act="fly:' + e.id + '">' + (e.active ? 'Back to it' : 'View') + '</button>' + (home ? '<button class="small ghost" data-act="crewHome:' + e.id + '">Crew home</button>' : '') + '</div></div>';
   }
   $('flList').innerHTML = html || '<div class="sub">Nothing flying right now. Launch a rocket!</div>';
@@ -4715,6 +4815,593 @@ function discoveryHtml() {
   if (!L.length) return 'No experiments yet. Take a Scientist along: they run an experiment at every new place (high air, space, orbit, Luna...).';
   return '<div class="discSum">Science collected: <b>' + (S.stats.crew.science || 0) + '</b> points · ' + Object.keys(S.stats.crew.places).length + ' of ' + PLACES.length + ' places studied</div>' +
     L.slice().reverse().slice(0, 60).map(e => '<div class="disc' + (e.first ? ' first' : '') + '">' + (e.first ? '<span class="new">FIRST</span> ' : '') + '<b>' + esc(e.name) + '</b>: ' + esc(e.by) + ' ' + esc(e.text) + ' <small>(' + esc(e.ship) + ', ' + clock(e.t) + ', +' + e.sci + ' science)</small></div>').join('');
+}
+
+
+// ---------- v0.8.0 "Primos take charge": Mission Control (Directors and standing orders), self-picking crews,
+// Primos who think in flight (Engineer aborts, Scientist extra orbits, safer Luna landing spots) and training between flights.
+//
+// HOW IT FITS TOGETHER (built so it can grow: bases on Luna, other planets, gravity-assist routes, more rockets, payloads)
+//  * Orders live in S.stats.control.orders (saved with the world). Each order is plain data: { id, type, n, mission, count, got, ... }.
+//  * What an order MEANS is in ORDER_TYPES, one entry per kind of goal. An entry says how to show it, how far along it is,
+//    whether it is finished, and plan(): "what flight should the Director launch next for this order?" A plan is a small
+//    object { mission, need, rocket, payload, target } - today only mission/need are used. A future "build a habitat on Luna"
+//    order would return { mission: 'lunaLand', payload: 'habitat', target: 'luna' }: the Director would launch a rocket with
+//    v.payload set, and the order counts it done when that payload is delivered (hook: orderFlightEnd(v, 'done')).
+//  * Director is a RANK, not a job (p.dir = true): any Pilot, Engineer or Scientist of level 3+ can be promoted in the
+//    Astronaut Complex (at most 3 at once). There is no starter Director. One Director is on duty at a time
+//    (S.stats.control.duty, chosen in Mission Control; default the highest-level Ready one) and stays on the ground;
+//    off-duty Directors fly as normal crew. The Director on duty looks at the orders top to bottom (the player's priority)
+//    and launches Primo-flown rockets with dirLaunch(): its own crew (autoCrew), a free pad, one rocket climbing at a time.
+//  * Every Director flight carries v.dir = { order, by, mission, at } and is reported back when it ends (done / aborted / lost).
+const FLY_JOBS = ['pilot', 'engineer', 'scientist'];    // every job rides in the capsule (Director is a rank on top of a job)
+const DIRECTOR_LEVEL = 3;                               // promotion needs level 3 (training stops at 2: it is earned by flying)
+const DIRECTOR_CAP = 3;                                 // at most 3 Directors at once
+const TRAIN_EVERY = 2 * DAY;                            // idle Ready Primos earn 1 XP for every 2 game days of training ...
+const TRAIN_MAX_XP = LEVEL_XP[2];                       // ... but training only takes them up to level 2: flying is the way up after that
+const ORDER_MISSIONS = ['leo', 'meo', 'geo', 'lunaOrbit', 'lunaLand'];
+const LUNA_GAP = 300;                                   // Luna-bound Director launches at least 5 game minutes apart (ships arrive spread out)
+const SHUTTLE_AFTER = L => (8 - L) * 3600;              // a Director brings a finished crew home early (8 h, an hour less per level)
+const ORDER_TYPES = {
+  keepOrbit: { name: 'Keep ships in low orbit', icon: '◯', min: 1, max: 6, def: 2, ongoing: true,
+    blurb: 'Crews fly to low orbit (100 km) until this many ships are circling there. If one comes down or is deleted, another goes up.',
+    label: o => 'Keep ' + o.n + ' ship' + (o.n > 1 ? 's' : '') + ' in low orbit',
+    have: () => shipsInLeo().length,
+    plan(o) { return this.have(o) + inFlight(o).length < o.n ? { mission: 'leo' } : null; },
+    progress(o) { const h = Math.min(o.n, this.have(o)); return { a: h, b: o.n, text: h + ' of ' + o.n + ' in low orbit' + (h >= o.n ? ' · holding' : '') }; },
+    done: () => false },
+  landLuna: { name: 'Land on Luna', icon: '☾', min: 1, max: 10, def: 2,
+    blurb: 'Crews fly to Luna and land, until this many landings are done.',
+    label: o => 'Land on Luna ' + o.n + ' time' + (o.n > 1 ? 's' : ''),
+    plan(o) { return o.count + inFlight(o).length < o.n ? { mission: 'lunaLand' } : null; },
+    progress(o) { return { a: o.count, b: o.n, text: o.count + ' of ' + o.n + ' landings' }; },
+    done: o => o.count >= o.n },
+  flyMission: { name: 'Fly a mission', icon: '▲', min: 1, max: 10, def: 3, needsMission: true,
+    blurb: 'Crews fly the mission you pick, this many times.',
+    label: o => missionLabel(o.mission) + ' × ' + o.n,
+    plan(o) { return o.count + inFlight(o).length < o.n ? { mission: o.mission } : null; },
+    progress(o) { return { a: o.count, b: o.n, text: o.count + ' of ' + o.n + ' flown' }; },
+    done: o => o.count >= o.n },
+  everyMission: { name: 'Reach every mission once', icon: '✦', fixed: true,
+    blurb: 'Low, medium and high orbit, Luna orbit and a Luna landing: one of each.',
+    label: () => 'Reach every mission once',
+    plan(o) { const busy = new Set(inFlight(o).map(v => v.dir.mission)), m = ORDER_MISSIONS.find(id => !(o.got || {})[id] && !busy.has(id)); return m ? { mission: m } : null; },
+    progress(o) { const g = ORDER_MISSIONS.filter(id => (o.got || {})[id]); return { a: g.length, b: ORDER_MISSIONS.length, text: g.length + ' of ' + ORDER_MISSIONS.length + ' done' + (g.length && g.length < 5 ? ' (' + g.map(id => MISSION[id].short).join(', ') + ')' : '') }; },
+    done: o => ORDER_MISSIONS.every(id => (o.got || {})[id]) },
+  science: { name: 'Science flights', icon: '⚗', min: 1, max: 10, def: 3, need: 'scientist',
+    blurb: 'Flights that always carry a Scientist, sent where the Discovery log still has gaps.',
+    label: o => o.n + ' science flight' + (o.n > 1 ? 's' : ''),
+    plan(o) { return o.count + inFlight(o).length < o.n ? { mission: sciencePick(o), need: 'scientist' } : null; },
+    progress(o) { return { a: o.count, b: o.n, text: o.count + ' of ' + o.n + ' science flights' }; },
+    done: o => o.count >= o.n }
+};
+function orderLabel(o) { const T = ORDER_TYPES[o.type]; return T ? T.label(o) : 'Unknown order'; }
+function inFlight(o) { return S.vessels.filter(v => v.dir && v.dir.order === o.id && !v.dir.end && !v.debris); }
+function shipsInLeo() {
+  const b = BODIES.terra;
+  return S.vessels.filter(v => { if (v.debris || v.landed || v.parent !== 'terra' || hasThrust(v)) return false; const o = vesselOrbit(v); return o.e < 1 && o.rp - b.R >= 75000 && o.ra - b.R <= 130000; });
+}
+// a science flight goes where the Discovery log still has gaps (furthest first), otherwise it takes turns
+function sciencePick(o) {
+  const P = (S.stats.crew && S.stats.crew.places) || {}, busy = new Set(inFlight(o).map(v => v.dir.mission));
+  const wants = [['lunaLand', ['lunaSurface']], ['lunaOrbit', ['lunaOrbit', 'lunaSpace', 'lunaMap']], ['geo', ['farOrbit']], ['meo', ['highOrbit']], ['leo', ['orbit', 'space', 'highAir', 'terraMap']]];
+  for (const [m, ps] of wants) if (ps.some(p => !P[p]) && !busy.has(m)) return m;
+  const k = (o.count + inFlight(o).length) % ORDER_MISSIONS.length; return ORDER_MISSIONS[k];
+}
+function normOrder(o) {
+  const T = ORDER_TYPES[o.type];
+  o.id = num(o.id, 0); o.n = Math.max(T.min || 1, Math.min(T.max || 10, Math.floor(num(o.n, T.def || 1))));
+  if (T.needsMission && !(o.mission === 'none' || MISSION[o.mission])) o.mission = 'leo';
+  o.count = Math.max(0, Math.floor(num(o.count, 0))); o.flights = Math.max(0, Math.floor(num(o.flights, 0))); o.fails = Math.max(0, Math.floor(num(o.fails, 0)));
+  if (!o.got || typeof o.got !== 'object' || Array.isArray(o.got)) o.got = {};
+  o.paused = !!o.paused; if (o.status !== 'done') o.status = 'active';
+  o.made = num(o.made, 0);
+}
+function ensureControl() {
+  let K = S.stats.control;
+  if (!K || typeof K !== 'object' || Array.isArray(K)) K = S.stats.control = {};
+  if (!Array.isArray(K.orders)) K.orders = [];
+  K.orders = K.orders.filter(o => o && typeof o === 'object' && !Array.isArray(o) && ORDER_TYPES[o.type]);
+  for (const o of K.orders) normOrder(o);
+  const seen = new Set(); K.orders = K.orders.filter(o => o.id > 0 && !seen.has(o.id) && seen.add(o.id));
+  if (!(num(K.nextId, 0) > K.orders.reduce((m, o) => Math.max(m, o.id), 0))) K.nextId = 1 + K.orders.reduce((m, o) => Math.max(m, o.id), 0);
+  if (!Array.isArray(K.log)) K.log = []; K.log = K.log.filter(e => e && typeof e === 'object' && typeof e.text === 'string').slice(-40);
+  if (!Array.isArray(K.aborts)) K.aborts = []; K.aborts = K.aborts.filter(e => e && typeof e === 'object').slice(-30);
+  K.lastLaunch = num(K.lastLaunch, -1e9); K.lunaLast = num(K.lunaLast, -1e9); K.flights = Math.max(0, Math.floor(num(K.flights, 0)));
+  if (!K.padLast || typeof K.padLast !== 'object' || Array.isArray(K.padLast)) K.padLast = {};
+  K.duty = Math.max(0, Math.floor(num(K.duty, 0))); if (K.duty && !(PRIMO.get(K.duty) && PRIMO.get(K.duty).dir)) K.duty = 0;   // who the player put on duty
+  for (const v of S.vessels) if (v.dir !== undefined && (!v.dir || typeof v.dir !== 'object' || Array.isArray(v.dir))) delete v.dir;
+  return K;
+}
+// ---- Director rank. No starter Director: old saves (v0.1 - v0.7.2) load without one.
+// A test/dev v0.8.0 save may have a Primo with the old job 'director': it becomes a Pilot (a flying job) and keeps the rank
+// only at level 3+ (ensureRanks drops it below that).
+function fixOldDirectorJob(p) { if (p && typeof p === 'object' && p.job === 'director') { p.job = 'pilot'; p.dir = true; } }
+function ensureRanks() {
+  const C = S.stats.crew; delete C.dir080;
+  for (const p of C.list) { if (p.dir && FLY_JOBS.includes(p.job) && primoLevel(p) >= DIRECTOR_LEVEL) p.dir = true; else delete p.dir; }
+  const ds = C.list.filter(p => p.dir).sort((a, b) => primoLevel(b) - primoLevel(a) || a.id - b.id);
+  for (const p of ds.slice(DIRECTOR_CAP)) delete p.dir;   // never more than 3
+}
+function directors() { return S.stats.crew.list.filter(p => p.dir); }
+function bestReadyDirector(not) { return directors().filter(p => p !== not && primoStatus(p) === 'ready').sort((a, b) => primoLevel(b) - primoLevel(a) || a.id - b.id)[0] || null; }
+// the Director on duty: the one the player chose (if Ready), otherwise the highest-level Ready Director
+function dutyDirector() {
+  const K = S.stats.control, c = K && K.duty ? PRIMO.get(K.duty) : null;
+  if (c && c.dir && primoStatus(c) === 'ready') return c;
+  return bestReadyDirector();
+}
+function onDuty(p) { return !!p && p.dir && dutyDirector() === p; }
+function awayText(p) { const s = primoStatus(p), v = s === 'flying' ? byId(p.ship) : null; return s === 'flying' ? 'flying' + (v ? ' (' + v.name + ')' : '') : s === 'resting' ? 'resting' : 'ready'; }
+// keep the saved choice in step with who is really on duty; when duty changes hands by itself the radio says so
+function syncDuty() {
+  const K = S.stats.control; if (!K) return null;
+  const c = K.duty ? PRIMO.get(K.duty) : null; if (K.duty && !(c && c.dir)) K.duty = 0;
+  const d = dutyDirector(); if (!d) return null;
+  if (K.duty !== d.id) { const was = K.duty ? c : null; K.duty = d.id; if (was) dirSay(firstName(was) + ' is ' + awayText(was) + ', so ' + d.name + ' takes over Mission Control.', true, d); }
+  return d;
+}
+// the player picks who is on duty (Mission Control). Away (flying / resting)? Another Ready Director takes it.
+function chooseDuty(id) {
+  const K = S.stats.control, p = PRIMO.get(id); if (!p || !p.dir) return;
+  const was = dutyDirector();
+  if (primoStatus(p) === 'ready') { K.duty = p.id; if (was !== p) dirSay(p.name + ' is on duty now.' + (was ? ' ' + firstName(was) + ' can fly again.' : ''), true, p); }
+  else {
+    const alt = bestReadyDirector(p);
+    if (alt) { K.duty = alt.id; dirSay(firstName(p) + ' is ' + awayText(p) + ' right now, so ' + alt.name + (alt === was ? ' stays on duty.' : ' takes over Mission Control.'), true, alt); }
+    else { K.duty = p.id; toast(p.name + ' is ' + awayText(p) + ' right now and no other Director is Ready. ' + firstName(p) + ' takes duty when back; until then orders wait.', true); }
+  }
+  directorTick(true); save();
+}
+// promotion (Astronaut Complex): level 3+, at most 3 Directors
+function promoteCheck(p) {
+  if (!p) return { ok: false, why: '' };
+  if (p.dir) return { ok: false, why: 'Already a Director' };
+  if (primoLevel(p) < DIRECTOR_LEVEL) return { ok: false, why: 'Needs level ' + DIRECTOR_LEVEL + ' (earned by flying)' };
+  if (directors().length >= DIRECTOR_CAP) return { ok: false, why: 'Already ' + DIRECTOR_CAP + ' Directors (the most): demote one first' };
+  return { ok: true, why: '' };
+}
+function promote(id) {
+  const p = PRIMO.get(id), c = promoteCheck(p);
+  if (!c.ok) { if (c.why) toast(p.name + ': ' + c.why); return false; }
+  p.dir = true; syncDuty();
+  toast('◎ ' + p.name + ' is now a Director. ' + (onDuty(p) ? 'On duty at Mission Control: give orders there.' : 'Off duty for now, so ' + firstName(p) + ' still flies as ' + aJob(p) + '.'), true);
+  directorTick(true); save(); return true;
+}
+function demote(id) {
+  const p = PRIMO.get(id); if (!p || !p.dir) return false;
+  const was = onDuty(p), K = S.stats.control; delete p.dir; if (K.duty === p.id) K.duty = 0;
+  const d = syncDuty();
+  toast(p.name + ' is no longer a Director (back to ' + JOBS[p.job].name + ').' + (was ? (d ? ' ' + d.name + ' is on duty now.' : ' No Director on duty: orders wait.') : ''), true);
+  directorTick(true); save(); return true;
+}
+// a finished crew that could ride the shuttle home early: mission over (or aborted and parked), anywhere but back on Terra's ground
+function finishedCrew(v) {
+  if (!v.crew || v.debris || hasThrust(v) || !crewJob(v, 'pilot') || !(v.crewHomeAt || v.missionDone || v.primoDone)) return false;
+  if (v.parent === 'terra' && (v.landed || Math.hypot(v.x, v.y) - BODIES.terra.R < BODIES.terra.atmo)) return false;   // (coming home by itself)
+  return !(v.primo === 'auto' && !v.primoDone && !v.crewHomeAt);
+}
+function aJob(p) { const n = JOBS[p.job].name; return (/^[AEIOU]/.test(n) ? 'an ' : 'a ') + n; }
+function whereText(v) { return v.parent === 'luna' ? (v.landed ? 'Luna' : 'Luna orbit') : v.parent === 'terra' ? 'Terra orbit' : 'space'; }
+function activeOrders() { return S.stats.control.orders.filter(o => o.status === 'active' && !o.paused); }
+function directorFlights() { return S.vessels.filter(v => v.dir && !v.dir.end && !v.debris); }
+
+// ---- self-picking crews: who should fly this mission?
+// Always a Pilot (the flight is flown by Primos). Then an Engineer and a Scientist when there are Ready ones: an Engineer first
+// for the long trips (high orbit, Luna), a Scientist first for science flights or when that place has never been studied.
+// Rookies fly with veterans: once a veteran (level 2+) is aboard, the other seats go to the least experienced Primo of that job,
+// who earns bonus XP for flying with them. No veteran aboard: the most experienced of each job goes.
+// keep: ids that count as available even though they are seated (the rocket being set up on the pad).
+function autoCrew(mission, opts) {
+  opts = opts || {};
+  const keep = opts.keep || new Set(), q = opts.quality === undefined ? 3 : opts.quality;
+  const duty = dutyDirector();   // the Director on duty stays on the ground; off-duty Directors fly like anyone
+  const pool = S.stats.crew.list.filter(p => FLY_JOBS.includes(p.job) && p !== duty && (keep.has(p.id) || primoStatus(p) === 'ready'));
+  const of = job => pool.filter(p => p.job === job);
+  const best = list => list.slice().sort((a, b) => primoLevel(b) - primoLevel(a) || (b.trait === 'steady') - (a.trait === 'steady') || a.missions - b.missions || a.id - b.id)[0] || null;
+  const rookie = list => list.slice().sort((a, b) => primoLevel(a) - primoLevel(b) || a.missions - b.missions || a.id - b.id)[0] || null;
+  const pilots = of('pilot'); if (!pilots.length) return { ids: [], why: 'no Ready Pilot' };
+  const vetOther = pool.some(p => p.job !== 'pilot' && primoLevel(p) >= 2);
+  // a rookie Pilot may fly when a veteran Engineer or Scientist goes along (and the Director is good at matching crews)
+  let pilot = best(pilots);
+  if (q >= 2 && vetOther && pilots.length > 1) { const r = rookie(pilots); if (primoLevel(r) <= 1 && mission !== 'lunaLand') pilot = r; }
+  const crew = [pilot];
+  const long = mission === 'geo' || mission === 'lunaOrbit' || mission === 'lunaLand';
+  const P = (S.stats.crew && S.stats.crew.places) || {};
+  const sciFirst = opts.need === 'scientist' || (q >= 2 && ((mission === 'lunaLand' && !P.lunaSurface) || (mission === 'lunaOrbit' && !P.lunaOrbit)));
+  const jobs = sciFirst ? ['scientist', 'engineer'] : q >= 2 && !long ? ['engineer', 'scientist'] : ['engineer', 'scientist'];
+  for (const job of jobs) {
+    if (crew.length >= SEATS) break;
+    const list = of(job).filter(p => !crew.includes(p)); if (!list.length) continue;
+    const vet = crew.some(p => primoLevel(p) >= 2);
+    crew.push(q >= 2 && vet ? rookie(list) : best(list));
+  }
+  if (opts.need && !crew.some(p => p.job === opts.need)) return { ids: [], why: 'no Ready ' + JOBS[opts.need].name };
+  return { ids: crew.map(p => p.id), why: '' };
+}
+// rookies flying with veterans learn faster: +1 XP for anyone at least 2 levels below the most experienced crewmate
+function rookieBonus(cr) {
+  const top = Math.max(...cr.map(primoLevel)); return cr.filter(p => primoLevel(p) <= top - 2 && primoLevel(p) < 5);
+}
+// the Auto pick button in the crew picker on the pad
+function autoPickCrew() {
+  const v = active(); if (!crewEditable(v)) return;
+  const r = autoCrew(v.mission || 'none', { keep: new Set(v.crew || []) });
+  if (!r.ids.length) { toast('Auto pick: ' + (r.why === 'no Ready Pilot' ? 'no Pilot is Ready right now (flying or resting). You can still pick a crew by hand, or fly yourself.' : r.why)); return; }
+  setCrew(v, r.ids); G_cache.delete(v.id); save(); renderCrewPick(); syncPicker(true);
+  toast('Auto pick: ' + crewOf(v).map(p => firstName(p) + ' (' + JOBS[p.job].name + ', L' + primoLevel(p) + ')').join(', '));
+}
+
+// ---- Mission Control radio: short, calm lines from the Director (on a phone at most one every 25 s unless it matters)
+let lastDirToast = -1e9;
+function dirSay(text, important, d) {
+  const K = S.stats.control, who = d || dutyDirector();
+  K.log.push({ t: S.t, text, who: who ? who.name : '' }); if (K.log.length > 40) K.log.shift();
+  const msg = '◎ ' + (who ? firstName(who) + ' (Mission Control)' : 'Mission Control') + ': ' + text;
+  const now = performance.now();
+  if (!important && now - lastDirToast < (MODE === 'mobile' ? 25000 : 4000)) return;
+  lastDirToast = now; radioQ.push(msg); while (radioQ.length > 3) radioQ.shift(); flushRadio();
+}
+
+// ---- the Director at work: called every frame the game runs
+let dirTickT = -1e9;
+function directorTick(force) {
+  const K = S.stats.control; if (!K) return;
+  if (!force && Math.abs(S.t - dirTickT) < 2) return; dirTickT = S.t;
+  const d = syncDuty();
+  for (const o of K.orders) o.wait = '';
+  if (!K.orders.some(o => o.status === 'active')) return;
+  if (!d) { for (const o of activeOrders()) o.wait = 'No Director on duty'; return; }
+  const L = primoLevel(d);
+  // bring finished crews home early when a Pilot is needed and none is Ready: from anywhere (any Terra orbit, Luna orbit,
+  // Luna's surface ...), as long as their mission is over
+  const needPilot = activeOrders().some(o => ORDER_TYPES[o.type].plan(o)) && !S.stats.crew.list.some(p => p.job === 'pilot' && p !== d && primoStatus(p) === 'ready');
+  if (needPilot) for (const v of S.vessels) {
+    if (!finishedCrew(v)) { if (v.finT !== undefined && !v.crew) delete v.finT; continue; }
+    if (v.finT === undefined) v.finT = v.crewHomeAt ? v.crewHomeAt - HOME_AFTER : S.t;
+    if (S.t >= v.finT + SHUTTLE_AFTER(L)) { const where = whereText(v), cr = releaseCrew(v, 'home'); delete v.finT; if (v.primo) delete v.primo; if (cr.length) dirSay('Sent the shuttle for ' + namesOf(cr) + ' (' + v.name + ', ' + where + '). We need a Pilot.', false, d); }
+  }
+  const gap = Math.max(60, 300 - 40 * L) * (d.trait === 'quick' ? 0.75 : 1);
+  const fl = directorFlights();
+  const climbing = S.vessels.some(v => !v.debris && v.parent === 'terra' && ((waitingOnPad(v) && !v.hold) || (v.launched && !v.landed && Math.hypot(v.x, v.y) - BODIES.terra.R < BODIES.terra.atmo && (hasThrust(v) || (v.x * v.vx + v.y * v.vy) > 0))));
+  for (const o of K.orders) {
+    if (o.status !== 'active' || o.paused) continue;
+    const T = ORDER_TYPES[o.type], plan = T.plan(o);
+    if (!plan) { o.wait = inFlight(o).length ? '' : T.ongoing ? 'Holding: goal met' : ''; continue; }
+    if (fl.length >= PADS.length) { o.wait = 'Waiting: ' + PADS.length + ' Director flights already up (one per pad)'; break; }
+    if (S.t - K.lastLaunch < gap) { o.wait = 'Next launch in ' + fmtTime(gap - (S.t - K.lastLaunch)); break; }
+    if (climbing) { o.wait = 'Waiting for the sky to clear (a rocket is climbing)'; break; }
+    if ((plan.mission === 'lunaLand' || plan.mission === 'lunaOrbit') && S.t - K.lunaLast < LUNA_GAP) { o.wait = 'Spacing out Luna flights: next in ' + fmtTime(LUNA_GAP - (S.t - K.lunaLast)); continue; }
+    if (plan.mission === 'lunaLand') {
+      const landers = S.vessels.filter(v => !v.debris && v.primo === 'auto' && v.mission === 'lunaLand' && !v.missionDone && !v.landed).length;
+      if (landers >= (d.trait === 'steady' ? 1 : 2)) { o.wait = 'Waiting: ' + landers + ' Luna lander' + (landers > 1 ? 's' : '') + ' still on the way down'; continue; }
+    }
+    const cr = autoCrew(plan.mission, { need: plan.need || T.need, quality: L >= 2 || d.trait === 'precise' ? 3 : 1 });
+    if (!cr.ids.length) { o.wait = 'Waiting for a Ready ' + (cr.why.indexOf('Scientist') >= 0 ? 'Scientist' : 'Pilot'); continue; }
+    const pad = pickDirPad(K); if (!pad) { o.wait = 'Waiting: every launch pad is busy'; break; }
+    const v = dirLaunch(plan, pad.id, cr.ids, o, d);
+    if (v) { o.wait = ''; break; }   // one launch at a time
+  }
+}
+// a free pad, the one used least recently first (spreads the launches over all three)
+function pickDirPad(K) {
+  const at = id => (typeof K.padLast[id] === 'number' ? K.padLast[id] : -1e9);
+  return PADS.filter(p => !padTakenBy(p.id)).sort((a, b) => at(a.id) - at(b.id))[0] || null;
+}
+function dirLaunch(plan, padId, ids, o, d) {
+  const K = S.stats.control, rid = plan.rocket && ROCKETS[plan.rocket] && !ROCKETS[plan.rocket].retired ? plan.rocket : LAUNCH_ROCKET;
+  const v = newVessel(rid, padId, null);
+  if (plan.mission && plan.mission !== 'none' && MISSION[plan.mission]) { v.mission = plan.mission; v.guide = {}; }
+  v.countdown = COUNTDOWN; v.hold = true; v.clamped = true; v.ignited = false;
+  setCrew(v, ids);
+  if (v.primo !== 'auto') { releaseCrew(v, 'home'); removeVessel(v); return null; }
+  v.hold = false;                                       // the Director gives the go
+  v.dir = { order: o.id, by: d.id, mission: plan.mission || 'none', at: S.t };
+  if (plan.payload) v.payload = plan.payload;           // (future: habitat parts, base modules ...)
+  if (plan.target) v.dir.target = plan.target;
+  K.lastLaunch = S.t; K.padLast[padId] = S.t; K.flights++; o.flights++; if (plan.mission === 'lunaLand' || plan.mission === 'lunaOrbit') K.lunaLast = S.t;
+  const pil = crewJob(v, 'pilot');
+  say(v, 'go', 'Copy, Mission Control: go for launch. Starting the count.');
+  dirSay(v.name + ' from ' + PAD[padId].name + ': ' + missionLabel(plan.mission || 'none') + ' for "' + orderLabel(o) + '". Crew: ' + crewOf(v).map(p => firstName(p) + (p === pil ? ' (flying)' : '')).join(', ') + '.', false, d);
+  save();
+  return v;
+}
+// a Director flight ended: 'done' (mission complete), 'aborted', 'lost' (crashed: crew recovered), 'stopped' (taken off the mission)
+function orderFlightEnd(v, how) {
+  if (!v || !v.dir || v.dir.end || v.debris) return;
+  v.dir.end = how; v.dir.endT = S.t;
+  const K = S.stats.control, o = K && K.orders.find(x => x.id === v.dir.order);
+  const d = PRIMO.get(v.dir.by);
+  if (how === 'done' && d) gainXp(d, 1);
+  if (!o) return;
+  if (how === 'done') { o.count++; o.got = o.got || {}; o.got[v.dir.mission] = 1; }
+  else o.fails++;
+  const T = ORDER_TYPES[o.type];
+  if (how === 'done' && o.status === 'active' && T.done(o)) { o.status = 'done'; o.doneT = S.t; dirSay('Order complete: ' + orderLabel(o) + ' ✓', true, d); }
+  else if (how === 'done') dirSay(v.name + ' did it: ' + orderLabel(o) + ' now ' + T.progress(o).text + '.', false, d);
+  else if (how === 'aborted') dirSay(v.name + ' aborted safely. I will send another flight for "' + orderLabel(o) + '".', true, d);
+  else if (how === 'lost') dirSay(v.name + ' was lost (the crew are safe, resting). Another flight will go for "' + orderLabel(o) + '".', true, d);
+}
+function giveOrder(type, n, mission) {
+  const T = ORDER_TYPES[type]; if (!T) return null;
+  const K = S.stats.control, o = { id: K.nextId++, type, n: n || T.def || 1, made: S.t };
+  if (T.needsMission) o.mission = mission || 'leo';
+  normOrder(o); K.orders.push(o);
+  const d = dutyDirector();
+  dirSay(d ? 'New order: ' + orderLabel(o) + '. On it.' : 'New order: ' + orderLabel(o) + '. It waits until a Director is on duty.', true, d);
+  directorTick(true); save();
+  return o;
+}
+function orderAct(kind, id) {
+  const K = S.stats.control, i = K.orders.findIndex(o => o.id === id); if (i < 0) return;
+  const o = K.orders[i];
+  if (kind === 'up' && i > 0) { K.orders.splice(i, 1); K.orders.splice(i - 1, 0, o); }
+  else if (kind === 'down' && i < K.orders.length - 1) { K.orders.splice(i, 1); K.orders.splice(i + 1, 0, o); }
+  else if (kind === 'pause') { o.paused = !o.paused; dirSay((o.paused ? 'Paused: ' : 'Resumed: ') + orderLabel(o) + (o.paused && inFlight(o).length ? ' (flights already up carry on)' : '') + '.', true); }
+  else if (kind === 'cancel') { K.orders.splice(i, 1); for (const v of inFlight(o)) v.dir.order = 0; dirSay('Cancelled: ' + orderLabel(o) + (inFlight(o).length ? '' : '') + '.', true); }
+  directorTick(true); save();
+}
+
+// ---- thinking in flight: the Engineer's fuel watch
+// Δv the rocket still has (an Engineer's fuel saving makes every kilogram go further)
+function dvHave(v) { return deltaV(v) / fuelFactor(v); }
+// Δv still needed from a round orbit around Terra to finish the mission (transfer burns worked out from the orbit itself,
+// plus a 10% margin for steering and fine-tuning)
+function dvNeedTerra(v, mid) {
+  const M = MISSION[mid]; if (!M) return 0;
+  const b = BODIES.terra, mu = b.mu, o = vesselOrbit(v), r1 = o.a, vc = r => Math.sqrt(mu / r);
+  if (M.kind === 'orbit') { const r2 = b.R + M.alt, at = (r1 + r2) / 2; return 1.1 * (Math.abs(Math.sqrt(mu * (2 / r1 - 1 / at)) - vc(r1)) + Math.abs(vc(r2) - Math.sqrt(mu * (2 / r2 - 1 / at)))); }
+  const LO = LUNA.orbitR, at = (r1 + LO) / 2, tli = Math.sqrt(mu * (2 / r1 - 1 / at)) - vc(r1);
+  const vinf = Math.abs(vc(LO) - Math.sqrt(mu * (2 / LO - 1 / at)));
+  const muL = LUNA.mu, rp = LUNA.R + (LUNA_PASS[0] + LUNA_PASS[1]) / 2, cap = Math.sqrt(vinf * vinf + 2 * muL / rp) - Math.sqrt(muL * (2 / rp - 2 / (rp + LUNA.R + 150000)));
+  return 1.1 * (tli + cap) + (M.kind === 'lunaLand' ? dvLand() : 0);
+}
+// Δv for the landing from a low Luna orbit: stop moving sideways at the low point, then the slow way down
+// Δv to brake into a low Luna orbit at the closest point of this pass (+10%)
+function dvCapture(v) {
+  const muL = LUNA.mu, o = vesselOrbit(v), r = Math.hypot(v.x, v.y), sp = Math.hypot(v.vx, v.vy), rp = Math.max(LUNA.R + 10000, o.rp);
+  const vpe = Math.sqrt(Math.max(0, sp * sp + 2 * muL / rp - 2 * muL / r)), vEll = Math.sqrt(muL * (2 / rp - 2 / (rp + LUNA.R + 150000)));
+  return 1.1 * Math.max(0, vpe - vEll);
+}
+function dvLand(v) {
+  const muL = LUNA.mu, R = LUNA.R;
+  let rp = R + 30000, ra = R + 150000;
+  if (v) { const o = vesselOrbit(v); if (o.e < 1) { rp = o.rp; ra = o.ra; } }
+  return 1.2 * Math.sqrt(muL * (2 / rp - 2 / (rp + ra))) + 330;
+}
+function engineerWatch(v, g) {
+  const eng = crewJob(v, 'engineer'); if (!eng || !v.mission || v.abort || v.missionDone || v.landed) return false;
+  const ap = v.ap || (v.ap = {}), gs = v.guide || {};
+  if (v.parent === 'terra' && !ap.fc1 && v.mission !== 'leo' && !isDeep(v)) {
+    const b = BODIES.terra, o = vesselOrbit(v);
+    if (o.e < 1 && o.rp - b.R >= 70000 && !(gs.burn && gs.burn.k === 'circ') && !gs.lu) {
+      const have = dvHave(v), need = dvNeedTerra(v, v.mission);
+      ap.fc1 = { have: Math.round(have), need: Math.round(need), t: S.t };
+      if (have < need) { primoAbort(v, 'fuel', have, need); return true; }
+      say(v, 'fuelOk', 'Fuel check: ' + Math.round(have) + ' m/s left, the ' + missionLabel(v.mission) + ' needs about ' + Math.round(need) + '. We are good.', eng);
+    }
+  }
+  // on the way in to Luna, before the braking burn: enough for the capture AND the landing?
+  if (v.parent === 'luna' && v.mission === 'lunaLand' && !ap.fc2 && !gs.land) {
+    const o = vesselOrbit(v), closed = o.e < 1 && o.ra < LUNA.soi;
+    if (!closed && !(gs.burn && gs.burn.k === 'capture')) {
+      const have = dvHave(v), cap = dvCapture(v), need = cap + dvLand();
+      ap.fc2 = { have: Math.round(have), need: Math.round(need), cap: Math.round(cap), t: S.t };
+      if (have < need) { primoAbort(v, 'fuelLand', have, need, cap); return true; }
+      say(v, 'fuelOk2', 'Fuel check for Luna: ' + Math.round(have) + ' m/s left, braking and landing need about ' + Math.round(need) + '. Go for landing.', eng);
+    }
+  }
+  return false;
+}
+// the crew call an abort: around Terra the Pilot brings the capsule home (heat shield, parachute); out at Luna (or with no fuel
+// even to come down) the ship stays safely in orbit and the crew ride the shuttle home, as after any mission out there
+function primoAbort(v, kind, have, need, cap) {
+  const eng = crewJob(v, 'engineer'), pil = crewJob(v, 'pilot'), mid = v.mission, ap = v.ap || (v.ap = {});
+  const atTerra = v.parent === 'terra' && !isDeep(v);
+  const home = atTerra && (kind === 'noFuelAscent' ? vesselOrbit(v).rp < BODIES.terra.R + BODIES.terra.atmo : have >= 80);
+  const orbitOnly = kind === 'fuelLand' && cap > 0 && have >= cap * 1.05;   // enough to brake into Luna orbit: land another time
+  v.abort = { t: S.t, mission: mid, kind, have: Math.round(have || 0), need: Math.round(need || 0), how: home ? 'home' : orbitOnly ? 'orbit' : 'stay' };
+  const why = kind === 'noFuelAscent' ? 'we ran out of fuel before orbit' : 'we have ' + Math.round(have) + ' m/s of fuel and the ' + (kind === 'fuelLand' ? 'landing' : missionLabel(mid)) + ' needs about ' + Math.round(need);
+  say(v, 'abortEng', 'Control, fuel check: ' + why + '. We can\'t finish it. Calling an abort.', eng || pil, true);
+  delete v.mission; delete v.guide; G_cache.delete(v.id); apGuides.delete(v.id);
+  if (orbitOnly) {
+    v.guide = {};
+    say(v, 'abortPil', 'Copy. Landing is off: we brake into Luna orbit and stay there. The shuttle picks us up.', pil, true);
+  } else if (home) {
+    ap.ff = kind === 'noFuelAscent' ? 'drop' : 'deorbit';
+    say(v, 'abortPil', kind === 'noFuelAscent' ? 'Copy. Aborting: dropping the stage, shield first, chutes after.' : 'Copy. Aborting: heading home. Shield first, chutes after.', pil, true);
+  } else {
+    primoFinish(v); v.crewHomeAt = S.t + HOME_AFTER;
+    say(v, 'abortPil', 'Copy. Aborting: we stay safe in orbit. The shuttle picks us up.', pil, true);
+  }
+  const K = S.stats.control;
+  K.aborts.push({ t: S.t, ship: v.name, id: v.id, mission: mid, why, how: v.abort.how, crew: crewOf(v).map(p => p.name), dir: !!v.dir });
+  if (K.aborts.length > 30) K.aborts.shift();
+  if (v.id !== S.activeId) toast(v.name + ': mission aborted (' + (kind === 'noFuelAscent' ? 'out of fuel before orbit' : 'not enough fuel') + '). ' + (home ? 'The crew are coming home.' : orbitOnly ? 'Braking into Luna orbit instead of landing.' : 'The crew are safe in orbit.'), true, 'warn');
+  else toast('Mission aborted, not enough fuel: ' + (home ? 'coming home.' : orbitOnly ? 'Luna orbit only, no landing.' : 'crew safe in orbit.'), true, 'warn');
+  if (v.dir) orderFlightEnd(v, 'aborted');
+  save();
+}
+
+// an aborted Luna landing still brakes into Luna orbit (the Luna-orbit guidance), then the Pilot is done
+function abortOrbitGuide(v) {
+  const g = computeGuide(v, 'lunaOrbit');
+  if (g && g.step === 'inWindow' && !hasThrust(v)) { primoFinish(v); v.crewHomeAt = S.t + HOME_AFTER; say(v, 'abortOrbit', 'In Luna orbit, safe and sound. Waiting for the shuttle.', null, true); return null; }
+  if (g) { g.mission = v.abort.mission; g.label = 'Aborted landing: Luna orbit only'; }
+  return g;
+}
+// ---- thinking in flight: the Scientist asks for one extra orbit when a new discovery needs it and it costs no fuel
+// Luna landing: one lap of Luna before going down maps the far side (first time only). Free flight: one full lap of Terra.
+// Granted by itself (Mission Control says so on the radio); the player can still take over at any time.
+function orbitPeriod(v) { const o = vesselOrbit(v), mu = BODIES[v.parent].mu; return o.e < 1 ? 2 * Math.PI * Math.sqrt(o.a ** 3 / mu) : 0; }
+function sciAsk(v, place) {
+  const sci = crewJob(v, 'scientist'), ap = v.ap || (v.ap = {});
+  if (!sci || ap.sciAsk || S.stats.crew.places[place]) return false;
+  const T = orbitPeriod(v); if (!(T > 0 && T < 6 * 3600)) return false;
+  ap.sciAsk = { place, t0: S.t, until: S.t + T, by: sci.id };
+  say(v, 'sciAsk', 'Requesting one extra orbit to ' + (place === 'lunaMap' ? 'map Luna\'s far side' : 'map the whole of Terra') + '. Costs no fuel, just ' + fmtTime(T) + '.', sci, true);
+  const d = dutyDirector();
+  if (d && v.dir) dirSay('Extra orbit for ' + firstName(sci) + ' on ' + v.name + ': granted.', false, d);
+  say(v, 'sciOk', 'Mission Control says granted. One more lap, then on with the mission.', crewJob(v, 'pilot'), false);
+  return true;
+}
+function sciDone(v) {
+  const ap = v.ap; if (!ap || !ap.sciAsk || ap.sciAsk.done) return;
+  ap.sciAsk.done = true;
+  const sci = PRIMO.get(ap.sciAsk.by) || crewJob(v, 'scientist'); if (sci) logPlace(v, sci, PLACE[ap.sciAsk.place]);
+}
+function sciHold(v) {
+  const ap = v.ap || (v.ap = {}), gs = v.guide || {};
+  if (ap.sciAsk && ap.sciAsk.done) return null;
+  if (!ap.sciAsk) {
+    if (v.parent !== 'luna' || v.landed || v.missionDone || gs.land || hasThrust(v)) return null;
+    const o = vesselOrbit(v);
+    if (!(o.e < 1 && o.ra < LUNA.soi && o.ra - LUNA.R <= 150000 && o.rp - LUNA.R > 8000) || (gs.burn && gs.burn.k !== 'capture')) return null;
+    if (ap.fc2 && ap.fc2.have < ap.fc2.need * 1.15) return null;   // fuel is tight: straight down instead
+    if (!sciAsk(v, 'lunaMap')) return null;
+    if (gs.burn) { delete gs.burn; G_cache.delete(v.id); }   // (the capture is done)
+    v.throttle = 0;
+  }
+  const left = ap.sciAsk.until - S.t;
+  if (left > 0) return { mission: v.mission, title: 'Extra orbit for science', detail: firstName(PRIMO.get(ap.sciAsk.by)) + ' is mapping Luna\'s far side. Landing after this lap (' + fmtTime(left) + ').', aim: null, thr: 0, act: null, step: 'sciOrbit', warp: 'go', evT: Math.max(0, left - 60) };
+  sciDone(v); return null;
+}
+
+// ---- thinking in flight: a safer Luna landing spot (flat ground, at least 2 km from every other lander)
+function slopeAt(th) { const R = LUNA.R, d = 25 / R, D = 120 / R; return Math.max(Math.abs(groundH('luna', th + d) - groundH('luna', th - d)) / 50, Math.abs(groundH('luna', th + D) - groundH('luna', th - D)) / 240); }
+const SAFE_SITE_KM = [3, -3, 4, -4, 5, -5];          // places a few km from the newest lander that the Pilot looks at
+function pickSafeSite(v) {
+  const refs = landingRefs(v); if (!refs.length) return null;
+  const base = refs.reduce((a, b) => (b.id > a.id ? b : a)), R = LUNA.R;
+  const ok = SAFE_SITE_KM.map(km => base.th + km * 1000 / R).filter(th => refs.every(r => Math.abs(angDiff(th, r.th)) * R >= 2000));
+  if (!ok.length) return { th: pickSite(v), slope: null, looked: 0 };
+  const scored = ok.map(th => ({ th, slope: slopeAt(th), far: Math.min(...refs.map(r => Math.abs(angDiff(th, r.th)) * R)) }));
+  scored.sort((a, b) => (a.slope - b.slope) || (b.far - a.far));
+  return { th: scored[0].th, slope: scored[0].slope, looked: scored.length };
+}
+// on the way down: if the ground right under the spot is steep, slide the spot (a few hundred metres at most) onto flatter ground
+function siteAdjust(v, gs, hb) {
+  if (gs.site === undefined || gs.site === null || gs.adj || hb > 1500 || hb < 200) return;
+  gs.adj = 1;
+  const R = LUNA.R, s0 = slopeAt(gs.site); if (s0 < 0.06) return;
+  let best = gs.site, bs = s0;
+  for (let m = -300; m <= 300; m += 50) { const th = gs.site + m / R, s = slopeAt(th); if (s < bs - 0.01 && landingRefs(v).every(r => Math.abs(angDiff(th, r.th)) * R >= 1800)) { bs = s; best = th; } }
+  if (best !== gs.site) { const moved = Math.round(angDiff(best, gs.site) * R); gs.site = best; (v.ap || (v.ap = {})).site = best; say(v, 'siteAdj', 'Ground looks rough under us. Sliding ' + Math.abs(moved) + ' m ' + (moved > 0 ? 'ahead' : 'back') + ' to a flatter patch.'); }
+}
+
+// ---- life between flights: training in the Astronaut Complex
+const TRAIN_WHAT = { pilot: ['Flying landings in the simulator', 'Practising Luna approaches', 'Flight checks in the trainer jet'],
+  engineer: ['Fuel drills in the test hangar', 'Rebuilding an engine valve', 'Studying the Kestrel\'s stages'],
+  scientist: ['Studying Luna rock samples', 'Calibrating instruments', 'Reading the Discovery log'] };
+let trainT = null;
+function trainTick() {
+  const C = S.stats.crew;
+  if (trainT === null || S.t < trainT || S.t - trainT > 400 * DAY) trainT = S.t;
+  const dt = S.t - trainT; if (dt <= 0) return; trainT = S.t;
+  const ups = [], duty = dutyDirector();
+  for (const p of C.list) {
+    if (p === duty || primoStatus(p) !== 'ready' || p.xp >= TRAIN_MAX_XP) continue;
+    p.train = (p.train || 0) + dt;
+    while (p.train >= TRAIN_EVERY && p.xp < TRAIN_MAX_XP) { p.train -= TRAIN_EVERY; const L0 = primoLevel(p); p.xp += 1; p.trainXp = (p.trainXp || 0) + 1; if (primoLevel(p) > L0) ups.push(p); }
+    if (p.xp >= TRAIN_MAX_XP) p.train = 0;
+  }
+  if (ups.length === 1) toast('Training paid off: ' + ups[0].name + ' reached level ' + primoLevel(ups[0]) + ' (' + JOBS[ups[0].job].name + ')');
+  else if (ups.length > 1) toast('Training paid off: ' + ups.length + ' Primos went up a level');
+}
+// what each Primo is doing right now (the Astronaut Complex shows it)
+function primoActivity(p) {
+  const s = primoStatus(p);
+  if (s === 'flying') return { k: 'flying', label: 'Flying' };
+  if (s === 'resting') return { k: 'resting', label: 'Resting', line: 'Getting over minor injuries' };
+  if (p.dir) {
+    const d = dutyDirector(), act = activeOrders();
+    if (d !== p) return { k: 'ready', label: 'Ready', line: 'Off-duty Director: flies like any ' + JOBS[p.job].name + (d ? ' (' + firstName(d) + ' is on duty)' : '') };
+    const fl = directorFlights().length;
+    return { k: 'directing', label: 'Directing', line: 'On duty at Mission Control: ' + (act.length ? act.length + ' order' + (act.length > 1 ? 's' : '') + (fl ? ', ' + fl + ' flight' + (fl > 1 ? 's' : '') + ' up' : '') : 'no orders yet') };
+  }
+  if (p.xp >= TRAIN_MAX_XP) return { k: 'ready', label: 'Ready', line: 'Fully trained: only flying raises the level now' };
+  const w = TRAIN_WHAT[p.job] || ['Training'], i = Math.floor(S.t / (6 * 3600) + p.id) % w.length;
+  return { k: 'training', label: 'Training', line: w[i] + ' · next XP in ' + fmtTime(TRAIN_EVERY - (p.train || 0)) };
+}
+
+// ---- Mission Control screen (PC and phone)
+let moDraft = { type: 'landLuna', n: 2, mission: 'leo' };
+function openOrders() { renderOrders(); showOverlay('ovOrders'); }
+function renderOrders() {
+  const K = S.stats.control, d = dutyDirector(), mob = MODE === 'mobile';
+  const dl = directors();
+  let top = '';
+  if (!dl.length) top = '<div class="note moNoDir"><b>No Director yet.</b> Promote a level 3+ Primo in the Astronaut Complex. Any Pilot, Engineer or Scientist can become a Director once they reach level 3 by flying missions (training stops at level 2). You can write orders now: they wait with "No Director on duty".</div><div class="moBtns"><button class="small" data-act="crew">Open the Astronaut Complex</button></div>';
+  else {
+    top = d ? '<div class="moDirCard">' + faceHtml(d, 44) + '<div><b>' + esc(d.name) + '</b> · Director on duty · ' + JOBS[d.job].name + ' · ' + levelText(d) + ' · ' + TRAITS[d.trait].name + '<br><small>Stays on the ground while on duty. ' + esc(DIR_TRAIT[d.trait] || '') + ' Launches every ' + fmtTime(Math.max(60, 300 - 40 * primoLevel(d)) * (d.trait === 'quick' ? 0.75 : 1)) + ' at most, one rocket climbing at a time, never more flights than pads.</small></div></div>'
+      : '<div class="note moNoDir"><b>No Director on duty</b> right now: ' + esc(dl.map(p => firstName(p) + ' is ' + awayText(p)).join(', ')) + '. Orders wait until one is back.</div>';
+    top += '<div class="moDuty"><span class="moDutyL">On duty:</span>' + dl.map(p => { const s = primoStatus(p); return '<button class="small' + (p === d ? ' sel' : ' ghost') + '" data-act="moDuty:' + p.id + '">' + (p === d ? '✓ ' : '') + esc(firstName(p)) + ' · L' + primoLevel(p) + (s === 'ready' ? '' : ' · ' + (s === 'flying' ? 'Flying' : 'Resting')) + '</button>'; }).join('') + '</div>' +
+      (dl.length > 1 ? '<small class="moTxt">Off-duty Directors fly as normal crew.</small>' : '');
+  }
+  $('moDir').innerHTML = top;
+  const rows = K.orders.map((o, i) => {
+    const T = ORDER_TYPES[o.type], pr = T.progress(o), pct = pr.b ? Math.round(100 * Math.min(1, pr.a / pr.b)) : 0, fl = inFlight(o);
+    const st = o.status === 'done' ? '<span class="st ok">Done ✓</span>' : o.paused ? '<span class="st rest">Paused</span>' : fl.length ? '<span class="st fly">' + fl.length + ' flight' + (fl.length > 1 ? 's' : '') + ' up</span>' : '<span class="st ok">Active</span>';
+    const flTxt = fl.map(v => '<button class="small ghost moFl" data-act="fly:' + v.id + '">' + esc(v.name) + ' · ' + esc(missionLabel(v.dir.mission)) + '</button>').join('');
+    return '<div class="moRow' + (o.status === 'done' ? ' done' : '') + (o.paused ? ' paused' : '') + '" data-oid="' + o.id + '"><div class="moTop"><b>' + (i + 1) + '. ' + T.icon + ' ' + esc(orderLabel(o)) + '</b> ' + st + '</div>' +
+      '<div class="crXp moBar"><div style="width:' + pct + '%"></div></div><small class="moTxt">' + esc(pr.text) + (o.fails ? ' · ' + o.fails + ' not finished (aborted or lost)' : '') + (o.wait && o.status !== 'done' && !o.paused ? ' · ' + esc(o.wait) : '') + '</small>' + (flTxt ? '<div class="moFls">' + flTxt + '</div>' : '') +
+      '<div class="moBtns">' + (o.status === 'done' ? '' : '<button class="small ghost" data-act="moUp:' + o.id + '" aria-label="Move up"' + (i === 0 ? ' disabled' : '') + '>▲</button><button class="small ghost" data-act="moDown:' + o.id + '" aria-label="Move down"' + (i === K.orders.length - 1 ? ' disabled' : '') + '>▼</button><button class="small ghost" data-act="moPause:' + o.id + '">' + (o.paused ? 'Resume' : 'Pause') + '</button>') +
+      '<button class="small ghost danger" data-act="moCancel:' + o.id + '">' + (o.status === 'done' ? 'Clear' : 'Cancel') + '</button></div></div>';
+  });
+  $('moList').innerHTML = rows.join('') || '<div class="sub">No orders yet. Give one below: your Director picks the crews, pads and missions and launches by itself.</div>';
+  const T = ORDER_TYPES[moDraft.type];
+  let nw = '<div class="moTypes">' + Object.entries(ORDER_TYPES).map(([k, t]) => '<button class="small' + (k === moDraft.type ? '' : ' ghost') + ' moType" data-act="moType:' + k + '">' + t.icon + ' ' + esc(t.name) + '</button>').join('') + '</div>';
+  nw += '<div class="note">' + esc(T.blurb) + '</div><div class="moForm">';
+  if (T.needsMission) nw += '<div class="moMis">' + ORDER_MISSIONS.concat(['none']).map(m => '<button class="small' + (m === moDraft.mission ? '' : ' ghost') + '" data-act="moMis:' + m + '">' + esc(m === 'none' ? 'Free flight' : MISSION[m].short) + '</button>').join('') + '</div>';
+  if (!T.fixed) nw += '<span class="moN"><button class="small ghost" data-act="moN:-1" aria-label="Fewer">−</button><b id="moNv">' + moDraft.n + '</b><button class="small ghost" data-act="moN:1" aria-label="More">+</button></span>';
+  nw += '<button class="small" id="moGive" data-act="moGive">Give order: ' + esc(T.label({ n: moDraft.n, mission: moDraft.mission })) + '</button></div>';
+  $('moNew').innerHTML = nw;
+  const lg = K.log.slice(-6).reverse().map(e => '<div class="disc">' + esc(e.text) + ' <small>(' + clock(e.t) + ')</small></div>').join('');
+  const ab = K.aborts.slice(-3).reverse().map(e => '<div class="disc abort"><b>Abort</b>: ' + esc(e.ship) + ' (' + esc(missionLabel(e.mission)) + ') · ' + esc(e.why) + ' · ' + (e.how === 'home' ? 'crew brought home' : 'crew safe in orbit') + ' <small>(' + clock(e.t) + ')</small></div>').join('');
+  $('moLog').innerHTML = (ab + lg) || '<div class="sub">Nothing yet.</div>';
+  const fl = directorFlights();
+  $('moSub').textContent = activeOrders().length + ' active order' + (activeOrders().length === 1 ? '' : 's') + ' · ' + fl.length + ' Director flight' + (fl.length === 1 ? '' : 's') + ' up · ' + (mob ? 'tap' : 'click') + ' a flight to watch it';
+  paintFaces($('ovOrders'));
+}
+const DIR_TRAIT = { precise: 'Precise: matches crews carefully (Engineers on long trips, rookies with veterans).', efficient: 'Efficient: keeps the pads busy.', quick: 'Quick: launches 25% sooner after the last one.', steady: 'Steady: only one Luna lander on the way down at a time.' };
+function ordersClick(act) {
+  if (act.startsWith('moDuty:')) chooseDuty(+act.slice(7));
+  else if (act.startsWith('moType:')) { const t = act.slice(7); if (ORDER_TYPES[t]) { moDraft.type = t; moDraft.n = Math.max(ORDER_TYPES[t].min || 1, Math.min(ORDER_TYPES[t].max || 10, ORDER_TYPES[t].def || moDraft.n)); } }
+  else if (act.startsWith('moMis:')) moDraft.mission = act.slice(6);
+  else if (act.startsWith('moN:')) { const T = ORDER_TYPES[moDraft.type]; moDraft.n = Math.max(T.min || 1, Math.min(T.max || 10, moDraft.n + (+act.slice(4)))); }
+  else if (act === 'moGive') { const o = giveOrder(moDraft.type, moDraft.n, moDraft.mission); if (o) toast('Order given: ' + orderLabel(o)); }
+  else if (act.startsWith('moUp:')) orderAct('up', +act.slice(5));
+  else if (act.startsWith('moDown:')) orderAct('down', +act.slice(7));
+  else if (act.startsWith('moPause:')) orderAct('pause', +act.slice(8));
+  else if (act.startsWith('moCancel:')) orderAct('cancel', +act.slice(9));
+  else return false;
+  renderOrders(); return true;
+}
+// promote / demote buttons in the Astronaut Complex
+function rankClick(act) {
+  if (act.startsWith('crPromote:')) promote(+act.slice(10));
+  else if (act.startsWith('crDemote:')) demote(+act.slice(9));
+  else return false;
+  if (!$('ovCrew').classList.contains('hidden')) renderCrew();
+  return true;
+}
+// the Promote / Demote button on each Astronaut Complex card (disabled with the reason when promotion isn't possible)
+function rankHtml(p) {
+  if (p.dir) return '<div class="crRank"><button class="small ghost" data-act="crDemote:' + p.id + '">Demote</button><small>' + (onDuty(p) ? 'Director on duty: stays on the ground' : 'Off duty: flies as ' + aJob(p)) + '</small></div>';
+  const c = promoteCheck(p);
+  return '<div class="crRank"><button class="small' + (c.ok ? '' : ' ghost') + '" data-act="crPromote:' + p.id + '"' + (c.ok ? '' : ' disabled title="' + esc(c.why) + '"') + '>◎ Promote to Director</button>' + (c.ok ? '' : '<small class="why">' + esc(c.why) + '</small>') + '</div>';
+}
+// ---- safer Luna landings (v0.8.0 revision): the normal guidance can start the landing burn straight after the capture
+// burn, before the Pilot looked for a spot. If another Primo lander is down (or on its way down), undo that once while the
+// ship is still high up and moving at orbital speed, so the Pilot first waits / picks a spot 2 km+ from the others.
+function siteUndoLand(v, gs) {
+  if (gs.land !== 'brake' || gs.site !== undefined || gs.siteUndo || v.primo !== 'auto') return false;
+  const R = LUNA.R, r = Math.hypot(v.x, v.y); if (r - R < 15000) return false;
+  const vh = Math.abs((v.x * v.vy - v.y * v.vx) / r); if (vh < 0.8 * Math.sqrt(LUNA.mu / r)) return false;
+  const busy = landingRefs(v).length > 0 || S.vessels.some(w => w !== v && w.primo === 'auto' && w.mission === 'lunaLand' && w.parent === 'luna' && !w.landed && !w.missionDone && w.id < v.id);
+  if (!busy) return false;
+  gs.siteUndo = 1; delete gs.land; delete gs.burn; G_cache.delete(v.id); v.throttle = 0;
+  return true;
 }
 
 window.toastFn = (...a) => toast(...a); window.sfxFn = (...a) => sfx(...a); window.shakeFn = (...a) => addShake(...a);
@@ -4737,7 +5424,11 @@ window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, la
   radioLog, apGuides, pickSite, landingRefs, crewHomeNow, gainXp, drawFace, discoveryHtml, freeGuide, primoGuide, closeAll,
   // v0.7.2
   VERSION, openTitle, normaliseSave, safeApplySave, worldLooksOk, resultsHeld, passFor, passCache, get saveFailed() { return saveFailed; }, get loadProblem() { return loadProblem; },
-  get frameErrors() { return frameErrors; }, get lastFrameError() { return lastFrameError; }, frame };
+  get frameErrors() { return frameErrors; }, get lastFrameError() { return lastFrameError; }, frame,
+  // v0.8.0
+  ORDER_TYPES, ORDER_MISSIONS, TRAIN_EVERY, TRAIN_MAX_XP, DIRECTOR_LEVEL, DIRECTOR_CAP, ensureControl, ensureRanks, dutyDirector, syncDuty, chooseDuty, onDuty, promote, demote, promoteCheck, finishedCrew, fixOldDirectorJob, renderCrew, SHUTTLE_AFTER, directors, activeOrders, directorFlights, directorTick, autoCrew, rookieBonus, autoPickCrew,
+  giveOrder, orderAct, orderFlightEnd, orderLabel, inFlight, shipsInLeo, dirLaunch, pickDirPad, openOrders, renderOrders, dvHave, dvNeedTerra, dvLand, engineerWatch, primoAbort, sciHold, sciAsk, orbitPeriod,
+  pickSafeSite, slopeAt, dvCapture, abortOrbitGuide, trainTick, primoActivity, pilotPlan, PLACE, get moDraft() { return moDraft; } };
 
 if (!load()) { S = freshState(); rescuedShips = 0; ensureCrew(); }   // v0.7.2: a save that fails to load never leaves a half-loaded world
 if (loadProblem) setTimeout(() => toast("Your saved world couldn't be loaded (the save looks damaged), so a new world has started. A copy of the old save was kept on this device.", true, 'warn'), 700);
