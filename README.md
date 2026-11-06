@@ -6,7 +6,7 @@
 
 Click the link above and play in a browser on your PC or your phone. No download, no install.
 
-## Current version: v0.8.0 "Primos take charge" (Mission Control, Directors, crews that pick themselves and think in flight)
+## Current version: v0.9.1 (booster landings that actually land on the ship, and a Falcon 9 nose that looks like one)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -267,7 +267,7 @@ Hold your phone sideways (landscape). If you hold it upright, the game pauses an
 
 | Button | Where | What it does |
 |---|---|---|
-| **Action button** (green) | bottom left, next to the turn buttons (above them in portrait) | **New.** Changes with the moment: **START** on the pad (starts the countdown), then **SKIP** during the countdown (launch now), then **FAIRING** in flight (drop the nose cover), then **CHUTE** when the capsule is coming home (open the parachute). It turns **orange** when it isn't safe yet ("air thick", "too fast", "no air"). |
+| **Action button** (green) | bottom left, next to the turn buttons (above them in portrait) | **New.** Changes with the moment: **START** on the pad (starts the countdown), then **SKIP** during the countdown (launch now), then **FAIRING** in flight (drop the nose cover), then **CHUTE** when the capsule is coming home (open the parachute). On a Falcon 9, after **FAIRING** it becomes **DEPLOY**: release the comm satellite once you are in space (above 70 km). It turns **orange** when it isn't safe yet ("air thick", "too fast", "no air"). |
 | **Mission & pad picker** | top left, on the pad | Tap a mission (or Free flight) and a launch pad. **Hide** / **Show** folds it into a small chip. In flight the guidance shows in a strip at the top |
 | **Throttle slider** | right side | Drag up for more power, down for less |
 | **FULL** / **CUT** | above / below the slider | Full power / engine off |
@@ -309,6 +309,23 @@ From orbit, open the map. When Luna is a bit more than a quarter turn ahead of y
 
 From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 km. Drop the upper stage. Keep the heat shield forward while the capsule glows. When you're below 250 m/s, open the parachute. Touch down, or splash down, and you've earned **Round Trip**.
 
+### Your other rocket: the Falcon 9 (new in v0.9.0)
+
+The Falcon 9 sits next to the Kestrel in the rocket picker. It is **cargo only**: no crew seats and no capsule, so the crew picker is skipped on the pad. On top is a payload fairing holding a comm satellite; drop it above about 45 km (`F` on PC, **FAIRING** on Mobile). Once you are in space (above 70 km) with the fairing gone, deploy the satellite (`G` on PC, **DEPLOY** on the green action button on Mobile). It separates gently, unfolds its solar panels and becomes **Comm Sat 1**, **Comm Sat 2**, **Comm Sat 3**… It stays in orbit forever, is saved with your world, and shows in the Flights list and the Tracking Station. The upper stage can then burn to deorbit, or stay up.
+
+The booster has nine engines with a fuller, deeper sound than the Kestrel's, plus grid fins and four landing legs. When you drop the stage (`Space` on PC, **STAGE** on Mobile) it flies itself back: it flips around, does an entry burn, opens its grid fins and legs, and comes down on a **drone ship**, a floating landing pad in Terra's ocean. The game puts the drone ship where the booster will really come down — flying the entry burn, the glide and the landing burn, not just falling — and if that point is on land, the ship goes to the ocean spot the booster can actually reach. On the way down the booster steers to the ship the whole time: if it is going to overshoot the ship it does a short boostback burn right after staging, like the real Falcon 9, to kill the extra downrange speed; the entry burn only brakes enough to stay cool, so the air does most of the slowing and the fuel is saved for landing; then it steers through the glide and the landing burn, kills its sideways speed before the last few hundred metres, and comes straight down onto the deck. Touch down upright on the ship under 6 m/s and you get a toast and a cheer: the booster is recovered. Hit anything else, or hit the ship too fast or tilted, and it explodes (the usual effect). About three game minutes after landing the booster and drone ship are cleared away. While the booster lands it shows in the **Flights** list: switch to it to watch, then switch back to the upper stage — and time warp slows down by itself for the landing. Booster landings and losses are counted in the **Tracking Station**.
+
+Stage with about **10–15% of the booster's fuel left**, so it has enough for the entry burn and the landing burn. The upper stage has one vacuum engine that can be restarted: burn, coast, burn again. One thing to know: from **Prime Field**, staging at 15% doesn't have the energy to reach the sea — the booster comes down about 6° short of the ocean, on land, because it stages slower than at 10%. From **Cape Halcyon** (on the coast) a 15% staging reaches the drone ship fine, and from either pad a 10% staging does. So if you stage at 15%, launch from Cape Halcyon; if you launch from Prime Field, stage at 10%.
+
+### Signal: Direct, Relay, No signal (new in v0.9.0)
+
+Every ship shows a **Signal** reading on the flight panel:
+- **Direct** — it can see Prime Field itself.
+- **Relay** — it can't see Prime Field, but a comm satellite can see both it and Prime Field (the satellite's name is shown on the panel and in the Tracking Station).
+- **No signal** — Terra or Luna blocks every path.
+
+It's a readout only: there is no penalty for No signal yet, it's a base for later updates. The Tracking Station's **Comms network** shows every comm satellite in orbit and how many of your ships have direct, relay or no signal right now. Line of sight is checked against Terra and Luna.
+
 ### The edge of Terra's pull (deep space)
 
 - Terra's pull reaches **84,000 km** out. On the map this is the dashed yellow circle, labelled **Edge of Terra's pull**.
@@ -320,7 +337,7 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 
 ### Your world is always saved
 
-- Everything saves by itself every second, and when you close the tab: every ship, where it is, how fast it's going, its fuel, dropped boosters, landers left on Luna, milestones, records, the world clock, and your zoom/map view.
+- Everything saves by itself every second, and when you close the tab: every ship, where it is, how fast it's going, its fuel, dropped boosters, landers left on Luna, a Falcon 9 booster coming down, deployed comm satellites in orbit, milestones, records, the world clock, and your zoom/map view.
 - A ship left floating in orbit is still there, on the same orbit, when you come back. A lander parked on Luna stays parked.
 - The world clock only moves while you play.
 - The save lives in the browser on the device you play on. To keep it extra safe, or to move it to another device, use **Download a backup of my save** in the menu, and **Load a backup file** to bring it back.
@@ -337,9 +354,24 @@ From orbit, point retrograde (red X) and burn until Periapsis is about 25–35 k
 
 ### Milestones
 
-First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns and your softest touchdown), and every ship in the **Tracking Station**.
+First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns, your softest touchdown, booster landings and losses), every comm satellite and every ship in the **Tracking Station**, which also shows the comms network.
 
 ### Changelog
+
+- **v0.9.1** (booster landings that actually land on the ship):
+  - **The booster now lands on the drone ship.** Before, it steered nowhere: the ship was put where a booster *falling with no thrust at all* would come down, so it sat kilometres past where the booster really landed, and when that point was on land it jumped to the nearest ocean, which could be 70+ km away — further than the booster could ever steer. Staging at 10% it came down 2 km from the ship, staging at 15% it came down 28 km away, both in the water and both lost. Now the ship is put where the booster will really come down, flying its entry burn, glide and landing burn; the booster steers to the ship the whole way down; if it is going to overshoot the ship it does a short boostback burn right after staging to kill the extra downrange speed; the entry burn only brakes enough to stay cool, so the air does most of the slowing and the fuel is saved for landing; and the landing burn kills the sideways speed before the last few hundred metres so it comes straight down. Tested by flying it: staging at 10% and at 15% from Cape Halcyon, and at 10% from Prime Field, the booster lands on the deck under 6 m/s, upright, with fuel to spare. (From Prime Field, staging at 15% can't reach the sea — the booster stages slower and its longest survivable flight ends about 6° short of the ocean, on land. Launch from Cape Halcyon for a 15% staging, or stage at 10% from Prime Field.)
+  - **Falcon 9 steering fixed.** The Falcon 9 had no steering at all: pressing `A`/`D` (or the turn buttons on a phone) set its angle to "not a number" and it spun out of control. It now steers like the Kestrel.
+  - **Falcon 9 nose redrawn as a real ogive.** The fairing was drawn twice as tall as it really is, so the rocket was 5 m too tall on screen, its centre sat 2.8 m off, and in the rocket picker the tip ran off the top of the picture and looked like a small flat cap. Now it is a tall, rounded, bullet-shaped nose, a bit wider than the body, the same height as the fairing really is, with a black band at its base and a centre seam — the same in the rocket picker, on the pad and in flight.
+  - Everything is still in one `index.html`, no outside files. Old saves still load; everything saves and reloads.
+
+- **v0.9.0** ("Falcon 9"):
+  - **Falcon 9:** a second launchable rocket, next to the Kestrel in the rocket picker. Cargo only: no crew seats and no capsule, so the crew picker is skipped. It flies a comm satellite under a nose fairing — drop the fairing above about 45 km (`F` on PC, **FAIRING** on Mobile), then once you're in space (above 70 km) and the fairing is off, deploy the satellite (`G` on PC, **DEPLOY** on the green action button on Mobile). It separates gently, unfolds its solar panels and becomes **Comm Sat 1**, **Comm Sat 2**… It stays in orbit forever, is saved with your world, and shows in the Flights list and the Tracking Station. The upper stage can then burn to deorbit or stay up.
+  - **Booster landings:** the booster has nine engines (fuller, deeper sound), grid fins and four landing legs. When you drop the stage it flies itself back: it flips, does an entry burn, opens its grid fins and legs, and comes down on a drone ship — a floating landing pad in Terra's ocean. The drone ship is placed at the predicted ocean impact point (nearest ocean point if that falls on land) and never moves onto land; the booster steers to it during the glide and landing burn. The landing burn is a short, strong suicide burn starting at the last safe moment below 20 km, so staging with 10–15% of the booster's fuel is enough. Touch down upright on the ship under 6 m/s: a toast and a cheer, the booster is recovered. Hit anything else, or hit the ship too fast or tilted, and it explodes. About three game minutes after landing the booster and drone ship are cleared away. If the booster is lost (crashes or misses the ship), the loss is counted and the drone ship is cleared away about three game minutes later. While the booster lands it shows in the Flights list (switch to it and back), time warp slows down by itself for the landing, and booster landings and losses are counted in the Tracking Station. The upper stage has one vacuum engine that can be restarted.
+  - **Falcon 9 looks:** the booster is white with a black interstage band between it and the upper stage; the upper stage is white with a rounded bullet-shaped (ogive) fairing on top that's wider than the body and sits on it without covering it. When the fairing drops, the two halves fall away and the satellite shows on its adapter on top of the upper stage; after deploying it, the upper stage has a small flat top. Grid fins and legs stay folded flat against the booster until the landing.
+  - **Comm satellite:** after deployment the satellite is its own vessel and relays signals: see **Signal** below.
+  - **Signal:** every ship shows **Direct** (sees Prime Field itself), **Relay** (a comm satellite sees both it and Prime Field) or **No signal** (Terra or Luna blocks every path) on the flight panel; it's a readout only, no penalty yet. The Tracking Station shows the comms network: every satellite in orbit and how many of your ships have direct, relay or no signal.
+  - Help and this file cover the Falcon 9, booster landings, comm satellites and signal; version bumped to v0.9.0.
+  - Everything in one `index.html`, no outside files. Old saves still load; everything new (a booster coming down, a satellite in orbit) saves and reloads.
 
 - **v0.8.0** ("Primos take charge"):
   - **Directors**: a rank, not a job. Any Pilot, Engineer or Scientist at level 3+ can be promoted (and demoted) in the Astronaut Complex, at most 3 at once. No starter Director, no Director recruits: new worlds start with the 3 v0.7 starters and old saves (v0.1.0 to v0.7.2) load without a Director. One Director is on duty at a time (choose who in Mission Control; default the highest-level Ready one) and stays on the ground; off-duty Directors fly as normal crew with a ◎ Director badge. If the one on duty goes flying or resting, duty passes to another Ready Director (with a radio line). With no Director, Mission Control explains how to get one and orders wait ("No Director on duty").

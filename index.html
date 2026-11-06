@@ -407,6 +407,7 @@
     <div class="row pcrow"><span>Heat</span><b id="hHeat">-</b></div>
     <div class="row mrow"><span>Air · Heat</span><b id="hQH">-</b></div>
     <div class="row pcrow"><span>Fairing · Chute</span><b id="hKit">-</b></div>
+    <div class="row"><span>Signal</span><b id="hSig">Direct</b></div>
     <div class="row pcrow"><span>Thrust / weight</span><b id="hTwr">-</b></div>
     <div class="row pcrow"><span>Time warp</span><b id="hWarp">1x</b></div>
     <div class="row pcrow"><span>SAS (hold steady)</span><b id="hSas">ON</b></div>
@@ -415,7 +416,7 @@
     <kbd>W</kbd>/<kbd>S</kbd> throttle &nbsp;<kbd>Z</kbd> full <kbd>X</kbd> cut<br>
     <kbd>A</kbd>/<kbd>D</kbd> turn &nbsp;<kbd>T</kbd> SAS<br>
     <kbd>Space</kbd> drop stage &nbsp;<kbd>Enter</kbd> start countdown / go now<br>
-    <kbd>F</kbd> drop fairing &nbsp;<kbd>P</kbd> parachute<br>
+    <kbd>F</kbd> drop fairing &nbsp;<kbd>P</kbd> parachute &nbsp;<kbd>G</kbd> deploy payload<br>
     <kbd>M</kbd> map &nbsp;<kbd>,</kbd>/<kbd>.</kbd> time warp<br>
     <kbd>L</kbd> flights &nbsp;<kbd>O</kbd> Primo pilot on/off &nbsp;Wheel: zoom<br>
     <kbd>H</kbd> help &nbsp;<kbd>Esc</kbd> menu
@@ -536,6 +537,8 @@
     <div class="ms" id="missionList"></div>
     <h3>Records</h3>
     <div id="records" class="help"></div>
+    <h3>Comms network</h3>
+    <div id="comms" class="help"></div>
     <h3>Discovery log</h3>
     <div id="discList"></div>
   </div>
@@ -608,7 +611,7 @@
     <table class="mobile-only">
       <tr><td><b>Throttle slider</b> (right)</td><td>Drag up for more power, down for less. <b>FULL</b> / <b>CUT</b> jump to 100% / 0%.</td></tr>
       <tr><td><b>&#10226; / &#10227;</b> (bottom left)</td><td>Hold to turn left / right. You can hold one while dragging the throttle.</td></tr>
-      <tr><td><b>Green action button</b> (next to the turn buttons)</td><td>Changes with the moment: <b>START</b> the countdown on the pad (then <b>SKIP</b> to launch straight away), drop the <b>FAIRING</b> once you're out of the thick air, then open the <b>CHUTE</b> (parachute) when you're coming home slowly. Orange = not safe right now.</td></tr>
+      <tr><td><b>Green action button</b> (next to the turn buttons)</td><td>Changes with the moment: <b>START</b> the countdown on the pad (then <b>SKIP</b> to launch straight away), drop the <b>FAIRING</b> once you're out of the thick air, then open the <b>CHUTE</b> (parachute) when you're coming home slowly. Orange = not safe right now. On a Falcon 9, after <b>FAIRING</b> it becomes <b>DEPLOY</b>: release the comm satellite once you are in space (above 70 km).</td></tr>
       <tr><td><b>SAS</b></td><td>On/off. When on, the rocket stops spinning by itself.</td></tr>
       <tr><td><b>STAGE</b></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule).</td></tr>
       <tr><td><b>Map</b></td><td>Map view. Drag with one finger to move around, <b>Centre</b> to recentre.</td></tr>
@@ -627,6 +630,7 @@
       <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule)</td></tr>
       <tr><td><kbd>F</kbd></td><td>Drop the fairing (the nose cover over the capsule)</td></tr>
       <tr><td><kbd>P</kbd></td><td>Open the parachute (only below 250 m/s, or it tears)</td></tr>
+      <tr><td><kbd>G</kbd></td><td>Deploy the payload: Falcon 9's comm satellite &mdash; once you are in space and the fairing is off</td></tr>
       <tr><td><kbd>T</kbd></td><td>SAS on/off. When on, the rocket stops spinning by itself.</td></tr>
       <tr><td><kbd>M</kbd></td><td>Map view. Drag to move around, <kbd>C</kbd> to recentre.</td></tr>
       <tr><td><kbd>,</kbd> / <kbd>.</kbd></td><td>Slow down / speed up time (limited when low or burning)</td></tr>
@@ -673,6 +677,12 @@
     It glows as it hits the air. Come in too steep or too fast and the <b>Heat</b> reading climbs past 100% and the capsule burns up.
     Once you've slowed below 250 m/s, open the parachute (<span class="pc-only"><kbd>P</kbd></span><span class="mobile-only"><b>CHUTE</b></span>); faster than that and it tears.
     Touch down under 9 m/s on land or 14 m/s in the ocean. Launch, orbit and come home safely to earn <b>Round Trip</b>.
+    <h3>Falcon 9 (new in v0.9.0)</h3>
+    <p>The <b>Falcon 9</b> sits next to the Kestrel in the rocket picker. It is cargo only: no crew and no capsule, so the crew picker is skipped on the pad. It flies a comm satellite under a nose fairing: drop the fairing above about 45 km (<span class="pc-only"><kbd>F</kbd></span><span class="mobile-only"><b>FAIRING</b></span>), then once you are in space (above 70 km) and the fairing is off, deploy the satellite (<span class="pc-only"><kbd>G</kbd></span><span class="mobile-only">tap <b>DEPLOY</b> on the green action button</span>). It separates gently, unfolds its solar panels and becomes <b>Comm Sat 1</b>, <b>Comm Sat 2</b> and so on. It stays in orbit forever, is saved with your world, and shows in the Flights list and the Tracking Station. The upper stage can then burn to deorbit, or stay up.</p>
+    <p>The booster has nine engines with a fuller, deeper sound, plus grid fins and four landing legs. When you drop the stage (<span class="pc-only"><kbd>Space</kbd></span><span class="mobile-only"><b>STAGE</b></span>) it flies itself back: it flips around, does an entry burn, opens its grid fins and legs, and comes down on a <b>drone ship</b>, a floating landing pad in Terra's ocean. The game puts the drone ship where the booster will really come down, flying its entry burn, glide and landing burn &mdash; and if that point is on land, the ship goes to the ocean spot the booster can actually reach. On the way down the booster steers to the ship the whole time, and if it is going to overshoot it does a short boostback burn right after staging to kill the extra speed. Touch down upright on the ship under 6 m/s and you get a toast and a cheer: the booster is recovered. Hit the ship too fast or tilted, or come down anywhere else, and it explodes (the usual effect). About three game minutes after landing the booster and drone ship are cleared away. While the booster lands it shows in the <b>Flights</b> list &mdash; switch to it to watch, then switch back to the upper stage &mdash; and time warp slows down by itself for the landing. Booster landings and losses are counted in the Tracking Station.</p>
+    <p>Stage with about <b>10&ndash;15% of the booster's fuel left</b>, so it has enough for the entry burn and the landing burn. The upper stage has one vacuum engine that can be restarted: burn, coast, burn again. From <b>Prime Field</b>, staging at 15% can't reach the sea &mdash; launch from <b>Cape Halcyon</b> for a 15% staging, or stage at 10% from Prime Field.</p>
+    <h3>Signal (new in v0.9.0)</h3>
+    <p>Every ship shows a <b>Signal</b> reading on the flight panel: <b>Direct</b> (it can see Prime Field itself), <b>Relay</b> (a comm satellite can see both it and Prime Field &mdash; the satellite's name is shown) or <b>No signal</b> (Terra or Luna blocks every path). It is a readout only: there is no penalty yet, it is a base for later updates. The Tracking Station's <b>Comms network</b> shows every comm satellite in orbit and how many of your ships have direct, relay or no signal right now. Line of sight is checked against Terra and Luna.</p>
     <h3>Missions and guidance (optional)</h3>
     When your Kestrel is on the pad, a <b>Pick a mission</b> panel shows up. You can ignore it and just fly (<b>Free flight</b>), or pick one:
     <b>Low orbit</b> (LEO, 100 km), <b>Medium orbit</b> (MEO, 2,000 km), <b>High orbit</b> (GEO, 8,140 km: one lap takes exactly one Terra day), <b>Luna orbit</b> or <b>Luna landing</b>.
@@ -752,7 +762,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.8.0';
+const VERSION = '0.9.1';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -820,7 +830,24 @@ const ROCKETS = {
   mule: { id: 'mule', name: 'Mule', tag: 'Heavy hauler', retired: true,
     desc: 'One huge, tough stage with a deep tank. Slow to turn, but its strong legs survive rough landings, and it can reach Luna in one piece.',
     color: '#d9c9a3', accent: '#c7781c', turn: 0.45, crash: 12, cd: 0.8,
-    stages: [{ dry: 6000, fuel: 34000, thrust: 700000, isp: 310, len: 22, w: 4.2, legs: true, snd: 'mule' }] }
+    stages: [{ dry: 6000, fuel: 34000, thrust: 700000, isp: 310, len: 22, w: 4.2, legs: true, snd: 'mule' }] },
+  // v0.9.0: Falcon 9 - cargo only, no crew and no capsule. A nine-engine booster flies itself back to a drone ship at sea.
+  falcon9: { id: 'falcon9', name: 'Falcon 9', tag: 'Cargo launcher with booster recovery',
+    desc: 'Cargo launcher: nine sea-level engines on the booster, one restartable vacuum engine on the upper stage, and a payload fairing on top holding a comm satellite. The booster keeps about 10&ndash;15% of its fuel to fly back and land upright on a drone ship at sea &mdash; under 6 m/s, upright.',
+    color: '#ffffff', accent: '#000000', cd: 0.5, crash: 8, qLimit: 60000, gimbal: 4 * Math.PI / 180, rw: 6000, // v0.9.1: Falcon 9 steers like the Kestrel (gimballed engines + reaction wheel). Without these, turnAuthority() returned null and r.turn was undefined, so pressing A/D (or the mobile turn buttons) set the angle to NaN and the rocket stopped thrusting.
+    fairing: { mass: 400, len: 5, w: 4 },
+    stages: [{ name: 'Booster', dry: 3500, fuel: 55000, thrust: 1100000, isp: 285, ispSL: 260, len: 24, w: 2.6, engines: 9, legs: true, crash: 6, snd: 'f9Booster' },
+             { name: 'Upper stage', dry: 900, fuel: 18000, thrust: 220000, isp: 348, ispSL: 0, len: 9, w: 2.6, vacuum: true, restartable: true, crash: 6, snd: 'f9Upper' }] },
+  // v0.9.0: the comm satellite itself. No engines, no fuel: a small bus with solar panels that unfold.
+  satellite: { id: 'satellite', name: 'Comm Satellite', tag: 'Communications satellite',
+    desc: 'A comm satellite. It stays in orbit and relays radio signals for ships that cannot see Prime Field directly.',
+    color: '#cfe8ff', accent: '#5ef08a', cd: 0.5,
+    stages: [{ dry: 220, fuel: 0, thrust: 0, isp: 0, len: 1.2, w: 0.9, name: 'Satellite bus', capsule: false }] },
+  // v0.9.0: the drone ship - a floating landing pad in Terra's ocean where the Falcon 9 booster comes down.
+  droneShip: { id: 'droneShip', name: 'Drone ship', tag: 'Floating landing pad at sea',
+    desc: 'A floating landing pad in Terra\'s ocean.',
+    color: '#4b5563', accent: '#fbbf24', cd: 0.5,
+    stages: [{ dry: 0, fuel: 0, thrust: 0, isp: 0, len: 1, w: 40, name: 'Deck', capsule: false }] }
 };
 const LAUNCH_ROCKET = 'kestrel';
 const COUNTDOWN = 10;            // seconds on the pad before the clamps let go
@@ -845,11 +872,17 @@ const MILESTONES = [
   ['home', 'There and Back', 'Land on Terra in a ship that has landed on Luna.']
 ];
 const WARPS = [1, 2, 4, 10, 50, 100, 1000, 10000, 100000];
+// v0.9.0: payloads. Simple data so more can be added later (supply cargo, habitat modules...).
+// A vessel carries a payload in v.payload - the same field Director order plans already use, so orders can use payloads later.
+const PAYLOADS = [
+  { id: 'comm', name: 'Comm Satellite', mass: 220, blurb: 'A small communications satellite. Deploy it in space and it relays radio signals for ships that cannot see Prime Field directly.' }
+];
+const PAYLOAD = Object.fromEntries(PAYLOADS.map(p => [p.id, p]));
 
 // ---------- State (this whole object is the save) ----------
 function freshState() {
   return { v: 1, t: 0, activeId: null, nextId: 1, vessels: [], milestones: {},
-    stats: { flights: 0, count: {}, maxAlt: 0, maxSpeed: 0, crashes: 0, landings: 0, splashdowns: 0, softest: 0, pads071: 1 },
+    stats: { flights: 0, count: {}, maxAlt: 0, maxSpeed: 0, crashes: 0, landings: 0, splashdowns: 0, softest: 0, pads071: 1, boosterLandings: 0, boosterLosses: 0, satelliteCount: 0 },
     view: { zoom: 4, mapZoom: 2.5e-5, map: false, panX: 0, panY: 0 }, sound: true, savedAt: 0 };
 }
 let S = freshState();
@@ -950,6 +983,371 @@ function placeLanded(v) {
   v.vx = 0; v.vy = 0; v.ang = v.theta; v.angVel = 0;
 }
 
+// v0.9.0: the Falcon 9 booster flies itself back to a drone ship at sea.
+// v0.9.1: it now STEERS to the ship. The old code only ever pointed retrograde
+// (and, in the entry burn, blended 25% toward the ship's angle), so the booster
+// came down wherever its ballistic arc took it - 2 km short of the ship when
+// staging at 10% fuel, and on land 74 km short of it at 15%. A retrograde-only
+// landing burn can only shrink speed, never move the ground track. Now
+// boosterGuide() (one law, shared with the impact predictor below) works out
+// the thrust direction and throttle for every phase from the same numbers:
+// how far the ship is sideways, how fast the booster is moving sideways, and
+// how long until it reaches the surface. The booster tilts to cancel its
+// sideways speed and aim at the deck, and the ship is put where the booster,
+// with its burns, will actually come down (see placeDroneShip).
+function boosterGuide(s, shipTheta) {
+  // s is the live booster vessel, or a simulated state with the same fields
+  // (x, y, vx, vy, fuel, parts, rocket, boosterPhase). Returns the thrust
+  // setting for this instant: { throttle, ang }.
+  const b = BODIES.terra, R = b.R;
+  const r = Math.hypot(s.x, s.y), h = r - R;
+  const ux = s.x / r, uy = s.y / r, ex = -uy, ey = ux;   // up, east (increasing theta)
+  const vr = s.vx * ux + s.vy * uy, vt = s.vx * ex + s.vy * ey;
+  const sp = Math.hypot(s.vx, s.vy);
+  const m = massOf(s);
+  const rho = rhoAt(b, h), pf = b.rho0 ? rho / b.rho0 : 0;
+  const st = rk(s).stages[0];
+  const maxT = thrustNow(st, pf, 1);      // full-throttle thrust in this air
+  const g = b.mu / (r * r);
+  const retro = sp > 0.1 ? Math.atan2(-s.vy, -s.vx) : Math.atan2(uy, ux);
+  const fuel = s.fuel[0];
+  // how long until the surface if it just fell (the burns stretch this a
+  // little - close enough for steering, it is recomputed every step)
+  const tGo = Math.max(1, (vr + Math.sqrt(vr * vr + 2 * g * Math.max(0, h))) / g);
+  // signed distance to the ship along the ground (+ = ship is ahead/east)
+  const th = Math.atan2(s.y, s.x);
+  const xErr = shipTheta === null ? 0 : angDiff(shipTheta, th) * R;
+  // sideways speed that would put the booster over the ship at touchdown,
+  // and still let it stop there: it must arrive over the deck, not fly past
+  // it. Far out it paces itself to arrive on time; close in it is capped by
+  // the speed it can still stop from; right over the deck it just stops.
+  let vtDes;
+  if (shipTheta === null) vtDes = vt;
+  else if (Math.abs(xErr) < 25) vtDes = 0;   // over the deck: just stop
+  else {
+    const pace = xErr / tGo;                  // arrive at touchdown
+    const stop = Math.sqrt(2 * 8 * Math.abs(xErr)) * Math.sign(xErr);  // still able to stop at the ship
+    // and it must be able to stop in the time left before the ground: high
+    // up it can fly sideways fast to cover ground, but near the ground the
+    // sideways speed has to be nearly gone - without this it arrives at
+    // 180 m/s sideways, hovers on thrust at 10 m and skims along the
+    // surface instead of landing
+    const timeStop = 8 * tGo;
+    vtDes = Math.abs(pace) < Math.abs(stop) ? pace : stop;
+    vtDes = Math.max(-timeStop, Math.min(timeStop, vtDes));
+  }
+  // sideways push needed to reach that speed; stiffen up close, where the
+  // last seconds need the sideways speed gone, not paced
+  const tau = (h < 1000 || tGo < 10) ? 1.5 : 4;
+  const aLat = Math.max(-50, Math.min(50, (vtDes - vt) / tau));
+  if (fuel <= 0) return { throttle: 0, ang: retro };   // out of fuel: fall, nose retrograde
+
+  if (s.boosterPhase === 'entry') {
+    // Entry burn: only burn while faster than the safe speed for this height.
+    // The old code burned at 0.8 whenever speed was over 500 m/s, which braked
+    // so hard high up that the booster hung at ~31 km burning fuel it needed
+    // to land (at 10% staging fuel the landing burn ran dry 340 m up). The
+    // safe speed is the heating limit itself, so the burn stops once drag can
+    // take over - and it brakes harder to reach the ship: the stored
+    // prediction (placeDroneShip) says where the booster will come down if
+    // it keeps flying like this, so if that point is past the ship it brakes
+    // to a lower safe speed. If the point is short of the ship it already
+    // flies as far as the heating limit allows, so there is nothing more to
+    // give - the boostback and the glide steering do what they can, and the
+    // ship goes to the ocean point it can actually reach.
+    const vHeat = 0.95 * Math.pow(HEAT_BODY / Math.max(rho, 1e-6), 1 / 3);
+    // the safe speed is the heating limit itself: brake only enough to stay
+    // under it, and let drag do the rest - braking any harder just burns
+    // fuel the landing needs and shortens the flight. The prediction moves
+    // it down from there when the booster is going to overshoot the ship.
+    let vT = vHeat;
+    const predErr = (shipTheta !== null && s.boosterPredTheta !== undefined) ? angDiff(s.boosterPredTheta, shipTheta) * R : null;
+    if (predErr !== null) vT += Math.max(-500, Math.min(500, -predErr / Math.max(30, tGo)));
+    vT = Math.max(450, Math.min(vT, vHeat));
+    if (h >= 35000 || sp <= vT) return { throttle: 0, ang: retro };
+    // tilt the retrograde burn toward the ship, up to ~39 degrees: the
+    // burn is already on, so this sideways push costs no extra fuel, and
+    // it sets the glide up with the sideways speed already mostly cancelled
+    const k = Math.max(-0.8, Math.min(0.8, aLat / 110));
+    const dx = -s.vx / sp + k * ex, dy = -s.vy / sp + k * ey;
+    return { throttle: 0.8, ang: Math.atan2(dy, dx) };
+  }
+
+  if (s.boosterPhase === 'glide') {
+    // Glide: first, never come down too fast for the air - if the speed is
+    // past 90% of what the skin can take at this height, burn retrograde
+    // until it is back under (the entry burn normally leaves it slow enough
+    // that this never fires). Then the steering burn: no burn when already
+    // on line for the ship, otherwise a short, gentle tilt up to 45 degrees,
+    // a sideways push of about 9.8 m/s^2 - over the long glide that is more
+    // than enough to cancel the sideways speed and walk the ground track
+    // onto the deck.
+    const vHeat = Math.pow(HEAT_BODY / Math.max(rho, 1e-6), 1 / 3);
+    if (sp > 0.9 * vHeat) return { throttle: 0.8, ang: retro };
+    if (shipTheta === null || (Math.abs(xErr) < 300 && Math.abs(vtDes - vt) < 10)) return { throttle: 0, ang: retro };
+    const tilt = g * Math.tan(45 * Math.PI / 180);
+    const aLatC = Math.max(-tilt, Math.min(tilt, aLat));
+    const ax = aLatC * ex + g * ux, ay = aLatC * ey + g * uy;
+    return { throttle: Math.max(0, Math.min(0.3, m * Math.hypot(ax, ay) / maxT)), ang: Math.atan2(ay, ax) };
+  }
+
+  // Landing burn: the suicide burn as before (throttle set so the downward
+  // speed reaches zero at the surface), but the thrust is tilted: sideways
+  // to cancel the remaining sideways speed and aim at the deck, up to 45
+  // degrees, with the throttle raised to make up for the tilt so the up-down
+  // slow-down is the same as a straight burn. By the last few hundred metres
+  // the booster is right over the ship (within about 20 m) and comes
+  // straight down. The drag is counted in: in the thick air below ~6 km it
+  // already does much of the slowing, so the burn only tops up what drag
+  // does not do. The old formula ignored drag, so the booster slowed to a
+  // crawl high up and then hovered down on thrust alone - at 10% staging
+  // fuel that burned the whole reserve before the last 3 km.
+  const hAbove = h - lengthOf(s) / 2;
+  const vrDown = Math.max(0, -vr);                     // downward speed
+  const needDecel = (vrDown * vrDown) / (2 * Math.max(hAbove, 1));   // decel to stop at surface
+  const cdA = rk(s).cd * Math.PI * (widthOf(s) / 2) ** 2;   // same drag area as stepVessel
+  const aDrag = sp > 0 ? 0.5 * rho * sp * sp * cdA / m : 0;
+  const dragUp = aDrag * (vrDown / Math.max(sp, 0.001));   // drag's upward push
+  const aUp = Math.max(0, 9.81 + Math.max(0, needDecel) - dragUp);
+  if (shipTheta === null) {
+    let thr = m * aUp / maxT;
+    thr = Math.max(0, Math.min(1.0, thr));
+    if (hAbove < 25 && sp < 10) thr = Math.min(thr, 0.20);
+    if (hAbove < 6 && sp < 4) thr = Math.min(thr, 0.06);
+    return { throttle: thr, ang: retro };
+  }
+  const tiltL = aUp * Math.tan(45 * Math.PI / 180);
+  const aLatC = Math.max(-tiltL, Math.min(tiltL, aLat));
+  const ax = aLatC * ex + aUp * ux, ay = aLatC * ey + aUp * uy;
+  let thr = m * Math.hypot(ax, ay) / maxT;
+  thr = Math.max(0, Math.min(1.0, thr));
+  // soft touchdown: throttle down in the last few metres for under 6 m/s
+  if (hAbove < 25 && sp < 10) thr = Math.min(thr, 0.20);
+  if (hAbove < 6 && sp < 4) thr = Math.min(thr, 0.06);
+  return { throttle: thr, ang: Math.atan2(ay, ax) };
+}
+function boosterTick(v) {
+  if (v.landed) return;
+  const b = BODIES.terra;
+  const r = Math.hypot(v.x, v.y), h = r - b.R;
+  const retro = Math.atan2(-v.vy, -v.vx);
+  let ship = v.boosterDrone ? byId(v.boosterDrone) : null;
+  const turnTo = (desired) => {
+    const err = angDiff(desired, v.ang);
+    v.angVel = Math.max(-0.9, Math.min(0.9, 2.5 * err));   // grid fins turn it fast enough to follow the steering
+  };
+  const shipTh = () => ship ? Math.atan2(ship.y, ship.x) : null;
+  // the ship is re-placed at most twice a game-second: the prediction moves
+  // slowly, and the booster steers continuously in between
+  const trackShip = () => { if (!ship || S.t - (v.boosterShipAt || 0) > 0.5) { ship = placeDroneShip(v); v.boosterShipAt = S.t; } };
+
+  if (v.boosterPhase === 'flip') {
+    v.throttle = 0;
+    turnTo(retro);                        // point retrograde, ready to come down
+    if (Math.abs(angDiff(retro, v.ang)) < 0.2) v.boosterPhase = 'entry';
+  } else if (v.boosterPhase === 'entry') {
+    trackShip();                          // drone ship tracks the predicted ocean impact point
+    // Boostback (live only - the predictor does not model it, it predicts
+    // where the booster lands without it): while the stored prediction says
+    // the booster will overshoot the ship by more than 5 km, burn retrograde
+    // up here, where the velocity is nearly horizontal, so the burn kills
+    // downrange speed directly - far more range per kilogram than braking
+    // on the way down, where the same burn mostly slows the fall and
+    // stretches the flight. Real Falcon 9 does the same thing right after
+    // staging. It stops by itself as the prediction walks back onto the
+    // ship, and it never touches the landing reserve. (No height limit: a
+    // shallow climb stages below 35 km, and the burn is just as useful
+    // there - the entry phase already ends at 22 km, where the glide
+    // takes over.)
+    const shipThetaNow = shipTh();
+    const predErr = (shipThetaNow !== null && v.boosterPredTheta !== undefined) ? angDiff(v.boosterPredTheta, shipThetaNow) * b.R : null;
+    const sp = Math.hypot(v.vx, v.vy);
+    if (predErr !== null && predErr > 5000 && v.fuel[0] > 2000 && sp > 300) {
+      v.throttle = 0.8;
+      turnTo(retro);
+    } else {
+      const g = boosterGuide(v, shipThetaNow);
+      v.throttle = g.throttle;
+      turnTo(g.ang);
+    }
+    if (h < 22000) v.boosterPhase = 'glide';   // come back down low, then let drag finish the job
+  } else if (v.boosterPhase === 'glide') {
+    v.boosterDeployed.fins = true;            // grid fins out: they are the steering surfaces
+    trackShip();
+    const g = boosterGuide(v, shipTh());
+    v.throttle = g.throttle;
+    turnTo(g.ang);
+    if (h < 6000) v.boosterPhase = 'land';   // drag has done the work down to here, so the landing burn is short: starting it at 13 km burned fuel fighting gravity all the way down, and at 10% staging fuel that left nothing for the last few hundred metres
+  } else if (v.boosterPhase === 'land') {
+    v.boosterDeployed.legs = true;
+    v.boosterDeployed.fins = true;
+    if (!ship) ship = placeDroneShip(v);      // last resort (old saves): put the ship under it now
+    const g = boosterGuide(v, shipTh());      // steer to the ship all the way down
+    v.throttle = g.throttle;
+    turnTo(g.ang);
+  }
+}
+function boosterRemoveCheck(v) {
+  if (v.boosterPhase !== 'landed') return;
+  if (S.t < (v.boosterRemoveAt || 0)) return;
+  const ship = v.boosterDrone ? byId(v.boosterDrone) : null;
+  if (ship) removeVessel(ship);
+  const wasActive = v.id === S.activeId;
+  removeVessel(v);
+  if (wasActive) { S.activeId = null; toast('Booster recovered and the drone ship cleared'); }
+  save();
+}
+function placeDroneShip(v) {
+  // the drone ship goes where the booster will actually come down - with its
+  // entry burn, glide and landing burn flown (see predictImpactPoint) - and
+  // never onto land. The old version predicted a ballistic fall with no
+  // thrust, so the ship sat kilometres past where the booster really landed
+  // (the burns shorten the flight), and when that point was on land it jumped
+  // to the nearest ocean, which could be 70+ km away - further than the
+  // booster could ever steer. If the booster cannot reach the ship, the ship
+  // moves to the ocean spot it can reach: the prediction is run again aimed
+  // at that ocean point, and the ship goes where the booster, steering at it,
+  // really ends up - or the nearest ocean to that point.
+  const pred = predictImpactPoint(v);
+  let th = pred.theta;
+  // the impact point the steering uses: where the booster will come down if
+  // it keeps flying like this (the prediction is re-run every time the ship
+  // is re-placed, so this stays current as the booster flies, and the
+  // boostback in boosterTick reads it to know whether it is overshooting)
+  let predTheta = pred.theta;
+  if (!isOcean('terra', th)) {
+    th = nearestOcean(th);
+    const pred2 = predictImpactPoint(v, th);   // steer at it: can it get there?
+    predTheta = pred2.theta;
+    th = isOcean('terra', pred2.theta) ? pred2.theta : nearestOcean(pred2.theta);
+  }
+  v.boosterPredTheta = predTheta;
+  if (v.boosterDrone) {
+    const ship = byId(v.boosterDrone);
+    if (!ship) return null;
+    // Small correction per call, clamped to ocean
+    const dTheta = angDiff(th, ship.theta);
+    const move = Math.max(-0.008, Math.min(0.008, dTheta));
+    let finalTh = ship.theta + move;
+    if (!isOcean('terra', finalTh)) finalTh = nearestOcean(ship.theta);
+    if (finalTh !== ship.theta) { ship.theta = finalTh; placeLanded(ship); }
+    return ship;
+  }
+  // Create the ship at the predicted ocean landing point
+  const ship = {
+    id: S.nextId++, name: 'Drone ship', rocket: 'droneShip', parts: [0], fuel: [0], parent: 'terra',
+    x: 0, y: 0, vx: 0, vy: 0, ang: th, angVel: 0, throttle: 0, sas: false, landed: true,
+    theta: th, debris: false, kind: 'drone', born: S.t
+  };
+  placeLanded(ship);
+  S.vessels.push(ship);
+  v.boosterDrone = ship.id;
+  return ship;
+}
+function predictImpactPoint(v, shipTheta) {
+  // Fly the booster forward, with the same burns and the same steering law
+  // boosterTick uses (boosterGuide), so the predicted impact point is where
+  // the booster will really come down - not where a ballistic fall with no
+  // thrust would take it. The old version ignored thrust entirely, so it
+  // always overshot: the entry and landing burns shorten the flight.
+  // shipTheta: the angle to steer at (the drone ship), or null for no
+  // steering. Defaults to the booster's own drone ship, if it has one.
+  const b = BODIES.terra, mu = b.mu, R = b.R;
+  if (shipTheta === undefined) {
+    const sh = v.boosterDrone ? byId(v.boosterDrone) : null;
+    shipTheta = sh ? Math.atan2(sh.y, sh.x) : null;
+  }
+  const sim = { rocket: 'falcon9', parts: [0], fuel: [v.fuel[0]], x: v.x, y: v.y, vx: v.vx, vy: v.vy, boosterPhase: v.boosterPhase === 'flip' ? 'entry' : v.boosterPhase, boosterPredTheta: v.boosterPredTheta };
+  const st = ROCKETS.falcon9.stages[0];
+  const cdA = ROCKETS.falcon9.cd * Math.PI * (widthOf(v) / 2) ** 2;   // same drag area as stepVessel
+  const dt = 0.25;
+  for (let t = 0; t < 1800; t += dt) {
+    const rr = Math.hypot(sim.x, sim.y);
+    if (rr <= R) return { x: sim.x, y: sim.y, theta: Math.atan2(sim.y, sim.x), fuelLeft: sim.fuel[0] };
+    const h = rr - R;
+    if (sim.boosterPhase === 'entry' && h < 22000) sim.boosterPhase = 'glide';
+    else if (sim.boosterPhase === 'glide' && h < 6000) sim.boosterPhase = 'land';
+    const rho = (b.atmo && h < b.atmo) ? b.rho0 * Math.exp(-h / b.H) : 0;
+    const sp = Math.hypot(sim.vx, sim.vy);
+    const m = massOf(sim);
+    const g = mu / (rr * rr);
+    const ux = sim.x / rr, uy = sim.y / rr;
+    const gd = boosterGuide(sim, shipTheta);
+    const thr = gd.throttle;
+    let ax = -g * ux, ay = -g * uy;
+    if (thr > 0 && sim.fuel[0] > 0) {
+      const th = thrustNow(st, rho / b.rho0, thr);
+      ax += th / m * Math.cos(gd.ang); ay += th / m * Math.sin(gd.ang);
+      sim.fuel[0] = Math.max(0, sim.fuel[0] - thr * st.thrust / (st.isp * G0) * dt);
+    }
+    if (sp > 0 && rho > 0) {
+      let ad = 0.5 * rho * sp * sp * cdA / m;
+      ad = Math.min(ad, sp / dt * 0.9);
+      ax -= ad * sim.vx / sp; ay -= ad * sim.vy / sp;
+    }
+    sim.vx += ax * dt; sim.vy += ay * dt;
+    sim.x += sim.vx * dt; sim.y += sim.vy * dt;
+  }
+  return { x: sim.x, y: sim.y, theta: Math.atan2(sim.y, sim.x), fuelLeft: sim.fuel[0] };
+}
+function nearestOcean(theta) {
+  if (isOcean('terra', theta)) return theta;
+  for (let d = 0.002; d < Math.PI; d += 0.002) {
+    if (isOcean('terra', theta + d)) return theta + d;
+    if (isOcean('terra', theta - d)) return theta - d;
+  }
+  return theta;
+}
+// v0.9.0: signal readout. Direct = sees Prime Field itself. Relay = a comm satellite can see both the ship and Prime Field.
+// No signal = Terra or Luna blocks every line of sight. Readout only, no penalty (yet).
+function primeFieldPoint() {
+  const p = padById('prime'), b = BODIES.terra;
+  return { x: Math.cos(p.theta) * b.R, y: Math.sin(p.theta) * b.R };
+}
+// line of sight between two points: blocked if the segment passes through the body of Terra or Luna
+function losClear(ax, ay, bx, by) {
+  for (const id of ['terra', 'luna']) {
+    const body = BODIES[id], bs = bodyState(id, S.t);
+    const dx = bx - ax, dy = by - ay, l2 = dx * dx + dy * dy;
+    if (l2 <= 0) continue;
+    const t = Math.max(0, Math.min(1, ((bs.x - ax) * dx + (bs.y - ay) * dy) / l2));
+    const px = ax + t * dx, py = ay + t * dy;
+    if (Math.hypot(px - bs.x, py - bs.y) < body.R) return false;
+  }
+  return true;
+}
+function signalOf(v) {
+  const target = primeFieldPoint();
+  if (target && losClear(v.x, v.y, target.x, target.y)) return { kind: 'direct' };
+  for (const s of S.vessels) {
+    if (s.kind !== 'satellite') continue;
+    if (losClear(v.x, v.y, s.x, s.y) && losClear(s.x, s.y, target.x, target.y)) return { kind: 'relay', sat: s };
+  }
+  return { kind: 'none' };
+}
+
+// v0.9.0: the comms network shown in the Tracking Station
+function commsHtml() {
+  const sats = S.vessels.filter(v => v.kind === 'satellite');
+  let html = '';
+  if (sats.length) {
+    html = '<table><tr><th>Satellite</th><th>Orbit around Terra</th></tr>';
+    for (const s of sats) {
+      const o = vesselOrbit(s);
+      html += '<tr><td>' + esc(s.name) + '</td><td>Ap ' + apText(s, o) + ' · Pe ' + peText(s, o, true) + '</td></tr>';
+    }
+    html += '</table>';
+  } else html = '<div class="sub">No comm satellites in orbit yet. Launch a Falcon 9, drop its fairing above 45 km and deploy the satellite above 70 km.</div>';
+  let direct = 0, relay = 0, none = 0;
+  for (const v of S.vessels) {
+    if (v.debris) continue;
+    const sg = signalOf(v);
+    if (sg.kind === 'direct') direct++; else if (sg.kind === 'relay') relay++; else none++;
+  }
+  html += '<p style="margin:6px 0 0">Your ships: <span class="ok">' + direct + ' direct</span> · <span class="hot">' + relay + ' relay</span> · <span class="bad">' + none + ' no signal</span></p>';
+  return html;
+}
+
 function newVessel(rid, padId, reuse) {
   const r = ROCKETS[rid], pad = padById(padId);
   if (reuse) removeVessel(reuse); else S.stats.count[rid] = (S.stats.count[rid] || 0) + 1;   // v0.7.1: reuse = an untouched rocket that was already waiting: same name, fresh rocket
@@ -961,6 +1359,7 @@ function newVessel(rid, padId, reuse) {
   if (r.fairing) v.fairing = true;
   if (r.stages.some(s => s.capsule)) v.chute = 'packed';
   v.heat = 0; v.hints = {};
+  if (r.id === 'falcon9') v.payload = 'comm';   // v0.9.0: Falcon 9 carries the comm satellite under its fairing (same payload field Director plans use)
   placeLanded(v);
   S.vessels.push(v);
   return v;
@@ -1453,8 +1852,19 @@ function stepVessel(v, dt, isActive) {
   const vr = v.vx * nx + v.vy * ny;
   if (h <= 0 && vr <= 0) {
     const sp = Math.hypot(v.vx, v.vy), th = Math.atan2(ny, nx), water = isOcean(v.parent, th);
+    const tiltA = Math.abs(tilt);
+    v.impact = sp; v.impactTilt = tiltA; v.impactWater = water;
+    if (v.kind === 'booster') {   // v0.9.0: the booster lands upright on its drone ship under 6 m/s, or it is lost
+      const ship = v.boosterDrone ? byId(v.boosterDrone) : null;
+      const atShip = ship && Math.hypot(v.x - ship.x, v.y - ship.y) < 45;
+      if (atShip && sp <= 6 && tiltA < 0.35) {
+        v.landed = true; v.splashed = false; v.theta = th; v.throttle = 0; placeLanded(v);
+        v.boosterPhase = 'landed'; v.boosterRemoveAt = S.t + 180;   // about 3 game minutes, then the booster and drone ship are cleared away
+        return 'land';
+      }
+      return 'crash';
+    }
     const lim = crashLimitOf(v, water), tiltLim = r0.stages[ei].capsule ? 0.6 : 0.35;
-    v.impact = sp; v.impactTilt = Math.abs(tilt); v.impactWater = water;
     if (sp <= lim && Math.abs(tilt) < tiltLim) {
       v.landed = true; v.splashed = water; v.theta = th; v.throttle = 0; placeLanded(v);
       return 'land';
@@ -1483,6 +1893,7 @@ function soiCheck(v, t) {
 
 function maxWarpFor(v) {
   if (!v) return 100000;
+  if (v.kind === 'booster') return v.landed ? 100000 : 4;   // v0.9.0: slow time down while a booster comes in to land
   if (v.countdown > 0 && !v.hold) return 4;
   if (v.landed) return hasThrust(v) ? 4 : 100000;
   if (hasThrust(v)) return 4;
@@ -1533,6 +1944,11 @@ function removeVessel(v) { S.vessels = S.vessels.filter(o => o !== v); }
 
 function onLand(v, isActive) {
   const b = BODIES[v.parent];
+  if (v.kind === 'booster') {   // v0.9.0: booster landings have their own counters
+    S.stats.boosterLandings = (S.stats.boosterLandings || 0) + 1;
+    if (isActive) { toast(v.name + ' booster landed on the drone ship at ' + v.impact.toFixed(1) + ' m/s', true); sfx('cheer'); addShake(2); }
+    save(); return;
+  }
   if (!v.debris) {   // v0.7.2: a dropped booster coming down doesn't count as one of your landings
     S.stats.landings++;
     if (v.splashed) S.stats.splashdowns = (S.stats.splashdowns || 0) + 1;
@@ -1566,6 +1982,15 @@ function onLand(v, isActive) {
 // kind: 'crash' (hit the ground), 'breakup' (max-Q), 'burn' (reentry heat)
 function onCrash(v, isActive, kind) {
   const b = BODIES[v.parent];
+  if (v.kind === 'booster') {   // v0.9.0: a lost booster is not a crewed flight
+    S.stats.boosterLosses = (S.stats.boosterLosses || 0) + 1;
+    explode(v); removeVessel(v);
+    const ship = v.boosterDrone ? byId(v.boosterDrone) : null;
+    if (ship) ship.boosterRemoveAt = S.t + 180;   // drone ship leaves ~3 min after the booster is lost
+    if (isActive) { S.activeId = null; toast(v.name + ' booster was lost.', true); sfx('explosion'); addShake(10); }
+    else toast(v.name + ' booster crashed.', false);
+    save(); return;
+  }
   if (v.dir) orderFlightEnd(v, 'lost');   // v0.8.0
   const crewNote = crewOnCrash(v);   // v0.7.0: nobody dies; the crew are recovered and rest
   explode(v); removeVessel(v);
@@ -1640,11 +2065,18 @@ function update(realDt) {
     const isAct = v.id === S.activeId;
     // dropped boosters (debris) left in the air during fast warp are cleaned up. v0.7.2: real ships never vanish like this:
     // time warp is held at 4x while one is in the air (primoWarpCap), and if one dips into the air mid-warp it is flown properly
+    if (v.kind === 'booster') boosterTick(v);   // v0.9.0: the booster flies itself back while it is not landed
+    if (v.kind === 'satellite' && (v.panels || 0) < 1) v.panels = Math.min(1, (v.panels || 0) + fdt * 0.5);   // v0.9.0: solar panels unfold on fresh satellites
     if (v.debris && !isAct && !v.landed && WARPS[warpIdx] > 4) {
       const b = BODIES[v.parent];
       if (b.atmo && Math.hypot(v.x, v.y) - b.R < b.atmo) { removeVessel(v); continue; }
     }
-    if (v.landed && !hasThrust(v)) { v.ang = v.theta; continue; }
+    if (v.landed && !hasThrust(v)) {
+      v.ang = v.theta;
+      if (v.kind === 'booster') boosterRemoveCheck(v);
+      else if (v.kind === 'drone' && v.boosterRemoveAt && S.t >= v.boosterRemoveAt) removeVessel(v);
+      continue;
+    }
     let done = 0, count = 0;
     const cap = isAct || v.primo === 'auto' ? 20000 : 3000, minDt = fdt / cap;
     while (done < fdt - 1e-9) {
@@ -1692,6 +2124,7 @@ function update(realDt) {
     if (a.parent === 'terra') {
       const vr = (a.x * a.vx + a.y * a.vy) / r;
       if (a.fairing && h > 45000) hint(a, 'fairing', 'Out of the thick air: press F to drop the fairing (it is dead weight now)', 'Out of the thick air: tap FAIRING to drop it (it is dead weight now)');
+      if (a.payload && !a.deployed && !a.fairing && h > 70000) hint(a, 'deploy', 'Fairing is gone: press G to deploy the comm satellite', 'Fairing is gone: tap DEPLOY to release the satellite');
       if (a.reachedOrbit && h < 75000 && vr < -20 && hasCapsule(a) && !isCapsuleOnly(a)) hint(a, 'reentry', 'Coming home? Press Space to drop the upper stage: only the capsule has a heat shield', 'Coming home? Tap STAGE to drop the upper stage: only the capsule has a heat shield');
       if (a.chute === 'packed' && !a.fairing && a.launched && vr < 0 && sp < CHUTE_MAX && rhoAt(b, h) > CHUTE_MIN_RHO) hint(a, 'chute', 'Slow enough: press P to open the parachute', 'Slow enough: tap CHUTE to open the parachute');
     }
@@ -1815,6 +2248,31 @@ function deployChute(vv) {
   toast('Parachute open'); save(); return 'open';
 }
 
+// v0.9.0: deploy the payload (Falcon 9's comm satellite, or any future cargo).
+function deployPayload() {
+  const v = active(); if (!v) return;
+  const me = v.id === S.activeId, toast = me ? window.toastFn : () => {}, sfx = me ? window.sfxFn : () => {};
+  if (!v.payload || v.deployed) { toast('Nothing to deploy'); return; }
+  if (v.landed) { toast("Can't deploy on the ground"); return; }
+  if (v.fairing) { toast('Drop the fairing first'); return; }
+  const air = airOf(v);
+  if (air.h < 70000) { toast('Too low: deploy in space, above 70 km'); return; }
+  const P = PAYLOAD[v.payload];
+  const s = {
+    id: S.nextId++, name: 'Comm Sat ' + (++S.stats.satelliteCount), rocket: 'satellite',
+    parts: [0], fuel: [0], parent: 'terra', theta: Math.atan2(v.y, v.x),
+    x: v.x, y: v.y, vx: v.vx, vy: v.vy, ang: v.ang, angVel: 0,
+    throttle: 0, sas: false, landed: false, debris: false, kind: 'satellite',
+    deployed: false, panels: 0, born: S.t, maxAlt: 0
+  };
+  const hx = Math.cos(v.ang), hy = Math.sin(v.ang);
+  s.vx += hx * 0.6; s.vy += hy * 0.6;
+  v.deployed = true; delete v.payload;
+  S.vessels.push(s);
+  toast(P.name + ' deployed · ' + s.name);
+  sfx('clunk'); save();
+}
+
 // ---------- Actions ----------
 function doStage(vv) {
   const v = vv && vv.parts ? vv : active(); if (!v) return;
@@ -1826,8 +2284,15 @@ function doStage(vv) {
   const bx = v.x - hx * L0 / 2, by = v.y - hy * L0 / 2;
   const deb = JSON.parse(JSON.stringify(v));
   deb.id = S.nextId++; deb.name = v.name + ' ' + (st.name || 'booster').toLowerCase(); deb.parts = [k]; deb.debris = true; deb.throttle = 0; deb.sas = false;
-  deb.fairing = false; delete deb.chute; deb.hints = {}; for (const k of ['crew', 'primo', 'ap', 'apAim', 'primoDone', 'primoFlown', 'crewHomeAt', 'sci', 'sciSpace', 'lastRes', 'dir', 'abort', 'payload', 'sciLap']) delete deb[k];   // (v0.8.0: + dir, abort, payload, sciLap) deb.clamped = false; deb.countdown = 0; delete deb.mission; delete deb.guide; delete deb.missionDone;
+  deb.fairing = false; delete deb.chute; deb.hints = {}; for (const kk of ['crew', 'primo', 'ap', 'apAim', 'primoDone', 'primoFlown', 'crewHomeAt', 'sci', 'sciSpace', 'lastRes', 'dir', 'abort', 'payload', 'sciLap']) delete deb[kk];   // (v0.8.0: + dir, abort, payload, sciLap) deb.clamped = false; deb.countdown = 0; delete deb.mission; delete deb.guide; delete deb.missionDone;
   deb.x = bx + hx * st.len / 2; deb.y = by + hy * st.len / 2; deb.vx = v.vx - hx * 2.5; deb.vy = v.vy - hy * 2.5; deb.angVel = (Math.random() - 0.5) * 0.4;
+  if (rk(v).id === 'falcon9' && k === 0) {   // v0.9.0: the Falcon 9 booster flies itself back to a drone ship instead of becoming debris
+    deb.debris = false; deb.kind = 'booster';
+    deb.boosterPhase = 'flip'; deb.boosterT0 = S.t;
+    deb.boosterDeployed = { fins: false, legs: false };
+    deb.boosterRemoveAt = 0; deb.boosterDrone = null;
+    deb.name = v.name + ' booster';
+  } else deb.debris = true;
   v.parts.shift();
   const L1 = lengthOf(v);
   v.x = bx + hx * (st.len + L1 / 2); v.y = by + hy * (st.len + L1 / 2); v.vx += hx * 1.5; v.vy += hy * 1.5;
@@ -2499,6 +2964,7 @@ function syncPicker(force) {
     if (mob ? cb.nextElementSibling !== want : cb.previousElementSibling !== want) { if (mob) want.before(cb); else want.after(cb); } }
   const cr = crewOf(v), pil = crewJob(v, 'pilot');
   document.getElementById('mpCrewS').textContent = cr.length ? (mob ? cr.length + '/' + SEATS + (pil ? ' · Pilot' : '') : cr.map(p => firstName(p) + ' (' + JOBS[p.job].name + ')').join(', ') + (pil && v.primo === 'auto' ? ' · ' + firstName(pil) + ' flies' : '')) : (mob ? 'none' : 'No crew: you fly. Tap to add Primos (a Pilot flies it for you).');
+  document.getElementById('mpCrew').classList.toggle('hidden', !rk(v).stages.some(s => s.capsule));
   document.getElementById('mpCrew').classList.toggle('dim', !v.hold);
   if (pil && v.primo === 'auto') document.getElementById('mpBlurb').textContent = (cur === 'none' ? 'Free flight: ' + firstName(pil) + ' flies to orbit and back home.' : MISSION[cur].blurb) + ' Pilot ' + pil.name + ' flies it after your go (' + (mob ? 'tap GO' : 'press Enter') + ').';
 }
@@ -2674,19 +3140,21 @@ function openSelect() {
   const box = document.getElementById('rocketCards'); box.innerHTML = '';
   for (const r of Object.values(ROCKETS)) {
     if (r.retired) continue;
+    if (r.id === 'satellite' || r.id === 'droneShip') continue;   // v0.9.0: not launchable vessels
     const fake = { rocket: r.id, parts: r.stages.map((_, i) => i), fuel: r.stages.map(s => s.fuel), fairing: !!r.fairing, chute: 'packed' };
     const m = massOf(fake), s0 = r.stages[0], twr = thrustNow(s0, 1, 1) / (m * G0);
+    const capsule = r.stages.some(s => s.capsule);   // v0.9.0: Falcon 9 is cargo only, no crew and no capsule
     const c = document.createElement('div'); c.className = 'card'; c.dataset.act = 'pick:' + r.id;
     const cv = document.createElement('canvas'); cv.width = 120; cv.height = 140; cv.dataset.act = 'pick:' + r.id;
     drawRocketPreview(cv, fake);
     c.appendChild(cv);
     const eng = r.stages.filter(s => s.thrust > 0).map(s => `${s.name}: ${Math.round(thrustNow(s, 1, 1) / 1000)}&rarr;${Math.round(s.thrust / 1000)} kN, Isp ${s.ispSL}&rarr;${s.isp} s`).join('<br>');
     c.insertAdjacentHTML('beforeend', `<div class="name">${r.name}</div><div class="tag">${r.tag}</div><div class="desc">${r.desc}</div>
-      <div class="stats">Booster + upper stage + capsule · Mass: ${(m / 1000).toFixed(1)} t<br>
+      <div class="stats">${capsule ? 'Booster + upper stage + capsule · Mass: ' : 'Booster + upper stage + fairing · Mass: '}${(m / 1000).toFixed(1)} t<br>
       Launch thrust/weight: ${twr.toFixed(2)} · &Delta;v: ${Math.round(deltaV(fake)).toLocaleString()} m/s<br>
       ${eng} <small>(sea level&rarr;vacuum)</small><br>
-      Max air push: ${r.qLimit / 1000} kPa · Heat shield &amp; parachute (open under ${CHUTE_MAX} m/s)<br>
-      Safe landing: legs ${r.stages[1].crash} m/s · capsule ${r.stages[2].crash} m/s on land, ${r.stages[2].crashWater} m/s in water</div>
+      Max air push: ${r.qLimit / 1000} kPa${capsule ? ' · Heat shield &amp; parachute (open under ' + CHUTE_MAX + ' m/s)' : ''}<br>
+      ${capsule ? 'Safe landing: legs ' + r.stages[1].crash + ' m/s · capsule ' + r.stages[2].crash + ' m/s on land, ' + r.stages[2].crashWater + ' m/s in water' : 'The booster keeps about 10&ndash;15% of its fuel to fly back and land upright on a drone ship at sea &mdash; under 6 m/s, upright'}</div>
       <div class="go">Launch ${r.name} &#9654;</div>`);
     for (const el of c.querySelectorAll('*')) el.dataset.act = 'pick:' + r.id;
     box.appendChild(c);
@@ -2711,7 +3179,7 @@ function openStation() {
       const tot = v.parts.reduce((s, i) => s + rk(v).stages[i].fuel, 0), cur = v.parts.reduce((s, i) => s + v.fuel[i], 0);
       const fuelTxt = tot ? Math.round(cur / tot * 100) + '%' : '-';
       const recover = v.landed && v.parent === 'terra';
-      html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}${v.crew ? '<br><small style="color:#c9f5da">Crew: ' + esc(crewOf(v).map(firstName).join(', ')) + (v.primo === 'auto' ? ' (Pilot flying)' : '') + '</small>' : ''}</td><td>${statusOf(v)}${v.mission && MISSION[v.mission] && !v.debris ? ' <small style="color:#ff9be6">· ' + (v.missionDone ? '★ ' : 'Mission: ') + MISSION[v.mission].name + '</small>' : ''}${rk(v).retired ? ' <small style="color:#8796bf">(retired type)</small>' : ''}</td><td>${fuelTxt}</td>
+      html += `<tr><td>${v.id === S.activeId ? '▶ ' : ''}${esc(v.name)}${v.visitedLuna ? ' ☾' : ''}${v.crew ? '<br><small style="color:#c9f5da">Crew: ' + esc(crewOf(v).map(firstName).join(', ')) + (v.primo === 'auto' ? ' (Pilot flying)' : '') + '</small>' : ''}</td><td>${statusOf(v)}${v.mission && MISSION[v.mission] && !v.debris ? ' <small style="color:#ff9be6">· ' + (v.missionDone ? '★ ' : 'Mission: ') + MISSION[v.mission].name + '</small>' : ''}${rk(v).retired ? ' <small style="color:#8796bf">(retired type)</small>' : ''}${v.kind === 'booster' ? ' <small style="color:#ffb36b">· booster returning</small>' : ''}${v.kind === 'satellite' ? ' <small style="color:#5ef08a">· comm satellite</small>' : ''}${v.kind === 'drone' ? ' <small style="color:#6b7280">· drone ship</small>' : ''}</td><td>${fuelTxt}</td>
         <td style="white-space:nowrap">${v.debris ? '' : `<button class="small" data-act="fly:${v.id}">Fly</button>`}<button class="small ghost" data-act="del:${v.id}">${recover ? 'Recover' : 'Delete'}</button></td></tr>`;
     }
     html += '</table>';
@@ -2720,9 +3188,10 @@ function openStation() {
   document.getElementById('msList').innerHTML = MILESTONES.map(m => `<div class="${S.milestones[m[0]] !== undefined ? 'done' : ''}">${S.milestones[m[0]] !== undefined ? '★' : '☆'} ${m[1]}<small>${m[2]}</small></div>`).join('');
   const ms = S.stats.missions || {};
   document.getElementById('missionList').innerHTML = MISSIONS.map(m => { const r = ms[m.id]; return `<div class="${r ? 'done mdone' : ''}">${r ? '★' : '☆'} ${m.name}${m.kind === 'orbit' ? ' (' + m.tag + ')' : ''}${r && r.count > 1 ? ' ×' + r.count : ''}${r && r.best ? '<span class="pb">Best: ' + esc(bestText(m.id, r.best)) + '</span>' : ''}<small>${esc(m.blurb)}</small></div>`; }).join('');
-  document.getElementById('records').innerHTML = `Flights: ${S.stats.flights} · Landings: ${S.stats.landings} (splashdowns: ${S.stats.splashdowns || 0}) · Crashes: ${S.stats.crashes}${S.stats.softest ? ' · Softest touchdown: ' + S.stats.softest.toFixed(1) + ' m/s' : ''}<br>
+  document.getElementById('records').innerHTML = `Flights: ${S.stats.flights} · Landings: ${S.stats.landings} (splashdowns: ${S.stats.splashdowns || 0}) · Crashes: ${S.stats.crashes}${S.stats.softest ? ' · Softest touchdown: ' + S.stats.softest.toFixed(1) + ' m/s' : ''} · Booster landings: ${S.stats.boosterLandings} (losses: ${S.stats.boosterLosses})<br>
     Highest above Terra: ${fmtDist(S.stats.maxAlt)} · Fastest: ${fmtSpd(S.stats.maxSpeed)} · World time: ${clock(S.t)}`;
   document.getElementById('discList').innerHTML = discoveryHtml();
+  document.getElementById('comms').innerHTML = commsHtml();
   showOverlay('ovStation');
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
@@ -2818,6 +3287,7 @@ window.addEventListener('keydown', e => {
     case 'Enter': case 'NumpadEnter': if (!startCountdown() && !skipCountdown()) toast('Nothing to start: the countdown only runs on the pad'); break;
     case 'KeyF': dropFairing(); break;
     case 'KeyP': deployChute(); break;
+    case 'KeyG': deployPayload(); break;
     case 'KeyM': toggleMap(); break;
     case 'KeyC': recentreMap(); break;
     case 'Comma': cycleWarp(-1); break;
@@ -2910,7 +3380,7 @@ function touchAction(name) {
     case 'full': if (v && v.primo === 'auto') primoHint(v); else if (v) v.throttle = 1; break;
     case 'cut': if (v && v.primo === 'auto') primoHint(v); else if (v) v.throttle = 0; break;
     case 'stage': if (v && v.primo === 'auto') primoHint(v); else doStage(); break;
-    case 'ctx': { const c = ctxState(v); if (c.act === 'takeover') takeOver(v); else if (c.act === 'handback') handBack(v); else if (c.act === 'start') startCountdown(); else if (c.act === 'skip') skipCountdown(); else if (c.act === 'fairing') dropFairing(); else if (c.act === 'chute') deployChute(); else if (c.act === 'chuteOpen') toast('The parachute is open'); syncCtx(); break; }
+    case 'ctx': { const c = ctxState(v); if (c.act === 'takeover') takeOver(v); else if (c.act === 'handback') handBack(v); else if (c.act === 'start') startCountdown(); else if (c.act === 'skip') skipCountdown(); else if (c.act === 'fairing') dropFairing(); else if (c.act === 'chute') deployChute(); else if (c.act === 'deploy') deployPayload(); else if (c.act === 'chuteOpen') toast('The parachute is open'); syncCtx(); break; }
   }
 }
 // the one context button on Mobile: START / SKIP (countdown) -> FAIRING (in flight) -> CHUTE (capsule coming home)
@@ -2922,6 +3392,9 @@ function ctxState(v) {
   if (v.countdown > 0) return { act: 'skip', b: 'SKIP', s: 'countdown', cls: '' };
   if (v.landed) return { act: null };
   if (v.fairing && !(hb && airOf(v).h < 45000)) { const q = qOf(v); return { act: 'fairing', b: 'FAIRING', s: q > FAIRING_WARN_Q ? 'air thick' : 'drop', cls: q > FAIRING_WARN_Q ? 'warnc' : '' }; }
+  if (v.payload && !v.deployed && !v.landed) {   // v0.9.0: Falcon 9 releases its comm satellite in space
+    const a = airOf(v); return { act: 'deploy', b: 'DEPLOY', s: a.h > 70000 ? 'deploy' : 'too low', cls: a.h > 70000 ? '' : 'warnc' };
+  }
   if (v.chute === 'packed' && hasCapsule(v) && !(hb && !(airOf(v).rho >= CHUTE_MIN_RHO && airOf(v).sp <= CHUTE_MAX))) { const a = airOf(v), ok = a.rho >= CHUTE_MIN_RHO && a.sp <= CHUTE_MAX; return { act: 'chute', b: 'CHUTE', s: ok ? 'open' : (a.rho < CHUTE_MIN_RHO ? 'no air' : 'too fast'), cls: ok ? '' : 'warnc' }; }
   if (v.chute === 'open') return { act: 'chuteOpen', b: 'CHUTE', s: 'open ✓', cls: 'on' };
   if (hb) return { act: 'handback', b: 'PRIMO', s: 'fly', cls: '' };
@@ -3139,7 +3612,9 @@ const ENGINE_SOUNDS = {
   sparrow: { name: 'Sparrow', roarF: 1100, roarQ: 1.6, roar: 0.55, hissF: 2600, hissQ: 1, hiss: 0.35, growlF: 72, growlType: 'square', growl: 0.28, growlLp: 750, crackle: 0.25, crackleF: 2500, whineF: 0, whine: 0, flutterHz: 23, flutter: 0.45, size: 0.6 },
   heron: { name: 'Heron booster', roarF: 650, roarQ: 1.0, roar: 0.9, hissF: 1500, hissQ: 0.8, hiss: 0.2, growlF: 55, growlType: 'square', growl: 0.32, growlLp: 230, crackle: 0.25, crackleF: 600, whineF: 0, whine: 0, flutterHz: 5.5, flutter: 0.42, size: 0.9 },
   heronUp: { name: 'Heron lander', roarF: 1550, roarQ: 2.2, roar: 0.38, hissF: 4300, hissQ: 2, hiss: 0.45, growlF: 128, growlType: 'sine', growl: 0.22, growlLp: 650, crackle: 0, crackleF: 0, whineF: 610, whine: 0.08, flutterHz: 14, flutter: 0.1, size: 0.5 },
-  mule: { name: 'Mule', roarF: 300, roarQ: 0.6, roar: 1.15, hissF: 900, hissQ: 0.6, hiss: 0.12, growlF: 29, growlType: 'sawtooth', growl: 0.6, growlLp: 110, crackle: 0.85, crackleF: 350, whineF: 0, whine: 0, flutterHz: 3.2, flutter: 0.25, size: 1.2 }
+  mule: { name: 'Mule', roarF: 300, roarQ: 0.6, roar: 1.15, hissF: 900, hissQ: 0.6, hiss: 0.12, growlF: 29, growlType: 'sawtooth', growl: 0.6, growlLp: 110, crackle: 0.85, crackleF: 350, whineF: 0, whine: 0, flutterHz: 3.2, flutter: 0.25, size: 1.2 },
+  f9Booster: { name: 'Falcon 9 booster', roarF: 340, roarQ: 0.5, roar: 1.35, hissF: 700, hissQ: 0.5, hiss: 0.15, growlF: 24, growlType: 'sawtooth', growl: 0.85, growlLp: 90, crackle: 0.95, crackleF: 260, whineF: 0, whine: 0, flutterHz: 5, flutter: 0.35, size: 1.25 },
+  f9Upper: { name: 'Falcon 9 upper stage', roarF: 1100, roarQ: 1.5, roar: 0.5, hissF: 2800, hissQ: 1.2, hiss: 0.35, growlF: 85, growlType: 'triangle', growl: 0.25, growlLp: 520, crackle: 0.15, crackleF: 2200, whineF: 560, whine: 0.05, flutterHz: 28, flutter: 0.06, size: 0.62 }
 };
 function engineSoundKey(v) { const st = engine(v); return st && st.snd && ENGINE_SOUNDS[st.snd] ? st.snd : 'kBooster'; }
 
@@ -3241,6 +3716,11 @@ function playSfx(ac, dest, kind, t, opt = {}) {
       noise('white', 'lowpass', 5000, 300, 0.7, 0.6, 0.003, 0.5); tone('sine', 62, 22, 0.7, 0.005, 1.8); noise('brown', 'lowpass', 1200, 90, 0.6, 0.7, 0.02, 2.8);
       { const s = ac.createBufferSource(); s.buffer = nb.crackle; const g = ac.createGain(); g.gain.setValueAtTime(0.7, t + 0.1); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4); s.connect(g); g.connect(dest); s.start(t + 0.1); s.stop(t + 2.5); }
       return 3.0;
+    case 'cheer': {   // v0.9.0: a recovered booster touchdown
+      for (let i = 0; i < 4; i++) tone('sine', 520 + i * 90, 520 + i * 90, 0.14, 0.02, 0.5, i * 0.12);
+      for (let i = 0; i < 3; i++) { tone('triangle', 660 + i * 110, 660 + i * 110, 0.12, 0.03, 0.5 + i * 0.15, i * 0.18); noise('white', 'bandpass', 2600, 400, 0.35, 0.6, 0.01, 0.3); }
+      return 1.8;
+    }
     case 'maxq': for (let i = 0; i < 2; i++) { tone('square', 740, 740, 0.17, 0.004, 0.11, i * 0.26); tone('square', 554, 554, 0.17, 0.004, 0.11, i * 0.26 + 0.13); } return 0.6;
     case 'mission': { const notes = [523.25, 659.25, 783.99, 1046.5]; notes.forEach((f, i) => { tone('triangle', f, f, 0.22, 0.01, 0.5, i * 0.13); tone('sine', f * 2, f * 2, 0.05, 0.01, 0.4, i * 0.13); });
       for (const f of [523.25, 659.25, 783.99, 1046.5]) tone('sine', f, f, 0.1, 0.05, 1.6, 0.6); tone('triangle', 261.63, 261.63, 0.18, 0.05, 1.5, 0.6); return 2.4; }
@@ -3715,6 +4195,8 @@ let footDrop = null;
 function drawRocketShape(c, v, flame, pf = 1) {
   // local coordinates in metres, +y = nose direction, origin at centre
   const r = rk(v), L = lengthOf(v), s0 = r.stages[v.parts[0]];
+  if (r.id === 'satellite') { drawSatelliteShape(c, v); return; }
+  if (r.id === 'droneShip') { drawDroneShipShape(c, v); return; }
   // v0.5.0: the engine bell (and the feet of the legs) sit exactly at the ship's lowest point, where it touches the ground
   let y = -L / 2 + (s0.thrust > 0 && !s0.capsule ? s0.w * 0.25 : 0);
   c.lineWidth = 0;
@@ -3737,10 +4219,23 @@ function drawRocketShape(c, v, flame, pf = 1) {
       // engine bell + flame
       if (flame > 0) drawFlame(c, st, w, y, flame, pf);
       c.beginPath(); c.moveTo(-w * 0.22, y); c.lineTo(w * 0.22, y); c.lineTo(w * 0.34, y - w * 0.25); c.lineTo(-w * 0.34, y - w * 0.25); c.closePath(); c.fillStyle = '#4b5563'; c.fill();
-      if (st.legs) { // v0.5.0: on a slope the downhill leg reaches further down to the ground
+      if (st.legs && r.id !== 'falcon9') { // v0.5.0: on a slope the downhill leg reaches further down to the ground
         const dl = footDrop ? footDrop[0] : 0, dr = footDrop ? footDrop[1] : 0;
         c.strokeStyle = '#9ca3af'; c.lineWidth = Math.max(0.15, w * 0.08); c.beginPath(); c.moveTo(-w / 2, y + st.len * 0.3); c.lineTo(-w * 0.95, y - w * 0.25 - dl); c.moveTo(w / 2, y + st.len * 0.3); c.lineTo(w * 0.95, y - w * 0.25 - dr); c.stroke();
-        if (dl > 0.05 || dr > 0.05) { c.fillStyle = '#9ca3af'; c.fillRect(-w * 0.95 - 0.25, y - w * 0.25 - dl - 0.1, 0.5, 0.15); c.fillRect(w * 0.95 - 0.25, y - w * 0.25 - dr - 0.1, 0.5, 0.15); } }
+        if (dl > 0.05 || dr > 0.05) { c.fillStyle = '#9ca3af'; c.fillRect(-w * 0.95 - 0.25, y - w * 0.25 - dl - 0.1, 0.5, 0.15); c.fillRect(w * 0.95 - 0.25, y - w * 0.25 - dr - 0.1, 0.5, 0.15); }
+      if (r.id === 'falcon9' && idx === 0) {   // v0.9.0: landing legs and grid fins on the booster
+        const dep = v.boosterDeployed || { fins: false, legs: false };
+        const legAng = dep.legs ? 1.0 : 0.2, legL = w * 2.3;
+        c.strokeStyle = '#9ca3af'; c.lineWidth = Math.max(0.15, w * 0.09);
+        for (const sd of [-1, 1]) {
+          c.beginPath(); c.moveTo(sd * w * 0.5, y - w * 0.25); c.lineTo(sd * w * 0.5 + sd * Math.sin(legAng) * legL, y - w * 0.25 - Math.cos(legAng) * legL); c.stroke();
+          c.fillStyle = '#9ca3af'; c.fillRect(sd * w * 0.5 + sd * Math.sin(legAng) * legL - 0.15, y - w * 0.25 - Math.cos(legAng) * legL - 0.15, 0.3, 0.3);
+        }
+        const finY = y + st.len * 0.96, finOpen = dep.fins, finW = finOpen ? 1.5 : 0.45, finH = finOpen ? 0.35 : 1.3;
+        c.fillStyle = '#6b7280';
+        for (const sd of [-1, 1]) c.fillRect(sd * w * 0.58 - finW * 0.5, finY - finH * 0.5, finW, finH);
+      }
+      }
     } else if (st.thrust > 0 && r.gimbal) {
       // upper-stage engine tucked inside the interstage: show the nozzle edge
       c.fillStyle = '#4b5563'; c.fillRect(-w * 0.25, y - 0.01, w * 0.5, 0.3);
@@ -3749,18 +4244,67 @@ function drawRocketShape(c, v, flame, pf = 1) {
     c.fillStyle = r.accent; c.fillRect(-w / 2, y + st.len * 0.12, w, Math.min(1.2, st.len * 0.08));
     c.fillStyle = 'rgba(0,0,0,0.12)'; c.fillRect(w * 0.15, y, w * 0.35, st.len);
     if (idx > 0) { c.fillStyle = '#374151'; c.fillRect(-w / 2, y, w, 0.25); }
-    if (r.gimbal && v.parts[idx] === 0) { c.fillStyle = '#1f2937'; c.fillRect(-w / 2, y + st.len - 1.1, w, 1.1); } // interstage band
+    if (v.parts[idx] === 0 && idx < v.parts.length - 1) { // interstage band at top of booster stage
+      if (r.id === 'falcon9') { c.fillStyle = r.accent; c.fillRect(-w / 2, y + st.len - 1.0, w, 1.0); }   // black band
+      else if (r.gimbal) { c.fillStyle = '#1f2937'; c.fillRect(-w / 2, y + st.len - 1.1, w, 1.1); }
+    }
     y += st.len;
   }
   if (v.fairing && r.fairing) {
-    // nose fairing: covers the capsule, pointed on top
-    const f = r.fairing, cap = r.stages[r.stages.length - 1], w = f.w, base = y, top = base + cap.len;
-    c.beginPath(); c.moveTo(-cap.w / 2, base); c.lineTo(cap.w / 2, base); c.lineTo(w / 2, base + 0.6); c.lineTo(w / 2, top); c.quadraticCurveTo(w / 2, top + f.len * 0.75, 0, top + f.len);
-    c.quadraticCurveTo(-w / 2, top + f.len * 0.75, -w / 2, top); c.lineTo(-w / 2, base + 0.6); c.closePath(); c.fillStyle = '#eef1f6'; c.fill();
-    c.fillStyle = 'rgba(0,0,0,0.13)'; c.fillRect(w * 0.12, base + 0.6, w * 0.38, cap.len - 0.6);
-    c.strokeStyle = 'rgba(55,65,81,0.6)'; c.lineWidth = 0.06; c.beginPath(); c.moveTo(0, base + 0.6); c.lineTo(0, top + f.len * 0.97); c.stroke();
-    c.fillStyle = r.accent; c.fillRect(-w / 2, top - 0.9, w, 0.45);
-    y = top + f.len;
+    const f = r.fairing, cap = r.stages[r.stages.length - 1], w = f.w, base = y;
+    if (r.id === 'falcon9') {
+      // Falcon 9 fairing: a tall rounded ogive (bullet-shaped) on top of
+      // the upper stage, a bit wider than the body, does not cover the upper
+      // stage. It is drawn exactly f.len tall, the same height lengthOf
+      // counts for it - the old version drew it twice that tall (f.len * 2),
+      // so the rocket was 5 m taller on screen than in physics, its centre
+      // sat 2.8 m off, and in the picker the tip ran off the top of the
+      // canvas and read as a small flat cap. The nose is a cubic ogive:
+      // straight sides, then a curve that meets at the tip with a horizontal
+      // tangent, so the tip is smoothly rounded instead of pointed.
+      const noseStart = base + 1.5;   // straight full-width section ends here, the curve runs to the tip
+      c.beginPath();
+      c.moveTo(-cap.w / 2, base);
+      c.lineTo(cap.w / 2, base);
+      c.lineTo(w / 2, base + 0.5);
+      c.lineTo(w / 2, noseStart);
+      c.bezierCurveTo(w / 2, base + f.len * 0.7, w * 0.28, base + f.len, 0, base + f.len);
+      c.bezierCurveTo(-w * 0.28, base + f.len, -w / 2, base + f.len * 0.7, -w / 2, noseStart);
+      c.lineTo(-w / 2, base + 0.5);
+      c.lineTo(-cap.w / 2, base);
+      c.closePath();
+      c.fillStyle = '#eef1f6'; c.fill();
+      // black band at the fairing base, and the centre seam where the two
+      // halves split - so the white nose reads against the white upper stage
+      c.fillStyle = r.accent; c.fillRect(-w / 2, base + 0.5, w, 0.4);
+      c.strokeStyle = 'rgba(55,65,81,0.6)'; c.lineWidth = 0.06;
+      c.beginPath(); c.moveTo(0, base + 0.9); c.lineTo(0, base + f.len * 0.97); c.stroke();
+      y = base + f.len;
+    } else {
+      // Kestrel fairing: covers the capsule, pointed on top
+      const top = base + cap.len;
+      c.beginPath(); c.moveTo(-cap.w / 2, base); c.lineTo(cap.w / 2, base); c.lineTo(w / 2, base + 0.6); c.lineTo(w / 2, top); c.quadraticCurveTo(w / 2, top + f.len * 0.75, 0, top + f.len);
+      c.quadraticCurveTo(-w / 2, top + f.len * 0.75, -w / 2, top); c.lineTo(-w / 2, base + 0.6); c.closePath(); c.fillStyle = '#eef1f6'; c.fill();
+      c.fillStyle = 'rgba(0,0,0,0.13)'; c.fillRect(w * 0.12, base + 0.6, w * 0.38, cap.len - 0.6);
+      c.strokeStyle = 'rgba(55,65,81,0.6)'; c.lineWidth = 0.06; c.beginPath(); c.moveTo(0, base + 0.6); c.lineTo(0, top + f.len * 0.97); c.stroke();
+      c.fillStyle = r.accent; c.fillRect(-w / 2, top - 0.9, w, 0.45);
+      y = top + f.len;
+    }
+  }
+  // v0.9.0: Falcon 9 satellite on its adapter on top of the upper stage,
+  // after the fairing drops and before the satellite is deployed
+  if (r.id === 'falcon9' && !v.fairing && v.payload && !v.deployed) {
+    const cap = r.stages[r.stages.length - 1];
+    // adapter ring on top of the upper stage
+    c.fillStyle = '#6b7280';
+    c.fillRect(-cap.w * 0.7, y + 0.05, cap.w * 1.4, 0.3);
+    // satellite bus on the adapter
+    c.fillStyle = '#cfe8ff';
+    c.fillRect(-0.45, y + 0.35, 0.9, 1.0);
+    c.fillStyle = '#5ef08a';
+    c.fillRect(-0.1, y + 0.35, 0.2, 1.0);
+    c.fillStyle = '#9fd6ff';
+    c.fillRect(-0.09, y + 0.35, 0.18, 0.34);
   }
   if (hasNose(v)) {
     const w = r.stages[r.stages.length - 1].w, nl = noseLen(v);
@@ -3775,6 +4319,28 @@ function drawRocketShape(c, v, flame, pf = 1) {
     c.beginPath(); c.ellipse(0, yt + D, Rc, Rc * 0.6, 0, 0, Math.PI); c.closePath(); c.fillStyle = '#ff8a3d'; c.fill();
     c.beginPath(); c.moveTo(-Rc * 0.33, yt + D); c.lineTo(Rc * 0.33, yt + D); c.lineTo(Rc * 0.2, yt + D + Rc * 0.57); c.lineTo(-Rc * 0.2, yt + D + Rc * 0.57); c.closePath(); c.fillStyle = '#f5f5f5'; c.fill();
   }
+}
+// v0.9.0: the comm satellite - a small boxy bus with solar panels that fold out after deployment
+function drawSatelliteShape(c, v) {
+  const p = Math.max(0, Math.min(1, v.panels || 0));
+  c.fillStyle = '#cbd5e1'; c.fillRect(-0.7, -1, 1.4, 2);      // bus
+  c.fillStyle = '#5ef08a'; c.fillRect(-0.14, -0.6, 0.28, 1.2); // body stripe / antenna base
+  c.fillStyle = '#9fd6ff'; c.fillRect(-0.12, -1.05, 0.24, 0.34); // antenna dish
+  c.fillStyle = '#9fd6ff';
+  const a = p * Math.PI / 2;
+  for (const sd of [-1, 1]) {
+    c.save(); c.translate(sd * 1.4, 0); c.rotate(a);
+    c.fillRect(-0.14, -3.6, 0.28, 7.2);
+    c.restore();
+  }
+}
+// v0.9.0: the drone ship - a floating landing pad in Terra's ocean
+function drawDroneShipShape(c, v) {
+  c.fillStyle = '#4b5563'; c.fillRect(-22, -4.5, 44, 9);      // deck
+  c.fillStyle = '#fbbf24';
+  for (const x of [-14, 0, 14]) { c.fillRect(x - 1, -1.6, 2, 3.2); c.fillRect(-1.6, x - 1, 3.2, 2); }
+  c.fillStyle = '#e5e7eb'; c.fillRect(-20, 1.1, 40, 0.5);     // rail
+  c.fillStyle = '#9ca3af'; c.fillRect(-21.5, -5, 43, 0.5); c.fillRect(-21.5, 4.5, 43, 0.5); // edges
 }
 function drawRocketPreview(canvas, v) {
   const c = canvas.getContext('2d'); const L = lengthOf(v) + 4, sc = Math.min(130 / L, 16);
@@ -3815,9 +4381,9 @@ function drawVessel(v, isAct) {
   const p = worldPos(v); const [sx, sy] = w2s(p.x, p.y);
   if (sx < -300 || sy < -300 || sx > W + 300 || sy > H + 300) return;
   const L = lengthOf(v);
-  const scrAng = v.ang - camRot - Math.PI / 2;
+  const r = rk(v), scrAng = v.ang - camRot - Math.PI / 2;
   const gl = !v.landed ? glowOf(v) : 0;
-  if (L * cam.z < 8) {
+  if (L * cam.z < 8 && r.id !== 'satellite' && r.id !== 'droneShip') {
     // icon
     ctx.save(); ctx.translate(sx, sy); ctx.rotate(-scrAng);
     ctx.beginPath(); ctx.moveTo(0, -7); ctx.lineTo(5, 6); ctx.lineTo(0, 3); ctx.lineTo(-5, 6); ctx.closePath();
@@ -4146,6 +4712,13 @@ function updateHud() {
   $('hHeat').textContent = Math.round(hf * 100) + '%' + (isCapsuleOnly(v) ? (shieldForward(v) ? ' (shield on)' : ' (shield off!)') : ''); $('hHeat').className = cls(hf);
   $('hQH').textContent = (q < 9500 ? (q / 1000).toFixed(1) : Math.round(q / 1000)) + ' kPa · ' + Math.round(hf * 100) + '%'; $('hQH').className = cls(Math.max(qf, hf));
   $('hKit').textContent = (rk(v).fairing ? (v.fairing ? 'on' : 'gone') : '-') + ' · ' + (v.chute ? { packed: 'packed', open: 'open', ripped: 'torn' }[v.chute] : '-');
+  const sig = signalOf(v);
+  const sigEl = $('hSig');
+  const sigTxt = sig.kind === 'direct' ? 'Direct' : sig.kind === 'relay' ? 'Relay via ' + esc(sig.sat.name) : 'No signal';
+  if (sigEl.textContent !== sigTxt) {
+    sigEl.textContent = sigTxt;
+    sigEl.className = sig.kind === 'direct' ? 'ok' : sig.kind === 'relay' ? 'hot' : 'bad';
+  }
   const wn = $('warn');
   const mob = MODE === 'mobile';
   if (!v.landed && qf > 0.7 && !paused && performance.now() - lastMaxQSnd > 1500) { lastMaxQSnd = performance.now(); sfx('maxq'); }
@@ -4529,7 +5102,8 @@ function primoWarpCap() {
           if (g.warp === 'no' || g.thr > 0 || g.act) c = Math.min(c, 4);
         }
       }
-    } else if (!v.landed && v.id !== S.activeId) {   // v0.7.2: EVERY real ship in the air (crewed or not), not only crewed ones
+    } else if (v.kind === 'booster' && !v.landed) c = 4;   // v0.9.0: a booster coming in to land
+    else if (!v.landed && v.id !== S.activeId) {   // v0.7.2: EVERY real ship in the air (crewed or not), not only crewed ones
       const b = BODIES[v.parent]; if (b.atmo && Math.hypot(v.x, v.y) - b.R < b.atmo) c = 4;
     }
     if (c < cap) { cap = c; who = v; }
@@ -4779,8 +5353,8 @@ function toggleCrew(id) {
 }
 // ---- Flights switcher: every ship flying (and waiting on a pad, or landed). Each entry has a kind so boosters that fly
 // themselves back can be added later: give such a booster v.kind = 'booster' and add 'booster' to FLIGHT_KINDS.
-const FLIGHT_KINDS = { ship: 'Ship' /* , booster: 'Booster' (future: boosters landing back) */ };
-function flightKind(v) { if (!v.debris) return 'ship'; return v.kind && FLIGHT_KINDS[v.kind] ? v.kind : null; }
+const FLIGHT_KINDS = { ship: 'Ship', booster: 'Booster', satellite: 'Comm sat' };
+function flightKind(v) { if (v.kind === 'booster') return 'booster'; if (v.kind === 'satellite') return 'satellite'; if (!v.debris) return 'ship'; return null; }
 function flightEntries() {
   const grp = v => (!v.landed ? 0 : v.countdown > 0 ? 1 : 2);
   return S.vessels.filter(v => flightKind(v)).sort((a, b) => grp(a) - grp(b) || b.id - a.id).map(v => ({ id: v.id, kind: flightKind(v), name: v.name,
@@ -5407,7 +5981,7 @@ function siteUndoLand(v, gs) {
 window.toastFn = (...a) => toast(...a); window.sfxFn = (...a) => sfx(...a); window.shakeFn = (...a) => addShake(...a);
 
 // expose for testing
-window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, startCountdown, skipCountdown, fmtDist, fitMap, apText, peText, rescueFar, dropFairing, deployChute, isOcean, airOf, qOf, qLimitOf, heatLimitOf, shieldForward, isCapsuleOnly, hasCapsule, massOf, lengthOf, widthOf, thrustNow, crashLimitOf, particles, openSelect, openStation, ctxState,
+window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, startCountdown, skipCountdown, fmtDist, fitMap, apText, peText, rescueFar, dropFairing, deployChute, isOcean, airOf, qOf, qLimitOf, heatLimitOf, shieldForward, isCapsuleOnly, hasCapsule, massOf, lengthOf, widthOf, thrustNow, crashLimitOf, particles, openSelect, openStation, ctxState, deployPayload, signalOf, losClear, primeFieldPoint, commsHtml,
   updateHud, get dialPos() { if (layoutDirty) layoutTouch(); return dialPos; }, get liftoffShow() { return liftoffShow; }, set liftoffShow(x) { liftoffShow = x; }, set snapCam(x) { snapCam = !!x; }, WARPS, get testFreeze() { return testFreeze; }, set testFreeze(x) { testFreeze = !!x; },
   K: { CHUTE_MAX, CHUTE_MIN_RHO, HEAT_BODY, HEAT_SHIELD, HEAT_CAPSULE_BARE, FAIRING_WARN_Q, FAIRING_HIT_Q, COUNTDOWN, LAND }, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold,
   MISSIONS, MISSION, GEO_ALT, PARK_ALT, LUNA_PASS, pickMission, guide: () => guideNow(active()), guideNow, angleOf, angleText, orbitTimes, predictPass, checkMission, missionComplete, syncPicker, syncGuide,
