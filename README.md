@@ -6,7 +6,7 @@
 
 Click the link above and play in a browser on your PC or your phone. No download, no install.
 
-## Current version: v0.9.1 (booster landings that actually land on the ship, and a Falcon 9 nose that looks like one)
+## Current version: v0.9.2 (delete ships from the Flights list and clear all debris in one go; v0.9.1 made booster landings actually land on the ship)
 
 Made by Hark. 2D, side-on view (like Spaceflight Simulator), one `index.html` file, runs in any desktop or phone browser.
 
@@ -171,7 +171,7 @@ You start with three: **Nova Quill** (Pilot, Steady), **Bram Ostrow** (Engineer,
 
 **No crashes into each other.** The flights stay well apart on the way up and in orbit. On Luna, a second Pilot waits in orbit until the first ship is down, then **lands about 3 km from it** (near each other, never on the same spot).
 
-**Flights button.** **Flights** (bottom-left on PC, or key **L**; a button with the number of flights on a phone) lists every ship: name, crew faces, mission, where it is, and who is flying (Pilot or you). Tap one to jump to it. (The list is built so boosters can be added later, when they fly themselves back.)
+**Flights button.** **Flights** (bottom-left on PC, or key **L**; a button with the number of flights on a phone) lists every ship: name, crew faces, mission, where it is, and who is flying (Pilot or you). Tap one to jump to it. Every row also has a red **Delete** button: it asks first, then the ship is gone for good — from the list, the map and your save. The crew are never lost: anyone aboard goes back to the Astronaut Complex as Ready, with no injury. A Director flight is reported to its order as aborted, so the order is not counted done and the Director sends another flight. Deleting a Falcon 9 booster takes its drone ship with it (you can't delete a drone ship on its own), and deleting a rocket on a launch pad frees the pad. If you delete the ship you are flying, you jump to another flight; if none are left, you go back to the rocket picker. **Clear debris** at the top of the list deletes every spent stage and other crewless debris in one go, after one question that says how many.
 
 **Experience.** Every Primo aboard earns XP when a mission is done (LEO 2, MEO 3, GEO 4, Luna orbit 5, Luna landing 6, Primo free flight 2), Scientists also get 1 XP for every first-ever discovery. Levels: 3, 7, 12, 18 and 25 XP. Higher levels really help: a Pilot steers more exactly and saves 0.5% fuel a level, an Engineer saves 1% more a level, a Scientist gets 15% more science a level.
 
@@ -248,7 +248,7 @@ The flight panel now shows **Angle**: how far your nose is above the horizon. **
 | `,` / `.` | Slow down / speed up time (limited when low, in the air, burning, or counting down; you can warp while the rocket waits on the pad) |
 | Mouse wheel | Zoom |
 | `O` | **New:** Primo Pilot on/off (take over the ship / hand it back to the Pilot) |
-| `L` | Flights list (jump to any ship in flight) |
+| `L` | Flights list (jump to any ship in flight; **Delete** removes a ship, **Clear debris** removes all debris) |
 | `K` | **New:** Mission Control (standing orders for your Director) |
 | `H` | Help |
 | `Esc` | Menu: Tracking Station, new rocket, restart flight, **Settings** (sound, music, shake), backups |
@@ -357,6 +357,16 @@ It's a readout only: there is no penalty for No signal yet, it's a base for late
 First Launch · Reach Space · Orbit Terra · **Round Trip** (new) · Reach Luna · Orbit Luna · Land on Luna · There and Back. See them, your records (now also splashdowns, your softest touchdown, booster landings and losses), every comm satellite and every ship in the **Tracking Station**, which also shows the comms network.
 
 ### Changelog
+
+- **v0.9.2** (delete ships from the Flights list):
+  - **Delete a ship:** every row in the **Flights** list (key **L** on PC, the Flights button on a phone) now has a red **Delete** button next to View / Back to it / Crew home. It asks first ("Delete Kestrel 4? This can't be undone.") and then the ship is gone for good: from the list, the map and your save. It works for flying ships, rockets waiting on a pad, landed ships, comm satellites and Falcon 9 boosters.
+  - **Crew are never lost:** anyone aboard goes back to the Astronaut Complex as **Ready**, with no injury, the same as bringing them home. The message says who came back ("Kestrel 4 deleted. Nova and Bram are back at the Complex.").
+  - **Director flights:** deleting one reports it to its order as **aborted**, so the order is not counted done and the Director sends another flight for it.
+  - **Boosters and pads:** deleting a Falcon 9 booster takes its drone ship with it (a drone ship can't be deleted on its own). Deleting a rocket still on a launch pad frees the pad.
+  - **Deleting the ship you're flying:** you jump to another flight; if none are left, you go back to the rocket picker, as when a flight ends.
+  - **Clear debris:** a button at the top of the Flights list deletes every spent stage and other crewless debris in one go, after one question that says how many.
+  - On a phone the buttons fit on iPhone SE (375×667), upright and sideways, with no overlap. Help (PC + phone) and this file cover deleting and clearing debris; version bumped to v0.9.2.
+  - Everything in one `index.html`, no outside files. Old saves still load; deletions save and stay deleted after a reload.
 
 - **v0.9.1** (booster landings that actually land on the ship):
   - **The booster now lands on the drone ship.** Before, it steered nowhere: the ship was put where a booster *falling with no thrust at all* would come down, so it sat kilometres past where the booster really landed, and when that point was on land it jumped to the nearest ocean, which could be 70+ km away — further than the booster could ever steer. Staging at 10% it came down 2 km from the ship, staging at 15% it came down 28 km away, both in the water and both lost. Now the ship is put where the booster will really come down, flying its entry burn, glide and landing burn; the booster steers to the ship the whole way down; if it is going to overshoot the ship it does a short boostback burn right after staging to kill the extra downrange speed; the entry burn only brakes enough to stay cool, so the air does most of the slowing and the fuel is saved for landing; and the landing burn kills the sideways speed before the last few hundred metres so it comes straight down. Tested by flying it: staging at 10% and at 15% from Cape Halcyon, and at 10% from Prime Field, the booster lands on the deck under 6 m/s, upright, with fuel to spare. (From Prime Field, staging at 15% can't reach the sea — the booster stages slower and its longest survivable flight ends about 6° short of the ocean, on land. Launch from Cape Halcyon for a 15% staging, or stage at 10% from Prime Field.)

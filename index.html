@@ -618,7 +618,7 @@
       <tr><td><b>Warp + / &minus;</b></td><td>Speed up / slow down time (limited when low or burning)</td></tr>
       <tr><td><b>Pinch</b> or <b>+ / &minus;</b></td><td>Zoom</td></tr>
       <tr><td><b>TAKE</b> / <b>PRIMO</b></td><td>When a Primo Pilot is flying: <b>TAKE</b> to fly it yourself, <b>PRIMO</b> to hand it back</td></tr>
-      <tr><td><b>Flights</b> (with a number)</td><td>Every ship in flight: tap one to jump to it. <b>Mission Control</b> is at the bottom</td></tr>
+      <tr><td><b>Flights</b> (with a number)</td><td>Every ship in flight: tap one to jump to it, or <b>Delete</b> it (the crew come home safe). <b>Clear debris</b> removes all spent stages at once. <b>Mission Control</b> is at the bottom</td></tr>
       <tr><td><b>&#9776; Menu</b></td><td>Tracking station, new rocket, restart, settings (sound, music, shake), backups, switch to PC controls</td></tr>
     </table>
     <table class="pc-only">
@@ -636,7 +636,7 @@
       <tr><td><kbd>,</kbd> / <kbd>.</kbd></td><td>Slow down / speed up time (limited when low or burning)</td></tr>
       <tr><td>Mouse wheel</td><td>Zoom</td></tr>
       <tr><td><kbd>O</kbd></td><td>Primo Pilot: take over the ship / hand it back to the Pilot</td></tr>
-      <tr><td><kbd>L</kbd></td><td>Flights: every ship in flight, jump to any of them</td></tr>
+      <tr><td><kbd>L</kbd></td><td>Flights: every ship in flight, jump to any of them &mdash; or <b>Delete</b> one (the crew come home safe) and <b>Clear debris</b></td></tr>
       <tr><td><kbd>K</kbd></td><td>Mission Control: standing orders for your Director</td></tr>
       <tr><td><kbd>H</kbd></td><td>This help</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>Menu: tracking station, new rocket, restart, settings (sound, music, shake), backups</td></tr>
@@ -671,6 +671,10 @@
     One Director is on duty at a time (choose who in Mission Control) and stays on the ground; other Directors fly as normal crew. No Director on duty? Orders wait.
     In flight Primos think: an <b>Engineer</b> checks the fuel and calls an <b>abort</b> if the mission can't be finished (the capsule comes home, or the crew wait safely in orbit for the shuttle); a <b>Scientist</b> may ask for one extra orbit for a new discovery; a <b>Pilot</b> picks flat ground on Luna, away from other landers.
     On the pad, <b>Auto pick</b> in the crew picker chooses a crew for you (always a Pilot; rookies fly with veterans and learn faster). Between flights, Ready Primos train in the Complex and slowly earn XP, up to level 2.
+    <h3>Deleting ships (new in v0.9.2)</h3>
+    In the <b>Flights</b> list (<span class="pc-only"><kbd>L</kbd></span><span class="mobile-only">the Flights button</span>) every ship has a red <b>Delete</b> button. It asks first ("Delete Kestrel 4? This can't be undone.") and then the ship is gone for good: from the list, the map and your save.
+    The crew are never lost: anyone aboard goes back to the <b>Astronaut Complex</b> as Ready, with no injury, the same as bringing them home. A Director flight is reported to its order as aborted, so the order is not counted done and the Director sends another flight. Deleting a Falcon 9 booster takes its drone ship with it (you can't delete a drone ship on its own). Deleting a rocket still on a launch pad frees the pad. If you delete the ship you are flying, you jump to another flight; if none are left, you go back to the rocket picker.
+    <b>Clear debris</b> at the top of the Flights list deletes every spent stage and other crewless debris in one go, after one question that says how many.
     <h3>Coming home to Terra</h3>
     From orbit, point backwards (red marker) and burn until your <b>Periapsis</b> is about 25&ndash;35 km. Then drop the upper stage so only the capsule is left.
     Keep the capsule's dark heat shield (its bottom) facing the way you're moving; the capsule tends to swing that way by itself in the air.
@@ -762,7 +766,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.9.1';
+const VERSION = '0.9.2';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -3257,6 +3261,28 @@ document.addEventListener('click', e => {
     if (!confirm((recover ? 'Recover ' : 'Delete ') + v.name + '? It will be removed from your world.')) return;
     if (v.dir) orderFlightEnd(v, 'stopped'); releaseCrew(v, 'home'); removeVessel(v); if (S.activeId === v.id) S.activeId = null; save(); openStation();
   }
+  else if (act.startsWith('flDel:')) {   // v0.9.2: delete a flight from the Flights list
+    const v = byId(+act.slice(6)); if (!v || v.kind === 'drone') return;   // a drone ship is only removed with its booster
+    if (!confirm('Delete ' + v.name + '? This can\'t be undone.')) return;
+    const wasActive = S.activeId === v.id || S.activeId === v.boosterDrone;
+    const cr = deleteFlightVessel(v);
+    const names = cr.map(firstName);
+    const who = names.length <= 1 ? names.join('') : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+    toast(v.name + ' deleted.' + (cr.length ? ' ' + who + (cr.length === 1 ? ' is' : ' are') + ' back at the Complex.' : ''));
+    if (S.activeId !== null && !byId(S.activeId)) S.activeId = null;
+    if (wasActive) {
+      const next = S.vessels.find(w => flightKind(w) && w.kind !== 'drone') || S.vessels.find(w => flightKind(w));
+      if (next) flyVessel(next.id);
+      else { save(); openSelect(); }
+    } else { save(); openFlights(); }
+  }
+  else if (act === 'clearDebris') {   // v0.9.2: delete all crewless debris in one go
+    const deb = debrisList(); if (!deb.length) return;
+    if (!confirm('Delete ' + deb.length + ' piece' + (deb.length > 1 ? 's' : '') + ' of debris? Spent stages and other crewless debris will be removed. This can\'t be undone.')) return;
+    for (const d of deb) dropVessel(d);
+    if (S.activeId !== null && !byId(S.activeId)) S.activeId = null;
+    save(); toast(deb.length + ' piece' + (deb.length > 1 ? 's' : '') + ' of debris cleared.'); openFlights();
+  }
 });
 
 // ---------- Input ----------
@@ -5363,16 +5389,35 @@ function flightEntries() {
     landed: !!v.landed, onPad: !!(v.landed && v.countdown > 0), active: v.id === S.activeId, group: grp(v) }));
 }
 function flightsCount() { return S.vessels.filter(v => flightKind(v) && (!v.landed || (v.countdown > 0 && !v.hold))).length; }
+// Crewless debris in the world: spent stages (fairing halves are particles, gone in seconds).
+function debrisList() { return S.vessels.filter(w => w.debris && !crewOf(w).length); }
+// Remove a vessel from the world and forget its cached guidance and waiting results.
+function dropVessel(v) {
+  removeVessel(v);
+  G_cache.delete(v.id); apGuides.delete(v.id); resultsHeld.delete(v.id);
+  if (resultsPending && resultsPending.shipId === v.id) resultsPending = null;
+}
+// Delete a flight for good: a Director flight is reported to its order as aborted
+// (not done, so the Director sends another flight), the crew ride home safe with no
+// injury, and a booster's drone ship goes with it. Returns the crew that came home.
+function deleteFlightVessel(v) {
+  if (v.dir) orderFlightEnd(v, 'aborted');
+  const cr = releaseCrew(v, 'home');
+  if (v.boosterDrone) { const ship = byId(v.boosterDrone); if (ship) dropVessel(ship); }
+  dropVessel(v);
+  return cr;
+}
 function openFlights() {
   const es = flightEntries(), heads = ['Flying', 'On the launch pads', 'Landed'];
-  let html = '', g = -1;
+  const debN = debrisList().length;
+  let html = debN ? '<div style="margin:2px 0 8px"><button class="small danger" data-act="clearDebris">Clear debris (' + debN + ')</button></div>' : '', g = -1;
   for (const e of es) {
     if (e.group !== g) { g = e.group; html += '<h3>' + heads[g] + '</h3>'; }
     const who = e.crew.length ? e.crew.map(p => esc(firstName(p))).join(', ') : 'no crew';
     const v = byId(e.id), home = e.crew.length && v && !hasThrust(v) && !e.onPad && (e.done || v.primo !== 'auto');
     html += '<div class="flRow' + (e.active ? ' cur' : '') + '"><div class="flFaces">' + (e.crew.length ? e.crew.map(p => faceHtml(p, 26)).join('') : '<span class="flNo">—</span>') + '</div>' +
       '<div class="flTxt"><b>' + (e.active ? '▶ ' : '') + esc(e.name) + '</b> <span class="flTag ' + (e.auto ? 'auto' : '') + '">' + (e.auto ? 'Pilot flying' : e.crew.length && crewJob(v, 'pilot') && !e.done ? 'You fly' : e.done ? '★ done' : FLIGHT_KINDS[e.kind]) + '</span>' + (e.dir ? ' <span class="flTag dir">◎ Director</span>' : '') + (e.abort ? ' <span class="flTag ab">Aborted</span>' : '') + '<small>' + esc(e.mission) + ' · ' + esc(e.status) + '</small>' + (e.dir ? '<small class="flOrd">Order: ' + esc(e.dir.label) + '</small>' : '') + '<small>Crew: ' + who + '</small></div>' +
-      '<div class="flBtns"><button class="small" data-act="fly:' + e.id + '">' + (e.active ? 'Back to it' : 'View') + '</button>' + (home ? '<button class="small ghost" data-act="crewHome:' + e.id + '">Crew home</button>' : '') + '</div></div>';
+      '<div class="flBtns"><button class="small" data-act="fly:' + e.id + '">' + (e.active ? 'Back to it' : 'View') + '</button>' + (home ? '<button class="small ghost" data-act="crewHome:' + e.id + '">Crew home</button>' : '') + (v && v.kind === 'drone' ? '' : '<button class="small danger" data-act="flDel:' + e.id + '">Delete</button>') + '</div></div>';
   }
   $('flList').innerHTML = html || '<div class="sub">Nothing flying right now. Launch a rocket!</div>';
   $('flSub').textContent = flightsCount() + ' flying · tap one to watch it or fly it. Every flight keeps going while you watch another.';
