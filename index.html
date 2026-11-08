@@ -611,13 +611,13 @@
     <table class="mobile-only">
       <tr><td><b>Throttle slider</b> (right)</td><td>Drag up for more power, down for less. <b>FULL</b> / <b>CUT</b> jump to 100% / 0%.</td></tr>
       <tr><td><b>&#10226; / &#10227;</b> (bottom left)</td><td>Hold to turn left / right. You can hold one while dragging the throttle.</td></tr>
-      <tr><td><b>Green action button</b> (next to the turn buttons)</td><td>Changes with the moment: <b>START</b> the countdown on the pad (then <b>SKIP</b> to launch straight away), drop the <b>FAIRING</b> once you're out of the thick air, then open the <b>CHUTE</b> (parachute) when you're coming home slowly. Orange = not safe right now. On a Falcon 9, after <b>FAIRING</b> it becomes <b>DEPLOY</b>: release the comm satellite once you are in space (above 70 km).</td></tr>
+      <tr><td><b>Green action button</b> (next to the turn buttons)</td><td>Changes with the moment: <b>START</b> the countdown on the pad (then <b>SKIP</b> to launch straight away), drop the <b>FAIRING</b> once you're out of the thick air, then open the <b>CHUTE</b> (parachute) when you're coming home slowly. Orange = not safe right now. On a Falcon 9 the flight computer flies it for you: the button says <b>GO</b> on the pad, and the computer drops the fairing and deploys the satellite itself. Take over with <b>TAKE</b> and it becomes <b>FAIRING</b> / <b>DEPLOY</b> for you to do by hand.</td></tr>
       <tr><td><b>SAS</b></td><td>On/off. When on, the rocket stops spinning by itself.</td></tr>
       <tr><td><b>STAGE</b></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule).</td></tr>
       <tr><td><b>Map</b></td><td>Map view. Drag with one finger to move around, <b>Centre</b> to recentre.</td></tr>
       <tr><td><b>Warp + / &minus;</b></td><td>Speed up / slow down time (limited when low or burning)</td></tr>
       <tr><td><b>Pinch</b> or <b>+ / &minus;</b></td><td>Zoom</td></tr>
-      <tr><td><b>TAKE</b> / <b>PRIMO</b></td><td>When a Primo Pilot is flying: <b>TAKE</b> to fly it yourself, <b>PRIMO</b> to hand it back</td></tr>
+      <tr><td><b>TAKE</b> / <b>PRIMO</b> / <b>COMPUTER</b></td><td>When a Primo Pilot is flying: <b>TAKE</b> to fly it yourself, <b>PRIMO</b> to hand it back. When a Falcon 9 flight computer is flying: <b>TAKE</b> to fly it yourself, <b>COMPUTER</b> to hand it back</td></tr>
       <tr><td><b>Flights</b> (with a number)</td><td>Every ship in flight: tap one to jump to it, or <b>Delete</b> it (the crew come home safe). <b>Clear debris</b> removes all spent stages at once. <b>Mission Control</b> is at the bottom</td></tr>
       <tr><td><b>&#9776; Menu</b></td><td>Tracking station, new rocket, restart, settings (sound, music, shake), backups, switch to PC controls</td></tr>
     </table>
@@ -626,16 +626,16 @@
       <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Full throttle / cut engine</td></tr>
       <tr><td><kbd>A</kbd> / <kbd>D</kbd> (or arrows)</td><td>Turn left / right</td></tr>
       <tr><td><kbd>Enter</kbd></td><td>On the pad: start the countdown. Press it again during the countdown to launch now</td></tr>
-      <tr><td><kbd>1</kbd>&ndash;<kbd>5</kbd>, <kbd>0</kbd></td><td>On the pad: pick a mission (0 = free flight)</td></tr>
-      <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule)</td></tr>
-      <tr><td><kbd>F</kbd></td><td>Drop the fairing (the nose cover over the capsule)</td></tr>
+      <tr><td><kbd>1</kbd>&ndash;<kbd>5</kbd>, <kbd>0</kbd></td><td>On the pad: pick a mission (0 = free flight). A Falcon 9 only flies Low orbit (1) or Medium orbit (2)</td></tr>
+      <tr><td><kbd>Space</kbd></td><td>Drop the bottom stage: first the booster, later the upper stage (leaving just the capsule). A Falcon 9 flight computer stages by itself &mdash; you only need this if you took over</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Drop the fairing (the nose cover over the capsule). A Falcon 9 flight computer drops it by itself above 45 km &mdash; you only need this if you took over</td></tr>
       <tr><td><kbd>P</kbd></td><td>Open the parachute (only below 250 m/s, or it tears)</td></tr>
-      <tr><td><kbd>G</kbd></td><td>Deploy the payload: Falcon 9's comm satellite &mdash; once you are in space and the fairing is off</td></tr>
+      <tr><td><kbd>G</kbd></td><td>Deploy the payload: Falcon 9's comm satellite &mdash; once you are in space and the fairing is off. A Falcon 9 flight computer deploys it by itself &mdash; you only need this if you took over</td></tr>
       <tr><td><kbd>T</kbd></td><td>SAS on/off. When on, the rocket stops spinning by itself.</td></tr>
       <tr><td><kbd>M</kbd></td><td>Map view. Drag to move around, <kbd>C</kbd> to recentre.</td></tr>
       <tr><td><kbd>,</kbd> / <kbd>.</kbd></td><td>Slow down / speed up time (limited when low or burning)</td></tr>
       <tr><td>Mouse wheel</td><td>Zoom</td></tr>
-      <tr><td><kbd>O</kbd></td><td>Primo Pilot: take over the ship / hand it back to the Pilot</td></tr>
+      <tr><td><kbd>O</kbd></td><td>Primo Pilot or Falcon 9 flight computer: take over the ship / hand it back</td></tr>
       <tr><td><kbd>L</kbd></td><td>Flights: every ship in flight, jump to any of them &mdash; or <b>Delete</b> one (the crew come home safe) and <b>Clear debris</b></td></tr>
       <tr><td><kbd>K</kbd></td><td>Mission Control: standing orders for your Director</td></tr>
       <tr><td><kbd>H</kbd></td><td>This help</td></tr>
@@ -681,10 +681,10 @@
     It glows as it hits the air. Come in too steep or too fast and the <b>Heat</b> reading climbs past 100% and the capsule burns up.
     Once you've slowed below 250 m/s, open the parachute (<span class="pc-only"><kbd>P</kbd></span><span class="mobile-only"><b>CHUTE</b></span>); faster than that and it tears.
     Touch down under 9 m/s on land or 14 m/s in the ocean. Launch, orbit and come home safely to earn <b>Round Trip</b>.
-    <h3>Falcon 9 (new in v0.9.0)</h3>
-    <p>The <b>Falcon 9</b> sits next to the Kestrel in the rocket picker. It is cargo only: no crew and no capsule, so the crew picker is skipped on the pad. It flies a comm satellite under a nose fairing: drop the fairing above about 45 km (<span class="pc-only"><kbd>F</kbd></span><span class="mobile-only"><b>FAIRING</b></span>), then once you are in space (above 70 km) and the fairing is off, deploy the satellite (<span class="pc-only"><kbd>G</kbd></span><span class="mobile-only">tap <b>DEPLOY</b> on the green action button</span>). It separates gently, unfolds its solar panels and becomes <b>Comm Sat 1</b>, <b>Comm Sat 2</b> and so on. It stays in orbit forever, is saved with your world, and shows in the Flights list and the Tracking Station. The upper stage can then burn to deorbit, or stay up.</p>
-    <p>The booster has nine engines with a fuller, deeper sound, plus grid fins and four landing legs. When you drop the stage (<span class="pc-only"><kbd>Space</kbd></span><span class="mobile-only"><b>STAGE</b></span>) it flies itself back: it flips around, does an entry burn, opens its grid fins and legs, and comes down on a <b>drone ship</b>, a floating landing pad in Terra's ocean. The game puts the drone ship where the booster will really come down, flying its entry burn, glide and landing burn &mdash; and if that point is on land, the ship goes to the ocean spot the booster can actually reach. On the way down the booster steers to the ship the whole time, and if it is going to overshoot it does a short boostback burn right after staging to kill the extra speed. Touch down upright on the ship under 6 m/s and you get a toast and a cheer: the booster is recovered. Hit the ship too fast or tilted, or come down anywhere else, and it explodes (the usual effect). About three game minutes after landing the booster and drone ship are cleared away. While the booster lands it shows in the <b>Flights</b> list &mdash; switch to it to watch, then switch back to the upper stage &mdash; and time warp slows down by itself for the landing. Booster landings and losses are counted in the Tracking Station.</p>
-    <p>Stage with about <b>10&ndash;15% of the booster's fuel left</b>, so it has enough for the entry burn and the landing burn. The upper stage has one vacuum engine that can be restarted: burn, coast, burn again. From <b>Prime Field</b>, staging at 15% can't reach the sea &mdash; launch from <b>Cape Halcyon</b> for a 15% staging, or stage at 10% from Prime Field.</p>
+    <h3>Falcon 9 (new in v0.9.0; flies itself in v0.9.3)</h3>
+    <p>The <b>Falcon 9</b> sits next to the Kestrel in the rocket picker. It is cargo only: no crew and no capsule, so the crew picker is skipped on the pad. It flies itself: a built-in <b>flight computer</b> does the whole mission, like the real rocket. You only pick the orbit &mdash; <b>Low orbit</b> (LEO, 100 km) or <b>Medium orbit</b> (MEO, 2,000 km) &mdash; and watch. On the pad it starts its own countdown and launches, leans over into a gravity turn, stages the booster so it can land on the drone ship (10% fuel from Prime Field, 15% from Cape Halcyon), drops the fairing above about 45 km, raises the orbit to your target, coasts, circularizes inside the mission's range, deploys the comm satellite (which becomes <b>Comm Sat 1</b>, <b>Comm Sat 2</b> and so on), and then brings the upper stage down to burn up so it doesn't leave junk. A small status line tells you what it's doing (&ldquo;Flight computer: gravity turn&rdquo;, &ldquo;Booster separated&rdquo;, &ldquo;Fairing off&rdquo;, &ldquo;Circularizing&rdquo;, &ldquo;Satellite deployed&rdquo;, &ldquo;Deorbit burn&rdquo;). You can't steer or throttle it while the computer is flying &mdash; the keys and touch buttons do nothing &mdash; but <span class="pc-only">press <kbd>O</kbd></span><span class="mobile-only">tap <b>TAKE</b></span> to take over in an emergency, and <span class="pc-only">press <kbd>O</kbd> again</span><span class="mobile-only">tap <b>COMPUTER</b></span> to hand it back to the computer. In the Flights list it says &ldquo;Flight computer&rdquo;, not &ldquo;You fly&rdquo;. Several Falcon 9s and Kestrels can fly at once, and the computer keeps flying when you watch another flight. Saving and reloading in the middle of a Falcon 9 flight carries on where it left off.</p>
+    <p>The booster has nine engines with a fuller, deeper sound, plus grid fins and four landing legs. When the stage drops (the flight computer does it at 10% fuel) it flies itself back: it flips around, does an entry burn, opens its grid fins and legs, and comes down on a <b>drone ship</b>, a floating landing pad in Terra's ocean. The game puts the drone ship where the booster will really come down, flying its entry burn, glide and landing burn &mdash; and if that point is on land, the ship goes to the ocean spot the booster can actually reach. On the way down the booster steers to the ship the whole time, and if it is going to overshoot it does a short boostback burn right after staging to kill the extra speed. Touch down upright on the ship under 6 m/s and you get a toast and a cheer: the booster is recovered. Hit the ship too fast or tilted, or come down anywhere else, and it explodes (the usual effect). About three game minutes after landing the booster and drone ship are cleared away. While the booster lands it shows in the <b>Flights</b> list &mdash; switch to it to watch, then switch back to the upper stage &mdash; and time warp slows down by itself for the landing. Booster landings and losses are counted in the Tracking Station.</p>
+    <p>The flight computer stages at <b>10% of the booster's fuel left from Prime Field</b> and <b>15% from Cape Halcyon</b>, so it has enough for the entry burn and the landing burn. From Cape the ship is closer, so staging earlier and higher leaves the booster more fuel and more room to kill its downrange speed. The upper stage has one vacuum engine that can be restarted: burn, coast, burn again. From <b>Prime Field</b>, staging at 15% can't reach the sea &mdash; launch from <b>Cape Halcyon</b> for a 15% staging, or stage at 10% from Prime Field. (That 15% note is for flying a Falcon 9 by hand after taking over; the computer stages at 10% from Prime and 15% from Cape by itself.)</p>
     <h3>Signal (new in v0.9.0)</h3>
     <p>Every ship shows a <b>Signal</b> reading on the flight panel: <b>Direct</b> (it can see Prime Field itself), <b>Relay</b> (a comm satellite can see both it and Prime Field &mdash; the satellite's name is shown) or <b>No signal</b> (Terra or Luna blocks every path). It is a readout only: there is no penalty yet, it is a base for later updates. The Tracking Station's <b>Comms network</b> shows every comm satellite in orbit and how many of your ships have direct, relay or no signal right now. Line of sight is checked against Terra and Luna.</p>
     <h3>Missions and guidance (optional)</h3>
@@ -766,7 +766,7 @@
 // ============================================================
 // Space Prime - single-player rocket flight game
 // ============================================================
-const VERSION = '0.9.2';
+const VERSION = '0.9.3';
 const SAVE_KEY = 'spacePrime.save.v1';
 const G0 = 9.81;
 
@@ -1363,7 +1363,7 @@ function newVessel(rid, padId, reuse) {
   if (r.fairing) v.fairing = true;
   if (r.stages.some(s => s.capsule)) v.chute = 'packed';
   v.heat = 0; v.hints = {};
-  if (r.id === 'falcon9') v.payload = 'comm';   // v0.9.0: Falcon 9 carries the comm satellite under its fairing (same payload field Director plans use)
+  if (r.id === 'falcon9') { v.payload = 'comm'; v.fc = 'auto'; }   // v0.9.0: Falcon 9 carries the comm satellite under its fairing (same payload field Director plans use); v0.9.3: it flies itself (flight computer, no crew)
   placeLanded(v);
   S.vessels.push(v);
   return v;
@@ -1790,7 +1790,7 @@ function stepVessel(v, dt, isActive) {
       if (Math.abs(v.angVel) < 1e-4) v.angVel = 0;
     }
   } else {
-    const tIn = v.primo === 'auto' ? primoTurn(v, auth, dt) : isActive ? input.turn : 0;   // v0.7.0: a Primo Pilot steers by itself
+    const tIn = v.primo === 'auto' ? primoTurn(v, auth, dt) : v.fc === 'auto' ? fcTurn(v, auth, dt) : isActive ? input.turn : 0;   // v0.7.0: a Primo Pilot steers by itself; v0.9.3: a Falcon 9 flight computer steers by itself
     if (tIn !== 0) {
       v.angVel += tIn * auth * dt;
       v.angVel = Math.max(-MAX_TURN_RATE, Math.min(MAX_TURN_RATE, v.angVel));
@@ -2030,7 +2030,7 @@ let lastWarpWarn = 0, lastWarpSlow = 0;
 function update(realDt) {
   const av = active();
   // throttle keys (real time)
-  if (av && !paused && av.primo !== 'auto') {
+  if (av && !paused && av.primo !== 'auto' && av.fc !== 'auto') {   // v0.9.3: a flight computer's throttle is its own
     if (keys.KeyW || keys.ShiftLeft || keys.ShiftRight) av.throttle = Math.min(1, av.throttle + realDt * 0.9);
     if (keys.KeyS) av.throttle = Math.max(0, av.throttle - realDt * 0.9);
     input.turn = ((keys.KeyA || keys.ArrowLeft || touchHold.left) ? 1 : 0) - ((keys.KeyD || keys.ArrowRight || touchHold.right) ? 1 : 0);
@@ -2038,12 +2038,14 @@ function update(realDt) {
   } else input.turn = 0;
 
   // v0.7.0: every Primo Pilot works out its next move, and time warp slows down for ANY Primo flight that needs it
+  // v0.9.3: every Falcon 9 flight computer works out its next move the same way
   if (!paused) primoTick();
+  if (!paused) fcTick();
   const allowed = Math.min(maxWarpFor(av), primoWarpCap());
   { const w0 = warpIdx; while (warpIdx > 0 && WARPS[warpIdx] > allowed) { warpIdx--; if (performance.now() - lastWarpWarn > 3000) { lastWarpWarn = performance.now(); } }
-    if (warpIdx < w0 && WARPS[w0] > 4 && primoCapBy && primoCapBy !== av && WARPS[warpIdx] < maxWarpFor(av) && performance.now() - lastCapToast > 5000) { lastCapToast = performance.now(); toast('Time warp slowed: ' + primoCapBy.name + (primoCapBy.primo === 'auto' ? ' (Primo flight) needs attention' : primoCapBy.crew && primoCapBy.crew.length ? ' needs attention' : ' is still flying in the air')); } }
+    if (warpIdx < w0 && WARPS[w0] > 4 && primoCapBy && primoCapBy !== av && WARPS[warpIdx] < maxWarpFor(av) && performance.now() - lastCapToast > 5000) { lastCapToast = performance.now(); toast('Time warp slowed: ' + primoCapBy.name + (primoCapBy.primo === 'auto' ? ' (Primo flight) needs attention' : primoCapBy.fc === 'auto' ? ' (flight computer) needs attention' : primoCapBy.crew && primoCapBy.crew.length ? ' needs attention' : ' is still flying in the air')); } }
   // v0.4.0: with a mission, time warp slows down by itself before the next step (so you don't warp past a burn)
-  if (av && av.mission && !av.missionDone && !av.landed && !paused && !pilotPlan(av)) {   // (a Primo flight: primoWarpCap does this)
+  if (av && av.mission && !av.missionDone && !av.landed && !paused && !pilotPlan(av) && !fcPlan(av)) {   // (a Primo flight or a flight-computer flight: primoWarpCap does this)
     const g = guideNow(av);
     if (g && isFinite(g.evT)) {
       let slowed = false; const cap = g.maxWarp || Math.max(4, g.evT * 6.6);
@@ -2057,7 +2059,7 @@ function update(realDt) {
   // countdown on the pad: beeps, engines light at T-3, clamps let go at zero
   // v0.7.0: every ship's countdown runs (several rockets can count down on different pads); sounds only for the one you watch
   if (!paused) for (const cdv of S.vessels) {
-    if (!(cdv.countdown > 0) || cdv.hold || (cdv !== av && cdv.primo !== 'auto')) continue;   // (your own rockets only count down while you watch them, as before)
+    if (!(cdv.countdown > 0) || cdv.hold || (cdv !== av && cdv.primo !== 'auto' && cdv.fc !== 'auto')) continue;   // (your own rockets only count down while you watch them, as before — unless a Pilot or a flight computer is flying them)
     const isA = cdv === av, before = cdv.countdown; cdv.countdown = Math.max(0, cdv.countdown - fdt);
     if (isA && Math.ceil(cdv.countdown) < Math.ceil(before) && cdv.countdown > 0) sfx('count', { n: Math.ceil(cdv.countdown) });
     if (cdv.countdown <= 3 && !cdv.ignited) { cdv.ignited = true; if (cdv.throttle === 0) cdv.throttle = 1; if (isA) { toast('Ignition!'); sfx('ignite'); addShake(1.5); } }
@@ -2082,7 +2084,7 @@ function update(realDt) {
       continue;
     }
     let done = 0, count = 0;
-    const cap = isAct || v.primo === 'auto' ? 20000 : 3000, minDt = fdt / cap;
+    const cap = isAct || v.primo === 'auto' || v.fc === 'auto' ? 20000 : 3000, minDt = fdt / cap;
     while (done < fdt - 1e-9) {
       const dt = Math.min(fdt - done, Math.max(minDt, maxDt(v, t0 + done)));
       const px = v.x, py = v.y, pvx = v.vx, pvy = v.vy;
@@ -2106,7 +2108,8 @@ function update(realDt) {
   }
   S.t = t0 + fdt;
   // v0.7.0: Primo flights you are not watching still finish their missions; then the crew's own jobs
-  for (const v of S.vessels) if (v.primo === 'auto' && v.id !== S.activeId) checkMission(v);
+  // v0.9.3: flight-computer flights you are not watching finish theirs too
+  for (const v of S.vessels) if ((v.primo === 'auto' || v.fc === 'auto') && v.id !== S.activeId) checkMission(v);
   crewTick();
 
   // particles (smoke slows to the air's speed; fairing halves tumble away; v0.5.0: debris and dust fall back down)
@@ -2196,10 +2199,11 @@ function releaseClamps(v) {
 }
 let clampAnim = null, liftoffShow = 0, fairArm = null;
 // v0.3.1: the countdown no longer starts by itself. A new rocket holds at T-10 (v.hold) until the player starts it.
-function startCountdown() {
-  const v = active(); if (!v || !(v.countdown > 0) || !v.hold) return false;
+function startCountdown(vv) {   // v0.9.3: takes a ship (the flight computer starts its own countdown); no ship = the one you are watching
+  const v = vv && vv.parts ? vv : active(); if (!v || !(v.countdown > 0) || !v.hold) return false;
   v.hold = false; sfx('beep');
   if (v.primo === 'auto') { say(v, 'go', 'Copy, Control: go for launch. Starting the count.', null, true); toast(firstName(crewJob(v, 'pilot')) + ' has the ship. Watch, or switch to another flight: it keeps flying.'); }
+  else if (v.fc === 'auto') { if (v.id === S.activeId) toast('Flight computer: starting the countdown.'); }
   else toast('Countdown started. ' + (MODE === 'mobile' ? 'Tap SKIP to launch now.' : 'Press Enter again to launch now.'));
   return true;
 }
@@ -2253,8 +2257,8 @@ function deployChute(vv) {
 }
 
 // v0.9.0: deploy the payload (Falcon 9's comm satellite, or any future cargo).
-function deployPayload() {
-  const v = active(); if (!v) return;
+function deployPayload(vv) {   // v0.9.3: takes a ship (the flight computer deploys from a ship you are not watching); no ship = the one you are watching
+  const v = vv && vv.parts ? vv : active(); if (!v) return;
   const me = v.id === S.activeId, toast = me ? window.toastFn : () => {}, sfx = me ? window.sfxFn : () => {};
   if (!v.payload || v.deployed) { toast('Nothing to deploy'); return; }
   if (v.landed) { toast("Can't deploy on the ground"); return; }
@@ -2378,6 +2382,7 @@ function launch(rid, mission, padId) {
   }
   const v = newVessel(rid, usePad, spare);
   if (mission && MISSION[mission]) { v.mission = mission; v.guide = {}; }
+  else if (rid === 'falcon9') { v.mission = 'leo'; v.guide = {}; }   // v0.9.3: Falcon 9 only flies LEO or MEO, and LEO is the default (pick MEO on the pad before it goes)
   pickHidden = false;
   v.countdown = COUNTDOWN; v.hold = true; v.clamped = true; v.ignited = false; liftoffShow = 0; clampAnim = null;
   S.activeId = v.id; S.view.map = false; S.view.zoom = Math.max(S.view.zoom, 2); warpIdx = 0;
@@ -2793,6 +2798,7 @@ function computeGuide(v, mid) {
 // ---- did the active ship just finish its mission?
 function checkMission(v) {
   if (!v || !v.mission || v.missionDone || v.landed || hasThrust(v)) return;
+  if (rk(v).id === 'falcon9' && !v.deployed) return;   // v0.9.3: a Falcon 9 mission is only done once its satellite is out
   const M = MISSION[v.mission]; if (!M) return;
   const b = BODIES[v.parent], o = vesselOrbit(v); if (!(o.e < 1)) return;
   const rpA = o.rp - b.R, raA = o.ra - b.R;
@@ -2914,6 +2920,7 @@ function bestText(id, best) {
 let pickHidden = false;
 function pickMission(id) {
   const v = active(); if (!v || !v.landed || !(v.countdown > 0)) return false;
+  if (v.fc && id !== 'leo' && id !== 'meo') { toast('Falcon 9 only flies to Low or Medium orbit.'); return false; }   // v0.9.3: no High/GEO, no Luna, no free flight for Falcon 9
   if (id === 'none' || !MISSION[id]) { delete v.mission; delete v.guide; toast('Free flight: no mission. Fly anywhere you like.'); }
   else { v.mission = id; v.guide = {}; delete v.missionDone; toast('Mission: ' + missionLabel(id) + '. ' + (v.hold ? keyHint('Press Enter', 'Tap START') + ' when you are ready.' : '')); }
   G_cache.clear(); syncPicker(true); save(); return true;
@@ -2952,6 +2959,8 @@ function syncPicker(force) {
   box.classList.toggle('collapsed', pickHidden);
   const cur = v.mission && MISSION[v.mission] ? v.mission : 'none';
   box.querySelectorAll('[data-act^="mission:"]').forEach(b => b.classList.toggle('sel', b.dataset.act === 'mission:' + cur));
+  // v0.9.3: a Falcon 9 only flies LEO or MEO, so the other mission buttons are hidden for it
+  box.querySelectorAll('[data-act^="mission:"]').forEach(b => { const mid = b.dataset.act.slice(8); b.classList.toggle('hidden', !!(v.fc && mid !== 'leo' && mid !== 'meo')); });
   const mob = MODE === 'mobile';
   document.getElementById('mpClock').textContent = v.hold ? 'T-10 HOLD · ' + (mob ? 'tap START when ready' : 'press Enter when ready') : 'T-' + Math.ceil(v.countdown) + ' · ' + (mob ? 'SKIP launches now' : 'Enter launches now');
   document.getElementById('mpCur').textContent = cur === 'none' ? 'Free flight' : missionLabel(cur);
@@ -2971,12 +2980,13 @@ function syncPicker(force) {
   document.getElementById('mpCrew').classList.toggle('hidden', !rk(v).stages.some(s => s.capsule));
   document.getElementById('mpCrew').classList.toggle('dim', !v.hold);
   if (pil && v.primo === 'auto') document.getElementById('mpBlurb').textContent = (cur === 'none' ? 'Free flight: ' + firstName(pil) + ' flies to orbit and back home.' : MISSION[cur].blurb) + ' Pilot ' + pil.name + ' flies it after your go (' + (mob ? 'tap GO' : 'press Enter') + ').';
+  if (v.fc) document.getElementById('mpBlurb').textContent = (MISSION[cur] ? MISSION[cur].blurb : 'Low orbit, 100 km up.') + ' The flight computer flies it for you — no crew, no keys. Pick a mission, then it goes on its own.';   // v0.9.3
 }
 // ---- the guidance panel
 let guideKey = '';
 function syncGuide() {
   const v = active(), box = document.getElementById('guide');
-  const g = v && v.primo === 'auto' && (!v.mission || pilotPlan(v)) ? (v.landed ? null : apGuides.get(v.id) || null) : v && !v.landed || (v && v.missionDone) ? guideNow(v) : null;
+  const g = v && v.primo === 'auto' && (!v.mission || pilotPlan(v)) ? (v.landed ? null : apGuides.get(v.id) || null) : v && v.fc === 'auto' && (!v.mission || fcPlan(v)) ? (v.landed ? null : fcGuides.get(v.id) || null) : v && !v.landed || (v && v.missionDone) ? guideNow(v) : null;   // v0.9.3: a flight computer's plan shows the same way a Pilot's does
   const cdVisible = !document.getElementById('countdown').classList.contains('hidden');
   const show = !!(g && !paused && !(MODE === 'mobile' && (cdVisible || mcShow > 0))) && !(v.landed && v.countdown > 0);
   box.classList.toggle('hidden', !show);
@@ -2989,7 +2999,8 @@ function syncGuide() {
   if (g.act === 'stage' || g.act === 'fairing') chips.push('<span class="chip act">' + esc(g.actText) + '</span>');
   if (g.warp === 'go') chips.push('<span class="chip warp">' + (mob ? 'Warp OK ▶▶' : 'Warp OK (.)') + '</span>');
   const pil = v.primo === 'auto' ? crewJob(v, 'pilot') : null;
-  const html = '<div class="gm">' + (pil ? 'Pilot ' + esc(firstName(pil)) + ' flying (O: take over) · ' : '') + (g.done ? '★ ' : 'Mission: ') + esc(g.label || missionLabel(g.mission)) + '</div><div class="gt">' + esc(g.title) + '</div>' + (g.detail ? '<div class="gd">' + esc(g.detail) + '</div>' : '') + (chips.length ? '<div class="gc">' + chips.join('') + '</div>' : '');
+  const who = pil ? 'Pilot ' + esc(firstName(pil)) + ' flying (O: take over) · ' : v.fc === 'auto' ? 'Flight computer flying (O: take over) · ' : '';   // v0.9.3
+  const html = '<div class="gm">' + who + (g.done ? '★ ' : 'Mission: ') + esc(g.label || missionLabel(g.mission)) + '</div><div class="gt">' + esc(g.title) + '</div>' + (g.detail ? '<div class="gd">' + esc(g.detail) + '</div>' : '') + (chips.length ? '<div class="gc">' + chips.join('') + '</div>' : '');
   if (html !== guideKey) { guideKey = html; box.innerHTML = html; box.classList.toggle('done', !!g.done); }
 }
 function syncBanner(realDt) {
@@ -3301,9 +3312,9 @@ window.addEventListener('keydown', e => {
   keys[e.code] = true;
   const v = active();
   if (e.repeat) return;
-  if (v && v.primo === 'auto' && !(v.landed && v.countdown > 0 && v.hold) && ['KeyZ', 'KeyX', 'Space', 'KeyF', 'KeyP', 'KeyW', 'KeyS', 'KeyA', 'KeyD', 'ArrowLeft', 'ArrowRight'].includes(e.code)) { primoHint(v); return; }
+  if (v && (v.primo === 'auto' || v.fc === 'auto') && !(v.landed && v.countdown > 0 && v.hold) && ['KeyZ', 'KeyX', 'Space', 'KeyF', 'KeyP', 'KeyW', 'KeyS', 'KeyA', 'KeyD', 'ArrowLeft', 'ArrowRight'].includes(e.code)) { (v.primo === 'auto' ? primoHint(v) : fcHint(v)); return; }   // v0.9.3: a flight computer's keys do nothing either
   switch (e.code) {
-    case 'KeyO': if (v) { if (!takeOver(v) && !handBack(v)) toast(crewJob(v, 'pilot') ? (v.primoDone || v.missionDone ? 'The Pilot has finished this flight' : 'Nothing for the Pilot to fly right now') : 'No Pilot aboard this ship'); } break;
+    case 'KeyO': if (v) { if (!takeOver(v) && !handBack(v) && !fcHandBack(v)) toast(v.fc ? (v.fcDone || v.missionDone ? 'The flight computer has finished this flight' : 'Nothing for the flight computer to fly right now') : crewJob(v, 'pilot') ? (v.primoDone || v.missionDone ? 'The Pilot has finished this flight' : 'Nothing for the Pilot to fly right now') : 'No Pilot aboard this ship'); } break;
     case 'KeyL': openFlights(); break;
     case 'KeyK': openOrders(); break;   // v0.8.0
     case 'KeyZ': if (v) v.throttle = 1; break;
@@ -3403,17 +3414,18 @@ function touchAction(name) {
     case 'warpUp': cycleWarp(1); break;
     case 'warpDn': cycleWarp(-1); break;
     case 'flights': openFlights(); break;
-    case 'full': if (v && v.primo === 'auto') primoHint(v); else if (v) v.throttle = 1; break;
-    case 'cut': if (v && v.primo === 'auto') primoHint(v); else if (v) v.throttle = 0; break;
-    case 'stage': if (v && v.primo === 'auto') primoHint(v); else doStage(); break;
-    case 'ctx': { const c = ctxState(v); if (c.act === 'takeover') takeOver(v); else if (c.act === 'handback') handBack(v); else if (c.act === 'start') startCountdown(); else if (c.act === 'skip') skipCountdown(); else if (c.act === 'fairing') dropFairing(); else if (c.act === 'chute') deployChute(); else if (c.act === 'deploy') deployPayload(); else if (c.act === 'chuteOpen') toast('The parachute is open'); syncCtx(); break; }
+    case 'full': if (v && v.primo === 'auto') primoHint(v); else if (v && v.fc === 'auto') fcHint(v); else if (v) v.throttle = 1; break;
+    case 'cut': if (v && v.primo === 'auto') primoHint(v); else if (v && v.fc === 'auto') fcHint(v); else if (v) v.throttle = 0; break;
+    case 'stage': if (v && v.primo === 'auto') primoHint(v); else if (v && v.fc === 'auto') fcHint(v); else doStage(); break;
+    case 'ctx': { const c = ctxState(v); if (c.act === 'takeover') takeOver(v); else if (c.act === 'handback') { if (!handBack(v)) fcHandBack(v); } else if (c.act === 'start') startCountdown(); else if (c.act === 'skip') skipCountdown(); else if (c.act === 'fairing') dropFairing(); else if (c.act === 'chute') deployChute(); else if (c.act === 'deploy') deployPayload(); else if (c.act === 'chuteOpen') toast('The parachute is open'); syncCtx(); break; }
   }
 }
 // the one context button on Mobile: START / SKIP (countdown) -> FAIRING (in flight) -> CHUTE (capsule coming home)
 function ctxState(v) {
   if (!v) return { act: null };
-  if (v.countdown > 0 && v.hold) return v.primo === 'auto' ? { act: 'start', b: 'GO', s: 'Primo flies', cls: '' } : { act: 'start', b: 'START', s: 'countdown', cls: '' };
-  if (v.primo === 'auto') return { act: 'takeover', b: 'TAKE', s: 'over', cls: 'warnc' };   // v0.7.0
+  if (v.countdown > 0 && v.hold) return v.primo === 'auto' ? { act: 'start', b: 'GO', s: 'Primo flies', cls: '' } : v.fc === 'auto' ? { act: 'start', b: 'GO', s: 'computer flies', cls: '' } : { act: 'start', b: 'START', s: 'countdown', cls: '' };   // v0.9.3: a Falcon 9's flight computer goes on its own
+  if (v.primo === 'auto' || v.fc === 'auto') return { act: 'takeover', b: 'TAKE', s: 'over', cls: 'warnc' };   // v0.7.0
+  if (v.fc === 'manual' && canFcHandBack(v) && !v.landed) return { act: 'handback', b: 'COMPUTER', s: 'fly', cls: '' };   // v0.9.3: hand the Falcon 9 back to its flight computer (not a Primo)
   const hb = canHandBack(v) && !v.landed;
   if (v.countdown > 0) return { act: 'skip', b: 'SKIP', s: 'countdown', cls: '' };
   if (v.landed) return { act: null };
@@ -4547,7 +4559,7 @@ function drawDial(v) {
     const rx = cx - Math.cos(pg) * (R - 12), ry = cy - Math.sin(pg) * (R - 12);
     ctx.beginPath(); ctx.moveTo(rx - 5, ry - 5); ctx.lineTo(rx + 5, ry + 5); ctx.moveTo(rx + 5, ry - 5); ctx.lineTo(rx - 5, ry + 5); ctx.strokeStyle = '#ff6b6b'; ctx.stroke();
   }
-  drawGuideDial(v, (v.mission ? pilotPlan(v) : null) || guideNow(v), cx, cy, R, toScr);
+  drawGuideDial(v, (v.mission ? (pilotPlan(v) || fcPlan(v)) : null) || guideNow(v), cx, cy, R, toScr);
   const hd = toScr(v.ang);
   ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(hd) * (R - 4), cy + Math.sin(hd) * (R - 4)); ctx.strokeStyle = '#ffd36b'; ctx.lineWidth = 3; ctx.stroke();
   ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2); ctx.fillStyle = '#ffd36b'; ctx.fill();
@@ -4696,7 +4708,7 @@ function render() {
   }
   ctx.globalAlpha = 1;
   if (v && !map && !paused) drawProgradeNear(v);
-  if (v && !map && !paused) drawGuideNear(v, (v.mission ? pilotPlan(v) : null) || guideNow(v));
+  if (v && !map && !paused) drawGuideNear(v, (v.mission ? (pilotPlan(v) || fcPlan(v)) : null) || guideNow(v));
   if (v && !paused && !(MODE === 'mobile' && document.body.classList.contains('picking'))) drawDial(v);
 }
 
@@ -4971,6 +4983,116 @@ function primoFly(v) {
     brake: 'Starting the landing burn.', descend: 'Coming down nice and slow.', raiseAp: 'Raising our orbit.', deorbit: v.mission ? 'Lining up for the landing.' : 'Heading home.', ffFall: 'Shield first, here we go.', siteWait: 'Lining up with the landing spot.' };
   if (lines[g.step]) say(v, 'step_' + g.step, lines[g.step]);
 }
+// ---- v0.9.3: the Falcon 9 flight computer: flies the whole mission by itself (no crew, no Primos).
+// It follows the same guidance the player sees, stages the booster at 10% fuel so it can land on the
+// drone ship, drops the fairing, circularizes, deploys the satellite, then brings the upper stage down
+// to burn up. The player can't steer or throttle it; O / TAKE takes over, O / TAKE again hands it back.
+const fcGuides = new Map();          // ship id -> the last step the flight computer worked out (not saved: worked out again every frame)
+// How much booster fuel is left when the flight computer stages it. From Prime Field (inland) it
+// stages at 10%: it needs the speed to reach the sea 38 degrees downrange. From Cape Halcyon (on
+// the coast) it stages at 15%: the ship is only 28 degrees away, so staging earlier and higher
+// leaves the booster more fuel and more room to kill its downrange speed, and it lands instead of
+// overshooting the ship by kilometres. (At 10% from Cape the boostback stops too early and the
+// booster flies 9 km past the ship, then runs out of room on the way down.)
+function fcStageFuel(v) { return padOf(v).id === 'cape' ? 0.15 : 0.10; }
+function fcTick() {
+  for (const v of S.vessels) {
+    if (v.fc !== 'auto' || v.debris) { if (fcGuides.size) fcGuides.delete(v.id); continue; }
+    try { fcFly(v); } catch (e) { console.warn('fc', e); v.fc = 'manual'; v.apAim = null; }
+  }
+}
+// the flight computer's current plan for the ship you are watching (null if it is not flying, or you took over)
+function fcPlan(v) { if (!v || v.fc !== 'auto' || v.landed) return null; const g = fcGuides.get(v.id); return g && g.title ? g : null; }
+function fcTurn(v, auth, dt) {
+  if (v.apAim === null || v.apAim === undefined || dt > 0.25) return 0;
+  const tol = 0.02;
+  const err = angDiff(v.apAim, v.ang), want = Math.max(-0.4, Math.min(0.4, 1.5 * err));
+  return v.angVel < want - tol ? 1 : v.angVel > want + tol ? -1 : 0;
+}
+// a status message that stays on the guidance panel for a few seconds after something happens (staging, fairing, deploy)
+function fcStatus(v, msg) { const ap = v.ap || (v.ap = {}); ap.fcStatus = msg; ap.fcStatusAt = S.t; }
+// the status line for the flight computer: a recent event, or the phase it is in now
+function fcStatusTitle(v, g) {
+  const ap = v.ap || (v.ap = {});
+  if (ap.fcStatus && S.t - (ap.fcStatusAt || 0) < 4) return ap.fcStatus;
+  if (!g) return 'Flight computer';
+  const s = g.step || '';
+  if (s === 'pad' || s === 'ascent') return 'Gravity turn';
+  if (s === 'coast') return 'Coasting to orbit';
+  if (s === 'topup') return 'Topping up the orbit';
+  if (s === 'circ' || s === 'circPoint' || s === 'circWait' || s === 'orbitIn') return 'Circularizing';
+  if (s === 'raiseAp' || s === 'raisePe' || s === 'lowerAp' || s === 'lowerPe' || s === 'plan') return 'Adjusting orbit';
+  if (s === 'deorbit') return 'Deorbit burn';
+  if (s === 'inWindow') return 'In orbit';
+  return g.title;
+}
+function fcFly(v) {
+  const ap = v.ap || (v.ap = {});
+  // on the pad: start the countdown by itself (no key press after Launch; you have the 10 seconds to pick MEO)
+  if (v.landed && v.countdown > 0) {
+    v.apAim = null;
+    if (v.hold) startCountdown(v);
+    fcGuides.set(v.id, { step: 'countdown', title: v.hold ? 'Starting the countdown' : 'Countdown', detail: 'The flight computer has the ship.', aim: null, thr: null, warp: 'no', evT: 0 });
+    return;
+  }
+  // the mission is done and the satellite is out: bring the upper stage down to burn up
+  if (v.missionDone) { fcDeorbit(v); return; }
+  // stage the booster so it can still land on the drone ship (the guidance only stages a 3-stage rocket)
+  if (v.parts.length === 2 && v.fuel[v.parts[0]] <= fcStageFuel(v) * ROCKETS.falcon9.stages[0].fuel) {
+    const was = v.parts.length; doStage(v);
+    if (v.parts.length < was) fcStatus(v, 'Booster separated');
+  }
+  const g0 = guideNow(v);
+  if (g0 && g0.act === 'fairing' && dropFairing(v) === 'ok') fcStatus(v, 'Fairing off');
+  // deploy the satellite once the orbit is inside the mission's range and the engine is off (fairing off, above 70 km)
+  if (!v.deployed && v.payload && !v.fairing && v.mission && MISSION[v.mission] && !hasThrust(v)) {
+    const M = MISSION[v.mission], b = BODIES[v.parent], o = vesselOrbit(v);
+    const rpA = o.rp - b.R, raA = o.ra - b.R, h = Math.hypot(v.x, v.y) - b.R;
+    if (o.e < 1 && rpA >= M.lo && raA <= M.hi && h > 70000) { deployPayload(v); if (v.deployed) fcStatus(v, 'Satellite deployed'); }
+  }
+  if (!g0) { v.apAim = null; fcGuides.set(v.id, null); return; }
+  const g = Object.assign({}, g0, { title: fcStatusTitle(v, g0) });
+  // the Falcon 9 is built for full throttle: guideNow throttles to 0.7 at 62% of the max air push, but
+  // full throttle never breaks this rocket (the booster fix flew it that way), and throttling down makes
+  // it stage lower and slower, which leaves the booster short of the ship. So during the ascent keep
+  // full throttle unless the air push is really close to the limit (90%), when we throttle down for safety.
+  // The Falcon 9 is also heavier than the Kestrel the guidance was tuned for, so lean it over a little
+  // more (5°) than the guidance asks: that builds the sideways speed the booster needs to reach the ship.
+  if (g.step === 'ascent') {
+    if (g.thr !== null && g.thr !== undefined) {
+      const q = airOf(v).q, ql = qLimitOf(v);
+      g.thr = (isFinite(ql) && q > 0.9 * ql) ? 0.7 : 1;
+    }
+    if (g.aim !== null && g.aim !== undefined) {
+      const up = Math.atan2(v.y, v.x), pitch = angDiff(g.aim, up);
+      const want = Math.max(-1.48, Math.min(1.48, pitch + (pitch >= 0 ? 0.087 : -0.087)));
+      g.aim = up + want;
+    }
+  }
+  fcGuides.set(v.id, g);
+  if (g.done) return;   // (checkMission finishes the mission; the deorbit starts on the next tick)
+  v.apAim = g.aim === undefined ? null : g.aim;
+  if (g.thr !== null && g.thr !== undefined) v.throttle = g.thr;
+}
+// after the mission: burn retrograde until the lowest point is under 30 km, then coast in and burn up.
+// If there is not enough fuel to get the lowest point down, the upper stage is left up here as debris.
+function fcDeorbit(v) {
+  if (v.landed) { v.fcDone = true; v.fc = 'manual'; v.apAim = null; v.throttle = 0; fcGuides.delete(v.id); return; }
+  const b = BODIES[v.parent], o = vesselOrbit(v), rpA = o.rp - b.R;
+  if (o.e >= 1 || rpA < 30000) {   // already coming down (or escaping): engine off, coast into the air
+    v.throttle = 0; v.apAim = null;
+    const tms = orbitTimes(v);   // warp stays high on the long coast in, then slows as the air gets close
+    fcGuides.set(v.id, { step: 'deorbit', title: 'Coming down to burn up', detail: 'The upper stage is falling back into the air.', aim: null, thr: 0, warp: 'go', evT: isFinite(tms.tPe) ? tms.tPe : 0 });
+    return;
+  }
+  if (!(v.fuel[v.parts[0]] > 0)) {   // not enough fuel to come home: leave it up here
+    v.fcDone = true; v.fc = 'manual'; v.apAim = null; v.throttle = 0; fcGuides.delete(v.id);
+    return;
+  }
+  const retro = Math.atan2(-v.vy, -v.vx);
+  v.apAim = retro; v.throttle = 1;
+  fcGuides.set(v.id, { step: 'deorbit', title: 'Deorbit burn', detail: 'Burning retrograde to bring the upper stage down.', aim: retro, thr: 1, warp: 'no', evT: 0 });
+}
 // what the Pilot should do now: the mission guidance (with a landing spot next to other ships on Luna), or the free-flight plan
 function primoGuide(v) {
   if (v.abort && v.abort.how === 'home') { const g = freeGuide(v); if (g) g.label = 'Aborted ' + missionLabel(v.abort.mission) + ': coming home'; return g; }   // v0.8.0: aborting: the capsule comes home
@@ -5001,12 +5123,22 @@ function primoGiveUp(v, why) {
   say(v, 'giveup', "Control, I can't finish this one: " + why + '. Your ship.', null, true);
 }
 function takeOver(v) {
-  if (!v || v.primo !== 'auto') return false;
-  v.primo = 'manual'; v.apAim = null; apGuides.delete(v.id);
-  const ap = v.ap || (v.ap = {}); ap.takes = (ap.takes || 0) + 1;
-  say(v, 'take' + ap.takes, 'Copy. Your ship, Control.', null, true);
-  if (v.id === S.activeId) { ctxKey = ''; syncCtx(); }
-  return true;
+  if (!v) return false;
+  if (v.primo === 'auto') {
+    v.primo = 'manual'; v.apAim = null; apGuides.delete(v.id);
+    const ap = v.ap || (v.ap = {}); ap.takes = (ap.takes || 0) + 1;
+    say(v, 'take' + ap.takes, 'Copy. Your ship, Control.', null, true);
+    if (v.id === S.activeId) { ctxKey = ''; syncCtx(); }
+    return true;
+  }
+  if (v.fc === 'auto') {   // v0.9.3: take the Falcon 9 off its flight computer (emergency manual control)
+    v.fc = 'manual'; v.apAim = null; fcGuides.delete(v.id);
+    const ap = v.ap || (v.ap = {}); ap.takes = (ap.takes || 0) + 1;
+    toast('Flight computer off. Your ship — press O again to hand it back.');
+    if (v.id === S.activeId) { ctxKey = ''; syncCtx(); }
+    return true;
+  }
+  return false;
 }
 function canHandBack(v) { return !!(v && v.primo === 'manual' && !v.primoDone && !v.missionDone && crewJob(v, 'pilot') && !(v.landed && v.launched)); }
 function handBack(v) {
@@ -5017,10 +5149,25 @@ function handBack(v) {
   if (v.id === S.activeId) { ctxKey = ''; syncCtx(); }
   return true;
 }
+// v0.9.3: hand a Falcon 9 back to its flight computer (after you took over with O / TAKE)
+function canFcHandBack(v) { return !!(v && v.fc === 'manual' && !v.fcDone && !v.missionDone && !(v.landed && v.launched)); }
+function fcHandBack(v) {
+  if (!canFcHandBack(v)) return false;
+  v.fc = 'auto'; v.sas = true; G_cache.delete(v.id);
+  const ap = v.ap || (v.ap = {}); ap.backs = (ap.backs || 0) + 1;
+  toast('Flight computer has the ship. Carrying on with the mission.');
+  if (v.id === S.activeId) { ctxKey = ''; syncCtx(); }
+  return true;
+}
 let lastPrimoHint = -1e9;
 function primoHint(v) {
   if (performance.now() - lastPrimoHint < 2500) return; lastPrimoHint = performance.now();
   toast(firstName(crewJob(v, 'pilot')) + ' is flying. ' + (MODE === 'mobile' ? 'Tap TAKE OVER' : 'Press O') + ' to fly it yourself.');
+}
+let lastFcHint = -1e9;
+function fcHint(v) {   // v0.9.3: the flight computer is flying — the keys do nothing
+  if (performance.now() - lastFcHint < 2500) return; lastFcHint = performance.now();
+  toast('The flight computer is flying. ' + (MODE === 'mobile' ? 'Tap TAKE' : 'Press O') + ' to fly it yourself.');
 }
 
 // ---- Luna landing spots: a second lander comes down a few km from the first (never on the same spot)
@@ -5118,11 +5265,20 @@ function primoWarpCap() {
   for (const v of S.vessels) {
     if (v.debris) continue;
     let c = 100000;
-    if (v.countdown > 0 && !v.hold && v.primo === 'auto') c = 4;
+    if (v.countdown > 0 && !v.hold && (v.primo === 'auto' || v.fc === 'auto')) c = 4;
     else if (v.primo === 'auto') {
       if (!(v.landed && v.countdown > 0)) {
         c = maxWarpFor(v);
         const g = apGuides.get(v.id);
+        if (g && !v.landed) {
+          if (g.maxWarp) c = Math.min(c, g.maxWarp); else if (isFinite(g.evT)) c = Math.min(c, Math.max(4, g.evT * 6.6));
+          if (g.warp === 'no' || g.thr > 0 || g.act) c = Math.min(c, 4);
+        }
+      }
+    } else if (v.fc === 'auto') {   // v0.9.3: a Falcon 9 flight computer slows time warp before its burns and staging, the same way
+      if (!(v.landed && v.countdown > 0)) {
+        c = maxWarpFor(v);
+        const g = fcGuides.get(v.id);
         if (g && !v.landed) {
           if (g.maxWarp) c = Math.min(c, g.maxWarp); else if (isFinite(g.evT)) c = Math.min(c, Math.max(4, g.evT * 6.6));
           if (g.warp === 'no' || g.thr > 0 || g.act) c = Math.min(c, 4);
@@ -5384,7 +5540,7 @@ function flightKind(v) { if (v.kind === 'booster') return 'booster'; if (v.kind 
 function flightEntries() {
   const grp = v => (!v.landed ? 0 : v.countdown > 0 ? 1 : 2);
   return S.vessels.filter(v => flightKind(v)).sort((a, b) => grp(a) - grp(b) || b.id - a.id).map(v => ({ id: v.id, kind: flightKind(v), name: v.name,
-    crew: crewOf(v), mission: v.mission && MISSION[v.mission] ? missionLabel(v.mission) : v.abort ? 'Aborted ' + missionLabel(v.abort.mission) : 'Free flight', status: statusOf(v), auto: v.primo === 'auto', done: !!v.missionDone,
+    crew: crewOf(v), mission: v.mission && MISSION[v.mission] ? missionLabel(v.mission) : v.abort ? 'Aborted ' + missionLabel(v.abort.mission) : 'Free flight', status: statusOf(v), auto: v.primo === 'auto', fc: v.fc === 'auto', fcManual: v.fc === 'manual', done: !!v.missionDone,
     dir: v.dir ? { order: v.dir.order, label: (S.stats.control.orders.find(o => o.id === v.dir.order) ? orderLabel(S.stats.control.orders.find(o => o.id === v.dir.order)) : 'order finished'), end: v.dir.end || '' } : null, abort: !!v.abort,
     landed: !!v.landed, onPad: !!(v.landed && v.countdown > 0), active: v.id === S.activeId, group: grp(v) }));
 }
@@ -5394,7 +5550,7 @@ function debrisList() { return S.vessels.filter(w => w.debris && !crewOf(w).leng
 // Remove a vessel from the world and forget its cached guidance and waiting results.
 function dropVessel(v) {
   removeVessel(v);
-  G_cache.delete(v.id); apGuides.delete(v.id); resultsHeld.delete(v.id);
+  G_cache.delete(v.id); apGuides.delete(v.id); fcGuides.delete(v.id); resultsHeld.delete(v.id);   // v0.9.3: + the flight computer's plan
   if (resultsPending && resultsPending.shipId === v.id) resultsPending = null;
 }
 // Delete a flight for good: a Director flight is reported to its order as aborted
@@ -5416,7 +5572,7 @@ function openFlights() {
     const who = e.crew.length ? e.crew.map(p => esc(firstName(p))).join(', ') : 'no crew';
     const v = byId(e.id), home = e.crew.length && v && !hasThrust(v) && !e.onPad && (e.done || v.primo !== 'auto');
     html += '<div class="flRow' + (e.active ? ' cur' : '') + '"><div class="flFaces">' + (e.crew.length ? e.crew.map(p => faceHtml(p, 26)).join('') : '<span class="flNo">—</span>') + '</div>' +
-      '<div class="flTxt"><b>' + (e.active ? '▶ ' : '') + esc(e.name) + '</b> <span class="flTag ' + (e.auto ? 'auto' : '') + '">' + (e.auto ? 'Pilot flying' : e.crew.length && crewJob(v, 'pilot') && !e.done ? 'You fly' : e.done ? '★ done' : FLIGHT_KINDS[e.kind]) + '</span>' + (e.dir ? ' <span class="flTag dir">◎ Director</span>' : '') + (e.abort ? ' <span class="flTag ab">Aborted</span>' : '') + '<small>' + esc(e.mission) + ' · ' + esc(e.status) + '</small>' + (e.dir ? '<small class="flOrd">Order: ' + esc(e.dir.label) + '</small>' : '') + '<small>Crew: ' + who + '</small></div>' +
+      '<div class="flTxt"><b>' + (e.active ? '▶ ' : '') + esc(e.name) + '</b> <span class="flTag ' + ((e.auto || e.fc) ? 'auto' : '') + '">' + (e.fc ? 'Flight computer' : e.fcManual ? 'You fly' : e.auto ? 'Pilot flying' : e.crew.length && crewJob(v, 'pilot') && !e.done ? 'You fly' : e.done ? '★ done' : FLIGHT_KINDS[e.kind]) + '</span>' + (e.dir ? ' <span class="flTag dir">◎ Director</span>' : '') + (e.abort ? ' <span class="flTag ab">Aborted</span>' : '') + '<small>' + esc(e.mission) + ' · ' + esc(e.status) + '</small>' + (e.dir ? '<small class="flOrd">Order: ' + esc(e.dir.label) + '</small>' : '') + '<small>Crew: ' + who + '</small></div>' +
       '<div class="flBtns"><button class="small" data-act="fly:' + e.id + '">' + (e.active ? 'Back to it' : 'View') + '</button>' + (home ? '<button class="small ghost" data-act="crewHome:' + e.id + '">Crew home</button>' : '') + (v && v.kind === 'drone' ? '' : '<button class="small danger" data-act="flDel:' + e.id + '">Delete</button>') + '</div></div>';
   }
   $('flList').innerHTML = html || '<div class="sub">Nothing flying right now. Launch a rocket!</div>';
@@ -6029,7 +6185,7 @@ window.toastFn = (...a) => toast(...a); window.sfxFn = (...a) => sfx(...a); wind
 window.SP = { get S() { return S; }, set S(v) { S = v; }, update, save, load, launch, doStage, active, vesselOrbit, lunaState, BODIES, ROCKETS, deltaV, statusOf, flyVessel, predictEncounter, kepler, startCountdown, skipCountdown, fmtDist, fitMap, apText, peText, rescueFar, dropFairing, deployChute, isOcean, airOf, qOf, qLimitOf, heatLimitOf, shieldForward, isCapsuleOnly, hasCapsule, massOf, lengthOf, widthOf, thrustNow, crashLimitOf, particles, openSelect, openStation, ctxState, deployPayload, signalOf, losClear, primeFieldPoint, commsHtml,
   updateHud, get dialPos() { if (layoutDirty) layoutTouch(); return dialPos; }, get liftoffShow() { return liftoffShow; }, set liftoffShow(x) { liftoffShow = x; }, set snapCam(x) { snapCam = !!x; }, WARPS, get testFreeze() { return testFreeze; }, set testFreeze(x) { testFreeze = !!x; },
   K: { CHUTE_MAX, CHUTE_MIN_RHO, HEAT_BODY, HEAT_SHIELD, HEAT_CAPSULE_BARE, FAIRING_WARN_Q, FAIRING_HIT_Q, COUNTDOWN, LAND }, get warpIdx() { return warpIdx; }, set warpIdx(i) { warpIdx = i; }, get paused() { return paused; }, saveGame, loadGame, serializeSave, applySave, setMode, get MODE() { return MODE; }, touchHold,
-  MISSIONS, MISSION, GEO_ALT, PARK_ALT, LUNA_PASS, pickMission, guide: () => guideNow(active()), guideNow, angleOf, angleText, orbitTimes, predictPass, checkMission, missionComplete, syncPicker, syncGuide,
+  MISSIONS, MISSION, GEO_ALT, PARK_ALT, LUNA_PASS, pickMission, guide: () => guideNow(active()), guideNow, angleOf, angleText, orbitTimes, predictPass, checkMission, missionComplete, syncPicker, syncGuide, takeOver, handBack, fcHandBack, canFcHandBack, fcTick, fcFly, fcPlan, fcDeorbit, flightEntries, openFlights, primoTick, primoFly,
   get mcShow() { return mcShow; }, get pickHidden() { return pickHidden; },
   // v0.5.0
   get AC() { return AC; }, get BUS() { return BUS; }, audioStats, SET, saveSettings, ENGINE_SOUNDS, engineSoundKey, get engineVoiceKey() { return engineVoice ? engineVoice.key : null; }, renderEngine, renderSfx, renderMusic, renderClimb, playSfx,
